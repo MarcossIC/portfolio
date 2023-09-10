@@ -1,0 +1,20 @@
+<section class="projects">
+
+  <header data-aos="fade-up" data-aos-duration="650">
+    <app-title 
+      
+      [title]="PROJECTS.TITLE" 
+      [strong]="[PROJECTS.STRONG.TITLE]" 
+      strongStyle="text-red-700" 
+      name="Projects"
+      className="text-center text-secondTitle font-bold"
+    ></app-title>
+  </header>
+
+  <div class="projects-container">
+    <project-card data-aos="zoom-in" data-aos-duration="600" *ngFor="let PROJECT of PROJECTS.DATA; let i = index" 
+      [num]="i" [PROJECT]="PROJECT" [textAnchor]="PROJECTS.VIEW"
+    ></project-card>
+  </div>
+
+</section>

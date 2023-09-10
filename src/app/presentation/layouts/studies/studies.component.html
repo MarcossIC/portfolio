@@ -1,0 +1,16 @@
+<section class="flex flex-col w-full">
+
+  <app-title
+    data-aos="fade-up" data-aos-duration="500"
+    className="text-center md:text-left text-secondTitle"
+    name="Studies"
+    [title]="STUDIES.TITLE"
+    [strong]="[STUDIES.STRONG.TITLE]"
+    strongStyle="text-red-700"
+  >
+
+  </app-title>
+
+  <timeline [ITEMS]="STUDIES.DATA"></timeline>
+
+</section>

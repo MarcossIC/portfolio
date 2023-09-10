@@ -1,0 +1,21 @@
+.footer{
+    width: 100%;
+    font-weight: 500;
+    font-size: 1.75rem;
+    margin: 0;
+    padding: 0;
+}
+
+.header{
+    font-weight: 500;
+    padding-top: 1.25rem;
+}
+
+.main{
+    margin-bottom: 4em;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 3;
+}
+
+

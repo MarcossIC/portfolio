@@ -1,0 +1,22 @@
+
+<div class="flex flex-col">
+  <header>
+    <app-header></app-header>
+  </header>
+
+  <main class="main mt-14">
+    <router-outlet></router-outlet>
+  </main>
+
+  <div *ngIf="routerService.isLinkActive(PATHS.start) || routerService.isLinkActive(PATHS.home)" class="relative">
+    <app-particles></app-particles>
+  </div>
+
+  <footer class="footer">
+      <app-footer></app-footer>
+  </footer>
+</div>
+
+
+
+

@@ -1,0 +1,26 @@
+.card{
+  width: 100%;
+  padding: 1px;
+  border-radius: 20px;
+  opacity: 1;
+  transform: none;
+}
+
+.card-content{
+  padding: 1.25rem 3rem;
+  min-height: 280px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.card-content .caption{
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  word-wrap: break-word;
+  max-width: 217px;
+}

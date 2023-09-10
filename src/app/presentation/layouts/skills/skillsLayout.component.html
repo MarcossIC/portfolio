@@ -1,0 +1,28 @@
+<section class="skills">
+  
+      
+    <header data-aos="fade-up" data-aos-duration="700">
+      <app-title className="w-full"
+        className="text-center text-largeTitle font-bold"
+        title="Skills"
+        [title]="SKILLS.TITLE.TEXT"
+        [strong]="['easier']"
+        strongStyle="text-red-700"
+      >
+      </app-title>
+
+      <div class="w-full flex items-center justify-center">
+        <h3 class="clarification">
+          <span class="text-center">{{ SKILLS.CLARIFICATION }}</span>
+        </h3>
+      </div>
+    </header>
+  
+    <div class="flex flex-wrap xl:flex-nowrap mx-8 md:mx-32">
+      
+      <skills-group></skills-group>
+
+    </div>
+
+</section>
+

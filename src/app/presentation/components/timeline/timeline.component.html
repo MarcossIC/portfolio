@@ -1,0 +1,11 @@
+<ul class="timeline">
+  <timeline-element 
+  *ngFor="let ITEM of ITEMS; let i = index"
+  [cardDirection]="i % 2 !== 1 ? DIRECTION.LEFT : DIRECTION.RIGHT"
+  [title]="ITEM.DEGREE"
+  [strong]="ITEM.STRONG"
+  strongStyle="text-red-700"
+  [state]="ITEM.STATE"
+  [description]="ITEM.DESCRIPTION"
+  ></timeline-element>
+</ul>

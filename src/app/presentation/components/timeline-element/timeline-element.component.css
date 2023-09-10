@@ -1,0 +1,94 @@
+.container {
+    padding: 10px 50px;
+    position: relative;
+    width: 50%;
+    margin-bottom: 40px;
+  }
+
+  
+  
+  .text-box {
+    padding: 20px 30px;
+    background: rgb(40,8,94);
+  background: linear-gradient(162deg, rgba(40,8,94,1) 40%, rgba(20,0,48,1) 91%);
+    position: relative;
+    border-radius: 6px;
+    font-size: 15px;
+    top: -36px;
+  }
+  
+  .left-container {
+    left: 0;
+  }
+  
+  .right-container {
+    left: 50%;
+  }
+  
+  .container svg {
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    right: -38px;
+    top: -8px;
+    z-index: 10;
+  }
+  
+  .right-container svg {
+    left: -38px;
+  }
+  
+  .left-container-arrow {
+    height: 0;
+    width: 0;
+    position: absolute;
+    top: 23px;
+    z-index: 1;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 15px solid #20054be8;
+    right: -14px;
+  }
+  
+  .right-container-arrow {
+    height: 0;
+    width: 0;
+    position: absolute;
+    top: 23px;
+    z-index: 1;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 15px solid #28085E;
+    left: -14px;
+  }
+
+  @media screen and (max-width: 768px){
+    .container{
+      width: 100%;
+      padding-left: 88px;
+      padding-right: 13px;
+    }
+    
+    .tex-box{
+      margin-right: 14px
+    }
+    .tex-box h3{
+      margin-right: 15px;
+    }
+    .text-box small{
+      margin-bottom: 10px;
+    }
+    .right-container{
+      left: 0px;
+    }
+
+    .left-container svg, .right-container svg{
+      left: -7px;
+    }
+
+    .left-container-arrow, .right-container-arrow{
+      border-right: 15px solid #28085E;
+      border-left: 0;
+      left: -15px;
+    }
+  }

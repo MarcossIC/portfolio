@@ -1,0 +1,15 @@
+.ourService{
+    display: flex;
+    flex-direction: column;
+    margin: 4rem 1rem 0 1rem;
+    padding: 0 2.25rem;
+}
+
+@media screen and  (max-width: 374px) {
+    .ourService{
+        display: none;
+        visibility: hidden;
+        overflow: hidden;
+        width: 0px;
+    }
+}

@@ -1,0 +1,20 @@
+<section class="flex">
+  <div class="about-introduction">
+
+    <app-title class="w-full"
+      className="text-center md:text-left text-secondTitle"
+      [title]="INTRODUCTION.TITLE"
+      [strong]="[INTRODUCTION.STRONG.TITLE]"
+      strongStyle="text-red-700"
+    ></app-title>
+
+
+    <p class="font-medium text-center md:text-left mt-8 text-lg">
+      {{INTRODUCTION.PARAGRAPH}}
+    </p>
+  </div>
+
+  <picture class="about-introduction-img">
+    <spaceSvg class="w-full"></spaceSvg>
+  </picture>
+</section>
