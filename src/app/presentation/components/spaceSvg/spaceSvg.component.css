@@ -1,0 +1,16 @@
+svg #shipInSpace{
+    transition: all 1s ease;
+}
+
+svg #spacecraft {
+    animation: fly 1.4s ease-in-out normal both;
+}
+
+@keyframes fly {
+    from {
+        transform: translate(31%, 40%);
+    }
+    to{
+        transform: translate(0%);
+    }
+}

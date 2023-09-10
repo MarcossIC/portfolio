@@ -1,0 +1,18 @@
+<div id="header" class="header ">
+
+      <div class="header-container">
+
+        <nav class="font-medium flex justify-self-center">
+          <navigate [path]="PATHS.start" [textLink]="HEADER.HOME" classNames="mr-4" [isHeader]="true" (click)="isOpenMore = false"></navigate>
+          <navigate [path]="PATHS.about" [textLink]="HEADER.ABOUT" classNames="mr-4 ml-4" [isHeader]="true" (click)="isOpenMore = false"></navigate>
+          <navigate [path]="PATHS.projects" [textLink]="HEADER.PROJECTS" classNames="mr-4 ml-4" [isHeader]="true" (click)="isOpenMore = false"></navigate>
+
+        </nav>
+      
+        <app-logo class="logo"></app-logo>
+      
+        <social-nav class="social-nav justify-self-center mt-6 sm:mt-0"></social-nav>
+
+      </div>
+  
+</div>

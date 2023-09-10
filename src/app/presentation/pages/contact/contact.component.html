@@ -1,0 +1,31 @@
+<section class="container">
+
+  <div class="left">
+
+    
+
+    <form class="form">
+      <app-title class="w-full"
+        className="text-left text-secondTitle font-bold"
+        [title]="'Contact Us'"
+        [strong]="['Us']"
+        strongStyle="text-red-700"
+      ></app-title>
+
+      <input type="text" class="input" name="name" id="name" autocomplete="off" placeholder="Name">
+      <input type="text" class="input" name="email" id="email" autocomplete="off" placeholder="Email">
+      <textarea class="message" name="message" id="message" placeholder="Write your message" cols="20" rows="7"></textarea>
+      
+      <button class="bg-red-700 w-52 py-2 rounded-3xl font-medium hover:bg-red-800 active:bg-red-900" type="submit" >
+        Send
+      </button>
+    </form>
+  </div>
+
+  <div class="right">
+    
+
+
+  </div>
+  
+</section>

@@ -1,0 +1,40 @@
+<article class="card">
+
+  <div class="rounded-lg container-project">
+    <img [src]="PROJECT.IMG" alt="project image">
+  </div>
+
+  <div class="project-info">
+
+    <div class="flex-pr">
+
+      <div class="flex justify-between w-full">
+        <span class="project-title w-auto">
+          {{ PROJECT.NAME }}
+        </span>
+
+        <a class="w-auto deploy" [href]="PROJECT.DEPLOY" target="_blank">
+          {{ textAnchor }}
+          <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" color="black" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor"><line y2="12" x2="19" y1="12" x1="5"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+      </div>
+
+      <rating class="relative bottom-2" [num]="num"></rating>
+ 
+      <p class="details">
+        {{ PROJECT.DESCRIPTION }}
+      </p>
+
+    </div>
+
+    <div class="types m-1">
+      <tag *ngFor="let TAG of PROJECT.TAGS"
+        [tag]="TAG.NAME"
+        [background]="TAG.COLOR[0]"
+        [color]="TAG.COLOR[1]"
+      ></tag>
+    </div>
+
+  </div>
+
+</article>

@@ -1,0 +1,28 @@
+.projects{
+    display: flex;
+    flex-direction: column;
+    margin: 4rem 1rem 0 1rem;
+    padding: 0 2.25rem;
+}
+
+.projects-container{
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+    column-gap: 20px;
+    row-gap: 35px;
+}
+
+@media screen and (max-width: 950px){
+    .projects-container{
+        width: 100%;
+        align-content: center;
+        justify-content: center;
+        justify-items: center;
+        padding: 0;
+    }
+}
+  
