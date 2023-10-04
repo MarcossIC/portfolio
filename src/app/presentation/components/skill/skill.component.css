@@ -2,3 +2,67 @@
   .technology {
     transition: all ease 1s;
    }
+
+   .technology picture{
+    width: 5rem;
+    height: 5rem;
+    padding: 0.25rem;
+    border-radius: 100%;
+    background-color: #ffffffa6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+
+   .technology figcaption{
+    margin-block-start: 0.25rem;
+    font-weight: 500;
+    text-align: center;
+    font-size: 1.125rem;
+    max-width: 80px;
+   }
+
+   @media screen and (min-width: 1580px){
+    .technology {
+     
+     }
+     .technology picture{
+      width: 7rem;
+      height: 7rem;
+     }
+    
+     .technology figcaption{
+      font-size: 1.5rem;
+      max-width: 110px;
+     }
+     .technology img{
+      width: 5.5rem;
+      height: 5.5rem;
+     }
+
+     .technology .spring-size{
+      width: 10rem;
+      height: 11rem;
+    }
+
+    .technology .jira-size{
+      width: 15rem;
+      height: 14rem;
+    }
+    .technology .postman-size{
+
+    }
+    .technology .doscker-size{
+
+    }
+
+    .technology .angular-size{
+
+    }
+
+    .technology .java-size{
+      margin-inline-start: 15px;
+      margin-block-end: 12px;
+    }
+  }
+

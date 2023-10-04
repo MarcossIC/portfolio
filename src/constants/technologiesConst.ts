@@ -49,8 +49,8 @@ export const TECHNOLOGIES = [
     },
     {
       NAME: "Spring",
-      ICON: "../../../../../assets/tech/spring.png",
-      SIZE: 110,
+      ICON: "../../../../../assets/tech/Spring.webp",
+      SIZE: 60,
     },
     {
       NAME: "My SQL",
@@ -71,7 +71,7 @@ export const TECHNOLOGIES = [
 */
     {
       NAME: "PostgreSQL",
-      ICON: "../../../../../assets/tech/postgresql.svg",
+      ICON: "../../../../../assets/tech/postgresql.webp",
       SIZE: 60
     },
     {
@@ -81,7 +81,7 @@ export const TECHNOLOGIES = [
     },
     {
       NAME: "Kafka",
-      ICON: "../../../../../assets/tech/apache-kafka.svg",
+      ICON: "../../../../../assets/tech/apache_kafka.svg",
       SIZE: 60
     },
     {

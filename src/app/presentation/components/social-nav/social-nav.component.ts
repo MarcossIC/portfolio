@@ -13,5 +13,6 @@ export class SocialNavComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.SOCIAL_URLS);
   }
 }

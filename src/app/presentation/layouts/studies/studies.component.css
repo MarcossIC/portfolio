@@ -1,0 +1,16 @@
+.title{
+    text-align: center;
+    font-size: clamp(1.5rem/* 24px */, 8vw, 4rem/* 64px */);
+}
+
+@media screen and (min-width: 768px) {
+    .title{
+        text-align: left;
+    }    
+}
+
+@media screen and (min-width: 1580px) {
+    .title{
+        font-size: 5.5rem;
+    }    
+}

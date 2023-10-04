@@ -6,24 +6,33 @@ import VanillaTilt from 'vanilla-tilt';
   templateUrl: './service-card.component.html',
   styleUrls: ['./service-card.component.css']
 })
-export class ServiceCardComponent implements AfterViewInit  {
+export class ServiceCardComponent implements  AfterViewInit  {
   @Input() icon: string = "";
   @Input() title: string = "";
   @Input() index: number = 0;
 
-  constructor(private elementRef: ElementRef) { }
-
-  ngAfterViewInit(): void {
-    const tiltContainer = this.elementRef.nativeElement.querySelector('.tiltEffect') as any;
-    VanillaTilt.init(tiltContainer, {
-      max: 15,
-      scale: 1.1,
-      speed: 150,
-    });
+  constructor(private elementRef: ElementRef) { 
   }
 
-  isMobile(){
-    return window.innerWidth <= 768;
+  ngAfterViewInit(): void {
+    const tiltContainer = this.elementRef.nativeElement.querySelector('.card-container') as any;
+
+    console.log("Is mobile: "+this.isMobile);
+    if(!this.isMobile){
+      VanillaTilt.init(tiltContainer, {
+        max: 20,
+        scale: 1.1,
+        speed: 250,
+        perspective: 1000,
+        transition: true,
+        reset: true,
+        gyroscope: true,
+      });
+    }
+  }
+
+  protected get isMobile() {
+    return window.innerWidth < 768;
   }
 
 }

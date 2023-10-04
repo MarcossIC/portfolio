@@ -1,18 +1,16 @@
-  <article #tiltContainer
-  class="xs:w-[250px] w-full tiltEffect" data-tilt>
-  
-    <figure class="card green-pink-gradient shadow-card">
-      
-      <div class="bg-tertiary card-content">
-        
-        <img class="w-16 h-16 object-contain" [src]="icon" alt="web-development" >
-        
-        <figcaption class="caption">
-          {{ title }}
-        </figcaption>
+  <div #serviceCard
+  class="card-container" data-tilt data-tilt-reset-to-start="true" [ngClass]="{'mobile': this.isMobile}">
 
-      </div>
+    <figure class="card">
+   
+      <img class="w-16 h-16 object-contain" [src]="icon" alt="decorative icon" aria-hidden="true" loading="lazy" itemprop="image" [attr.aria-labelledby]="'caption-'+index">
+        
+      <figcaption class="caption" [id]="'caption-'+index">
+        {{ title }}
+      </figcaption>
 
+
+        <div class="card-bg"></div>
     </figure>
-  
-  </article>
+
+  </div>

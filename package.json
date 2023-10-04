@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
     "aos": "^2.3.4",
+    "atropos": "^2.0.2",
     "fluid-canvas": "^0.9.3",
     "gsap": "^3.12.2",
     "ng-particles": "^3.11.0",

@@ -28,3 +28,12 @@
     transition: color 0.3s;
   }
   
+  @media screen and (min-width: 1580px){
+    .rating {
+      column-gap: 4px;
+    }
+    
+    .rating label:before {
+      font-size: 35px;
+    }
+  }

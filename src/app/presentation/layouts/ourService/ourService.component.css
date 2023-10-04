@@ -4,6 +4,42 @@
     margin: 4rem 1rem 0 1rem;
     padding: 0 2.25rem;
 }
+.title{
+    text-align: center;
+    font-size: clamp(1.5rem/* 24px */, 8vw, 4rem/* 64px */);
+}
+
+.ourService-container{
+    margin-block-start: 5rem;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+   
+    column-gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    justify-items: center;
+}
+
+@media screen and (min-width: 1580px){
+    .title{
+        font-size: 5.5rem;
+    }
+}
+
+@media screen and  (max-width: 1160px) {
+    .ourService-container{
+        grid-template-columns: repeat(2, minmax(0, 2fr));
+        row-gap: 2rem;
+    }
+}
+
+@media screen and  (max-width: 1160px) {
+    .ourService-container{
+        grid-template-columns: repeat(1, minmax(0, 4fr));
+        row-gap: 3rem;
+    }
+}
 
 @media screen and  (max-width: 374px) {
     .ourService{

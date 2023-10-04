@@ -5,18 +5,18 @@
     
 
     <form class="form">
-      <app-title class="w-full"
-        className="text-left text-secondTitle font-bold"
+      <app-title class="title"
+    
         [title]="'Contact Us'"
         [strong]="['Us']"
         strongStyle="text-red-700"
       ></app-title>
 
-      <input type="text" class="input" name="name" id="name" autocomplete="off" placeholder="Name">
-      <input type="text" class="input" name="email" id="email" autocomplete="off" placeholder="Email">
+      <input type="text" class="input" name="name" id="name" autocomplete="name" placeholder="Name">
+      <input type="text" class="input" name="email" id="email" autocomplete="email" placeholder="Email">
       <textarea class="message" name="message" id="message" placeholder="Write your message" cols="20" rows="7"></textarea>
       
-      <button class="bg-red-700 w-52 py-2 rounded-3xl font-medium hover:bg-red-800 active:bg-red-900" type="submit" >
+      <button class="button-form" type="submit" >
         Send
       </button>
     </form>
@@ -24,7 +24,15 @@
 
   <div class="right">
     
-
+    <picture class="liquid-container"
+  data-aos="fade-up" data-aos-duration="700"
+>
+<div class="liquid">
+  <div class="liquid-container">
+    <img class="m-auto h-auto w-full xs:max-w-none xs:h-80 sm:h-[29rem] xl:h-[26rem]" src="../../../../../assets/Programmer.svg" alt="Image of person programming" loading="lazy" role="img" aria-label="Image of a person programming with a purple suit and a background with a motion effect">
+  </div>
+</div>
+</picture>
 
   </div>
   

@@ -16,6 +16,16 @@
     row-gap: 35px;
 }
 
+.title {
+    font-size: clamp(1.5rem/* 24px */, 8vw, 4rem/* 64px */);
+}
+
+@media screen and (min-width: 1580px){
+    .title{
+        font-size: 5.5rem;
+    }
+}
+
 @media screen and (max-width: 950px){
     .projects-container{
         width: 100%;

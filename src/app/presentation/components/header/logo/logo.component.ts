@@ -22,4 +22,5 @@ export class LogoComponent {
       behavior: "smooth"
     });
   }
+  
 }
