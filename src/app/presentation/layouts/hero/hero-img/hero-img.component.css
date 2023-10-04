@@ -1,0 +1,10 @@
+.img-container{
+    width: 85%;
+}
+
+@media screen and (min-width: 1580px) {
+    
+    .img-container{
+        width: 70%;
+    }
+}

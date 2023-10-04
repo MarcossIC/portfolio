@@ -10,15 +10,14 @@
     position: absolute;
     width: 4px;
     height: 95%;
-    --tw-bg-opacity: 1;
+
     background-color: #a066d5;
-    --tw-shadow: 0 15px 15px 1px rgb(191 120 255 / 40%);
-    --tw-shadow-colored: 0 15px 15px 1px var(--tw-shadow-color);
-    box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+
+    box-shadow: 0 0 #0000,0 0 #0000, 0 0 #0000,0 0 #0000,  0 15px 15px 1px rgb(191 120 255 / 40%);
   
     top: 0;
     left: 50%;
-    margin-left: -3px;
+    margin-inline-start: -3px;
   
     z-index: -1;
   }
@@ -30,5 +29,15 @@
 
     .timeline::after{
       left: 31px;
+    }
+  }
+
+  @media screen and (min-width: 1580px) {
+    .timeline {
+
+    }
+  
+    .timeline::after {
+      width: 8px;
     }
   }

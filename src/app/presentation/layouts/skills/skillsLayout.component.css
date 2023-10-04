@@ -14,7 +14,7 @@
     border: 1px solid rgb(145, 82, 245);
     border-radius: 2em;
     padding: 3px;
-    margin-top: 1rem;
+    margin-block-start: 1rem;
     font-weight: 600;
     font-size: clamp(0.4rem, 4vw, 1.1rem);
     color: rgb(231, 208, 251);
@@ -24,6 +24,24 @@
     padding: 5px 2px 2px 5px;
 }
 
+.title{
+    font-size: clamp(1.5rem/* 24px */, 7vw, 3rem/* 48px */);
+}
+
+@media screen and (min-width: 1580px){
+    .skills{
+        
+    }
+    .clarification{
+        font-size: 1.8rem;
+        width: 800px;
+        margin-block-end: 2rem;
+    }
+
+    .title{
+        font-size: 4.5rem;
+    }
+}
 @media screen and (max-width: 375px){
     .skills{
         padding: 0;

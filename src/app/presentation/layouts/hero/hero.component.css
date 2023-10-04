@@ -20,7 +20,20 @@
 
 @media screen and (min-width: 768px) {
     .hero-img{
-        display: block;
-        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+
+@media screen and (min-width: 1580px) {
+    .hero-img{
+     width: 50%;
+    }
+    .hero-text{
+        width: 50%;
+        display: flex;
+        justify-content: center;
     }
 }

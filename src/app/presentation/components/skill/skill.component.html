@@ -1,6 +1,16 @@
 <figure class="technology transition-all hover:shadow-xl">
-  <div class="w-20 h-20 rounded-full p-1 bg-[#ffffffa6] flex items-center justify-center shadow-skiil">
-    <img [src]="icon" [width]="size" [height]="size" alt="technology logo">
-  </div>
-  <figcaption class="mt-1 font-semibold text-center text-lg max-w-[80px]">{{ caption }}</figcaption>
+  <picture class="shadow-skiil">
+    <img 
+    [src]="icon" [width]="size" [height]="size" alt="technology logo" role="img" loading="lazy" itemprop="image" [title]="caption" [attr.aria-labelledby]="caption"
+    [ngClass]="{
+      'spring-size': caption == 'Spring', 
+      'jira-size': caption == 'Jira', 
+      'postman-size': caption == 'Postman', 
+      'doscker-size': caption == 'Docker',
+      'java-size': caption == 'Java',
+      'angular-size': caption == 'Angular'
+    }">
+  </picture>
+  <figcaption [id]="caption">{{ caption }}</figcaption>
 </figure>
+

@@ -7,3 +7,9 @@
     font-size: 14px;
     font-weight: 600;
   }
+
+  @media screen and (min-width: 1580px){
+    .tag {
+      font-size: 20px;
+    }
+  }

@@ -39,7 +39,7 @@ export const PROJECTS: any = {
   STRONG: {
     TITLE: "Projects",
   },
-  VIEW: "View Site",
+  VIEW: "View Repository",
   DATA: [
     {
       NAME: "Facturador++",
@@ -94,7 +94,7 @@ export const PROJECTS: any = {
           },
           {
             NAME: "canvas",
-            COLOR: ['#6DB33F', '#fff'],
+            COLOR: ['#31218c', '#fff'],
           },
       ],
       IMG: "../../../../assets/projects/paintease.png",

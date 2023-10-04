@@ -1,20 +1,4 @@
 
-@keyframes textIn {
-    from {
-      opacity: 0;
-      transform: translateY(30%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animation-in-text {
-    animation: textIn 1.5s ease;  
-    transition: all 1s ease 0.5s;
-  }
-
 
   .heading{
     user-select: none;
@@ -26,11 +10,27 @@
     display: flex;
     font-weight: 700;
     text-transform: capitalize;
-    font-size: clamp(2em, 9.5vw, 7em);
+    font-size: clamp(2em, 9vw, 6em);
     margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
     line-height: clamp(4rem, 9.5vw, 10rem);
+  }
+
+  .button{
+    background-color:  rgba(185, 28, 28, 1);
+    color: #fff;
+    font-weight: 500;
+    padding-inline: 1.25rem;
+    padding-block: 0.75rem;
+    border-radius: 1rem;
+  }
+
+  .button:hover{
+    background-color:  rgba(153, 27, 27, 1);
+  }
+  .button:active{
+    background-color:  rgba(127, 29, 29, 1);
   }
 
   .home-paragraph{
@@ -40,9 +40,44 @@
     max-width: 37rem;
   }
 
+  @media screen and (min-width: 1580px){
+    .main-title{
+        font-size: 9rem;
+        line-height: 10rem;
+    }
+    .home-paragraph{
+      font-size: 1.8rem;
+      max-width: 60rem;
+     
+    }
+    .button{
+      font-size: 1.8rem;
+      padding-block: 1rem;
+      padding-inline: 2rem;
+    }
+
+  }
+
   @media screen and (min-width: 998px){
     .home-paragraph{
       text-align: left;
      
     }
   }
+
+  
+@keyframes textIn {
+  from {
+    opacity: 0;
+    transform: translateY(30%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animation-in-text {
+  animation: textIn 1.5s ease;  
+  transition: all 1s ease 0.5s;
+}

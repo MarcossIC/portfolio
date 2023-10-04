@@ -6,17 +6,32 @@
     flex-shrink: 999;
 }
 
-
-
 .about-introduction-img{
     display: none;
 }
 
+.about-introduction .title{
+    text-align: left;
+    font-size: clamp(1.5rem/* 24px */, 8vw, 4rem/* 64px */);
+    width: 100%;
+
+}
 
 @media screen and (min-width: 768px) {
     .about-introduction-img{
         display: block;
         margin: auto;
         flex-basis: 50%;
+    }
+}
+
+@media screen and (min-width: 1580px) {
+    .about-introduction .title{
+        font-size: 5.5rem;
+    }
+    
+    .about-introduction p{
+        font-size: 1.8rem;
+        line-height: 2.5rem;
     }
 }

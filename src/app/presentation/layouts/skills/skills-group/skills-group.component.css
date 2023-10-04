@@ -1,0 +1,29 @@
+    .skill-group{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 1.5rem;
+        margin-block-start: 1.75rem;
+    }
+
+    .skill{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 9rem;
+        flex-grow: 1;
+    }
+
+    .spring-size{
+        
+    }
+
+@media screen and (min-width: 1580px){
+    .skill-group{
+        column-gap: 4rem;
+        
+    }
+
+
+}

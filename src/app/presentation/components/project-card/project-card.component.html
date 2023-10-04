@@ -1,7 +1,7 @@
 <article class="card">
 
   <div class="rounded-lg container-project">
-    <img [src]="PROJECT.IMG" alt="project image">
+    <img [src]="PROJECT.IMG" alt="project image" role="img" itemprop="image" aria-label="Imagen de muestra del proyecto">
   </div>
 
   <div class="project-info">
@@ -13,21 +13,21 @@
           {{ PROJECT.NAME }}
         </span>
 
-        <a class="w-auto deploy" [href]="PROJECT.DEPLOY" target="_blank">
+        <a class="w-auto deploy" [href]="PROJECT.DEPLOY" target="_blank" role="button" aria-details="Link al repositorio en github del proyecto">
           {{ textAnchor }}
-          <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" color="black" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor"><line y2="12" x2="19" y1="12" x1="5"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="2em" height="2em" color="black" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor"><line y2="12" x2="19" y1="12" x1="5"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
         </a>
       </div>
 
       <rating class="relative bottom-2" [num]="num"></rating>
  
-      <p class="details">
+      <p class="details" role="contentinfo">
         {{ PROJECT.DESCRIPTION }}
       </p>
 
     </div>
 
-    <div class="types m-1">
+    <div class="types m-1" role="complementary">
       <tag *ngFor="let TAG of PROJECT.TAGS"
         [tag]="TAG.NAME"
         [background]="TAG.COLOR[0]"

@@ -92,3 +92,44 @@
       left: -15px;
     }
   }
+
+  @media screen and (min-width: 1580px) {
+    .container{
+      width: 800px;
+    }
+    
+    .text-box{
+     padding-block-end: 50px;
+    } 
+
+    .text-box > h3{
+      font-size: 2rem;
+      line-height: 4rem;
+    }
+
+    .text-box > small{
+      font-size: 1.2rem;
+    }
+    .text-box > p{
+        font-size: 1.5rem;
+    }
+    .right-container{
+     
+    }
+
+    .left-container {
+      left: -200px;
+    }
+
+    .left-container svg{
+      width: 110px;
+      height: 110px;
+      right: -55px;
+    }
+
+    .right-container svg{
+      width: 110px;
+      height: 110px;
+      left: -53px;
+    }
+  }
