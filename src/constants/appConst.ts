@@ -44,7 +44,7 @@ export const PROJECTS: any = {
     {
       NAME: "Facturador++",
       DESCRIPTION:
-          "Educational web platform that allows users to create and manage business documents, focused on career students who want to learn their use and view document formats.",
+          "Develop the backend and database for Facturador++. It's an educational web platform that enables users to create and manage business documents. This application is designed for students who are just starting and want to practice.",
       TAGS: [
           {
             NAME: "type script",
@@ -71,14 +71,14 @@ export const PROJECTS: any = {
             COLOR: ['#186E98', '#E2F6FF'],
           },
         ],
-        IMG: "../../../../assets/projects/facturador.png",
+        IMG: "../../../../assets/projects/facturador.webp",
         SOURCE: "https://github.com/conjunto-solucion/facturador",
         DEPLOY: "https://github.com/conjunto-solucion/facturador",
     },
     {
       NAME: "Paint Ease",
       DESCRIPTION:
-          "Website to be able to make drawings similar to the 'paint' program from the web, allows you to download your creations!",
+          "Develop PaintEase, a website for creating simple and easy drawings on the web. It was developed with the aim of having my own web application for making simple drawings at any time.",
       TAGS: [
           {
             NAME: "java script",
@@ -97,10 +97,35 @@ export const PROJECTS: any = {
             COLOR: ['#31218c', '#fff'],
           },
       ],
-      IMG: "../../../../assets/projects/paintease.png",
+      IMG: "../../../../assets/projects/paintease.webp",
       SOURCE: "https://github.com/conjunto-solucion/facturador",
       DEPLOY: "https://marcossic.github.io/paint-in-js-html-css/",
     },
+    {
+      NAME: "A. Calculator",
+      DESCRIPTION: "Develop this project to experiment and learn all Angular concepts, including property binding, data binding, and two-way binding. It encompasses enough functionality to perform simple and complex calculations.",
+      TAGS: [
+        {
+          NAME: "html",
+          COLOR: ['#EC4E1D', '#fff'],
+        },
+        {
+          NAME: "type script",
+          COLOR: ['#1976D2', '#fff'],
+        },
+        {
+          NAME: "Angular",
+          COLOR: ['#B52E31', '#fff'],
+        },
+                {
+          NAME: "Tailwind",
+          COLOR: ['#00B6D5', '#f5f5f5'],
+        },
+      ],
+      IMG: "../../../../assets/projects/angularCalculator.webp",
+      SOURCE: "https://github.com/MarcossIC/angular-calculator/tree/main",
+      DEPLOY: "https://github.com/MarcossIC/angular-calculator/tree/main",
+    }
   ],
 };
 

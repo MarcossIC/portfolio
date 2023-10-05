@@ -1,6 +1,6 @@
 .card {
     width: 380px;
-    height: 435px;
+    aspect-ratio: 4/5;
     -webkit-transition: 0.15s all ease-in-out;
     transition: 0.15s all ease-in-out;
     border-radius: 12px;
