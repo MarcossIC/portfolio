@@ -125,7 +125,6 @@
   @media screen and (min-width: 1580px){
     .card {
       width: 485px;
-      height: 600px;
       border-radius: 20px;
       border-top-left-radius: 40px;
       border-bottom-right-radius: 40px;
@@ -135,6 +134,7 @@
       width: 475px;
       height: 265px;
     }
+
     .container-project img{ 
       border-radius: 16px;
     }
@@ -171,8 +171,8 @@
   @media screen and (max-width: 950px){
     .card {
       width: 350px;
-      height: 460px;
     }
+    
     .container-project{
       width: 345px;
     }
@@ -182,8 +182,8 @@
   @media screen and (max-width: 375px){
     .card {
       width: auto;
-      height: auto;
     }
+
     .container-project{
       width: auto;
       height: auto;
