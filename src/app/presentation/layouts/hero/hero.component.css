@@ -1,9 +1,9 @@
 .hero{
     display: flex;
     justify-content: space-evenly;
-    min-height: calc(100vh - 100px);
-    margin: 0 1rem 0 1rem;
-    padding: 0 2.25rem;
+    min-height: calc(100dvh - 100px);
+    margin-inline: 1rem;
+    padding-inline: 2.25rem;
 }
 
 

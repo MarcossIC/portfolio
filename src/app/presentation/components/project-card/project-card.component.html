@@ -1,14 +1,14 @@
 <article class="card">
 
   <div class="rounded-lg container-project">
-    <img [src]="PROJECT.IMG" alt="project image" role="img" itemprop="image" aria-label="Imagen de muestra del proyecto">
+    <img [src]="PROJECT.IMG" alt="project image" role="img" itemprop="image" aria-label="Imagen de muestra del proyecto" loading="lazy">
   </div>
 
   <div class="project-info">
 
     <div class="flex-pr">
 
-      <div class="flex justify-between w-full">
+      <div class="flex justify-between w-full mb-2">
         <span class="project-title w-auto">
           {{ PROJECT.NAME }}
         </span>

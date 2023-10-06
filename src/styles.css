@@ -16,7 +16,7 @@
   }
 
   .liquid-container .liquid{
-    @apply  bg-transparents-purple shadow-liquid w-auto h-auto max-w-maxCalc xs:max-w-none xs:w-[25rem] xs:h-[21rem] sm:w-[44rem] sm:h-[29rem] xl:w-[31rem] xl:h-[28rem] ;
+    @apply  bg-transparents-purple shadow-liquid w-auto h-auto max-w-maxCalc xs:max-w-none xl:w-[31rem] xl:h-[28rem] ;
     transition: 0.5s ease;
     animation: liquid 4s linear infinite alternate both;
   }

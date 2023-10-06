@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import AOS from 'aos';
 
 @Component({
   selector: 'contact-page',
@@ -10,6 +11,7 @@ export class ContactPageComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    AOS.init();
   }
 
   onBoundsChanged(event: any) {
