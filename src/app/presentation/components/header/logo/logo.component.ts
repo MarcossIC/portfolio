@@ -1,7 +1,10 @@
-import { Component, HostListener } from '@angular/core'
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core'
 import AOS from 'aos';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'app-logo',
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.css'],

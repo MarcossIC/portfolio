@@ -20,7 +20,7 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
 
     console.log(value);
     if(value === "true"){
-      this.toastr.success('Completado', 'Su mensaje se ha enviado correctamente');
+      this.toastr.success('Su mensaje se ha enviado correctamente', 'Completado');
       setTimeout(()=>localStorage.setItem("emailSend", "false"), 500);
     }
   }

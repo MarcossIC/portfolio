@@ -1,12 +1,26 @@
 import { Routes, RouterModule } from '@angular/router';
-import { SiteModule } from './presentation/site.module';
-
-import { ROUTES } from '../constants/appConst';
 
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
   {  
-    path: ROUTES.start,
-    component: SiteModule
+    path: 'home',
+    loadChildren: () =>import('./presentation/pages/home/home.module').then(m => m.HomeModule)
+  },
+  {  
+    path: 'about',
+    loadChildren: () =>import('./presentation/pages/about/about.module').then(m => m.AboutModule),
+  },
+  {  
+    path: 'contact',
+    loadChildren: () =>import('./presentation/pages/contact/contact.module').then(m => m.ContactModule),
+  },
+  { 
+    path: '**', 
+    loadChildren: () =>import('./presentation/pages/home/home.module').then(m => m.HomeModule),
   }
 ];
 

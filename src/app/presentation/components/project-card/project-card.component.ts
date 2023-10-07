@@ -1,6 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { TagComponent } from '../tag/tag.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, TagComponent],
   selector: 'project-card',
   templateUrl: './project-card.component.html',
   styleUrls: ['./project-card.component.css']

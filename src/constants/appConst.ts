@@ -145,19 +145,19 @@ export const SERVICES: any = {
   SERVICES: [
     {
       TITLE: "Backend Developer",
-      ICON: "../../../../../assets/backend.png",
+      ICON: "../../../../../assets/backend.webp",
     },
     {
       TITLE: "Frontend Developer",
-      ICON: "../../../../../assets/web.png",
+      ICON: "../../../../../assets/web.webp",
     },
     {
       TITLE: "Database Developer",
-      ICON: "../../../../../assets/creator.png",
+      ICON: "../../../../../assets/creator.webp",
     },
     {
       TITLE: "Software Architecture",
-      ICON: "../../../../../assets/architect.png",
+      ICON: "../../../../../assets/architect.webp",
     },
   ],
 };

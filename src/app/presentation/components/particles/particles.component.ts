@@ -1,9 +1,12 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { StarServiceService } from 'src/app/data/services/starService.service';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { NgParticlesModule } from 'ng-particles';
 import { ClickMode, Container, Engine, HoverMode, MoveDirection, OutMode } from 'tsparticles-engine';
 import { loadSlim } from 'tsparticles-slim';
 
 @Component({
+standalone: true,
+  imports: [CommonModule, NgParticlesModule],
   selector: 'app-particles',
   templateUrl: './particles.component.html',
   styleUrls: ['./particles.component.css']
@@ -14,8 +17,8 @@ export class ParticlesComponent {
     particlesOptions$: any;
 
   
-  constructor(private starService: StarServiceService, private cdr: ChangeDetectorRef) { 
-    this.currenteColor = starService.color;
+  constructor() { 
+    this.currenteColor = "#c48cd8";
     this.particlesOptions$ = {
         background: {
             color: {
@@ -116,23 +119,7 @@ export class ParticlesComponent {
           },
         },
         detectRetina: true,
-    };
-   
-    this.starService.changeColor.subscribe(
-        (value) => {
-            console.log("Me subscribi al metodo, new color: "+value);
-            this.currenteColor = value;
-            this.particlesOptions$.particles.color.value = value;
-            this.particlesOptions$.particles.links.color = value;
-            this.cdr.detectChanges();
-        },
-        (error) => { },
-        () => {
-            console.log("Me subscribi al metodo, new color: "+this.currenteColor );
-            
-         }
-      );
-      
+    }; 
   }
 
   particlesLoaded(container: Container): void {

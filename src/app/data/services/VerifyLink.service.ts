@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { IsActiveMatchOptions, Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
-export class VerifyLinkServiceService {
+export class VerifyLinkService {
 
 constructor(private router: Router) { }
 

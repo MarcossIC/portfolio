@@ -33,9 +33,6 @@
   }
 
   @media screen and (min-width: 1580px) {
-    .timeline {
-
-    }
   
     .timeline::after {
       width: 8px;

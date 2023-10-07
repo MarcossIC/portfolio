@@ -1,7 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { DIRECTION } from 'src/constants/appConst';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'timeline-element',
   templateUrl: './timeline-element.component.html',
   styleUrls: ['./timeline-element.component.css']

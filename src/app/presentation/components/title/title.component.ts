@@ -1,6 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'app-title',
   templateUrl: './title.component.html',
   styleUrls: ['./title.component.css']
