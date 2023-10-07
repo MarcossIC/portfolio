@@ -11,6 +11,8 @@ import { ServiceCardComponent } from "../../components/service-card/service-card
 import { SkillComponent } from "../../components/skill/skill.component";
 import { TitleComponent } from "../../components/title/title.component";
 import { HomeRoutes } from "./home.routing";
+import { HeroImgComponent } from "./layouts/hero/hero-img/hero-img.component";
+import { HeroTextComponent } from "./layouts/hero/hero-text/herotexto.component";
 
 
 @NgModule({
@@ -22,11 +24,13 @@ import { HomeRoutes } from "./home.routing";
         SkillComponent,
         ServiceCardComponent,
 
-        HeroLayoutComponent
     ],
     declarations: [ 
+        HeroImgComponent,
+        HeroTextComponent,
         SkillsGroupComponent,
 
+        HeroLayoutComponent,
         ProjectsLayoutComponent,
         SkillsLayoutComponent,
         ServiceLayoutComponent,
