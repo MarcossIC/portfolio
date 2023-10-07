@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SKILLS } from 'src/constants/appConst';
-import AOS from 'aos';
+
 
 @Component({
   selector: 'skills-layout',
@@ -12,7 +12,7 @@ export class SkillsLayoutComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    AOS.init();
+ 
   }
 
 }

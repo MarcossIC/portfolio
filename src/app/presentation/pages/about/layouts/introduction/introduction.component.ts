@@ -10,7 +10,7 @@ export class AboutIntroLayoutComponent implements OnInit {
   INTRODUCTION: any = ABOUT_INTRO;
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

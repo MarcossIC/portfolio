@@ -13,8 +13,8 @@ export class StudiesLayoutComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-    AOS.init();
+  ngOnInit(): void {
+   
   }
 
 }

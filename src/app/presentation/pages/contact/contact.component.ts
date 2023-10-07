@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import AOS from 'aos';
 import { ToastrService } from 'ngx-toastr';
 import { SeoService } from 'src/app/data/services/seo.service';
 
@@ -14,7 +13,6 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
   constructor(private toastr: ToastrService, private seo: SeoService, private title: Title) { }
 
   ngOnInit(): void {
-    AOS.init();
 
     let t: string = "Contact - Marcos Lopez Web Portfolio";
     this.title.setTitle(t);

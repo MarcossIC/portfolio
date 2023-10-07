@@ -16,14 +16,5 @@ export class LogoComponent {
   constructor() {
 
   }
-
-  // Función para desplazarse hacia arriba
-  scrollToTop() {
-    AOS.refresh();
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
   
 }

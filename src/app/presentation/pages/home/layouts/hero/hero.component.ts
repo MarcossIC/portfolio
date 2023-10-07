@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import AOS from 'aos';
+
 
 @Component({
   selector: 'hero-layout',
@@ -10,5 +10,5 @@ export class HeroLayoutComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void { AOS.init(); }
+  ngOnInit(): void {  }
 }

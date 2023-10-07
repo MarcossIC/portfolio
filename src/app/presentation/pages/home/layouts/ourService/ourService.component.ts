@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SERVICES } from 'src/constants/appConst';
-import AOS from 'aos';
+
 
 @Component({
   selector: 'service-layout',
@@ -12,7 +12,7 @@ export class ServiceLayoutComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    AOS.init();
+    
   }
 
 }
