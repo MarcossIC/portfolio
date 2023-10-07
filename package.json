@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^16.1.0",
+    "@angular/animations": "^16.2.8",
     "@angular/common": "^16.1.0",
     "@angular/compiler": "^16.1.0",
     "@angular/core": "^16.1.0",
@@ -23,6 +23,7 @@
     "fluid-canvas": "^0.9.3",
     "gsap": "^3.12.2",
     "ng-particles": "^3.11.0",
+    "ngx-toastr": "^17.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "tsparticles-engine": "^2.11.1",

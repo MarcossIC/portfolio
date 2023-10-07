@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import AOS from 'aos';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'contact-page',
@@ -8,7 +9,7 @@ import AOS from 'aos';
 })
 export class ContactPageComponent implements OnInit, AfterViewInit {
 
-  constructor() { }
+  constructor(private toastr: ToastrService) { }
 
   ngOnInit() {
     AOS.init();
@@ -19,7 +20,8 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
 
     console.log(value);
     if(value === "true"){
-      localStorage.setItem("emailSend", "false");
+      this.toastr.success('Completado', 'Su mensaje se ha enviado correctamente');
+      setTimeout(()=>localStorage.setItem("emailSend", "false"), 500);
     }
   }
 

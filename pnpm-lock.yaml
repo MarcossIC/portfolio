@@ -6,7 +6,7 @@ settings:
 
 dependencies:
   '@angular/animations':
-    specifier: ^16.1.0
+    specifier: ^16.2.8
     version: 16.2.8(@angular/core@16.2.8)
   '@angular/common':
     specifier: ^16.1.0
@@ -44,6 +44,9 @@ dependencies:
   ng-particles:
     specifier: ^3.11.0
     version: 3.12.0(@angular/common@16.2.8)(@angular/core@16.2.8)(rxjs@7.8.1)(tsparticles-engine@2.12.0)
+  ngx-toastr:
+    specifier: ^17.0.2
+    version: 17.0.2(@angular/common@16.2.8)(@angular/core@16.2.8)(@angular/platform-browser@16.2.8)
   rxjs:
     specifier: ~7.8.0
     version: 7.8.1
@@ -5323,6 +5326,19 @@ packages:
       rxjs: 7.8.1
       tslib: 2.6.2
       tsparticles-engine: 2.12.0
+    dev: false
+
+  /ngx-toastr@17.0.2(@angular/common@16.2.8)(@angular/core@16.2.8)(@angular/platform-browser@16.2.8):
+    resolution: {integrity: sha512-KehiPx6bkbiUyJbabf0ZA04+ASumS8r/y4wPsUOMI9OrBvBcfq27UQmWuQKoVR8E+9y4Pq7eZkSg2kvxNvpxTA==}
+    peerDependencies:
+      '@angular/common': '>=16.0.0-0'
+      '@angular/core': '>=16.0.0-0'
+      '@angular/platform-browser': '>=16.0.0-0'
+    dependencies:
+      '@angular/common': 16.2.8(@angular/core@16.2.8)(rxjs@7.8.1)
+      '@angular/core': 16.2.8(rxjs@7.8.1)(zone.js@0.13.3)
+      '@angular/platform-browser': 16.2.8(@angular/animations@16.2.8)(@angular/common@16.2.8)(@angular/core@16.2.8)
+      tslib: 2.6.2
     dev: false
 
   /nice-napi@1.0.2:

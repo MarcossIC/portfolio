@@ -31,11 +31,20 @@ import { RatingComponent } from './components/rating/rating.component';
 import { TagComponent } from './components/tag/tag.component';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { ContactPageComponent } from './pages/contact/contact.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
   imports: [
-    CommonModule, NgParticlesModule, BrowserAnimationsModule, SiteRoutes
+    CommonModule, 
+    NgParticlesModule, 
+    BrowserAnimationsModule, 
+    SiteRoutes, 
+    ToastrModule.forRoot({
+      maxOpened: 5,
+      autoDismiss: true,
+      positionClass: 'toast-bottom-right'
+    })
   ],
   declarations: [
     SocialNavComponent,
