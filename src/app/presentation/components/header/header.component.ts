@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterModule, LogoComponent, SocialNavComponent, NavigateComponent],
+  imports: [CommonModule, LogoComponent, SocialNavComponent, NavigateComponent],
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']

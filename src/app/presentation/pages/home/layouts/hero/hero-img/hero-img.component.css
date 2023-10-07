@@ -2,6 +2,10 @@
     width: 85%;
 }
 
+.img-container img{
+    aspect-ratio: 1/1;
+}
+
 @media screen and (min-width: 1580px) {
     
     .img-container{

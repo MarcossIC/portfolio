@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import AOS from 'aos';
 import { ToastrService } from 'ngx-toastr';
+import { SeoService } from 'src/app/data/services/seo.service';
 
 @Component({
   selector: 'contact-page',
@@ -9,10 +11,18 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ContactPageComponent implements OnInit, AfterViewInit {
 
-  constructor(private toastr: ToastrService) { }
+  constructor(private toastr: ToastrService, private seo: SeoService, private title: Title) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     AOS.init();
+
+    let t: string = "Contact - Marcos Lopez Web Portfolio";
+    this.title.setTitle(t);
+    this.seo.generateTags({
+      title: t,
+      description: "Contact page in Marcos López's web portfolio",
+      slug: "contact"
+    });
   }
 
   ngAfterViewInit(): void {

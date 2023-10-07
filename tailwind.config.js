@@ -9,9 +9,7 @@ module.exports = {
         secondTitle: "clamp(1.5rem, 8vw, 4rem)",
         largeTitle: "clamp(1.5rem, 7vw, 3rem)",
       },
-      fontFamily: {
-        montserrat: ['Montserrat', 'sans-serif'],
-      },
+      fontFamily: { },
       colors: {
         transparents: {
           "purple": "#66008057"

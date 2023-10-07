@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { SeoService } from 'src/app/data/services/seo.service';
 
 @Component({
   selector: 'home-page',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private seo: SeoService, private title: Title) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    let t: string = "Home - Marcos Lopez Web Portfolio";
+    this.title.setTitle(t);
+    this.seo.generateTags({
+      title: t,
+      description: "Home page, where projects and experiences are shown in Marcos Lopez's web portfolio.",
+      slug: "home"
+    });
   }
 
 }
