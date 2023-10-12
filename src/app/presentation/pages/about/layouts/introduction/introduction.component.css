@@ -11,7 +11,7 @@
 }
 
 .about-introduction .title{
-    text-align: left;
+    text-align: center;
     font-size: clamp(1.5rem/* 24px */, 8vw, 4rem/* 64px */);
     width: 100%;
 
@@ -22,6 +22,10 @@
         display: block;
         margin: auto;
         flex-basis: 50%;
+    }
+    
+    .about-introduction .title{
+        text-align: left;
     }
 }
 
