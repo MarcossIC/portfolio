@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgOptimizedImage],
   selector: 'skill',
   templateUrl: './skill.component.html',
   styleUrls: ['./skill.component.css']

@@ -33,8 +33,8 @@
               }
             ],
             "styles": [
-              "node_modules/aos/dist/aos.css",
               "src/styles.css",
+              "node_modules/aos/dist/aos.css",
               "node_modules/ngx-toastr/toastr.css" 
             ],
             "scripts": [

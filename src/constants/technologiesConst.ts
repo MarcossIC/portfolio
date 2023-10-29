@@ -9,7 +9,6 @@ export const TECHNOLOGIES = [
       NAME: "CSS",
       ICON: "../../../../../assets/tech/css.png",
       SIZE: 70,
-
     },
     {
       NAME: "JavaScript",
@@ -89,9 +88,16 @@ export const TECHNOLOGIES = [
       ICON: "../../../../../assets/tech/docker.png",
       SIZE: 65,
     },
+    /*
     {
       NAME: "Postman",
       ICON: "../../../../../assets/tech/postman.png",
       SIZE: 55,
     },
+    */
+    {
+      NAME: "RxJS",
+      ICON: "../../../../../assets/tech/rxjs.webp",
+      SIZE: 55
+    }
 ];

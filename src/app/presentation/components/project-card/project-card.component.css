@@ -1,6 +1,6 @@
 .card {
     width: 380px;
-    aspect-ratio: 6/7;
+    aspect-ratio: 10/12;
     -webkit-transition: 0.15s all ease-in-out;
     transition: 0.15s all ease-in-out;
     border-radius: 12px;
@@ -107,22 +107,13 @@
   
   .container-project {
     position: relative;
-    padding: 10px;
-    width: 370px;
-    height: 220px;
+    margin: 10px;
+    width: 350px;
+    aspect-ratio: 7/4;
     overflow: hidden;
   }
 
-  .container-project img{ 
-    width: 100%;
-    aspect-ratio: 12/7;
-    object-fit: initial;
-    border-radius: 12px;
-    opacity: 0.95;
-    box-shadow: -1px 13px 20px 10px rgb(47 37 56 / 19%);
-  }
-
-  @media screen and (min-width: 1580px){
+  @media screen and (min-width: 1500px){
     .card {
       width: 485px;
       border-radius: 20px;
@@ -133,10 +124,6 @@
     .container-project{ 
       width: 475px;
       height: 265px;
-    }
-
-    .container-project img{ 
-      border-radius: 16px;
     }
 
     .details{

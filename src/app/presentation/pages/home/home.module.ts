@@ -13,7 +13,7 @@ import { TitleComponent } from "../../components/title/title.component";
 import { HomeRoutes } from "./home.routing";
 import { HeroImgComponent } from "./layouts/hero/hero-img/hero-img.component";
 import { HeroTextComponent } from "./layouts/hero/hero-text/herotexto.component";
-
+import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
     imports: [
@@ -23,7 +23,7 @@ import { HeroTextComponent } from "./layouts/hero/hero-text/herotexto.component"
         ProjectCardComponent,
         SkillComponent,
         ServiceCardComponent,
-
+        NgOptimizedImage
     ],
     declarations: [ 
         HeroImgComponent,

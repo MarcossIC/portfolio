@@ -22,7 +22,7 @@ export const HERO: any = {
   STRONG: {
       TITLE: "Developer"
   },
-  PARAGRAPH: "As a full-stack developer, I am dedicated to turning ideas into innovative web applications.",
+  PARAGRAPH: "As a full-stack developer, my passion lies in transforming ideas into captivating and groundbreaking web applications. Let me show you how I can turn your vision into an exceptional digital experience through my portfolio.",
   RESUME: "View Resume"
 }
 
@@ -78,7 +78,7 @@ export const PROJECTS: any = {
     {
       NAME: "Paint Ease",
       DESCRIPTION:
-          "Develop PaintEase, a website for creating simple and easy drawings on the web. It was developed with the aim of having my own web application for making simple drawings at any time.",
+          "I created PaintEase, an intuitive web platform that allows users to effortlessly unleash their creativity through simple and accessible online drawing tools. Conceived with the vision of providing a seamless digital canvas for artistic expression, PaintEase empowers individuals to bring their ideas to life anytime, anywhere.",
       TAGS: [
           {
             NAME: "java script",

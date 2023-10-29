@@ -3,7 +3,9 @@
 
     <figure class="card">
    
-      <img class="w-16 h-16 object-contain" [src]="icon" alt="decorative icon" aria-hidden="true" loading="lazy" itemprop="image" [attr.aria-labelledby]="'caption-'+index">
+      <picture class="w-16 h-16 object-contain relative">
+        <img [ngSrc]="icon" fill alt="decorative icon" aria-hidden="true" itemprop="image" [attr.aria-labelledby]="'caption-'+index">
+      </picture>
         
       <figcaption class="caption" [id]="'caption-'+index">
         {{ title }}

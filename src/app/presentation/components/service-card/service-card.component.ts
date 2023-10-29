@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
 import VanillaTilt from 'vanilla-tilt';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgOptimizedImage],
   selector: 'service-card',
   templateUrl: './service-card.component.html',
   styleUrls: ['./service-card.component.css']
