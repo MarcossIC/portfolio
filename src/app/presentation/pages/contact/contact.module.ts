@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { ContactPageComponent } from "./contact.component";
 import { TitleComponent } from "../../components/title/title.component";
 import { ContactRoutes } from "./contact.routing";
+import { NgToastModule } from "ng-angular-popup";
 
 
 
@@ -11,6 +12,7 @@ import { ContactRoutes } from "./contact.routing";
         CommonModule,
         ContactRoutes,
         TitleComponent,
+        NgToastModule
     ],
     declarations: [
         ContactPageComponent

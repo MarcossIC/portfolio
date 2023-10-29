@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
     "aos": "^2.3.4",
+    "ng-angular-popup": "^0.4.7",
     "ng-particles": "^3.11.0",
     "ngx-toastr": "^17.0.2",
     "rxjs": "~7.8.0",

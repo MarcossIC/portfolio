@@ -8,8 +8,6 @@ import { HeaderComponent } from './presentation/components/header/header.compone
 import { ParticlesComponent } from './presentation/components/particles/particles.component';
 import { FooterComponent } from './presentation/components/footer/footer.component';
 import { VerifyLinkService } from './data/services/VerifyLink.service';
-import { ToastrModule } from 'ngx-toastr';
-
 
 @NgModule({
   imports: [
@@ -18,12 +16,7 @@ import { ToastrModule } from 'ngx-toastr';
     AppRoutes,     
     ParticlesComponent,
     HeaderComponent,
-    FooterComponent,
-    ToastrModule.forRoot({
-      maxOpened: 5,
-      autoDismiss: true,
-      positionClass: 'toast-bottom-right'
-    })
+    FooterComponent
   ],
   declarations: [	
     AppComponent

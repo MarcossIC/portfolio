@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { NgToastService } from 'ng-angular-popup';
 import { ToastrService } from 'ngx-toastr';
 import { SeoService } from 'src/app/data/services/seo.service';
 
@@ -10,7 +11,11 @@ import { SeoService } from 'src/app/data/services/seo.service';
 })
 export class ContactPageComponent implements OnInit, AfterViewInit {
 
-  constructor(private toastr: ToastrService, private seo: SeoService, private title: Title) { }
+  private toast: NgToastService = inject(NgToastService);
+  private seo: SeoService = inject(SeoService);
+  private title: Title = inject(Title);
+
+  constructor() { }
 
   ngOnInit(): void {
 
@@ -25,11 +30,9 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     const value = localStorage.getItem("emailSend");
-
-    console.log(value);
     if(value === "true"){
-      this.toastr.success('Su mensaje se ha enviado correctamente', 'Completado');
-      setTimeout(()=>localStorage.setItem("emailSend", "false"), 500);
+      this.toast.success({detail: "Completado", summary: "Su mensaje se ha enviado correctamente", duration: 5000});
+      setTimeout(()=>localStorage.setItem("emailSend", "false"), 1000);
     }
   }
 
