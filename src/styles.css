@@ -10,9 +10,8 @@
   .liquid-container {
     @apply  w-full flex items-center justify-center py-12 px-0;
   }
-
   .liquid-container .liquid{
-    @apply  bg-transparents-purple shadow-liquid w-auto h-auto max-w-maxCalc xs:max-w-none xl:w-[31rem] xl:h-[28rem] ;
+    @apply  bg-transparents-purple shadow-liquid w-auto h-auto max-w-maxCalc xs:max-w-none xl:w-[31rem] xl:h-[28rem] xs:h-80 sm:h-[29rem];
     transition: 0.5s ease;
     animation: liquid 4s linear infinite alternate both;
   }

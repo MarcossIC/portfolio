@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NgToastService } from 'ng-angular-popup';
-import { ToastrService } from 'ngx-toastr';
 import { SeoService } from 'src/app/data/services/seo.service';
 
 @Component({

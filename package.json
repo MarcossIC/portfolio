@@ -16,7 +16,7 @@
     "@angular/core": "^16.1.0",
     "@angular/forms": "^16.1.0",
     "@angular/platform-browser": "^16.1.0",
-    "@angular/platform-browser-dynamic": "^16.1.0",
+    "@angular/platform-browser-dynamic": "^16.2.11",
     "@angular/router": "^16.1.0",
     "aos": "^2.3.4",
     "ng-angular-popup": "^0.4.7",
