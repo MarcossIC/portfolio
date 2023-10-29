@@ -28,6 +28,6 @@ constructor(private meta: Meta) { }
     this.meta.updateTag({ property: 'og:title', content: config.title });
     this.meta.updateTag({ property: 'og:description', content: config.description });
     this.meta.updateTag({ property: 'og:image', content: config.image });
-    this.meta.updateTag({ property: 'og:url', content: `https://visionary-jalebi-59889d.netlify.app/${config.slug}` });
+    this.meta.updateTag({ property: 'og:url', content: `https://marcoslopezportfolio.netlify.app/${config.slug}` });
   }
 }
