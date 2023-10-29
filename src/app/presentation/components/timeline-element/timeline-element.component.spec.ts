@@ -1,7 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TimelineElementComponent } from './timeline-element.component';
 
@@ -9,7 +7,7 @@ describe('TimelineElementComponent', () => {
   let component: TimelineElementComponent;
   let fixture: ComponentFixture<TimelineElementComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TimelineElementComponent ]
     })

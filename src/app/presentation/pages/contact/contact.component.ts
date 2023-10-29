@@ -35,10 +35,6 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onBoundsChanged(event: any) {
-    console.log(event);
-  }
-
   onSubmit(){
     localStorage.setItem("emailSend", "true");
   }

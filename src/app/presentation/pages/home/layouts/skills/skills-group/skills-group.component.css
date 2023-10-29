@@ -15,15 +15,8 @@
         flex-grow: 1;
     }
 
-    .spring-size{
-        
-    }
-
 @media screen and (min-width: 1580px){
     .skill-group{
-        column-gap: 4rem;
-        
+        column-gap: 4rem;      
     }
-
-
 }

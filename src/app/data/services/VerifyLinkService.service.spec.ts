@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async, inject } from '@angular/core/testing';
-import { VerifyLinkServiceService } from './VerifyLink.service';
+import { TestBed, inject } from '@angular/core/testing';
+import { VerifyLinkService } from './VerifyLink.service';
 
 describe('Service: VerifyLinkService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [VerifyLinkServiceService]
+      providers: [VerifyLinkService]
     });
   });
 
-  it('should ...', inject([VerifyLinkServiceService], (service: VerifyLinkServiceService) => {
+  it('should ...', inject([VerifyLinkService], (service: VerifyLinkService) => {
     expect(service).toBeTruthy();
   }));
 });
