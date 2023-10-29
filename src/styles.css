@@ -1,12 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
  img{
-  color:#31218c;
   max-width: none;
  }
 
@@ -22,11 +18,9 @@
   }
 }
 
-
-
  body{
-    background: url("./assets/bg.webp") fixed center / cover;
-    font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: url("./assets/bg2.webp") fixed center / cover;
+    font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     color: #f5f5f5;
     min-height: 100dvh;
 
@@ -36,6 +30,18 @@
     overscroll-behavior-x: none;
     touch-action: manipulation;
 }
+
+.container-sections{
+  display: flex;
+  flex-direction: column;
+  margin: 4rem 1rem 0 1rem;
+  padding: 0 2.25rem;
+}
+
+.dd{
+  min-height: calc(100dvh - 100px);
+}
+
 
 ::-webkit-scrollbar {
   
