@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import AOS from 'aos';
 
 @Component({
@@ -9,12 +9,11 @@ import AOS from 'aos';
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.css'],
 })
-export class LogoComponent {
-  // Variable para mostrar u ocultar el botón
-  showScrollButton = false;
-
+export class LogoComponent implements OnInit{
   constructor() {
-
+  }
+  ngOnInit(): void {
+    
   }
   
 }

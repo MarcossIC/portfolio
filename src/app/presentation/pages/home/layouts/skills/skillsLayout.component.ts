@@ -11,7 +11,7 @@ export class SkillsLayoutComponent implements OnInit {
   SKILLS: any = SKILLS;
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
  
   }
 

@@ -10,7 +10,6 @@ export class ProjectsLayoutComponent implements OnInit {
   protected PROJECTS: any = PROJECTS;
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
-
 }

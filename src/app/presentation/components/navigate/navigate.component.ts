@@ -19,7 +19,7 @@ export class NavigateComponent implements OnInit {
 
   constructor(protected routerService: VerifyLinkService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

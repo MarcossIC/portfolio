@@ -13,7 +13,7 @@ export class SkillsGroupComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

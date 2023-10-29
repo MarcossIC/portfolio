@@ -16,7 +16,7 @@ export class TimelineComponent implements OnInit {
   protected DIRECTION: any = DIRECTION;
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

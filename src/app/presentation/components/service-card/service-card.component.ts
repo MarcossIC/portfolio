@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild, inject } from '@angular/core';
 import VanillaTilt from 'vanilla-tilt';
 
 @Component({
@@ -9,18 +9,19 @@ import VanillaTilt from 'vanilla-tilt';
   templateUrl: './service-card.component.html',
   styleUrls: ['./service-card.component.css']
 })
-export class ServiceCardComponent implements  AfterViewInit  {
+export class ServiceCardComponent implements OnInit  {
+  @ViewChild('serviceCard', { static: true }) serviceCard!: ElementRef;
   @Input() icon: string = "";
   @Input() title: string = "";
   @Input() index: number = 0;
 
-  constructor(private elementRef: ElementRef) { 
+  private renderer: Renderer2 = inject(Renderer2);
+
+  constructor() { 
   }
+  ngOnInit(): void {
+    const tiltContainer = this.renderer.selectRootElement( this.serviceCard.nativeElement );
 
-  ngAfterViewInit(): void {
-    const tiltContainer = this.elementRef.nativeElement.querySelector('.card-container') as any;
-
-    console.log("Is mobile: "+this.isMobile);
     if(!this.isMobile){
       VanillaTilt.init(tiltContainer, {
         max: 20,
@@ -34,7 +35,7 @@ export class ServiceCardComponent implements  AfterViewInit  {
     }
   }
 
-  protected get isMobile() {
+  protected get isMobile(): boolean {
     return window.innerWidth < 768;
   }
 

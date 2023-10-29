@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { SeoService } from 'src/app/data/services/seo.service';
 
@@ -9,7 +9,9 @@ import { SeoService } from 'src/app/data/services/seo.service';
 })
 export class HomePageComponent implements OnInit {
 
-  constructor(private seo: SeoService, private title: Title) { }
+  private seo: SeoService = inject(SeoService);
+  private title: Title = inject(Title);
+  constructor() { }
 
   ngOnInit(): void {
     let t: string = "Home - Marcos Lopez Web Portfolio";

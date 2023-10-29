@@ -11,8 +11,5 @@ export class ServiceLayoutComponent implements OnInit {
   SERVICES: any = SERVICES;
   constructor() { }
 
-  ngOnInit() {
-    
-  }
-
+  ngOnInit(): void { }
 }

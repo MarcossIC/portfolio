@@ -11,12 +11,11 @@ export class RatingComponent implements OnInit {
   
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit():void {
   }
 
   ratingChanged(event: any): void {
     this.valorSeleccionado = event.target.value;
-    console.log(`Selected rating: ${this.valorSeleccionado}`);
     // Aquí puedes hacer lo que necesites con el valor seleccionado
   }
 }
