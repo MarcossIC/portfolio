@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@angular/animations':
-    specifier: ^16.2.8
-    version: 16.2.8(@angular/core@16.2.8)
   '@angular/common':
     specifier: ^16.1.0
     version: 16.2.8(@angular/core@16.2.8)(rxjs@7.8.1)
@@ -22,7 +19,7 @@ dependencies:
     version: 16.2.8(@angular/common@16.2.8)(@angular/core@16.2.8)(@angular/platform-browser@16.2.8)(rxjs@7.8.1)
   '@angular/platform-browser':
     specifier: ^16.1.0
-    version: 16.2.8(@angular/animations@16.2.8)(@angular/common@16.2.8)(@angular/core@16.2.8)
+    version: 16.2.8(@angular/common@16.2.8)(@angular/core@16.2.8)
   '@angular/platform-browser-dynamic':
     specifier: ^16.1.0
     version: 16.2.8(@angular/common@16.2.8)(@angular/compiler@16.2.8)(@angular/core@16.2.8)(@angular/platform-browser@16.2.8)
@@ -32,6 +29,9 @@ dependencies:
   aos:
     specifier: ^2.3.4
     version: 2.3.4
+  ng-angular-popup:
+    specifier: ^0.4.7
+    version: 0.4.7(@angular/common@16.2.8)(@angular/core@16.2.8)(@angular/platform-browser@16.2.8)
   ng-particles:
     specifier: ^3.11.0
     version: 3.12.0(@angular/common@16.2.8)(@angular/core@16.2.8)(rxjs@7.8.1)(tsparticles-engine@2.12.0)
@@ -334,16 +334,6 @@ packages:
       - chokidar
     dev: true
 
-  /@angular/animations@16.2.8(@angular/core@16.2.8):
-    resolution: {integrity: sha512-tjJID1eZORcC9N1f0JIcOzirv6D1q2q7y2S6h51WncJC5G9vOUpIOoOE3gmg0TH0FS41wJe/WfiQku3BuoMA9w==}
-    engines: {node: ^16.14.0 || >=18.10.0}
-    peerDependencies:
-      '@angular/core': 16.2.8
-    dependencies:
-      '@angular/core': 16.2.8(rxjs@7.8.1)(zone.js@0.13.3)
-      tslib: 2.6.2
-    dev: false
-
   /@angular/cli@16.1.8:
     resolution: {integrity: sha512-amOIHMq8EvixhnI+do5Bcy6IZSFAJx0njhhLM4ltDuNUczH8VH0hNegZKxhb8K87AMO8jITFM+NLrzccyghsDQ==}
     engines: {node: ^16.14.0 || >=18.10.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
@@ -441,7 +431,7 @@ packages:
     dependencies:
       '@angular/common': 16.2.8(@angular/core@16.2.8)(rxjs@7.8.1)
       '@angular/core': 16.2.8(rxjs@7.8.1)(zone.js@0.13.3)
-      '@angular/platform-browser': 16.2.8(@angular/animations@16.2.8)(@angular/common@16.2.8)(@angular/core@16.2.8)
+      '@angular/platform-browser': 16.2.8(@angular/common@16.2.8)(@angular/core@16.2.8)
       rxjs: 7.8.1
       tslib: 2.6.2
     dev: false
@@ -458,11 +448,11 @@ packages:
       '@angular/common': 16.2.8(@angular/core@16.2.8)(rxjs@7.8.1)
       '@angular/compiler': 16.2.8(@angular/core@16.2.8)
       '@angular/core': 16.2.8(rxjs@7.8.1)(zone.js@0.13.3)
-      '@angular/platform-browser': 16.2.8(@angular/animations@16.2.8)(@angular/common@16.2.8)(@angular/core@16.2.8)
+      '@angular/platform-browser': 16.2.8(@angular/common@16.2.8)(@angular/core@16.2.8)
       tslib: 2.6.2
     dev: false
 
-  /@angular/platform-browser@16.2.8(@angular/animations@16.2.8)(@angular/common@16.2.8)(@angular/core@16.2.8):
+  /@angular/platform-browser@16.2.8(@angular/common@16.2.8)(@angular/core@16.2.8):
     resolution: {integrity: sha512-y0rt8HmnTjvZrqt+bKU5CnmaI7xQiRWIaLWpYXGgqcqqMDgMYwSm2lV3H6K6S1v0ut+Q+zIWj2rGjr8Apox34Q==}
     engines: {node: ^16.14.0 || >=18.10.0}
     peerDependencies:
@@ -473,7 +463,6 @@ packages:
       '@angular/animations':
         optional: true
     dependencies:
-      '@angular/animations': 16.2.8(@angular/core@16.2.8)
       '@angular/common': 16.2.8(@angular/core@16.2.8)(rxjs@7.8.1)
       '@angular/core': 16.2.8(rxjs@7.8.1)(zone.js@0.13.3)
       tslib: 2.6.2
@@ -490,7 +479,7 @@ packages:
     dependencies:
       '@angular/common': 16.2.8(@angular/core@16.2.8)(rxjs@7.8.1)
       '@angular/core': 16.2.8(rxjs@7.8.1)(zone.js@0.13.3)
-      '@angular/platform-browser': 16.2.8(@angular/animations@16.2.8)(@angular/common@16.2.8)(@angular/core@16.2.8)
+      '@angular/platform-browser': 16.2.8(@angular/common@16.2.8)(@angular/core@16.2.8)
       rxjs: 7.8.1
       tslib: 2.6.2
     dev: false
@@ -5431,6 +5420,19 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
+  /ng-angular-popup@0.4.7(@angular/common@16.2.8)(@angular/core@16.2.8)(@angular/platform-browser@16.2.8):
+    resolution: {integrity: sha512-Pyq6AZucwnB/LCawwwuBkShaLVSwPBasYjQnJhm80/RpDh5MOljq9pBvYHE+/mr3oM6M5NMX39RU0AtFwg4fZg==}
+    peerDependencies:
+      '@angular/common': '>=16.0.0-0'
+      '@angular/core': '>=16.0.0-0'
+      '@angular/platform-browser': '>=16.0.0-0'
+    dependencies:
+      '@angular/common': 16.2.8(@angular/core@16.2.8)(rxjs@7.8.1)
+      '@angular/core': 16.2.8(rxjs@7.8.1)(zone.js@0.13.3)
+      '@angular/platform-browser': 16.2.8(@angular/common@16.2.8)(@angular/core@16.2.8)
+      tslib: 2.6.2
+    dev: false
+
   /ng-particles@3.12.0(@angular/common@16.2.8)(@angular/core@16.2.8)(rxjs@7.8.1)(tsparticles-engine@2.12.0):
     resolution: {integrity: sha512-soaJXBIZRHw99rwnqqtrbiNWs25ZBIWr0g48IUmmHvadEszrVS7EZK1e063zJLJ10FfCe6HhLBJM9VugO176cA==}
     peerDependencies:
@@ -5455,7 +5457,7 @@ packages:
     dependencies:
       '@angular/common': 16.2.8(@angular/core@16.2.8)(rxjs@7.8.1)
       '@angular/core': 16.2.8(rxjs@7.8.1)(zone.js@0.13.3)
-      '@angular/platform-browser': 16.2.8(@angular/animations@16.2.8)(@angular/common@16.2.8)(@angular/core@16.2.8)
+      '@angular/platform-browser': 16.2.8(@angular/common@16.2.8)(@angular/core@16.2.8)
       tslib: 2.6.2
     dev: false
 
