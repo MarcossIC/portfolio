@@ -22,13 +22,12 @@
     max-width: 80px;
    }
 
+
+
    @media screen and (min-width: 1580px){
-    .technology {
-     
-     }
      .technology picture{
-      width: 7rem;
-      height: 7rem;
+      width: 9rem;
+      height: 9rem;
      }
     
      .technology figcaption{
@@ -36,33 +35,23 @@
       max-width: 110px;
      }
      .technology img{
-      width: 5.5rem;
-      height: 5.5rem;
+      width: 7rem;
+      height: 7rem;
      }
 
-     .technology .spring-size{
-      width: 10rem;
-      height: 11rem;
-    }
-
     .technology .jira-size{
-      width: 15rem;
-      height: 14rem;
-    }
-    .technology .postman-size{
-
-    }
-    .technology .doscker-size{
-
-    }
-
-    .technology .angular-size{
-
+      width: 20rem;
+      height: 20rem;
     }
 
     .technology .java-size{
       margin-inline-start: 15px;
       margin-block-end: 12px;
     }
+
+    .technology figcaption{
+      font-size: 2rem;
+      max-width: 130px;
+     }
   }
 

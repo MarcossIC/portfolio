@@ -75,13 +75,6 @@
   background-color: rgba(127, 29, 29, 1);
 }
 
-.title {
-  width: 100%;
-  text-align: left;
-  font-size: clamp(1.5rem /* 24px */, 8vw, 4rem /* 64px */);
-  font-weight: 700;
-}
-
 
 @media only screen and (max-width: 768px) {
   .left-content{
@@ -123,10 +116,6 @@
 }
 
 @media only screen and (min-width: 1580px) {
-  .title {
-    font-size: 5.5rem;
-  }
-
   .input {
     width: 575px;
     height: 60px;

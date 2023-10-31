@@ -10,26 +10,45 @@
     display: flex;
     font-weight: 700;
     text-transform: capitalize;
-    font-size: clamp(2em, 9vw, 6em);
+    font-size: clamp(3em, 17vw, 6em);
     margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
-    line-height: clamp(4rem, 9.5vw, 10rem);
+    line-height: clamp(4rem, 20dvw, 16rem);
   }
 
   .button{
-    background-color:  rgba(185, 28, 28, 1);
-    color: #fff;
-    font-weight: 500;
-    padding-inline: 1.25rem;
-    padding-block: 0.75rem;
+    font-weight: 600;
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
     border-radius: 1rem;
+    width: 160px;
+    font-size: 1rem;
+    border-radius: 1.15rem;
   }
 
-  .button:hover{
+  .button-resume-color{
+    background-color:  #b91c1c;
+    color: #fff0e0;
+  }
+
+  .button-contact-color{
+    background-color:  #fff0e0;
+    color: #b91c1c;
+  }
+
+  .button-contact-color:hover{
+    background-color:  #f8e7d4;
+  }
+
+  .button-contact-color:active{
+    background-color:  #f7e2ca;
+  }
+
+  .button-resume-color:hover{
     background-color:  rgba(153, 27, 27, 1);
   }
-  .button:active{
+  .button-resume-color:active{
     background-color:  rgba(127, 29, 29, 1);
   }
 
@@ -40,7 +59,26 @@
     max-width: 37rem;
   }
 
-  @media screen and (min-width: 1580px){
+  @media screen and (max-width: 330px){
+    .button{
+      width: 120px;
+      padding-block: 0.2rem;
+    }
+  }
+
+  @media screen and (min-width: 600px){
+    .button{
+      padding-inline: 1.25rem;
+      padding-block: 0.75rem;
+      border-radius: 1rem;
+    }
+    .main-title{
+      font-size: clamp(3em, 10vw, 6em);
+      line-height: clamp(4rem, 11dvw, 7rem);
+    }
+  }
+
+  @media screen and (min-width: 1500px){
     .main-title{
         font-size: 9rem;
         line-height: 10rem;
@@ -54,6 +92,7 @@
       font-size: 1.8rem;
       padding-block: 1rem;
       padding-inline: 2rem;
+      width: 275px;
     }
 
   }
@@ -61,23 +100,5 @@
   @media screen and (min-width: 998px){
     .home-paragraph{
       text-align: left;
-     
     }
   }
-
-  
-@keyframes textIn {
-  from {
-    opacity: 0;
-    transform: translateY(30%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animation-in-text {
-  animation: textIn 1.5s ease;  
-  transition: all 1s ease 0.5s;
-}

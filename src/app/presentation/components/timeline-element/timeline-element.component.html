@@ -1,5 +1,5 @@
 <li 
-  class="container text-light" 
+  class="time-element-container text-light" 
   [ngClass]="cardDirection === DIRECTION.LEFT ? 'left-container' : 'right-container'"
   data-aos="fade-up" 
   data-aos-duration="300"
@@ -17,7 +17,7 @@
     data-aos-anchor-placement="top-bottom"
   >
 
-    <h3 #titleElement class="font-bold text-2xl sm:text-xl xs:text-lg">{{ title }}</h3>
+    <h3 #titleElement class="font-bold text-2xl max-[330px]:text-base sm:text-xl xs:text-lg">{{ title }}</h3>
 
     <small class="inline-block mb-4 text-gray-400">{{ state }}</small>
 

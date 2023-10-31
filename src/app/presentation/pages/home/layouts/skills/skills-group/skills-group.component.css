@@ -7,16 +7,16 @@
         margin-block-start: 1.75rem;
     }
 
-    .skill{
+    .skills{
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 9rem;
+        height: auto;
         flex-grow: 1;
     }
 
 @media screen and (min-width: 1580px){
     .skill-group{
-        column-gap: 4rem;      
+        gap: 4rem;
     }
 }

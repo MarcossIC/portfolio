@@ -13,13 +13,19 @@
     {{ HERO.PARAGRAPH }}
   </p>
 
-  <div class="flex justify-center lg:justify-start">
+  <div class="flex justify-center lg:justify-start gap-x-6">
     
-    <a class="button"
-      [href]="USER.cv" target="_blank">
-      {{ HERO.RESUME }}
-    </a>
+    
+    <button class="button button-resume-color">
+      <a 
+        [href]="USER.cv" target="_blank">
+        {{ HERO.RESUME }}
+      </a>
+    </button>
 
+    <button class="button button-contact-color" routerLink="/contact">
+      {{HERO.CONTACT}}
+    </button>
   </div>
 </section>
 

@@ -60,3 +60,13 @@
 .card img{
  z-index: 50;
 }
+
+@media screen and (min-width: 1580px){
+  
+  .card{
+    width: 350px;
+  }
+  .card .caption{
+    font-size: 30px;
+  }
+}

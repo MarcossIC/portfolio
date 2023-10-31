@@ -1,7 +1,4 @@
-.title{
-    text-align: center;
-    font-size: clamp(1.5rem/* 24px */, 8vw, 4rem/* 64px */);
-}
+
 
 .ourService-container{
     margin-block-start: 5rem;
@@ -13,12 +10,6 @@
     align-items: center;
     align-content: center;
     justify-items: center;
-}
-
-@media screen and (min-width: 1580px){
-    .title{
-        font-size: 5.5rem;
-    }
 }
 
 @media screen and  (max-width: 1160px) {

@@ -6,10 +6,10 @@
     padding: 3px 13px;
     font-size: 14px;
     font-weight: 500;
-  }
+}
 
   @media screen and (min-width: 1580px){
     .tag {
-      font-size: 20px;
+      font-size: 1.6rem;
     }
   }

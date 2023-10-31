@@ -10,17 +10,15 @@ import VanillaTilt from 'vanilla-tilt';
   styleUrls: ['./service-card.component.css']
 })
 export class ServiceCardComponent implements OnInit  {
-  @ViewChild('serviceCard', { static: true }) serviceCard!: ElementRef;
+  @ViewChild('serviceCard', { static: true }) serviceCardRef!: ElementRef;
   @Input() icon: string = "";
   @Input() title: string = "";
   @Input() index: number = 0;
 
-  private renderer: Renderer2 = inject(Renderer2);
-
   constructor() { 
   }
   ngOnInit(): void {
-    const tiltContainer = this.renderer.selectRootElement( this.serviceCard.nativeElement );
+    const tiltContainer = this.serviceCardRef.nativeElement;
 
     if(!this.isMobile){
       VanillaTilt.init(tiltContainer, {

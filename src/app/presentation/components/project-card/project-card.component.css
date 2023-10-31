@@ -1,5 +1,5 @@
 .card {
-    width: 380px;
+    width: 360px;
     aspect-ratio: 10/12;
     -webkit-transition: 0.15s all ease-in-out;
     transition: 0.15s all ease-in-out;
@@ -108,30 +108,51 @@
   .container-project {
     position: relative;
     margin: 10px;
-    width: 350px;
+    width: 330px;
     aspect-ratio: 7/4;
     overflow: hidden;
   }
 
-  @media screen and (min-width: 1500px){
+  @media screen and (max-width: 330px){
+    .card{
+      width: 280px;
+    }
+    .container-project {
+      width: 250px;
+      aspect-ratio: 8/5;
+    }
+  }
+
+  @media screen and (min-width: 600px){
     .card {
-      width: 485px;
-      border-radius: 20px;
-      border-top-left-radius: 40px;
-      border-bottom-right-radius: 40px;
+      width: 380px;
+    }
+    .container-project {
+      margin: 10px;
+      width: 350px;
+    }
+
+  }
+
+  @media screen and (min-width: 1580px){
+    .card {
+      width: 550px;
+      aspect-ratio: 14/21;
     }
 
     .container-project{ 
-      width: 475px;
-      height: 265px;
+      width: 510px;
+      aspect-ratio: 11/7;
+      margin: 12px;
+      border-radius: 15px;
     }
 
     .details{
-      font-size: 1.4rem;
+      font-size: 1.6rem;
     }
 
     .deploy{
-      font-size: 1.5rem;
+      font-size: 1.8rem;
     }
 
     .project-title {
@@ -142,6 +163,7 @@
       width: 3em;
       height: 3em;
     }
+
     .card .deploy:hover svg{
       -webkit-transform: rotate(-45deg) scale(1.5);
       -ms-transform: rotate(-45deg) scale(1.5);
@@ -149,31 +171,8 @@
     }
 
     .types {
-      row-gap: 15px;
-      column-gap: 16px;
+      row-gap: 20px;
+      column-gap: 20px;
     }
     
-  }
-
-  @media screen and (max-width: 950px){
-    .card {
-      width: 350px;
-    }
-
-    .container-project{
-      width: 345px;
-    }
-
-  }
-
-  @media screen and (max-width: 375px){
-    .card {
-      width: auto;
-    }
-
-    .container-project{
-      width: auto;
-      height: auto;
-    }
-
   }

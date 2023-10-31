@@ -2,7 +2,7 @@ export const PATHS: any = {
     start: "/",
     home: "/home",
     about: "/about",
-    projects: "/contact",
+    contact: "/contact",
 };
 
 export const ROUTES: any = {
@@ -23,7 +23,8 @@ export const HERO: any = {
       TITLE: "Developer"
   },
   PARAGRAPH: "As a full-stack developer, my passion lies in transforming ideas into captivating and groundbreaking web applications. Let me show you how I can turn your vision into an exceptional digital experience through my portfolio.",
-  RESUME: "View Resume"
+  RESUME: "View Resume",
+  CONTACT: "Contact Me"
 }
 
 export const SKILLS: any = {
@@ -98,8 +99,8 @@ export const PROJECTS: any = {
           },
       ],
       IMG: "../../../../assets/projects/paintease.webp",
-      SOURCE: "https://github.com/conjunto-solucion/facturador",
-      DEPLOY: "https://marcossic.github.io/paint-in-js-html-css/",
+      SOURCE: "https://github.com/MarcossIC/paint-in-js-html-css",
+      DEPLOY: "https://github.com/MarcossIC/paint-in-js-html-css",
     },
     {
       NAME: "A. Calculator",
@@ -117,14 +118,77 @@ export const PROJECTS: any = {
           NAME: "Angular",
           COLOR: ['#B52E31', '#fff'],
         },
-                {
+        {
           NAME: "Tailwind",
           COLOR: ['#00B6D5', '#f5f5f5'],
+        },
+        {
+          NAME: "canvas",
+          COLOR: ['#31218c', '#fff'],
         },
       ],
       IMG: "../../../../assets/projects/angularCalculator.webp",
       SOURCE: "https://github.com/MarcossIC/angular-calculator/tree/main",
       DEPLOY: "https://github.com/MarcossIC/angular-calculator/tree/main",
+    },
+    {
+      NAME: "Game Galaxy",
+      DESCRIPTION: "Game Galaxy is a dynamic platform for classic games. Currently featuring popular titles such as Tetris, Snake and Tic-Tac-Toe, this website is built with Angular, using canvas, CSS and RxJS. With a sleek design and interactive gameplay, Game Galaxy offers users a modern twist on beloved retro games.",
+      TAGS: [
+        {
+          NAME: "html",
+          COLOR: ['#EC4E1D', '#fff'],
+        },
+        {
+          NAME: "type script",
+          COLOR: ['#1976D2', '#fff'],
+        },
+        {
+          NAME: "Angular",
+          COLOR: ['#B52E31', '#fff'],
+        },
+        {
+          NAME: "rx js",
+          COLOR: ["#BE2386", "#6C2E88"]
+        },
+        {
+          NAME: "css",
+          COLOR: ['#1D7CEC', '#ff'],
+        },
+        {
+          NAME: "Tailwind",
+          COLOR: ['#00B6D5', '#f5f5f5'],
+        },
+      ],
+      IMG: "../../../../assets/projects/gamegalaxy.webp",
+      SOURCE: "https://github.com/MarcossIC/Web-Games",
+      DEPLOY: "https://github.com/MarcossIC/Web-Games"
+    },
+    {
+      NAME: "Clean Arch",
+      DESCRIPTION: "Repository that shows an example of how to make a clean architecture in Java following the SOLID principles. In addition, not only a simple hexagonal architecture is applied, but it is also applied together with a Vertical Slizing, in addition to applying it in two ways, one conventionally and another applying CQRS",
+      TAGS: [
+        {
+          NAME: "spring",
+          COLOR: ['#6DB33F', '#fff'],
+        },
+        {
+          NAME: "Java",
+          COLOR: ["#D7771E", "#fff"]
+        },
+        {
+          NAME: "CQRS",
+          COLOR: ["#333333", "#fff"],
+        },
+        {
+          NAME: "Clean Architecture",
+          COLOR: ["#D47570", "#fff"]
+        }
+  
+      ],
+      IMG: "../../../../assets/projects/clean-architecture.webp",
+      SOURCE: "https://github.com/MarcossIC/architecture-example",
+      DEPLOY: "https://github.com/MarcossIC/architecture-example"
     }
   ],
 };
@@ -203,7 +267,7 @@ export const STUDIES: any = {
 export const HEADER: any = {
     HOME: "Home",
     ABOUT: "About",
-    PROJECTS: "Contact",
+    CONTACT: "Contact",
     MORE: {
       TITLE: "More",
       STAR: {
