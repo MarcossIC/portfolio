@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IsActiveMatchOptions, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'any'
 })
 export class VerifyLinkService {
+  private router: Router = inject(Router);
 
-constructor(private router: Router) { }
+  constructor() { }
 
   isLinkActive(url: string): boolean {
     const options: IsActiveMatchOptions = { paths: 'exact', queryParams: 'exact', fragment: 'ignored', matrixParams: 'ignored' };
