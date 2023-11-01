@@ -16,7 +16,7 @@
     "@angular/core": "^16.1.0",
     "@angular/forms": "^16.1.0",
     "@angular/platform-browser": "^16.1.0",
-    "@angular/platform-browser-dynamic": "^16.2.11",
+    "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
     "aos": "^2.3.4",
     "ng-angular-popup": "^0.4.7",
@@ -31,8 +31,8 @@
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.1.4",
-    "@angular/cli": "~16.1.4",
+    "@angular-devkit/build-angular": "^16.1.0",
+    "@angular/cli": "~16.1.0",
     "@angular/compiler-cli": "^16.1.0",
     "@types/aos": "^3.0.4",
     "@types/jasmine": "~4.3.0",
