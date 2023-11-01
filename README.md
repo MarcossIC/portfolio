@@ -14,7 +14,7 @@ The project is developed in Angular 16 and uses these technologies:
 ## Development server
 In order to deploy a local version of the project you must:
 - Download the project from github
-- Run npm install at the root of the project
+- Run `npm install` at the root of the project
 - Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
 The application will automatically reload if you change any of the source files.
 
