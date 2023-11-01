@@ -1,9 +1,6 @@
 # Portfolio Web
 ## Demo
-
 You can visit the site at: [view website](https://marcoslopezportfolio.netlify.app/home/)
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.4.
 
 ## Characteristics
 The web portfolio contains a description about me, some of the projects I have worked on, the skills I use, the services I offer and you can see my resume and a contact form.
