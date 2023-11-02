@@ -2,7 +2,7 @@
 
       <div class="left-content" data-aos="fade-right" data-aos-duration="600">
                                                           
-        <form class="form" name="contact" method="post" netlify (submit)="onSubmit()">
+        <form class="form" name="contact" action="/" method="post" netlify (submit)="onSubmit()">
           
           <app-title class="title" [title]="'Contact Us'" [strong]="['Us']" strongStyle="text-red-700"></app-title>
 
@@ -15,6 +15,7 @@
             Send
           </button>
           <input type="hidden" name="form-name" value="contact" />
+          <input type="hidden" name="subject" data-remove-prefix value="Nuevo mensaje del portfolio" />
         </form>
       </div>
 
