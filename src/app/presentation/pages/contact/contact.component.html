@@ -2,13 +2,13 @@
 
       <div class="left-content" data-aos="fade-right" data-aos-duration="600">
                                                           
-        <form class="form" name="contact" action="/home/contact" method="POST" data-netlify="true">
+        <form class="form" name="contact" data-netlify="true">
           <app-title class="title" [title]="'Contact Us'" [strong]="['Us']" strongStyle="text-red-700"></app-title>
 
           <input type="text" class="input" name="name" id="name" autocomplete="name" placeholder="Name" required>
           <input type="text" class="input" name="email" id="email" autocomplete="email" placeholder="Email" required>
           <textarea class="message" name="message" id="message" placeholder="Write your message" cols="20"
-            rows="7"></textarea><<<<
+            rows="7"></textarea>
 
           <button class="button-form" type="submit" (onClick)="onSubmit()">
             Send
