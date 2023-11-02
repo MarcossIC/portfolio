@@ -24,6 +24,7 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/google70369a649c023c51.html",
               "src/favicon.ico",
               "src/apple-touch-icon.png",
               "src/favicon-32x32.png",
