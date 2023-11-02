@@ -2,7 +2,8 @@
 
       <div class="left-content" data-aos="fade-right" data-aos-duration="600">
                                                           
-        <form class="form" name="contact" data-netlify="true" (submit)="onSubmit()">
+        <form class="form" name="contact" method="post" data-netlify="true" (submit)="onSubmit()">
+          
           <app-title class="title" [title]="'Contact Us'" [strong]="['Us']" strongStyle="text-red-700"></app-title>
 
           <input type="text" class="input" name="name" id="name" autocomplete="name" placeholder="Name" required>
@@ -13,6 +14,7 @@
           <button class="button-form" type="submit">
             Send
           </button>
+          <input type="hidden" name="form-name" value="contact" />
         </form>
       </div>
 
