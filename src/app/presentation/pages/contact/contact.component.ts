@@ -18,11 +18,11 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    let t: string = "Contact - Marcos Lopez Web Portfolio";
+    let t: string = "Marcos Lopez - Contact - Portfolio";
     this.title.setTitle(t);
     this.seo.generateTags({
       title: t,
-      description: "Contact page in Marcos López's web portfolio",
+      description: "Contact page in Marcos López web portfolio",
       slug: "contact"
     });
   }

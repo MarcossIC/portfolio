@@ -14,11 +14,11 @@ export class AboutPageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    let t: string = "About - Marcos Lopez Web Portfolio";
+    let t: string = "Marcos Lopez - About - Portfolio";
     this.title.setTitle(t);
     this.seo.generateTags({
       title: t,
-      description: "About me page in Marcos López's web portfolio",
+      description: "About me page in Marcos López web portfolio",
       slug: "about"
     });
 
