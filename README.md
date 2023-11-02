@@ -1,6 +1,6 @@
 # Portfolio Web
 ## :rocket: Demo
-You can visit the site at: [view website](https://marcoslopezportfolio.netlify.app/home/)
+You can visit the site at: [view website](https://marcosic.netlify.app/home/)
 
 ## :sparkles: Introduction
 The web portfolio contains a description about me, some of the projects I have worked on, the skills I use, the services I offer and you can see my resume and a contact form.
