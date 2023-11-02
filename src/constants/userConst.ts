@@ -2,7 +2,7 @@ export const USER = {
     name: "Marcos",
     lastname: "Lopez",
     email: "marcoslopezdev18@gmail.com",
-    cv: "https://drive.google.com/file/d/1z1ZcxkfbwhkfIeCNk7wqmtguD7pmI-yN/view?usp=sharing"
+    cv: "https://drive.google.com/file/d/1Do2ceMGdL0w5VR7Y43T-5u51_AKFjs_i/view?usp=sharing"
 };
 
 export const SOCIAL_URLS = {

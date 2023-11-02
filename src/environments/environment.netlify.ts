@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://marcoslopezportfolio.netlify.app/home/' 
+    apiUrl: 'https://marcosic.netlify.app/home/' 
   };
