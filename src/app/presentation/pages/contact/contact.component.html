@@ -2,8 +2,7 @@
 
       <div class="left-content" data-aos="fade-right" data-aos-duration="600">
                                                           
-        <form class="form" name="contact" action="/" method="post" netlify (submit)="onSubmit()">
-          
+        <form class="form" action="https://formsubmit.co/marcoslopezdev18@gmail.com" method="POST" (submit)="onSubmit()">
           <app-title class="title" [title]="'Contact Us'" [strong]="['Us']" strongStyle="text-red-700"></app-title>
 
           <input type="text" class="input" name="name" id="name" autocomplete="name" placeholder="Name" required>
@@ -14,8 +13,11 @@
           <button class="button-form" type="submit">
             Send
           </button>
-          <input type="hidden" name="form-name" value="contact" />
-          <input type="hidden" name="subject" data-remove-prefix value="Nuevo mensaje del portfolio" />
+
+          <input type="hidden" name="_next" value="https://marcosic.netlify.app/home/contact">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_subject" value="Nuevo mensaje del Porfolio!">
+          <input type="text" name="_honey" style="display:none">
         </form>
       </div>
 
