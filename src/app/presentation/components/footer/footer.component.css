@@ -47,14 +47,14 @@
 
 
 @media screen and (min-width: 1580px) {
-    .footer-content{
-     
+    .footer-contact li{
+        font-size: 1.5rem;
+        gap: 1rem;
     }
-    
-    .footer-contact{
+    .footer-contact li img{
+        font-size: 1.5rem;
+    }
 
-    }
-    
     .footer-contact h3{
         font-size: 2.2rem;
     }

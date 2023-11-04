@@ -73,28 +73,44 @@
       border-radius: 1rem;
     }
     .main-title{
-      font-size: clamp(3em, 10vw, 6em);
-      line-height: clamp(4rem, 11dvw, 7rem);
+      font-size: clamp(5em, 14vw, 6rem);
+      line-height: clamp(5rem, 17dvw, 8rem);
     }
   }
 
   @media screen and (min-width: 1500px){
     .main-title{
-        font-size: 9rem;
-        line-height: 10rem;
+      font-size: clamp(5em, 15vw, 8rem);
+      line-height: clamp(5rem, 15dvw, 10rem);
     }
     .home-paragraph{
-      font-size: 1.8rem;
+      font-size: 1.2rem;
       max-width: 60rem;
      
     }
     .button{
-      font-size: 1.8rem;
+      font-size: 1.2rem;
       padding-block: 1rem;
       padding-inline: 2rem;
       width: 275px;
     }
 
+  }
+
+  @media screen and (min-width: 1700px){
+    .main-title{
+      font-size: clamp(5em, 20vw, 12rem);
+      line-height: clamp(5rem, 15dvw, 15rem);
+    }
+    .home-paragraph{
+      font-size: 2rem;
+      max-width: 85rem;
+     
+    }
+    .button{
+      font-size: 1.8rem;
+      width: 300px;
+    }
   }
 
   @media screen and (min-width: 998px){

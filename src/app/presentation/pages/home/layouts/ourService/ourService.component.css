@@ -3,26 +3,38 @@
 .ourService-container{
     margin-block-start: 5rem;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-   
+    grid-template-columns: repeat(auto-fit, minmax(220px, 250px));
     column-gap: 1.5rem;
+    row-gap: 4rem;
     justify-content: center;
     align-items: center;
     align-content: center;
     justify-items: center;
 }
+.service-card{
+    width: 100%;
+    
+}
 
-@media screen and  (max-width: 1160px) {
+@media screen and  (min-width: 600px) {
     .ourService-container{
-        grid-template-columns: repeat(2, minmax(0, 2fr));
+        column-gap: 4rem;
+        row-gap: 3rem;
+    }
+}
+@media screen and  (min-width: 1500px) {
+    .ourService-container{
+        grid-template-columns: repeat(auto-fit, 300px);
+        column-gap: 4rem;
         row-gap: 2rem;
     }
 }
 
-@media screen and  (max-width: 1160px) {
+@media screen and  (min-width: 1790px) {
     .ourService-container{
-        grid-template-columns: repeat(1, minmax(0, 4fr));
-        row-gap: 3rem;
+        grid-template-columns: repeat(auto-fit, 340px);
+        column-gap: 6.3rem;
+        row-gap: 2rem;
     }
 }
 

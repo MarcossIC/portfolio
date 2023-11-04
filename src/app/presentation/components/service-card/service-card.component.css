@@ -6,9 +6,12 @@
 }
 
 .card{
+  /*
   width: 250px;
   aspect-ratio:  8/9;
-
+  */
+  width: 100%;
+  aspect-ratio:  8/9;
   border: 2px solid rgba(94, 6, 166, .5);
   
   box-shadow: 0 0 45px 5px rgba(30, 30, 30, 0.5);
@@ -62,10 +65,6 @@
 }
 
 @media screen and (min-width: 1580px){
-  
-  .card{
-    width: 350px;
-  }
   .card .caption{
     font-size: 30px;
   }
