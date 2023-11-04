@@ -136,12 +136,12 @@
 
   @media screen and (min-width: 1580px){
     .card {
-      width: 550px;
-      aspect-ratio: 14/21;
+      width: 625px;
+      aspect-ratio: 13/17;
     }
 
     .container-project{ 
-      width: 510px;
+      width: 590px;
       aspect-ratio: 11/7;
       margin: 12px;
       border-radius: 15px;

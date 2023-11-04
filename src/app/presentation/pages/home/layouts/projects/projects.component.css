@@ -3,20 +3,23 @@
     margin-top: 2rem;
     display: flex;
     flex-wrap: wrap;
+    justify-items: center;
+    justify-content: center;
     align-items: center;
-    justify-content: space-evenly;
     padding: 10px;
-    column-gap: 20px;
+    column-gap: 2.5rem;
     row-gap: 35px;
 }
 
-@media screen and (min-width: 1580px){
+@media screen and (min-width: 1780px){
     .projects-container{
-        column-gap: 80px;
-        row-gap: 50px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 625px);
+        row-gap: 4rem;
+        column-gap: 2rem;
     }
 }
-
+/*
 @media screen and (max-width: 950px){
     .projects-container{
         width: 100%;
@@ -26,4 +29,4 @@
         padding: 0;
     }
 }
-  
+  */
