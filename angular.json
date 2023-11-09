@@ -32,6 +32,7 @@
               "src/site.webmanifest",
               "src/safari-pinned-tab.svg",
               "src/assets",
+              "/sitemap.xml",
               {
                 "glob": "_redirects",
                 "input": "src",

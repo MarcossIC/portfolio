@@ -19,14 +19,3 @@
         column-gap: 2rem;
     }
 }
-/*
-@media screen and (max-width: 950px){
-    .projects-container{
-        width: 100%;
-        align-content: center;
-        justify-content: center;
-        justify-items: center;
-        padding: 0;
-    }
-}
-  */
