@@ -4,6 +4,8 @@ import { ContactPageComponent } from "./contact.component";
 import { TitleComponent } from "../../components/title/title.component";
 import { ContactRoutes } from "./contact.routing";
 import { NgToastModule } from "ng-angular-popup";
+import { LiquidBannerComponent } from "../../components/liquid-banner/liquid-banner.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
     imports: [
@@ -11,7 +13,10 @@ import { NgToastModule } from "ng-angular-popup";
         ContactRoutes,
         TitleComponent,
         NgToastModule,
-        NgOptimizedImage
+        NgOptimizedImage,
+        LiquidBannerComponent,
+        ReactiveFormsModule, 
+        FormsModule, 
     ],
     declarations: [
         ContactPageComponent

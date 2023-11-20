@@ -10,7 +10,8 @@ export class VerifyLinkService {
   constructor() { }
 
   isLinkActive(url: string): boolean {
-    const options: IsActiveMatchOptions = { paths: 'exact', queryParams: 'exact', fragment: 'ignored', matrixParams: 'ignored' };
+    console.log(url);
+    const options: IsActiveMatchOptions = { paths: 'exact', queryParams: 'exact', fragment: 'exact', matrixParams: 'exact' };
     return this.router.isActive(url, options);
   }
 }

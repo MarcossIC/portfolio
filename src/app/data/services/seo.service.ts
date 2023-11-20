@@ -12,10 +12,12 @@ constructor(private meta: Meta) { }
     config = {
       title: "Marcos Lopez Web Portfolio",
       description: "Marcos Lopez Portfolio Web, site to show my projects and experiences",
-      image: "",
+      image: "./favicon.ico",
       slug: "",
       ...config
     };
+
+    this.meta.updateTag({ property: 'description', content: config.description });
 
     this.meta.updateTag({ name: 'twitter:card', content: 'summary' });
     //this.meta.updateTag({ name: 'twitter:site', content: '@MiTwitter' });
@@ -23,11 +25,10 @@ constructor(private meta: Meta) { }
     this.meta.updateTag({ name: 'twitter:description', content: config.description });
     this.meta.updateTag({ name: 'twitter:image', content: config.image });
 
-    this.meta.updateTag({ property: 'og:type', content: 'article' });
-    this.meta.updateTag({ property: 'og:site_name', content: 'Marcos Lopez Web Portfolio' });
+    this.meta.updateTag({ property: 'og:site_name', content: config.title });
     this.meta.updateTag({ property: 'og:title', content: config.title });
     this.meta.updateTag({ property: 'og:description', content: config.description });
     this.meta.updateTag({ property: 'og:image', content: config.image });
-    this.meta.updateTag({ property: 'og:url', content: `https://marcoslopezportfolio.netlify.app/${config.slug}` });
+    this.meta.updateTag({ property: 'og:url', content: `https://marcosic.netlify.app/${config.slug}` });
   }
 }

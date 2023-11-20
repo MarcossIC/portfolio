@@ -5,10 +5,25 @@ import { ClickMode, Container, Engine, HoverMode, MoveDirection, OutMode } from 
 import { loadSlim } from 'tsparticles-slim';
 
 @Component({
-standalone: true,
+  standalone: true,
   imports: [CommonModule, NgParticlesModule],
   selector: 'app-particles',
-  templateUrl: './particles.component.html',
+  template: `
+  <div class="w-[1310px] h-full absolute right-0 bottom-0">
+    <div class="bg-none lg:bg-explosion lg:bg-cover lg:bg-right lg:bg-no-repeat w-full h-full">
+        <!-- Contenedor específico para las partículas -->
+        <div class="w-full h-full absolute mix-blend-color-dodge" style="z-index: -1;">
+            <ng-particles
+                *ngIf="particlesOptions$"
+                [id]="id"
+                [options]="particlesOptions$"
+                [particlesInit]="particlesInit"
+                (particlesLoaded)="particlesLoaded($event)"
+            ></ng-particles>
+        </div>
+    </div>
+  </div>
+  `,
   styleUrls: ['./particles.component.css']
 })
 export class ParticlesComponent implements OnInit {

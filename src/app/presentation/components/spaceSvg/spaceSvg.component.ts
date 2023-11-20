@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
   standalone: true,
   imports: [CommonModule],
   selector: 'spaceSvg',
   templateUrl: './spaceSvg.component.html',
-  styleUrls: ['./spaceSvg.component.css']
+  styleUrls: ['./spaceSvg.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpaceSvgComponent implements OnInit {
 

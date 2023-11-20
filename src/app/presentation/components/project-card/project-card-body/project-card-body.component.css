@@ -1,0 +1,81 @@
+
+  
+  .project-title {
+    font-size: 1.4em;
+    margin: 0;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .deploy{
+    transition: 0.2s linear all;
+    font-weight: 500;
+    opacity: 0.9;
+    font-size: .9rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    text-align: center;
+    align-items: center;
+    column-gap: 5px;
+  }
+
+  .deploy svg{
+    transition: 0.2s linear all;
+    color: white;
+    font-size: 10px;
+  }
+  .deploy:hover, .deploy:hover svg {
+    color: rgb(182, 46, 46);
+    opacity: 1;
+  }
+
+  .deploy:hover svg{
+    -webkit-transform: rotate(-45deg) scale(1.4);
+    -ms-transform: rotate(-45deg) scale(1.4);
+    transform: rotate(-45deg) scale(1.4);
+  }
+
+  .flex-pr {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .details{
+    font-size: 0.9rem;
+    font-weight: 490;
+    font-family: system-ui;
+    color: #ebebeb;
+    margin-bottom: 0.5rem;
+    text-wrap: balance;
+  }
+
+  @media screen and (min-width: 1580px){
+    .details{
+      font-size: 1.6rem;
+    }
+
+    .deploy{
+      font-size: 1.8rem;
+    }
+
+    .project-title {
+      font-size: 2rem;
+    }
+
+    .deploy svg{
+      width: 3em;
+      height: 3em;
+    }
+
+    .deploy:hover svg{
+      -webkit-transform: rotate(-45deg) scale(1.5);
+      -ms-transform: rotate(-45deg) scale(1.5);
+      transform: rotate(-45deg) scale(1.5);
+    }
+    
+  }

@@ -1,0 +1,8 @@
+span{
+    width: 0px;
+    opacity: 0.95;
+}
+
+.active-link span{
+    width: 100%;
+}

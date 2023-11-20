@@ -1,23 +1,17 @@
-<a *ngIf="isRequiredBar; else other" [routerLink]="path" routerLinkActive="active-link" role="link" 
+<ng-container *ngIf="isHeader; else other">
+  <a [routerLink]="path" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" role="link" 
   [ngClass]="classNames"
   class="relative group">
     {{ textLink }}
-  <span *ngIf="isHeader" [ngClass]="routerService.isLinkActive(path) && isRequiredBar ? 'w-full ' : 'w-0 opacity-95'" class="h-[2px] inline-block bg-violet-900 absolute left-0 -bottom-0.5
-    group-hover:w-full transition-[width] ease duration-300">
-    &nbsp;
-  </span>
-</a>
+    <span class="h-[2px] inline-block bg-violet-900 absolute left-0 -bottom-0.5
+      group-hover:w-full transition-[width] ease duration-300">
+      &nbsp;
+    </span>
+  </a>
+</ng-container>
 
 <ng-template #other> 
-
-  <a 
-  [ngClass]="classNames"
-  class="relative group cursor-pointer">
+  <a [ngClass]="classNames" class="relative group cursor-pointer">
     {{ textLink }}
-  <span *ngIf="isHeader" [ngClass]="isRequiredBar ? 'w-full ' : 'w-0 opacity-95'" class="h-[2px] inline-block bg-violet-900 absolute left-0 -bottom-0.5
-    group-hover:w-full transition-[width] ease duration-300">
-    &nbsp;
-  </span>
-</a>
-
+  </a>
 </ng-template>

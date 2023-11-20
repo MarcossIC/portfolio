@@ -6,31 +6,21 @@
 
   <div class="project-info">
 
-    <div class="flex-pr min-[1500px]:mb-5">
-
-      <div class="flex justify-between w-full mb-2">
-        <span class="project-title w-auto">
-          {{ PROJECT.NAME }}
-        </span>
-
-        <a class="w-auto deploy" [href]="PROJECT.DEPLOY" target="_blank" role="button" aria-details="Link al repositorio en github del proyecto">
-          {{ textAnchor }}
-          <svg aria-hidden="true" role="img" width="2em" height="2em" color="black" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor"><line y2="12" x2="19" y1="12" x1="5"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </a>
-      </div>
- 
-      <p class="details" role="contentinfo">
-        {{ PROJECT.DESCRIPTION }}
-      </p>
-
-    </div>
+    <project-card-body 
+      [PROJECT_NAME]="PROJECT.NAME" 
+      [TEXT_ANCHOR]="textAnchor" 
+      [PROJECT_LINK]="PROJECT.DEPLOY" 
+      [PROJECT_DESCRIPTION]="PROJECT.DESCRIPTION"
+    ></project-card-body>
 
     <div class="types m-1" role="complementary">
+      
       <tag *ngFor="let TAG of PROJECT.TAGS"
         [tag]="TAG.NAME"
         [background]="TAG.COLOR[0]"
         [color]="TAG.COLOR[1]"
       ></tag>
+
     </div>
 
   </div>

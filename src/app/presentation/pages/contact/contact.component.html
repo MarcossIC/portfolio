@@ -2,15 +2,48 @@
 
       <div class="left-content" data-aos="fade-right" data-aos-duration="600">
                                                           
-        <form class="form" action="https://formsubmit.co/marcoslopezdev18@gmail.com" method="POST" (submit)="onSubmit()">
-          <app-title class="title" [title]="'Contact Us'" [strong]="['Us']" strongStyle="text-red-700"></app-title>
+        <form class="form" [formGroup]="this.contactForm" action="https://formsubmit.co/marcoslopezdev18@gmail.com" method="POST" (submit)="onSubmit()">
+          <app-title class="title" title="Contact Me" name="Contact me" [strong]="['Me']" strongStyle="text-red-700"></app-title>
 
-          <input type="text" class="input" name="name" id="name" autocomplete="name" placeholder="Name" required>
-          <input type="text" class="input" name="email" id="email" autocomplete="email" placeholder="Email" required>
-          <textarea class="message" name="message" id="message" placeholder="Write your message" cols="20"
+          <div class="flex flex-col gap-y-1" style="min-height: 73px;">
+            <input type="text" class="input" formControlName="name" name="name" id="name" autocomplete="name" placeholder="Name" 
+            [ngClass]="{'error !text-red-600': 
+            (contactForm.get('name')?.touched && contactForm.get('name')?.hasError('required')) || 
+            (contactForm.get('name')?.dirty && contactForm.get('name')?.hasError('pattern'))
+            }">
+            <ng-container *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.hasError('required')">
+              <span class="text-red-600 font-semibold">The name is necessary</span>
+            </ng-container>
+            <ng-container *ngIf="contactForm.get('name')?.dirty && contactForm.get('name')?.hasError('pattern')">
+              <span class="text-red-600 font-semibold">The name is invalid</span>
+            </ng-container>
+          </div>
+
+          <div class="flex flex-col gap-y-1 " style="min-height: 73px;">
+            <input type="text" class="input" formControlName="email" name="email" id="email" autocomplete="email" placeholder="Email"
+            [ngClass]="{'error !text-red-600': 
+            (contactForm.get('email')?.touched && contactForm.get('email')?.hasError('required')) || 
+            (contactForm.get('email')?.dirty && contactForm.get('email')?.hasError('pattern'))
+            }"
+            >
+            <ng-container *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.hasError('required')">
+              <span class="text-red-600 font-semibold">The email is necessary</span>
+            </ng-container>
+            <ng-container *ngIf="contactForm.get('email')?.dirty && contactForm.get('email')?.hasError('pattern')">
+              <span class="text-red-600 font-semibold">The email is invalid</span>
+            </ng-container>
+          </div>
+          
+          <div class="flex flex-col gap-y-1 " style="min-height: 228px;">
+            <textarea class="message" formControlName="message" name="message" id="message" placeholder="Write your message" cols="20"
             rows="7"></textarea>
+            <ng-container *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.hasError('required')">
+              <span class="text-red-600 font-semibold">Write a message please</span>
+            </ng-container>
+          </div>
+          
 
-          <button class="button-form" type="submit">
+          <button class="button-form" type="submit" [disabled]="this.contactForm.invalid">
             Send
           </button>
 
@@ -22,19 +55,9 @@
       </div>
 
       <div class="right-content">
-
-        <picture class="liquid-container" data-aos="fade-up" data-aos-duration="700">
-          <div class="liquid">
-            <div class="liquid-container">
-              <img 
-                src="../../../../assets/Programmer.webp" alt="Image of person programming" role="img">
-            </div>
-          </div>
-        </picture>
-
+        <liquid-banner></liquid-banner>
       </div>
   
-
       <ng-toast></ng-toast>
   </section>
 

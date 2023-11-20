@@ -1,11 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { SeoService } from 'src/app/data/services/seo.service';
 
 @Component({
   selector: 'page-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css']
+  styleUrls: ['./about.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutPageComponent implements OnInit {
 
@@ -14,7 +15,7 @@ export class AboutPageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    let t: string = "Marcos Lopez - About - Portfolio";
+    let t: string = "About me - Marcos Lopez Web Portfolio";
     this.title.setTitle(t);
     this.seo.generateTags({
       title: t,

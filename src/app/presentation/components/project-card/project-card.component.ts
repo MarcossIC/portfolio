@@ -1,13 +1,15 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { TagComponent } from '../tag/tag.component';
+import { ProjectCardBodyComponent } from './project-card-body/project-card-body.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TagComponent, NgOptimizedImage],
+  imports: [CommonModule, TagComponent, NgOptimizedImage, ProjectCardBodyComponent],
   selector: 'project-card',
   templateUrl: './project-card.component.html',
-  styleUrls: ['./project-card.component.css']
+  styleUrls: ['./project-card.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectCardComponent implements OnInit {
   @Input() public PROJECT: any;

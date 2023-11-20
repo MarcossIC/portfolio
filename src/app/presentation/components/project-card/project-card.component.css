@@ -1,6 +1,6 @@
 .card {
     width: 360px;
-    aspect-ratio: 10/12;
+    aspect-ratio: 21/29;
     -webkit-transition: 0.15s all ease-in-out;
     transition: 0.15s all ease-in-out;
     border-radius: 12px;
@@ -13,14 +13,6 @@
         #481aaf 50%,
         rgb(139 139 139 / 0%) 110%
     );
-  }
-  
-  .types {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    width: 100%;
-    row-gap: 8px;
   }
 
   .project-info {
@@ -36,74 +28,14 @@
     flex-direction: column;
   }
   
-  .project-title {
-    font-size: 1.4em;
-    margin: 0;
-    font-weight: 600;
-   /* depend de la font */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .deploy{
-    transition: 0.2s linear all;
-    font-weight: 500;
-    opacity: 0.9;
-    font-size: 1em;
+  .types {
     display: flex;
-    justify-content: center;
-    align-content: center;
-    justify-items: center;
-    text-align: center;
     align-items: center;
-    column-gap: 5px;
-  }
-
-  .deploy svg{
-    transition: 0.2s linear all;
-    color: white;
-    font-size: 10px;
-  }
-  .deploy:hover, .deploy:hover svg {
-    color: rgb(182, 46, 46);
-    opacity: 1;
-  }
-
-  .card .deploy:hover svg{
-    -webkit-transform: rotate(-45deg) scale(1.4);
-    -ms-transform: rotate(-45deg) scale(1.4);
-    transform: rotate(-45deg) scale(1.4);
+    flex-wrap: wrap;
+    width: 100%;
+    row-gap: 8px;
   }
   
-  .flex-pr {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-direction: column;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    align-items: flex-start;
-  }
-  
-  .details{
-    font-size: 0.9rem;
-    font-weight: 490;
-    font-family: system-ui;
-    color: #ebebeb;
-    margin-bottom: 0.5rem;
-    text-wrap: balance;
-  }
-
-  .project-type {
-    background: #b2b2fd;
-    color: #1a41cd;
-    font-weight: bold;
-    padding: 0.3em 0.7em;
-    border-radius: 15px;
-    font-size: 12px;
-    letter-spacing: -0.6px;
-  }
   
   .container-project {
     position: relative;
@@ -125,11 +57,11 @@
 
   @media screen and (min-width: 600px){
     .card {
-      width: 380px;
+      width: 345px;
     }
     .container-project {
       margin: 10px;
-      width: 350px;
+      width: 320px;
     }
 
   }
@@ -145,29 +77,6 @@
       aspect-ratio: 11/7;
       margin: 12px;
       border-radius: 15px;
-    }
-
-    .details{
-      font-size: 1.6rem;
-    }
-
-    .deploy{
-      font-size: 1.8rem;
-    }
-
-    .project-title {
-      font-size: 2rem;
-    }
-
-    .card .deploy svg{
-      width: 3em;
-      height: 3em;
-    }
-
-    .card .deploy:hover svg{
-      -webkit-transform: rotate(-45deg) scale(1.5);
-      -ms-transform: rotate(-45deg) scale(1.5);
-      transform: rotate(-45deg) scale(1.5);
     }
 
     .types {

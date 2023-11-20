@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer2, ViewChild, inject } from '@angular/core';
 
 @Component({
   standalone: true,
   imports: [CommonModule],
   selector: 'tag',
-  templateUrl: './tag.component.html',
-  styleUrls: ['./tag.component.css']
+  template: `<span #tagRef class="tag select-none"> </span>`,
+  styleUrls: ['./tag.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagComponent implements OnInit {
-  @Input() public tag: string;
-  @Input() public background: string;
-  @Input() public color: string;
+  @Input({ required: true }) public tag: string = "";
+  @Input({ required: true }) public background: string = "";
+  @Input({ required: true }) public color: string = "";
   @ViewChild('tagRef', { static: true }) tagRef!: ElementRef;
-  // [style]="'background-color:'+background+'; color:'+color+';'"
-  //{{tag}}
+
   private renderer: Renderer2 = inject(Renderer2);
   
   constructor() { 

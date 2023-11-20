@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { DIRECTION } from 'src/constants/appConst';
 import { TimelineElementComponent } from '../timeline-element/timeline-element.component';
 
@@ -7,11 +7,24 @@ import { TimelineElementComponent } from '../timeline-element/timeline-element.c
   standalone: true,
   imports: [CommonModule, TimelineElementComponent],
   selector: 'timeline',
-  templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css']
+  template: `
+    <ul class="timeline">
+      <timeline-element 
+      *ngFor="let ITEM of ITEMS; let i = index"
+      [cardDirection]="i % 2 !== 1 ? DIRECTION.LEFT : DIRECTION.RIGHT"
+      [title]="ITEM.DEGREE"
+      [strong]="ITEM.STRONG"
+      strongStyle="text-red-700"
+      [state]="ITEM.STATE"
+      [description]="ITEM.DESCRIPTION"
+      ></timeline-element>
+    </ul>
+  `,
+  styleUrls: ['./timeline.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineComponent implements OnInit {
-  @Input() public ITEMS: any[] = [];
+  @Input({ required: true }) public ITEMS: any[] = [];
 
   protected DIRECTION: any = DIRECTION;
   constructor() { }

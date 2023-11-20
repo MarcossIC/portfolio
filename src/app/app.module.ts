@@ -7,6 +7,7 @@ import { ParticlesComponent } from './presentation/components/particles/particle
 import { FooterComponent } from './presentation/components/footer/footer.component';
 import { VerifyLinkService } from './data/services/VerifyLink.service';
 import { BrowserModule } from '@angular/platform-browser';
+import { QuicklinkModule } from 'ngx-quicklink';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { BrowserModule } from '@angular/platform-browser';
     AppRoutes,     
     ParticlesComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    QuicklinkModule
   ],
   declarations: [	
     AppComponent

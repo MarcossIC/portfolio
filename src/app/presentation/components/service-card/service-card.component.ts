@@ -11,9 +11,9 @@ import VanillaTilt from 'vanilla-tilt';
 })
 export class ServiceCardComponent implements OnInit  {
   @ViewChild('serviceCard', { static: true }) serviceCardRef!: ElementRef;
-  @Input() icon: string = "";
-  @Input() title: string = "";
-  @Input() index: number = 0;
+  @Input({ required: true}) public icon: string = "";
+  @Input({ required: true}) public title: string = "";
+  @Input({ required: true}) public index: number = 0;
 
   constructor() { 
   }

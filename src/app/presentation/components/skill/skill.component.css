@@ -1,7 +1,10 @@
   
   .technology {
-    transition: all ease 1s;
+    transition: all ease 400ms;
+    opacity: .75;
    }
+
+
 
    .technology picture{
     width: 5rem;
