@@ -1,5 +1,7 @@
 [build]
-  command = "ng build"
+  base = "/"
+  command = "npm install --legacy-peer-deps && ng build"
+  publish = "dist/portfolio"
 
 [[redirects]]
   from = "/*"
@@ -7,9 +9,9 @@
   status = 200
 
 [[plugins]]
-package = "netlify-plugin-check-output-for-puppy-references"
+  package = "netlify-plugin-check-output-for-puppy-references"
   [plugins.inputs]
-  breeds = ["pomeranian", "chihuahua", "bulldog"]
+    breeds = ["pomeranian", "chihuahua", "bulldog"]
 
-[dev]
-  command = "npm install --legacy-peer-deps"
+[build.processing.html]
+  pretty_urls = true
