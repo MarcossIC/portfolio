@@ -42,15 +42,16 @@
             </ng-container>
           </div>
           
+          
 
           <button class="button-form" type="submit" [disabled]="this.contactForm.invalid">
             Send
           </button>
 
-          <input type="hidden" name="_next" value="https://marcosic.netlify.app/home/contact">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_subject" value="Nuevo mensaje del Porfolio!">
-          <input type="text" name="_honey" style="display:none">
+          <input type="hidden" formControlName="next" name="_next" value="https://marcosic.netlify.app/home/contact">
+          <input type="hidden" formControlName="captcha" name="_captcha" value="false">
+          <input type="hidden" formControlName="subject" name="_subject" value="Nuevo mensaje del Porfolio!">
+          <input type="text" formControlName="honey" name="_honey" style="display:none">
         </form>
       </div>
 

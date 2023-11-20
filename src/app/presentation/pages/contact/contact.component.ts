@@ -25,7 +25,11 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
       email: ['', [Validators.pattern(
         /^\s*(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\s*$/,
       ), Validators.required]],
-      message: ['', Validators.required]
+      message: ['', Validators.required],
+      next: [''],
+      captcha: [''],
+      subject: [''],
+      honey: [''],
     });
 
   }
@@ -49,7 +53,9 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onSubmit(){
+  protected onSubmit(){
+    this.toast.info({detail: "Procensando", summary: "Se esta enviando tu solicitud", duration: 5000});
     localStorage.setItem("emailSend", "true");
+
   }
 }
