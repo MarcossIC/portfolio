@@ -1,2 +1,15 @@
 [build]
-  command = "npm install --legacy-peer-deps && ng build"
+  command = "ng build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[plugins]]
+package = "netlify-plugin-check-output-for-puppy-references"
+  [plugins.inputs]
+  breeds = ["pomeranian", "chihuahua", "bulldog"]
+
+[dev]
+  command = "npm install --legacy-peer-deps"
