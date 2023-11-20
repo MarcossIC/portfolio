@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
     <div class="flex-pr min-[1500px]:mb-5">
 
       <div class="flex justify-between w-full mb-2 gap-x-1">
-        <h4 class="project-title w-auto" role="heading" aria-label="Project Name." aria-describedby="" aria-readonly="true">
+        <h4 class="project-title w-auto" role="heading" aria-roledescription="Project card header" aria-describedby="project-title" aria-label="Project Name.">
           {{ PROJECT_NAME }}
         </h4>
 
@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
         </a>
       </div>
 
-      <p class="details" role="contentinfo" aria-label="Project description." aria-readonly="true">
+      <p class="details" role="contentinfo" aria-roledescription="More information."  aria-label="Project description.">
         {{ PROJECT_DESCRIPTION }}
       </p>
     </div>

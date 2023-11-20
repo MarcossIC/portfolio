@@ -99,11 +99,12 @@
 
   @media screen and (min-width: 1700px){
     .main-title{
-      font-size: clamp(5em, 20vw, 12rem);
-      line-height: clamp(5rem, 15dvw, 15rem);
+      font-size: clamp(5em, 19vw, 11rem);
+      line-height: clamp(5rem, 15dvw, 14rem);
     }
+
     .home-paragraph{
-      font-size: 2rem;
+      font-size: 1.7rem;
       max-width: 85rem;
      
     }
