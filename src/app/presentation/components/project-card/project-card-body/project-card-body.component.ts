@@ -9,17 +9,17 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
     <div class="flex-pr min-[1500px]:mb-5">
 
       <div class="flex justify-between w-full mb-2 gap-x-1">
-        <span class="project-title w-auto" role="heading" aria-label="Nombre del proyecto.">
+        <h4 class="project-title w-auto" role="heading" aria-label="Project Name." aria-describedby="" aria-readonly="true">
           {{ PROJECT_NAME }}
-        </span>
+        </h4>
 
-        <a class="w-auto deploy" [href]="PROJECT_LINK" target="_blank" role="button" aria-label="Link al repositorio del proyecto en github.">
+        <a class="w-auto deploy" [href]="PROJECT_LINK" target="_blank" role="link" aria-label="Link al repositorio del proyecto en github.">
           {{ TEXT_ANCHOR }}
           <svg aria-hidden="true" role="img" width="2em" height="2em" color="black" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor"><line y2="12" x2="19" y1="12" x1="5"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
         </a>
       </div>
 
-      <p class="details" role="contentinfo" aria-label="Descripción del proyecto.">
+      <p class="details" role="contentinfo" aria-label="Project description." aria-readonly="true">
         {{ PROJECT_DESCRIPTION }}
       </p>
     </div>
