@@ -8,10 +8,3 @@
   to = "/index.html"
   status = 200
 
-[[plugins]]
-  package = "netlify-plugin-check-output-for-puppy-references"
-  [plugins.inputs]
-    breeds = ["pomeranian", "chihuahua", "bulldog"]
-
-[build.processing.html]
-  pretty_urls = true
