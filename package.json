@@ -20,7 +20,6 @@
     "aos": "^2.3.4",
     "ng-angular-popup": "^0.4.7",
     "ng-particles": "^3.11.0",
-    "ngx-quicklink": "^0.4.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "tsparticles-engine": "^2.11.1",

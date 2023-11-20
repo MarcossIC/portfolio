@@ -1,6 +1,6 @@
 [build]
   base = "/"
-  command = "npm install --force"
+  command = "ng build"
   publish = "dist/portfolio"
 
 [[redirects]]
