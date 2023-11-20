@@ -1,6 +1,6 @@
 [build]
   base = "/"
-  command = "npm install --legacy-peer-deps && ng build"
+  command = "npm install --force"
   publish = "dist/portfolio"
 
 [[redirects]]
