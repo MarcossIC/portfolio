@@ -18,17 +18,17 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
 
 
   protected nameInput: any ={ 
-    id: 1, value: '', dirty: false, isEmpty: true, isValid: false,
+    id: 1, value: '', dirty: false, touched: false, isEmpty: true, isValid: false,
     pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ'\-]{3,60}(?:\s[A-Za-zÀ-ÖØ-öø-ÿ'\-]{3,60})*$/ 
   };
   
   protected emailInput: any ={ 
-    id: 1, value: '', dirty: false, isEmpty: true, isValid: false, 
+    id: 1, value: '', dirty: false, touched: false, isEmpty: true, isValid: false, 
     pattern: /^\s*(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\s*$/ 
   };
 
   protected messageInput: any ={ 
-    id: 1, value: '', dirty: false, isEmpty: true, isValid: false, 
+    id: 1, value: '', dirty: false, touched: false, isEmpty: true, isValid: false, 
     pattern: /[A-Za-z0-9]/ 
   };
 
@@ -40,9 +40,13 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
     return patterRegex.test(inputString);
   }
 
-  protected verifyInput(input: any): void {
+  protected onBlur(input: any): void {
     input.isEmpty = input.value === "" || !input.value;
-    input.isValid = this.validatePattern(input.pattern, input.value);
+    input.touched = true;
+  }
+
+  protected onInput(input: any): void{
+    input.isValid = !input.isEmpty ? this.validatePattern(input.pattern, input.value) : true;
     input.dirty = true;
   }
 
