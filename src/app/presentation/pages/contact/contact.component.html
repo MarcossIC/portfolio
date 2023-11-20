@@ -30,7 +30,7 @@
           </div>
           
           <div class="flex flex-col gap-y-1 " style="min-height: 228px;">
-            <textarea class="message" formControlName="message" [(ngModel)]="messageInput.value" (blur)="verifyInput(messageInput)" name="message" id="message" autocomplete="off" placeholder="Write your message" cols="20"
+            <textarea class="message" [(ngModel)]="messageInput.value" (blur)="verifyInput(messageInput)" name="message" id="message" autocomplete="off" placeholder="Write your message" cols="20"
             rows="7"></textarea>
             <ng-container *ngIf="messageInput.dirty && messageInput.isEmpty">
               <span class="text-red-600 font-semibold" aria-errormessage="Write a message please">Write a message please</span>
@@ -43,10 +43,10 @@
             Send
           </button>
 
-          <input type="hidden" formControlName="next" name="_next" value="https://marcosic.netlify.app/home/contact">
-          <input type="hidden" formControlName="captcha" name="_captcha" value="false">
-          <input type="hidden" formControlName="subject" name="_subject" value="Nuevo mensaje del Porfolio!">
-          <input type="text" formControlName="honey" name="_honey" style="display:none">
+          <input type="hidden"  name="_next" value="https://marcosic.netlify.app/home/contact">
+          <input type="hidden"  name="_captcha" value="false">
+          <input type="hidden"  name="_subject" value="Nuevo mensaje del Porfolio!">
+          <input type="text"  name="_honey" style="display:none">
         </form>
       </div>
 
