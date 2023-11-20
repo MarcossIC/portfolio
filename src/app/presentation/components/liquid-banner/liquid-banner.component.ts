@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
           <div class="liquid">
             <div class="liquid-container">
               <img 
-                src="../../../../assets/Programmer.webp" alt="Image of person programming" role="img">
+                src="../../../../assets/Programmer.webp" class="w-full h-auto" alt="Image of person programming" role="img">
             </div>
           </div>
         </picture>

@@ -41,12 +41,19 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
   }
 
   protected onBlur(input: any): void {
+    
     input.isEmpty = input.value === "" || !input.value;
+    input.isValid = input.isEmpty ? true :  this.validatePattern(input.pattern, input.value);
+    console.log("isValid", input.isValid);
     input.touched = true;
   }
 
   protected onInput(input: any): void{
-    input.isValid = !input.isEmpty ? this.validatePattern(input.pattern, input.value) : true;
+   
+    input.isEmpty = input.value === "" || !input.value;
+    console.log("empty", input.isEmpty);
+    input.isValid = input.isEmpty ? true :  this.validatePattern(input.pattern, input.value);
+    console.log("isValid", input.isValid);
     input.dirty = true;
   }
 

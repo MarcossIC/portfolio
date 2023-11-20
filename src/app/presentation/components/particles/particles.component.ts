@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { IParticlesProps, NgParticlesModule } from 'ng-particles';
 import { ClickMode, Container, Engine, HoverMode, MoveDirection, OutMode } from 'tsparticles-engine';
 import { loadSlim } from 'tsparticles-slim';
@@ -24,7 +24,8 @@ import { loadSlim } from 'tsparticles-slim';
     </div>
   </div>
   `,
-  styleUrls: ['./particles.component.css']
+  styleUrls: ['./particles.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParticlesComponent implements OnInit {
   private currenteColor: string;

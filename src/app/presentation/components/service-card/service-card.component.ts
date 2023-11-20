@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer2, ViewChild, inject } from '@angular/core';
 import VanillaTilt from 'vanilla-tilt';
 
 @Component({
@@ -7,7 +7,8 @@ import VanillaTilt from 'vanilla-tilt';
   imports: [CommonModule, NgOptimizedImage],
   selector: 'service-card',
   templateUrl: './service-card.component.html',
-  styleUrls: ['./service-card.component.css']
+  styleUrls: ['./service-card.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServiceCardComponent implements OnInit  {
   @ViewChild('serviceCard', { static: true }) serviceCardRef!: ElementRef;

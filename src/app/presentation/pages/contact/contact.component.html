@@ -21,7 +21,7 @@
             <input type="text" class="input" [(ngModel)]="emailInput.value" (blur)="onBlur(emailInput)" (input)="onInput(emailInput)" name="email" id="email" autocomplete="email" aria-autocomplete="email" aria-required placeholder="Email" aria-placeholder="Email"
             [ngClass]="{'error !text-red-600': (emailInput.dirty || emailInput.touched) && (emailInput.isEmpty || !emailInput.isValid)}"
             >
-            <ng-container *ngIf="emailInput.touched && emailInput.isEmpty">
+            <ng-container *ngIf="emailInput.touched && emailInput.isEmpty"><
               <span class="text-red-600 font-semibold" aria-errormessage="The email is necessary">The email is necessary</span>
             </ng-container>
             <ng-container *ngIf="emailInput.dirty && !emailInput.isValid">
