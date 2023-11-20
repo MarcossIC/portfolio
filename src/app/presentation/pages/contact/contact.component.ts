@@ -11,28 +11,42 @@ import { SeoService } from 'src/app/data/services/seo.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactPageComponent implements OnInit, AfterViewInit {
-  protected contactForm: FormGroup;
-  protected formBuilder: FormBuilder = inject(FormBuilder);
+
   private toast: NgToastService = inject(NgToastService);
   private seo: SeoService = inject(SeoService);
   private title: Title = inject(Title);
 
-  constructor() { 
-    this.contactForm = this.formBuilder.group({
-      name:    ['', [Validators.required, Validators.pattern(
-        /^[A-Za-zÀ-ÖØ-öø-ÿ'\-]{3,60}(?:\s[A-Za-zÀ-ÖØ-öø-ÿ'\-]{3,60})*$/
-      )]],
-      email: ['', [Validators.pattern(
-        /^\s*(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\s*$/,
-      ), Validators.required]],
-      message: ['', Validators.required],
-      next: [''],
-      captcha: [''],
-      subject: [''],
-      honey: [''],
-    });
 
+  protected nameInput: any ={ 
+    id: 1, value: '', dirty: false, isEmpty: true, isValid: false,
+    pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ'\-]{3,60}(?:\s[A-Za-zÀ-ÖØ-öø-ÿ'\-]{3,60})*$/ 
+  };
+  
+  protected emailInput: any ={ 
+    id: 1, value: '', dirty: false, isEmpty: true, isValid: false, 
+    pattern: /^\s*(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\s*$/ 
+  };
+
+  protected messageInput: any ={ 
+    id: 1, value: '', dirty: false, isEmpty: true, isValid: false, 
+    pattern: /[A-Za-z0-9]/ 
+  };
+
+  constructor() { 
   }
+
+  
+  protected validatePattern(patterRegex: RegExp, inputString: string): boolean {
+    return patterRegex.test(inputString);
+  }
+
+  protected verifyInput(input: any): void {
+    input.isEmpty = input.value === "" || !input.value;
+    input.isValid = this.validatePattern(input.pattern, input.value);
+    input.dirty = true;
+  }
+
+
 
   ngOnInit(): void {
 

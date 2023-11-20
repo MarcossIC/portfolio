@@ -2,49 +2,44 @@
 
       <div class="left-content" data-aos="fade-right" data-aos-duration="600">
                                                           
-        <form class="form" [formGroup]="this.contactForm" action="https://formsubmit.co/marcoslopezdev18@gmail.com" method="POST" (submit)="onSubmit()">
+        <form class="form" action="https://formsubmit.co/marcoslopezdev18@gmail.com" method="POST" (submit)="onSubmit()">
           <app-title class="title" title="Contact Me" name="Contact me" [strong]="['Me']" strongStyle="text-red-700"></app-title>
 
           <div class="flex flex-col gap-y-1" style="min-height: 73px;">
-            <input type="text" class="input" formControlName="name" name="name" id="name" autocomplete="name" aria-autocomplete="name" aria-required placeholder="Name" aria-placeholder="Name"
-            [ngClass]="{'error !text-red-600': 
-            (contactForm.get('name')?.touched && contactForm.get('name')?.hasError('required')) || 
-            (contactForm.get('name')?.dirty && contactForm.get('name')?.hasError('pattern'))
+            <input type="text" class="input"  [(ngModel)]="nameInput.value" (blur)="verifyInput(nameInput)" name="name" id="name" autocomplete="name" aria-autocomplete="name" aria-required placeholder="Name" aria-placeholder="Name"
+            [ngClass]="{'error !text-red-600':  nameInput.dirty && (nameInput.isEmpty || !nameInput.isValid)
             }">
-            <ng-container *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.hasError('required')">
+            <ng-container *ngIf="nameInput.dirty && nameInput.isEmpty">
               <span class="text-red-600 font-semibold" aria-errormessage="The name is necessary">The name is necessary</span>
             </ng-container>
-            <ng-container *ngIf="contactForm.get('name')?.dirty && contactForm.get('name')?.hasError('pattern')">
+            <ng-container *ngIf="nameInput.dirty && !nameInput.isValid">
               <span class="text-red-600 font-semibold" aria-errormessage="The name is invalid">The name is invalid</span>
             </ng-container>
           </div>
 
           <div class="flex flex-col gap-y-1 " style="min-height: 73px;">
-            <input type="text" class="input" formControlName="email" name="email" id="email" autocomplete="email" aria-autocomplete="email" aria-required placeholder="Email" aria-placeholder="Email"
-            [ngClass]="{'error !text-red-600': 
-            (contactForm.get('email')?.touched && contactForm.get('email')?.hasError('required')) || 
-            (contactForm.get('email')?.dirty && contactForm.get('email')?.hasError('pattern'))
-            }"
+            <input type="text" class="input" [(ngModel)]="emailInput.value" (blur)="verifyInput(emailInput)" name="email" id="email" autocomplete="email" aria-autocomplete="email" aria-required placeholder="Email" aria-placeholder="Email"
+            [ngClass]="{'error !text-red-600': emailInput.dirty && (emailInput.isEmpty || !emailInput.isValid)}"
             >
-            <ng-container *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.hasError('required')">
+            <ng-container *ngIf="emailInput.dirty && emailInput.isEmpty">
               <span class="text-red-600 font-semibold" aria-errormessage="The email is necessary">The email is necessary</span>
             </ng-container>
-            <ng-container *ngIf="contactForm.get('email')?.dirty && contactForm.get('email')?.hasError('pattern')">
+            <ng-container *ngIf="emailInput.dirty && !emailInput.isValid">
               <span class="text-red-600 font-semibold" aria-errormessage="The email is invalid">The email is invalid</span>
             </ng-container>
           </div>
           
           <div class="flex flex-col gap-y-1 " style="min-height: 228px;">
-            <textarea class="message" formControlName="message" name="message" id="message" autocomplete="off" placeholder="Write your message" cols="20"
+            <textarea class="message" formControlName="message" [(ngModel)]="messageInput.value" (blur)="verifyInput(messageInput)" name="message" id="message" autocomplete="off" placeholder="Write your message" cols="20"
             rows="7"></textarea>
-            <ng-container *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.hasError('required')">
+            <ng-container *ngIf="messageInput.dirty && messageInput.isEmpty">
               <span class="text-red-600 font-semibold" aria-errormessage="Write a message please">Write a message please</span>
             </ng-container>
           </div>
           
           
 
-          <button class="button-form" type="submit" [disabled]="this.contactForm.invalid">
+          <button class="button-form" type="submit" [disabled]="messageInput.isEmpty || !emailInput.isValid || !nameInput.isValid ">
             Send
           </button>
 
