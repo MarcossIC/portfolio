@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { NgToastService } from 'ng-angular-popup';
 import { SeoService } from 'src/app/data/services/seo.service';
@@ -35,37 +34,13 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
   constructor() { 
   }
 
-  
-  protected validatePattern(patterRegex: RegExp, inputString: string): boolean {
-    return patterRegex.test(inputString);
-  }
-
-  protected onBlur(input: any): void {
-    
-    input.isEmpty = input.value === "" || !input.value;
-    input.isValid = input.isEmpty ? true :  this.validatePattern(input.pattern, input.value);
-    console.log("isValid", input.isValid);
-    input.touched = true;
-  }
-
-  protected onInput(input: any): void{
-   
-    input.isEmpty = input.value === "" || !input.value;
-    console.log("empty", input.isEmpty);
-    input.isValid = input.isEmpty ? true :  this.validatePattern(input.pattern, input.value);
-    console.log("isValid", input.isValid);
-    input.dirty = true;
-  }
-
-
-
   ngOnInit(): void {
 
     let t: string = "Contact - Marcos Lopez Web Portfolio";
     this.title.setTitle(t);
     this.seo.generateTags({
       title: t,
-      description: "Contact page in Marcos López web portfolio",
+      description: "If you liked the work of Marcos Lopez as a developer, contact him now from this page.",
       slug: "contact"
     });
   }
@@ -79,8 +54,30 @@ export class ContactPageComponent implements OnInit, AfterViewInit {
   }
 
   protected onSubmit(){
-    this.toast.info({detail: "Procensando", summary: "Se esta enviando tu solicitud", duration: 5000});
+    console.log("dasd");
+    this.toast.info({detail: "Procensando", summary: "Se esta enviando tu solicitud", duration: 3000});
     localStorage.setItem("emailSend", "true");
 
+  }
+
+  protected onBlur(input: any): void {
+    
+    input.isEmpty = input.value === "" || !input.value;
+    input.isValid = input.isEmpty ? true :  this.validatePattern(input.pattern, input.value);
+ 
+    input.touched = true;
+  }
+
+  protected onInput(input: any): void{
+   
+    input.isEmpty = input.value === "" || !input.value;
+ 
+    input.isValid = input.isEmpty ? true :  this.validatePattern(input.pattern, input.value);
+
+    input.dirty = true;
+  }
+
+  private validatePattern(patterRegex: RegExp, inputString: string): boolean {
+    return patterRegex.test(inputString);
   }
 }

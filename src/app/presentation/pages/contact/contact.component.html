@@ -6,7 +6,7 @@
           <app-title class="title" title="Contact Me" name="Contact me" [strong]="['Me']" strongStyle="text-red-700"></app-title>
 
           <div class="flex flex-col gap-y-1" style="min-height: 73px;">
-            <input type="text" class="input"  [(ngModel)]="nameInput.value" (blur)="onBlur(nameInput)" (input)="onInput(nameInput)" name="name" id="name" autocomplete="name" aria-autocomplete="name" aria-required placeholder="Name" aria-placeholder="Name"
+            <input type="text" class="input"  [(ngModel)]="nameInput.value" (blur)="onBlur(nameInput)" (input)="onInput(nameInput)" name="name" id="name" autocomplete="name" aria-autocomplete="name"placeholder="Name" aria-placeholder="Name"
             [ngClass]="{'error !text-red-600':  (nameInput.dirty || nameInput.touched) && (nameInput.isEmpty || !nameInput.isValid)
             }">
             <ng-container *ngIf="nameInput.touched && nameInput.isEmpty">
@@ -18,10 +18,10 @@
           </div>
 
           <div class="flex flex-col gap-y-1 " style="min-height: 73px;">
-            <input type="text" class="input" [(ngModel)]="emailInput.value" (blur)="onBlur(emailInput)" (input)="onInput(emailInput)" name="email" id="email" autocomplete="email" aria-autocomplete="email" aria-required placeholder="Email" aria-placeholder="Email"
+            <input type="text" class="input" [(ngModel)]="emailInput.value" (blur)="onBlur(emailInput)" (input)="onInput(emailInput)" name="email" id="email" autocomplete="email" aria-autocomplete="email" placeholder="Email" aria-placeholder="Email"
             [ngClass]="{'error !text-red-600': (emailInput.dirty || emailInput.touched) && (emailInput.isEmpty || !emailInput.isValid)}"
             >
-            <ng-container *ngIf="emailInput.touched && emailInput.isEmpty"><
+            <ng-container *ngIf="emailInput.touched && emailInput.isEmpty">
               <span class="text-red-600 font-semibold" aria-errormessage="The email is necessary">The email is necessary</span>
             </ng-container>
             <ng-container *ngIf="emailInput.dirty && !emailInput.isValid">
@@ -43,10 +43,14 @@
             Send
           </button>
 
-          <input type="hidden"  name="_next" value="https://marcosic.netlify.app/home/contact">
+          <!-- <input type="hidden"  name="_next" value="https://marcosic.netlify.app/home/contact"> -->
+          <input type="hidden"  name="_next" value="http://localhost:4200/home/contact">
+          <input type="hidden" name="_template" value="table">
           <input type="hidden"  name="_captcha" value="false">
           <input type="hidden"  name="_subject" value="Nuevo mensaje del Porfolio!">
           <input type="text"  name="_honey" style="display:none">
+          <input type="hidden" name="_cc" value="lopezikaro16@gmail.com">
+          <input type="hidden" name="_autoresponse" value="Thank you for contacting me, your message has been sent, I will respond as soon as possible.">
         </form>
       </div>
 
@@ -54,6 +58,6 @@
         <liquid-banner></liquid-banner>
       </div>
   
-      <ng-toast></ng-toast>
+      <ng-toast class="text-black"></ng-toast>
   </section>
 

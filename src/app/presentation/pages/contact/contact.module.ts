@@ -15,7 +15,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
         NgToastModule,
         NgOptimizedImage,
         LiquidBannerComponent,
-        ReactiveFormsModule, 
         FormsModule, 
     ],
     declarations: [
