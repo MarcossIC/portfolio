@@ -3,19 +3,21 @@ import { NgModule } from "@angular/core";
 import { ContactPageComponent } from "./contact.component";
 import { TitleComponent } from "../../components/title/title.component";
 import { ContactRoutes } from "./contact.routing";
-import { NgToastModule } from "ng-angular-popup";
 import { LiquidBannerComponent } from "../../components/liquid-banner/liquid-banner.component";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ContactFormComponent } from "./contact-form/contact-form.component";
+import { HttpClientModule } from '@angular/common/http';
+import { ToastComponent } from "../../components/toast/toast.component";
 
 @NgModule({
     imports: [
         CommonModule,
         ContactRoutes,
         TitleComponent,
-        NgToastModule,
         NgOptimizedImage,
         LiquidBannerComponent,
-        FormsModule, 
+        ContactFormComponent,
+        HttpClientModule,
+        ToastComponent
     ],
     declarations: [
         ContactPageComponent

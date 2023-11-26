@@ -1,0 +1,38 @@
+<form class="form" [formGroup]="contactForm" (submit)="onSubmit()" role="form" aria-label="Contact Form">
+  <div class="flex flex-col gap-y-1" style="min-height: 73px;">
+    <input type="text" formControlName="fullName" class="input" name="name" id="name" role="textbox" aria-label="Write your name." autocomplete="name" aria-disabled="false" aria-autocomplete="name" placeholder="Name" aria-placeholder="Name" dir="ltr" autocapitalize="none"
+    [ngClass]="{'error !text-red-600':  contactForm.get('fullName')?.touched && (contactForm.get('fullName')?.hasError('required') || contactForm.get('fullName')?.hasError('pattern'))
+    }">
+    <error-message
+    errorClass="text-[#e12a2a] items-center font-semibold text-center"
+    errorMessage="Please enter a valid name."
+    [showError]="contactForm.get('fullName')?.touched && (contactForm.get('fullName')?.hasError('required') || contactForm.get('fullName')?.hasError('pattern'))"
+    ></error-message>
+  </div>
+
+  <div class="flex flex-col gap-y-1  " style="min-height: 73px;">
+    <input type="email" formControlName="email" class="input" name="email" id="email" autocomplete="email" role="textbox" aria-label="Write your email." autocapitalize="none" aria-autocomplete="email" placeholder="Email" aria-placeholder="Email" dir="ltr"
+    [ngClass]="{'error !text-red-600': contactForm.get('email')?.touched && (contactForm.get('email')?.hasError('required') || contactForm.get('email')?.hasError('pattern'))}"
+    >
+    <error-message
+    errorClass="text-[#e12a2a] items-center font-semibold text-center"
+    errorMessage="Please enter a valid email."
+    [showError]="contactForm.get('email')?.touched && (contactForm.get('email')?.hasError('required') || contactForm.get('email')?.hasError('pattern'))"
+    ></error-message>
+  </div>
+  
+  <div class="flex flex-col gap-y-1 " style="min-height: 228px;">
+    <textarea class="message" formControlName="message" name="message" id="message" autocomplete="off" role="textbox" aria-label="Contact Form" aria-disabled="false" autocapitalize="none" dir="ltr" placeholder="Write your message..." cols="20" dir="ltr"
+    rows="7"></textarea>
+    <error-message
+    errorClass="text-[#e12a2a] items-center font-semibold text-center"
+    errorMessage="Please enter a valid message (there is a 300 character limit)."
+    [showError]="contactForm.get('message')?.touched && (contactForm.get('message')?.hasError('required') || contactForm.get('message')?.hasError('maxLength'))"
+    ></error-message>
+  </div>
+  
+  
+  <button class="button-form" type="submit" role="button" [disabled]="contactForm.invalid" [attr.aria-disabled]="contactForm.invalid">
+    Send
+  </button>
+</form>

@@ -1,4 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
+import { ToastService } from 'src/app/data/services/toast/Toast.service';
 
 const routes: Routes = [
   {  
@@ -12,6 +13,7 @@ const routes: Routes = [
   {  
     path: 'contact',
     loadChildren: () =>import('./presentation/pages/contact/contact.module').then(m => m.ContactModule),
+    providers: [ToastService],
   },
   { 
     path: '**', 

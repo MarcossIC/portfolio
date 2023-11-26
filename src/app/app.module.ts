@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './presentation/components/header/header.component';
 import { ParticlesComponent } from './presentation/components/particles/particles.component';
 import { FooterComponent } from './presentation/components/footer/footer.component';
-import { VerifyLinkService } from './data/services/VerifyLink.service';
+
 import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { BrowserModule } from '@angular/platform-browser';
   declarations: [	
     AppComponent
    ],
-  providers: [VerifyLinkService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

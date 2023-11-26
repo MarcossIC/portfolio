@@ -1,63 +1,14 @@
   <section class="contact relative">
 
       <div class="left-content" data-aos="fade-right" data-aos-duration="600">
-                                                          
-        <form class="form" action="https://formsubmit.co/marcoslopezdev18@gmail.com" method="POST" (submit)="onSubmit()">
-          <app-title class="title" title="Contact Me" name="Contact me" [strong]="['Me']" strongStyle="text-red-700"></app-title>
-
-          <div class="flex flex-col gap-y-1" style="min-height: 73px;">
-            <input type="text" class="input"  [(ngModel)]="nameInput.value" (blur)="onBlur(nameInput)" (input)="onInput(nameInput)" name="name" id="name" autocomplete="name" aria-autocomplete="name"placeholder="Name" aria-placeholder="Name"
-            [ngClass]="{'error !text-red-600':  (nameInput.dirty || nameInput.touched) && (nameInput.isEmpty || !nameInput.isValid)
-            }">
-            <ng-container *ngIf="nameInput.touched && nameInput.isEmpty">
-              <span class="text-red-600 font-semibold" aria-errormessage="The name is necessary">The name is necessary</span>
-            </ng-container>
-            <ng-container *ngIf="nameInput.dirty && !nameInput.isValid">
-              <span class="text-red-600 font-semibold" aria-errormessage="The name is invalid">The name is invalid</span>
-            </ng-container>
-          </div>
-
-          <div class="flex flex-col gap-y-1 " style="min-height: 73px;">
-            <input type="text" class="input" [(ngModel)]="emailInput.value" (blur)="onBlur(emailInput)" (input)="onInput(emailInput)" name="email" id="email" autocomplete="email" aria-autocomplete="email" placeholder="Email" aria-placeholder="Email"
-            [ngClass]="{'error !text-red-600': (emailInput.dirty || emailInput.touched) && (emailInput.isEmpty || !emailInput.isValid)}"
-            >
-            <ng-container *ngIf="emailInput.touched && emailInput.isEmpty">
-              <span class="text-red-600 font-semibold" aria-errormessage="The email is necessary">The email is necessary</span>
-            </ng-container>
-            <ng-container *ngIf="emailInput.dirty && !emailInput.isValid">
-              <span class="text-red-600 font-semibold" aria-errormessage="The email is invalid">The email is invalid</span>
-            </ng-container>
-          </div>
-          
-          <div class="flex flex-col gap-y-1 " style="min-height: 228px;">
-            <textarea class="message" [(ngModel)]="messageInput.value" (blur)="onBlur(messageInput)" (input)="onInput(messageInput)" name="message" id="message" autocomplete="off" placeholder="Write your message" cols="20"
-            rows="7"></textarea>
-            <ng-container *ngIf="messageInput.touched && messageInput.isEmpty">
-              <span class="text-red-600 font-semibold" aria-errormessage="Write a message please">Write a message please</span>
-            </ng-container>
-          </div>
-          
-          
-
-          <button class="button-form" type="submit" [disabled]="messageInput.isEmpty || (!emailInput.isValid && emailInput.isEmpty) || (!nameInput.isValid && emailInput.isEmpty)">
-            Send
-          </button>
-
-          <!-- <input type="hidden"  name="_next" value="https://marcosic.netlify.app/home/contact"> -->
-          <input type="hidden"  name="_next" value="https://marcosic.netlify.app/home/contact">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden"  name="_captcha" value="false">
-          <input type="hidden"  name="_subject" value="Nuevo mensaje del Porfolio!">
-          <input type="text"  name="_honey" style="display:none">
-          <input type="hidden" name="_cc" value="lopezikaro16@gmail.com">
-          <input type="hidden" name="_autoresponse" value="Thank you for contacting me, your message has been sent, I will respond as soon as possible.">
-        </form>
+        <app-title class="title" title="Contact Me" name="Contact me" [strong]="['Me']" strongStyle="text-red-700"></app-title>                                               
+        <contact-form (contactState)="handleFormSubmit($event)"></contact-form>
       </div>
 
       <div class="right-content">
         <liquid-banner></liquid-banner>
       </div>
   
-      <ng-toast class="text-black"></ng-toast>
+      <app-toast></app-toast>
   </section>
 
