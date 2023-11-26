@@ -58,7 +58,7 @@
 
 @media screen and (min-width: 1500px){
   .title{
-    font-size: clamp(3rem, 20vw, 7rem);
+    font-size: clamp(2rem, 6vw, 9rem);
   }
   .title-large {
     font-size: clamp(2rem, 25dvw, 6rem);
