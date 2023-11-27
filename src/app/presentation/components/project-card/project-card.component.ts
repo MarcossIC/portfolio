@@ -22,7 +22,6 @@ export class ProjectCardComponent implements OnInit {
   }
 
   protected trackByFn(index: number, data: any): number | string{
-    console.log("data in project card: ", data);
     return data.ID;
   }
 }

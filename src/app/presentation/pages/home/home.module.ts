@@ -6,13 +6,11 @@ import { ProjectsLayoutComponent } from "./layouts/projects/projects.component";
 import { SkillsLayoutComponent } from "./layouts/skills/skillsLayout.component";
 import { ServiceLayoutComponent } from "./layouts/ourService/ourService.component";
 import { HomeRoutes } from "./home.routing";
-import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
     imports: [
         CommonModule, 
         HomeRoutes,
-        NgOptimizedImage,
         HeroLayoutComponent,
         ServiceLayoutComponent,
         ProjectsLayoutComponent,

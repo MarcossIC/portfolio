@@ -13,7 +13,7 @@
     margin-inline: 0.75rem;
     display: inline-block;
     object-fit: cover;
-    transition-property: transform;
+    transition-property: transform, filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 }

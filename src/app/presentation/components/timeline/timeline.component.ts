@@ -10,7 +10,7 @@ import { TimelineElementComponent } from '../timeline-element/timeline-element.c
   template: `
     <ul class="timeline">
       <timeline-element 
-      *ngFor="let ITEM of ITEMS; let i = index; track: trackByFn"
+      *ngFor="let ITEM of ITEMS; let i = index; trackBy: trackByFn"
       [cardDirection]="i % 2 !== 1 ? DIRECTION.LEFT : DIRECTION.RIGHT"
       [title]="ITEM.DEGREE"
       [strong]="ITEM.STRONG"

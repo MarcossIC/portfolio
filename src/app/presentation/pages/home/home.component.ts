@@ -19,7 +19,6 @@ export class HomePageComponent implements OnInit {
     this.title.setTitle(t);
     this.seo.generateTags({
       title: t,
-      description: "Home page, where projects and experiences are shown in Marcos Lopez's web portfolio.",
       slug: "home"
     });
   }

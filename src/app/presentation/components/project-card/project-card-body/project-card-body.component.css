@@ -56,6 +56,7 @@
     font-family: system-ui;
     color: #ebebeb;
     margin-bottom: 0.5rem;
+    white-space: pre-wrap;
     text-wrap: balance;
   }
 

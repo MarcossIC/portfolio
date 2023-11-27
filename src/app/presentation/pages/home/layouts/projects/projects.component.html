@@ -19,7 +19,7 @@
     <project-card 
       class="flex justify-center items-center"
       data-aos="zoom-in" data-aos-duration="600" 
-      *ngFor="let PROJECT of PROJECTS.DATA; let i = index; track: trackByFn" 
+      *ngFor="let PROJECT of PROJECTS.DATA; let i = index; trackBy: trackByFn" 
       [num]="i" [PROJECT]="PROJECT" [textAnchor]="PROJECTS.VIEW"
     ></project-card>
   </div>

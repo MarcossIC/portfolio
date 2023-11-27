@@ -31,7 +31,7 @@ export class TitleComponent implements AfterViewInit {
   }
 
   protected renderFormattedTitle(titleElement: HTMLElement): void {
-    console.log("element: ", titleElement);
+
     // Verifica que this.titleElement exista antes de acceder a su contenido
     if (!titleElement) {
       console.error("Element with reference 'titleElement' not found.");

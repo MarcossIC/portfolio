@@ -88,7 +88,7 @@ export const PROJECTS: any = {
       ID: "ffc7bfdc43",
       NAME: "Paint Ease",
       DESCRIPTION:
-          "I created PaintEase, an intuitive web platform that allows users to effortlessly unleash their creativity through simple and accessible online drawing tools. Conceived with the vision of providing a seamless digital canvas for artistic expression, PaintEase empowers individuals to bring their ideas to life anytime, anywhere.",
+          "PaintEase, a web platform that allows users to unleash their creativity effortlessly through simple and accessible online drawing tools. Conceived with the vision of providing a simple digital canvas, PaintEase allows people to bring their ideas to life anytime, anywhere.",
       TAGS: [
           {
             ID: 1,
@@ -118,7 +118,7 @@ export const PROJECTS: any = {
     {
       ID: "e4a8892b4e63",
       NAME: "A. Calculator",
-      DESCRIPTION: "Develop this project to experiment and learn all Angular concepts, including property binding, data binding, and two-way binding. It encompasses enough functionality to perform simple and complex calculations.",
+      DESCRIPTION: "Angular calculator a simple project but it helped me experiment and learn all the concepts of Angular, including property binding, data binding, event binding and two way binding. It encompasses enough functionality to perform simple and complex calculations..",
       TAGS: [
         {
           ID: 1,
@@ -153,7 +153,7 @@ export const PROJECTS: any = {
     {
       ID: "f867a1f13da",
       NAME: "Game Galaxy",
-      DESCRIPTION: "Game Galaxy is a dynamic platform for classic games. Currently featuring popular titles such as Tetris, Snake and Tic-Tac-Toe, this website is built with Angular, using canvas, CSS and RxJS. With a sleek design and interactive gameplay, Game Galaxy offers users a modern twist on beloved retro games.",
+      DESCRIPTION: "Game Galaxy is a platform for classic games. This website, featuring popular games like Tetris, Snake and Tic-Tac-Toe, is built with Angular, CSS, canvas and RxJS. Game Galaxy offers users a modern twist on beloved retro games.",
       TAGS: [
         {
           ID: 1,
@@ -212,7 +212,7 @@ export const PROJECTS: any = {
         },
         {
           ID: 4,
-          NAME: "Clean Architecture",
+          NAME: "Clean Arch",
           COLOR: ["#D47570", "#fff"]
         }
   

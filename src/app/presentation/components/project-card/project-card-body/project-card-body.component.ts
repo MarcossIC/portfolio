@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   imports: [CommonModule],
   selector: 'project-card-body',
   template: `
-    <div class="flex-pr min-[1500px]:mb-5">
+    <div class="flex-pr">
 
       <div class="flex justify-between w-full mb-2 gap-x-1">
         <h4 class="project-title w-auto" role="heading" aria-roledescription="Project card header" aria-describedby="project-title" aria-label="Project Name.">

@@ -16,7 +16,7 @@
           data-aos="zoom-in"
           data-aos-duration="700"
           
-          *ngFor="let service of SERVICES.SERVICES; let i = index; track: trackByFn" 
+          *ngFor="let service of SERVICES.SERVICES; let i = index; trackBy: trackByFn" 
           [index]="i" 
           [icon]="service.ICON" 
           [title]="service.TITLE"

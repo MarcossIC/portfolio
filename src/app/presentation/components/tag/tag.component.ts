@@ -11,10 +11,12 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer
       margin-top: 5px;
       margin-right: 10px;
       margin-bottom: 10px;
-      border-radius: 7px;
-      padding: 3px 13px;
+      border-radius: 10px;
+      padding-block: 5px;
+      padding-inline: 13px;
       font-size: 14px;
       font-weight: 500;
+      user-select: none;
     }
 
       @media screen and (min-width: 1580px){
