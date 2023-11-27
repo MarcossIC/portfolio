@@ -1,5 +1,0 @@
-User-agent: *
-
-Disallow:
-
-Sitemap: https://marcosic.netlify.app/sitemap.xml
