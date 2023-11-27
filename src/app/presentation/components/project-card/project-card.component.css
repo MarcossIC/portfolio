@@ -69,7 +69,7 @@
   @media only screen and (min-width: 600px){
     .card {
       width: 350px;
-      aspect-ratio: 29/22;
+      aspect-ratio: 27/22;
     }
 
     .container-project {
