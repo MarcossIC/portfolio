@@ -2,4 +2,4 @@ User-agent: *
 
 Disallow:
 
-Sitemap: https://marcosic.netlify.app/sitemap.xml
+Sitemap: https://localhost:4200/sitemap.xml
