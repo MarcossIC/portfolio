@@ -15,7 +15,7 @@
 
     <div class="types m-1" role="complementary">
       
-      <tag *ngFor="let TAG of PROJECT.TAGS"
+      <tag *ngFor="let TAG of PROJECT.TAGS; track: trackByFn"
         [tag]="TAG.NAME"
         [background]="TAG.COLOR[0]"
         [color]="TAG.COLOR[1]"

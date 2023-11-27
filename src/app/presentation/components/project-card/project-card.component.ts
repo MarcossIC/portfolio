@@ -21,4 +21,7 @@ export class ProjectCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  protected trackByFn(index: number, data: any): number | string{
+    return index*2+1;
+  }
 }

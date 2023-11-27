@@ -24,7 +24,7 @@ export class TimelineElementComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

@@ -11,7 +11,9 @@
     padding: 1em;
     background-color: #ccc;
     box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
-    transition: all 300ms ease-in-out;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+    transition-property: scale, background-color, box-shadow;
     width: 450px;
     height: 45px;
     color: #000;
@@ -21,7 +23,9 @@
   .input.error{
     color: rgb(220 38 38);
     background-color: #f1c1c1;
-    transition: background-color 100ms ease;
+    transition-duration: 100ms;
+    transition-timing-function: ease;
+    transition-property: background-color;
   }
 
   
@@ -33,7 +37,9 @@
     padding: 1em;
     background-color: #ccc;
     box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
-    transition: 300ms ease-in-out;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+    transition-property: scale, background-color, box-shadow;
     color: #000;
     font-weight: 600;
   }

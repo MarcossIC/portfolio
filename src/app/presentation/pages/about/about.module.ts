@@ -13,14 +13,10 @@ import { AboutRoutes } from "./about.routing";
     imports: [
         CommonModule,
         AboutRoutes,
-        TitleComponent,
-        TimelineComponent,
-        SpaceSvgComponent
+        AboutIntroLayoutComponent,
+        StudiesLayoutComponent
     ],
     declarations: [
-        AboutIntroLayoutComponent,
-        StudiesLayoutComponent,
-
         AboutPageComponent
     ],
     providers: [],

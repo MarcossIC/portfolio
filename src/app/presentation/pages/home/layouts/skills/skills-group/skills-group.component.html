@@ -2,8 +2,8 @@
         
   <skill class="skills" 
     data-aos="zoom-in-up" data-aos-duration="aosNum" data-aos-anchor-placement="top-bottom"
-    *ngFor="let TECHNOLOGY of TECHNOLOGIES; let i = index"  
-    [icon]="TECHNOLOGY.ICON" [caption]="TECHNOLOGY.NAME" [size]="TECHNOLOGY.SIZE">
-  </skill>
+    *ngFor="let TECHNOLOGY of TECHNOLOGIES; let i = index; track: trackByFn"  
+    [icon]="TECHNOLOGY.ICON" [caption]="TECHNOLOGY.NAME" [size]="TECHNOLOGY.SIZE"
+  ></skill>
 
 </div>

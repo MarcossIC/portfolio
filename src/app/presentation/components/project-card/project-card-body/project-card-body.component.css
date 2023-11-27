@@ -10,7 +10,9 @@
   }
 
   .deploy{
-    transition: 0.2s linear all;
+    transition-duration: .2s;
+    transition-timing-function: linear;
+    transition-property: opacity, color;
     font-weight: 500;
     opacity: 0.9;
     font-size: .9rem;
@@ -24,10 +26,13 @@
   }
 
   .deploy svg{
-    transition: 0.2s linear all;
+    transition-duration:.2s;
+    transition-timing-function: linear;
+    transition-property: transform, scale;
     color: white;
     font-size: 10px;
   }
+
   .deploy:hover, .deploy:hover svg {
     color: rgb(182, 46, 46);
     opacity: 1;

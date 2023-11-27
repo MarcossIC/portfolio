@@ -1,10 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { SkillComponent } from 'src/app/presentation/components/skill/skill.component';
 import { TECHNOLOGIES } from 'src/constants/technologiesConst';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, SkillComponent ],
   selector: 'skills-group',
   templateUrl: './skills-group.component.html',
-  styleUrls: ['./skills-group.component.css']
+  styleUrls: ['./skills-group.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkillsGroupComponent implements OnInit {
   TECHNOLOGIES: any = TECHNOLOGIES;
@@ -14,6 +19,10 @@ export class SkillsGroupComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  protected trackByFn(index: number, data: any): number | string{
+    return data.ID;
   }
 
 }

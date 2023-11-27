@@ -1,8 +1,6 @@
 .card {
     width: 360px;
     aspect-ratio: 21/29;
-    -webkit-transition: 0.15s all ease-in-out;
-    transition: 0.15s all ease-in-out;
     border-radius: 12px;
     border-top-left-radius: 30px;
     border-bottom-right-radius: 30px;
@@ -13,6 +11,10 @@
         #481aaf 50%,
         rgb(139 139 139 / 0%) 110%
     );
+
+    transition-duration: .15s;
+    transition-timing-function: ease-in-out;
+    transition-property: scale;
   }
 
   .project-info {

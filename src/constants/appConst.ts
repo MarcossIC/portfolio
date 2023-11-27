@@ -44,6 +44,7 @@ export const PROJECTS: any = {
   VIEW: "View Repository",
   DATA: [
     {
+      ID: crypto.randomUUID(),
       NAME: "Facturador++",
       DESCRIPTION:
           "Develop the backend and database for Facturador++. It's an educational web platform that enables users to create and manage business documents. This application is designed for students who are just starting and want to practice.",
@@ -78,6 +79,7 @@ export const PROJECTS: any = {
         DEPLOY: "https://github.com/conjunto-solucion/facturador",
     },
     {
+      ID: crypto.randomUUID(),
       NAME: "Paint Ease",
       DESCRIPTION:
           "I created PaintEase, an intuitive web platform that allows users to effortlessly unleash their creativity through simple and accessible online drawing tools. Conceived with the vision of providing a seamless digital canvas for artistic expression, PaintEase empowers individuals to bring their ideas to life anytime, anywhere.",
@@ -104,6 +106,7 @@ export const PROJECTS: any = {
       DEPLOY: "https://github.com/MarcossIC/paint-in-js-html-css",
     },
     {
+      ID: crypto.randomUUID(),
       NAME: "A. Calculator",
       DESCRIPTION: "Develop this project to experiment and learn all Angular concepts, including property binding, data binding, and two-way binding. It encompasses enough functionality to perform simple and complex calculations.",
       TAGS: [
@@ -133,6 +136,7 @@ export const PROJECTS: any = {
       DEPLOY: "https://github.com/MarcossIC/angular-calculator/tree/main",
     },
     {
+      ID: crypto.randomUUID(),
       NAME: "Game Galaxy",
       DESCRIPTION: "Game Galaxy is a dynamic platform for classic games. Currently featuring popular titles such as Tetris, Snake and Tic-Tac-Toe, this website is built with Angular, using canvas, CSS and RxJS. With a sleek design and interactive gameplay, Game Galaxy offers users a modern twist on beloved retro games.",
       TAGS: [
@@ -166,6 +170,7 @@ export const PROJECTS: any = {
       DEPLOY: "https://github.com/MarcossIC/Web-Games"
     },
     {
+      ID: crypto.randomUUID(),
       NAME: "Clean Arch",
       DESCRIPTION: "Repository that shows an example of how to make a clean architecture in Java following the SOLID principles. In addition, not only a simple hexagonal architecture is applied, but it is also applied together with a Vertical Slizing, in addition to applying it in two ways, one conventionally and another applying CQRS",
       TAGS: [
@@ -209,18 +214,22 @@ export const SERVICES: any = {
   },
   SERVICES: [
     {
+      ID: crypto.randomUUID(),
       TITLE: "Backend Developer",
       ICON: "../../../../../assets/backend.webp",
     },
     {
+      ID: crypto.randomUUID(),
       TITLE: "Frontend Developer",
       ICON: "../../../../../assets/web.webp",
     },
     {
+      ID: crypto.randomUUID(),
       TITLE: "Database Developer",
       ICON: "../../../../../assets/creator.webp",
     },
     {
+      ID: crypto.randomUUID(),
       TITLE: "Software Architecture",
       ICON: "../../../../../assets/architect.webp",
     },

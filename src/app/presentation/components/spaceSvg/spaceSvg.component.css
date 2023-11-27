@@ -1,5 +1,7 @@
 svg #shipInSpace{
-    transition: all 1s ease;
+    transition-duration: 1s;
+    transition-timing-function: ease;
+    transition-property: transform;
 }
 
 svg #spacecraft {

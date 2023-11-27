@@ -1,11 +1,4 @@
   
-  .technology {
-    transition: all ease 400ms;
-    opacity: .75;
-   }
-
-
-
    .technology picture{
     width: 5rem;
     height: 5rem;
@@ -15,6 +8,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    transition-duration: 500ms;
+    transition-timing-function: ease;
+    transition-property: opacity;
+    opacity: .75;
    }
 
    .technology figcaption{

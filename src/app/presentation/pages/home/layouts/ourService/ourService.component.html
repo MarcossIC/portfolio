@@ -2,7 +2,6 @@
   
   <app-title class="w-full"
       data-aos="fade-up" data-aos-duration="600"
-  
       [title]="SERVICES.TITLE"
       [strong]="[SERVICES.STRONG.TITLE]"
       [name]="SERVICES.TITLE"
@@ -16,7 +15,7 @@
           data-aos="zoom-in"
           data-aos-duration="700"
           
-          *ngFor="let service of SERVICES.SERVICES; let i = index" 
+          *ngFor="let service of SERVICES.SERVICES; let i = index; track: trackByFn" 
           [index]="i" 
           [icon]="service.ICON" 
           [title]="service.TITLE"

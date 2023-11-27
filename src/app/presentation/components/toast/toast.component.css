@@ -8,7 +8,6 @@
 .bottom-right {
     bottom: 2%;
     right: 2%;
-    transition: transform .6s ease-in-out;
     animation: toast-in-right .7s;
 
     transition: transform .6s ease-in;

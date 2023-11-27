@@ -29,7 +29,9 @@
 }
 
   .mobile{
-    transition: all .5s ease;
+    transition-duration: .5s;
+    transition-timing-function: ease;
+    transition-property: scale;
   }
 
  .mobile:hover {
