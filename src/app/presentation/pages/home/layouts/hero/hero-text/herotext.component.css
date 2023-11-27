@@ -116,24 +116,6 @@
 
   }
 
-
-  @media screen and (min-width: 1700px){
-    .main-title{
-      font-size: clamp(5em, 19vw, 11rem);
-      line-height: clamp(5rem, 15dvw, 14rem);
-    }
-
-    .home-paragraph{
-      font-size: 1.7rem;
-      max-width: 85rem;
-     
-    }
-    .button{
-      font-size: 1.8rem;
-      width: 300px;
-    }
-  }
-
   @media screen and (min-width: 998px){
     .home-paragraph{
       text-align: left;
