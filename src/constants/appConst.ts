@@ -44,32 +44,38 @@ export const PROJECTS: any = {
   VIEW: "View Repository",
   DATA: [
     {
-      ID: crypto.randomUUID(),
+      ID: "fde8200d",
       NAME: "Facturador++",
       DESCRIPTION:
           "Develop the backend and database for Facturador++. It's an educational web platform that enables users to create and manage business documents. This application is designed for students who are just starting and want to practice.",
       TAGS: [
           {
+            ID: 1,
             NAME: "type script",
             COLOR: ['#1976D2', '#fff'],
           },
           {
+            ID: 2,
             NAME: "react",
             COLOR: ['#61DAFB', '#6A6A6A'],
           },
           {
+            ID: 3,
             NAME: "css",
             COLOR: ['#1D7CEC', '#ff'],
           },
           {
+            ID: 4,
             NAME: "spring",
             COLOR: ['#6DB33F', '#fff'],
           },
           {
+            ID: 5,
             NAME: "mysql",
             COLOR: ['#1F8CB4', '#fff'],
           },
           {
+            ID: 6,
             NAME: "docker",
             COLOR: ['#186E98', '#E2F6FF'],
           },
@@ -79,24 +85,28 @@ export const PROJECTS: any = {
         DEPLOY: "https://github.com/conjunto-solucion/facturador",
     },
     {
-      ID: crypto.randomUUID(),
+      ID: "ffc7bfdc43",
       NAME: "Paint Ease",
       DESCRIPTION:
           "I created PaintEase, an intuitive web platform that allows users to effortlessly unleash their creativity through simple and accessible online drawing tools. Conceived with the vision of providing a seamless digital canvas for artistic expression, PaintEase empowers individuals to bring their ideas to life anytime, anywhere.",
       TAGS: [
           {
+            ID: 1,
             NAME: "java script",
             COLOR: ['#FBF459', '#545252'],
           },
           {
+            ID: 2,
             NAME: "html",
             COLOR: ['#EC4E1D', '#fff'],
           },
           {
+            ID: 3,
             NAME: "css",
             COLOR: ['#1D7CEC', '#ff'],
           },
           {
+            ID: 4,
             NAME: "canvas",
             COLOR: ['#31218c', '#fff'],
           },
@@ -106,27 +116,32 @@ export const PROJECTS: any = {
       DEPLOY: "https://github.com/MarcossIC/paint-in-js-html-css",
     },
     {
-      ID: crypto.randomUUID(),
+      ID: "e4a8892b4e63",
       NAME: "A. Calculator",
       DESCRIPTION: "Develop this project to experiment and learn all Angular concepts, including property binding, data binding, and two-way binding. It encompasses enough functionality to perform simple and complex calculations.",
       TAGS: [
         {
+          ID: 1,
           NAME: "html",
           COLOR: ['#EC4E1D', '#fff'],
         },
         {
+          ID: 2,
           NAME: "type script",
           COLOR: ['#1976D2', '#fff'],
         },
         {
+          ID: 3,
           NAME: "Angular",
           COLOR: ['#B52E31', '#fff'],
         },
         {
+          ID: 4,
           NAME: "Tailwind",
           COLOR: ['#00B6D5', '#f5f5f5'],
         },
         {
+          ID: 5,
           NAME: "canvas",
           COLOR: ['#31218c', '#fff'],
         },
@@ -136,31 +151,37 @@ export const PROJECTS: any = {
       DEPLOY: "https://github.com/MarcossIC/angular-calculator/tree/main",
     },
     {
-      ID: crypto.randomUUID(),
+      ID: "f867a1f13da",
       NAME: "Game Galaxy",
       DESCRIPTION: "Game Galaxy is a dynamic platform for classic games. Currently featuring popular titles such as Tetris, Snake and Tic-Tac-Toe, this website is built with Angular, using canvas, CSS and RxJS. With a sleek design and interactive gameplay, Game Galaxy offers users a modern twist on beloved retro games.",
       TAGS: [
         {
+          ID: 1,
           NAME: "html",
           COLOR: ['#EC4E1D', '#fff'],
         },
         {
+          ID: 2,
           NAME: "type script",
           COLOR: ['#1976D2', '#fff'],
         },
         {
+          ID: 3,
           NAME: "Angular",
           COLOR: ['#B52E31', '#fff'],
         },
         {
+          ID: 4,
           NAME: "rx js",
           COLOR: ["#BE2386", "#6C2E88"]
         },
         {
+          ID: 5,
           NAME: "css",
           COLOR: ['#1D7CEC', '#ff'],
         },
         {
+          ID: 6,
           NAME: "Tailwind",
           COLOR: ['#00B6D5', '#f5f5f5'],
         },
@@ -170,23 +191,27 @@ export const PROJECTS: any = {
       DEPLOY: "https://github.com/MarcossIC/Web-Games"
     },
     {
-      ID: crypto.randomUUID(),
+      ID: "dafb3185003d",
       NAME: "Clean Arch",
       DESCRIPTION: "Repository that shows an example of how to make a clean architecture in Java following the SOLID principles. In addition, not only a simple hexagonal architecture is applied, but it is also applied together with a Vertical Slizing, in addition to applying it in two ways, one conventionally and another applying CQRS",
       TAGS: [
         {
+          ID: 1,
           NAME: "spring",
           COLOR: ['#6DB33F', '#fff'],
         },
         {
+          ID: 2,
           NAME: "Java",
           COLOR: ["#D7771E", "#fff"]
         },
         {
+          ID: 3,
           NAME: "CQRS",
           COLOR: ["#333333", "#fff"],
         },
         {
+          ID: 4,
           NAME: "Clean Architecture",
           COLOR: ["#D47570", "#fff"]
         }
@@ -214,22 +239,22 @@ export const SERVICES: any = {
   },
   SERVICES: [
     {
-      ID: crypto.randomUUID(),
+      ID: "f0e8d8d83883",
       TITLE: "Backend Developer",
       ICON: "../../../../../assets/backend.webp",
     },
     {
-      ID: crypto.randomUUID(),
+      ID: "d1cde22d3af",
       TITLE: "Frontend Developer",
       ICON: "../../../../../assets/web.webp",
     },
     {
-      ID: crypto.randomUUID(),
+      ID: "dce9ba7f037",
       TITLE: "Database Developer",
       ICON: "../../../../../assets/creator.webp",
     },
     {
-      ID: crypto.randomUUID(),
+      ID: "df2103f1650c",
       TITLE: "Software Architecture",
       ICON: "../../../../../assets/architect.webp",
     },
@@ -248,24 +273,28 @@ export const STUDIES: any = {
   },
   DATA: [
     {
+      ID: "b00fb15c9503",
       DEGREE: "IT technician",
       STRONG: "IT",
       STATE: "EPET N4 'O.E.A' - Finalized",
       DESCRIPTION: "I learned the basics of programming, robotics, entrepreneurship concepts, design and software",
     },
     {
+      ID: "bf39334cc71f",
       DEGREE: "Oracle One",
       STRONG: "Oracle",
       STATE: "Alura Latam - Finalized",
       DESCRIPTION: "In this program I learned essential concepts of front end architecture, mobile first and react",
     },
     {
+      ID: "fdeb87d4af5",
       DEGREE: "More Courses",
       STRONG: "Courses",
       STATE: "Udemy - Finalized",
       DESCRIPTION: "Global Mentoring Courses for Java, Spring, Angular, Html, Css, TypeScript. Myth Code Functional Java Course, Amigos Code Spring Security Course",
     },
     {
+      ID: "aa75839a856",
       DEGREE: "Informatics Engineering",
       STRONG: "Engineering",
       STATE: "Gaston Dachary University - In progress",

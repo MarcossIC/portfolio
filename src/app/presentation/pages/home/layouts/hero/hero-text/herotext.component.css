@@ -63,6 +63,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     border: 1px solid rgb(145, 82, 245);
     border-radius: 2em;
     padding: 3px;

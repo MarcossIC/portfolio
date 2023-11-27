@@ -19,6 +19,7 @@ export class ContactPageComponent implements OnInit, OnDestroy {
   private readonly title: Title = inject(Title);
   private http = inject(HttpClient);
   private destroy$: Subject<void>;
+  protected readonly titleID: string = "e913163167c3";
 
   constructor() { 
     this.destroy$ = new Subject<void>();

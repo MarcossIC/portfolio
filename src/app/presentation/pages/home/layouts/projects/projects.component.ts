@@ -13,7 +13,8 @@ import { PROJECTS } from 'src/constants/appConst';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectsLayoutComponent implements OnInit {
-  protected PROJECTS: any = PROJECTS;
+  protected readonly PROJECTS: any = PROJECTS;
+  protected readonly titleID: string = "ddcd5aa1";
   constructor() { }
 
   ngOnInit(): void {

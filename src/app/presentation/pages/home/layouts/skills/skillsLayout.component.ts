@@ -14,7 +14,8 @@ import { TitleComponent } from 'src/app/presentation/components/title/title.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkillsLayoutComponent implements OnInit {
-  SKILLS: any = SKILLS;
+  protected readonly SKILLS: any = SKILLS;
+  protected readonly titleID: string = "b11d-4fa6";
   constructor() { }
 
   ngOnInit(): void {

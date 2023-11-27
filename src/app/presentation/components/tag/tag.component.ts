@@ -6,7 +6,24 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer
   imports: [CommonModule],
   selector: 'tag',
   template: `<span #tagRef class="tag select-none"> </span>`,
-  styleUrls: ['./tag.component.css'],
+  styles: [`
+    .tag{
+      margin-top: 5px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      border-radius: 7px;
+      padding: 3px 13px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+      @media screen and (min-width: 1580px){
+        .tag {
+          font-size: 1.6rem;
+        }
+      }
+    
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagComponent implements OnInit {

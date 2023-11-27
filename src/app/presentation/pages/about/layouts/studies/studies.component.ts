@@ -15,7 +15,7 @@ import { STUDIES } from 'src/constants/appConst';
 })
 export class StudiesLayoutComponent implements OnInit {
   protected STUDIES: any = STUDIES;
-
+  protected titleID: string = "t01agf453";
   constructor() { }
 
   ngOnInit(): void {

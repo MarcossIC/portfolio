@@ -1,7 +1,7 @@
   <section class="contact relative">
 
       <div class="left-content" data-aos="fade-right" data-aos-duration="600">
-        <app-title class="title" title="Contact Me" name="Contact me" [strong]="['Me']" strongStyle="text-red-700"></app-title>                                               
+        <app-title class="title" [titleID]="titleID" title="Contact Me" name="Contact me" [strong]="['Me']" strongStyle="text-red-700"></app-title>                                               
         <contact-form (contactState)="handleFormSubmit($event)"></contact-form>
       </div>
 

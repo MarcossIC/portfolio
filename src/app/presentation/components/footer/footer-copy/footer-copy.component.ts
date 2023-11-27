@@ -12,7 +12,24 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
       </small>
     </section>
     `,
-  styleUrls: ['./footer-copy.component.css'],
+  styles: [`
+    .footer-copy {
+      text-align: center;
+      font-weight: 500;
+      display: grid;
+      grid-column: span 3 / span 3;
+      user-select: none;
+      margin-block-end: 0px;
+    }
+
+    @media screen and (min-width: 1580px) {
+        .footer-copy small{
+            font-size: 1.3rem;
+            line-height: 1rem;
+            padding-block-end: 0.6rem;
+        }
+    }
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterCopyComponent implements OnInit {

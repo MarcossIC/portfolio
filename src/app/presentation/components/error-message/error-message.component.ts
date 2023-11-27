@@ -18,7 +18,7 @@ import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
         </span>
       </ng-container>
   `,
-  styleUrls: ['./error-message.component.css'],
+  styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorMessageComponent implements OnInit {

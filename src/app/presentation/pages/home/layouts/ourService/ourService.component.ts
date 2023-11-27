@@ -14,7 +14,8 @@ import { SERVICES } from 'src/constants/appConst';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServiceLayoutComponent implements OnInit {
-  SERVICES: any = SERVICES;
+  protected readonly SERVICES: any = SERVICES;
+  protected readonly titleID: string = "df4f9aa1";
   constructor() { }
 
   ngOnInit(): void { }

@@ -2,13 +2,16 @@
 
   <div data-aos="fade-up" data-aos-duration="650">
     <app-title 
-      
+      className="text-center font-bold"
+      [titleID]="titleID"
+      class="title"
       [title]="PROJECTS.TITLE" 
+      [name]="PROJECTS.TITLE"
       [strong]="[PROJECTS.STRONG.TITLE]" 
       strongStyle="text-red-700" 
-      name="Projects"
-      className="text-center font-bold"
-      class="title"
+      
+      
+      
     ></app-title>
   </div>
 
@@ -16,7 +19,7 @@
     <project-card 
       class="flex justify-center items-center"
       data-aos="zoom-in" data-aos-duration="600" 
-      *ngFor="let PROJECT of PROJECTS.DATA; let i = index; track trackByFn" 
+      *ngFor="let PROJECT of PROJECTS.DATA; let i = index; track: trackByFn" 
       [num]="i" [PROJECT]="PROJECT" [textAnchor]="PROJECTS.VIEW"
     ></project-card>
   </div>

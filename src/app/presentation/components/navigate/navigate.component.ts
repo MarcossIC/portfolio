@@ -8,7 +8,16 @@ import { VerifyLinkService } from 'src/app/data/services/VerifyLink.service';
   imports: [CommonModule, RouterModule],
   selector: 'navigate',
   templateUrl: './navigate.component.html',
-  styleUrls: ['./navigate.component.css'],
+  styles: [`
+    span{
+      width: 0px;
+      opacity: 0.95;
+    }
+
+    .active-link span{
+        width: 100%;
+    }
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigateComponent implements OnInit {

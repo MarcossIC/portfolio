@@ -14,6 +14,8 @@ import { ABOUT_INTRO } from 'src/constants/appConst';
 })
 export class AboutIntroLayoutComponent implements OnInit {
   INTRODUCTION: any = ABOUT_INTRO;
+  protected titleID: string = "gc39cb09";
+
   constructor() { }
 
   ngOnInit(): void {
