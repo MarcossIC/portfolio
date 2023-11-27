@@ -31,6 +31,7 @@
               "src/favicon-16x16.png",
               "src/site.webmanifest",
               "src/safari-pinned-tab.svg",
+              "src/sitemap.xml",
               "src/assets",
               {
                 "glob": "_redirects",
