@@ -34,6 +34,7 @@
     "@types/aos": "^3.0.4",
     "@types/jasmine": "~4.3.0",
     "autoprefixer": "^10.4.14",
+    "brotli-webpack-plugin": "^1.1.0",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

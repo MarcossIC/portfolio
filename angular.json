@@ -12,6 +12,19 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "plugins": [
+            {
+              "name": "uglifyjs-webpack-plugin",
+              "options": {
+                "sourceMap": true,
+                "uglifyOptions": {
+                  "compress": {
+                    "warnings": false
+                  }
+                }
+              }
+            }
+          ],
           "options": {
             "allowedCommonJsDependencies": [
               "lodash"
@@ -32,6 +45,7 @@
               "src/site.webmanifest",
               "src/safari-pinned-tab.svg",
               "src/sitemap.xml",
+              "src/robots.txt",
               "src/assets",
               {
                 "glob": "_redirects",
@@ -64,7 +78,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
+              "buildOptimizer": true,
               "optimization": false,
               "vendorChunk": true,
               "extractLicenses": false,
