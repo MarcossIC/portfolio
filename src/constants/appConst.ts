@@ -19,10 +19,11 @@ export const API: any = { };
 
 export const HERO: any = {
   TITLE: "Full Stack",
+  SUBTITLE: "Marcos Lopez",
   STRONG: {
       TITLE: "Developer"
   },
-  PARAGRAPH: "As a full-stack developer, my passion lies in transforming ideas into captivating and groundbreaking web applications. Let me show you how I can turn your vision into an exceptional digital experience through my portfolio.",
+  PARAGRAPH: "Full-stack web developer with 2 years of experience, specialized in Java, Spring Boot, Angular and TypeScript. Knowledgeable in scalable software architectures, microservices and relational databases. You can read more in the About Me section. Feel free to contact me so we can work together.",
   RESUME: "View Resume",
   CONTACT: "Contact Me"
 }
@@ -195,7 +196,7 @@ export const PROJECTS: any = {
 
 export const ABOUT_INTRO: any = {
   TITLE: "About me",
-  PARAGRAPH: "Hi, I'm Marcos López, a full stack developer, I'm mainly focused on back end development and software architecture, but I also have experiences in areas such as front end, dev ops and smart contract development. Outside of the development world I like to be active, exercise and always keep learning all kinds of new things.",
+  PARAGRAPH: "I am Marcos López, a full stack developer with experience in Java, Spring Boot. Focused on creating high-performance backend architectures, microservices and clean architectures. On the front-end I have experience creating websites using Angular, HTML/CSS, TypeScript, Tailwind, among others. \n\nI have experience working with complete development teams, participating in the entire development process, using agile methodologies. Ability to analyze requirements, design robust and quality systems.",
   STRONG: {
     TITLE: "me"
   },

@@ -10,6 +10,14 @@
     display: none;
 }
 
+.about-introduction p{
+    white-space: pre-wrap; 
+    text-wrap: balance;
+    text-overflow: ellipsis; 
+    overflow: hidden;
+    font-weight: 500;
+}
+
 @media screen and (min-width: 768px) {
     .about-introduction-img{
         display: block;
