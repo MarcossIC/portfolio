@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
     <div class="flex-pr">
 
       <div class="flex justify-between w-full mb-2 gap-x-1">
-        <h4 class="project-title w-auto" role="heading" aria-roledescription="Project card header" aria-describedby="project-title" aria-label="Project Name.">
+        <h4 class="project-title w-auto" aria-roledescription="Project card header" aria-describedby="project-title" aria-label="Project Name.">
           {{ PROJECT_NAME }}
         </h4>
 
