@@ -81,6 +81,11 @@
       aspect-ratio: 5/3.2;
     }
   }
+  @media screen and (min-width: 1306px) {
+    .card {
+      aspect-ratio: 5/3.7;
+    }
+  }
 
   @media screen and (min-width: 1351px) {
     .card {
