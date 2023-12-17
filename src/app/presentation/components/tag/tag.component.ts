@@ -8,10 +8,10 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer
   template: `<span #tagRef class="tag select-none"> </span>`,
   styles: [`
     .tag{
-      margin-top: 5px;
-      margin-right: 10px;
-      margin-bottom: 10px;
-      border-radius: 10px;
+      margin-block-start: 5px;
+      margin-inline-end: 10px;
+      margin-block-end: 10px;
+      border-radius: 15px;
       padding-block: 6.5px;
       padding-inline: 13px;
       font-size: .75rem;
