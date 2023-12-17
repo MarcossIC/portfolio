@@ -1,7 +1,5 @@
-
-  
-  .project-title {
-    font-size: 1.4em;
+.project-title {
+    font-size: 1.4rem;
     margin: 0;
     font-weight: 600;
     overflow: hidden;
@@ -10,38 +8,35 @@
   }
 
   .deploy{
-    transition-duration: .2s;
-    transition-timing-function: linear;
-    transition-property: opacity, color;
-    font-weight: 500;
-    opacity: 0.9;
-    font-size: .9rem;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    justify-items: center;
-    text-align: center;
-    align-items: center;
-    column-gap: 5px;
+    opacity: 1;
+    font-size: 0;
+    height: min-content;
+    padding: .15rem;
   }
 
   .deploy svg{
-    transition-duration:.2s;
+    transition-duration:.175s;
     transition-timing-function: linear;
-    transition-property: transform, scale;
-    color: white;
-    font-size: 10px;
+    transition-property: color, opacity, background, scale;
+
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    background: #bdbdbd14;
+    border-radius: 100%;
+    color: #fff;
+    opacity: .8;
+    font-size: .75rem;
+    width: 115%;
+    height: 115%;
+    padding: 3px;
   }
 
-  .deploy:hover, .deploy:hover svg {
-    color: rgb(182, 46, 46);
+  .deploy:hover svg {
+    color: #fff;
     opacity: 1;
-  }
-
-  .deploy:hover svg{
-    -webkit-transform: rotate(-45deg) scale(1.4);
-    -ms-transform: rotate(-45deg) scale(1.4);
-    transform: rotate(-45deg) scale(1.4);
+    background: #ababab40;
+    scale: 1.05;
   }
 
   .flex-pr {
@@ -51,37 +46,75 @@
   }
   
   .details{
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 490;
     font-family: system-ui;
     color: #ebebeb;
     margin-bottom: 0.5rem;
-    white-space: pre-wrap;
+    white-space: pre-line;
     text-wrap: balance;
   }
 
-  @media screen and (min-width: 1580px){
-    .details{
-      font-size: 1.6rem;
+  @media screen and (min-width: 550px) {
+    .deploy svg{
+    transition-property: transform, opacity, color;
+
+      -webkit-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      transform: rotate(0deg);
+
+      border-radius: 0;
+      font-size: .9rem;
+      width: min-content;
+      height: min-content;
+      padding: 0px;
+      background: none;
+    }
+    .deploy:hover svg{
+      scale: 1;
+
+      -webkit-transform: rotate(-45deg) scale(1.35);
+      -ms-transform: rotate(-45deg) scale(1.35);
+      transform: rotate(-45deg) scale(1.35);
+      background: none;
     }
 
     .deploy{
-      font-size: 1.8rem;
+      transition-duration: .175s;
+      transition-timing-function: linear;
+      transition-property: opacity, color, letter-spacing;
+  
+      font-weight: 500;
+      opacity: 0.9;
+      font-size: 1rem;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      justify-items: center;
+      text-align: center;
+      align-items: center;
+      column-gap: 5px;
     }
 
-    .project-title {
-      font-size: 2rem;
+    .deploy:hover, .deploy:hover svg {
+      opacity: 1;
+      color: #e72424;
+      letter-spacing: .3px;
     }
 
-    .deploy svg{
-      width: 3em;
-      height: 3em;
-    }
-
-    .deploy:hover svg{
-      -webkit-transform: rotate(-45deg) scale(1.5);
-      -ms-transform: rotate(-45deg) scale(1.5);
-      transform: rotate(-45deg) scale(1.5);
-    }
-    
   }
+
+  @media screen and (min-width: 1780px){
+    .project-title {
+      font-size: 1.75rem;
+    }
+    .deploy, .deploy svg{
+      font-size: 1.1rem;
+    }
+    .details{
+      font-size: 1.35rem;
+    }
+  }
+
+
+

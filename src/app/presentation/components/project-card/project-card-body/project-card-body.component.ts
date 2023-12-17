@@ -3,15 +3,15 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   selector: 'project-card-body',
   template: `
     <div class="flex-pr">
 
-      <div class="flex justify-between w-full mb-2 gap-x-1">
-        <h4 class="project-title w-auto" aria-roledescription="Project card header" aria-describedby="project-title" aria-label="Project Name.">
+      <div class="flex justify-between w-full mb-5 gap-x-1">
+        <h3 class="project-title w-auto" aria-roledescription="Project card header" aria-describedby="project-title" aria-label="Project Name.">
           {{ PROJECT_NAME }}
-        </h4>
+        </h3>
 
         <a class="w-auto deploy" [href]="PROJECT_LINK" target="_blank" role="link" aria-label="Link al repositorio del proyecto en github.">
           {{ TEXT_ANCHOR }}

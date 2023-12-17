@@ -44,10 +44,10 @@ export const PROJECTS: any = {
   VIEW: "View Repository",
   DATA: [
     {
-      ID: "fde8200d",
-      NAME: "Facturador++",
+      ID: "fghju632",
+      NAME: "Books Leaks",
       DESCRIPTION:
-          "Develop the backend and database for Facturador++. It's an educational web platform that enables users to create and manage business documents. This application is designed for students who are just starting and want to practice.",
+          "Book Leaks. Explore the online bookstore, discover literary treasures, and manage your store efficiently through our intuitive administrative dashboard. Immerse yourself in the world of reading with ease and style!",
       TAGS: [
           {
             ID: 1,
@@ -56,33 +56,39 @@ export const PROJECTS: any = {
           },
           {
             ID: 2,
-            NAME: "react",
-            COLOR: ['#61DAFB', '#6A6A6A'],
+            NAME: "angular",
+            COLOR: ['#B52E31', '#fff'],
           },
           {
             ID: 3,
+            NAME: "rx js",
+            COLOR: ["#BE2386", "#6C2E88"]
+          },
+          {
+            ID: 4,
             NAME: "css",
-            COLOR: ['#1D7CEC', '#ff'],
+            COLOR: ['#1D7CEC', '#fff'],
+          },
+          {
+            ID: 5,
+            NAME: "Tailwind",
+            COLOR: ['#00B6D5', '#f5f5f5'],
+          },
+          {
+            ID: 1,
+            NAME: "html",
+            COLOR: ['#EC4E1D', '#fff'],
           },
           {
             ID: 4,
             NAME: "spring",
             COLOR: ['#6DB33F', '#fff'],
           },
-          {
-            ID: 5,
-            NAME: "mysql",
-            COLOR: ['#1F8CB4', '#fff'],
-          },
-          {
-            ID: 6,
-            NAME: "docker",
-            COLOR: ['#186E98', '#E2F6FF'],
-          },
+          
         ],
-        IMG: "../../../../assets/projects/facturador.webp",
-        SOURCE: "https://github.com/conjunto-solucion/facturador",
-        DEPLOY: "https://github.com/conjunto-solucion/facturador",
+        IMG: "../../../../assets/projects/books-leaks.webp",
+        SOURCE: "https://github.com/No-Country/s12-10-m-java-angular",
+        DEPLOY: "https://books-leaks.netlify.app",
     },
     {
       ID: "ffc7bfdc43",
@@ -103,7 +109,7 @@ export const PROJECTS: any = {
           {
             ID: 3,
             NAME: "css",
-            COLOR: ['#1D7CEC', '#ff'],
+            COLOR: ['#1D7CEC', '#fff'],
           },
           {
             ID: 4,
@@ -116,39 +122,81 @@ export const PROJECTS: any = {
       DEPLOY: "https://github.com/MarcossIC/paint-in-js-html-css",
     },
     {
-      ID: "e4a8892b4e63",
-      NAME: "A. Calculator",
-      DESCRIPTION: "Angular calculator a simple project but it helped me experiment and learn all the concepts of Angular, including property binding, data binding, event binding and two way binding. It encompasses enough functionality to perform simple and complex calculations..",
+      ID: "dwrgyt7j71",
+      NAME: "GPT-3 Landing",
+      DESCRIPTION:
+          "Discover the future of artificial intelligence with this page dedicated to GPT-3. Explore the incredible capabilities of natural language technology and dive into the revolutionary impact of OpenAI in the era of artificial intelligence.",
       TAGS: [
+        {
+          ID: 1,
+          NAME: "type script",
+          COLOR: ['#1976D2', '#fff'],
+        },
+        {
+          ID: 2,
+          NAME: "angular",
+          COLOR: ['#B52E31', '#fff'],
+        },
+        {
+          ID: 4,
+          NAME: "css",
+          COLOR: ['#1D7CEC', '#fff'],
+        },
+        {
+          ID: 5,
+          NAME: "tailwind",
+          COLOR: ['#00B6D5', '#f5f5f5'],
+        },
         {
           ID: 1,
           NAME: "html",
           COLOR: ['#EC4E1D', '#fff'],
         },
-        {
-          ID: 2,
-          NAME: "type script",
-          COLOR: ['#1976D2', '#fff'],
-        },
-        {
-          ID: 3,
-          NAME: "Angular",
-          COLOR: ['#B52E31', '#fff'],
-        },
-        {
-          ID: 4,
-          NAME: "Tailwind",
-          COLOR: ['#00B6D5', '#f5f5f5'],
-        },
-        {
-          ID: 5,
-          NAME: "canvas",
-          COLOR: ['#31218c', '#fff'],
-        },
       ],
-      IMG: "../../../../assets/projects/angularCalculator.webp",
-      SOURCE: "https://github.com/MarcossIC/angular-calculator/tree/main",
-      DEPLOY: "https://github.com/MarcossIC/angular-calculator/tree/main",
+      IMG: "../../../../assets/projects/gpt3-landing.webp",
+      SOURCE: "https://github.com/MarcossIC/gpt3-website",
+      DEPLOY: "https://gpt3-landing.web.app",
+    },
+    {
+      ID: "fde8200d",
+      NAME: "Facturador++",
+      DESCRIPTION:
+          "Develop the backend and database for Facturador++. It's an educational web platform that enables users to create and manage business documents. This application is designed for students who are just starting and want to practice.",
+      TAGS: [
+          {
+            ID: 1,
+            NAME: "type script",
+            COLOR: ['#1976D2', '#fff'],
+          },
+          {
+            ID: 2,
+            NAME: "react",
+            COLOR: ['#61DAFB', '#6A6A6A'],
+          },
+          {
+            ID: 3,
+            NAME: "css",
+            COLOR: ['#1D7CEC', '#fff'],
+          },
+          {
+            ID: 4,
+            NAME: "spring",
+            COLOR: ['#6DB33F', '#fff'],
+          },
+          {
+            ID: 5,
+            NAME: "mysql",
+            COLOR: ['#1F8CB4', '#fff'],
+          },
+          {
+            ID: 6,
+            NAME: "docker",
+            COLOR: ['#186E98', '#E2F6FF'],
+          },
+        ],
+        IMG: "../../../../assets/projects/facturador.webp",
+        SOURCE: "https://github.com/conjunto-solucion/facturador",
+        DEPLOY: "https://github.com/conjunto-solucion/facturador",
     },
     {
       ID: "f867a1f13da",
@@ -178,7 +226,7 @@ export const PROJECTS: any = {
         {
           ID: 5,
           NAME: "css",
-          COLOR: ['#1D7CEC', '#ff'],
+          COLOR: ['#1D7CEC', '#fff'],
         },
         {
           ID: 6,
@@ -220,7 +268,42 @@ export const PROJECTS: any = {
       IMG: "../../../../assets/projects/clean-architecture.webp",
       SOURCE: "https://github.com/MarcossIC/architecture-example",
       DEPLOY: "https://github.com/MarcossIC/architecture-example"
-    }
+    },
+    {
+      ID: "e4a8892b4e63",
+      NAME: "A. Calculator",
+      DESCRIPTION: "Angular calculator a simple project but it helped me experiment and learn all the concepts of Angular, including property binding, data binding, event binding and two way binding. It encompasses enough functionality to perform simple and complex calculations..",
+      TAGS: [
+        {
+          ID: 1,
+          NAME: "html",
+          COLOR: ['#EC4E1D', '#fff'],
+        },
+        {
+          ID: 2,
+          NAME: "type script",
+          COLOR: ['#1976D2', '#fff'],
+        },
+        {
+          ID: 3,
+          NAME: "Angular",
+          COLOR: ['#B52E31', '#fff'],
+        },
+        {
+          ID: 4,
+          NAME: "Tailwind",
+          COLOR: ['#00B6D5', '#f5f5f5'],
+        },
+        {
+          ID: 5,
+          NAME: "canvas",
+          COLOR: ['#31218c', '#fff'],
+        },
+      ],
+      IMG: "../../../../assets/projects/angularCalculator.webp",
+      SOURCE: "https://github.com/MarcossIC/angular-calculator/tree/main",
+      DEPLOY: "https://github.com/MarcossIC/angular-calculator/tree/main",
+    },
   ],
 };
 

@@ -12,16 +12,23 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer
       margin-right: 10px;
       margin-bottom: 10px;
       border-radius: 10px;
-      padding-block: 5px;
+      padding-block: 6.5px;
       padding-inline: 13px;
-      font-size: 14px;
+      font-size: .75rem;
       font-weight: 500;
       user-select: none;
+      text-align: center;
     }
 
-      @media screen and (min-width: 1580px){
+    @media screen and (min-width: 1240px){
         .tag {
-          font-size: 1.6rem;
+          font-size: .9rem;
+        }
+    }
+
+      @media screen and (min-width: 1780px){
+        .tag {
+          font-size: 1.2rem;
         }
       }
     

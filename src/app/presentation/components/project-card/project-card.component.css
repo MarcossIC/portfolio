@@ -1,22 +1,24 @@
 .card {
-
-    width: 330px;
-    aspect-ratio: 24/22;
-
-    border-radius: 12px;
-    border-top-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    padding: 5px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1;
+  border-radius: 12px;
+  border-top-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding: 5px;
  
-    background: -webkit-linear-gradient(
+  background: -webkit-linear-gradient(
         286deg,
         #481aaf 50%,
         rgb(139 139 139 / 0%) 110%
+  );
+
+    background: linear-gradient(
+      286deg,
+      #481aaf 50%,
+      rgb(139 139 139 / 0%) 110%
     );
 
-    transition-duration: .15s;
-    transition-timing-function: ease-in-out;
-    transition-property: scale;
   }
 
   .project-info {
@@ -41,54 +43,59 @@
     flex-wrap: wrap;
 
     overflow: hidden;
-    row-gap: 1rem;
-    column-gap: 1rem;
-    flex-grow: 1;
-    flex-shrink: 1;
+    row-gap: 1.2rem;
+    column-gap: 0.7rem;
+    justify-content: flex-start;
+    margin-block-start: 1rem;
   }
   
   
   .container-project {
     position: relative;
-    margin: 10px;
-    width: 295px;
-    aspect-ratio: 7/4;
     overflow: hidden;
+    width: 95%;
+    margin: 12px;
+    border-radius: 1.2rem;
+    aspect-ratio: 14/8.5;
   }
 
-  @media only screen and (max-width: 330px){
-    .card{
-      width: 280px;
-    }
-    .container-project {
-      width: 250px;
-      aspect-ratio: 8/5;
+  @media screen and (min-width: 360px) {
+    .projects-container {
+      aspect-ratio: 5/4.9;
     }
   }
 
-  @media only screen and (min-width: 600px){
+  @media screen and (min-width: 550px) {
+    .projects-container {
+      aspect-ratio: 5/3.75;
+    }
+  }
+  @media screen and (min-width: 836px) {
+    .projects-container {
+      aspect-ratio: 5/4.75;
+    }
+  }
+
+  @media screen and (min-width: 1050px) {
     .card {
-      width: 350px;
-      aspect-ratio: 27/22;
+      aspect-ratio: 5/3.2;
     }
-
-    .container-project {
-      margin: 10px;
-      width: 320px;
-    }
-
   }
 
-  @media only screen and (min-width: 1580px){
+  @media screen and (min-width: 1351px) {
     .card {
-      width: 625px;
-      aspect-ratio: 33/22;
+      aspect-ratio: 5/4;
+    }
+  }
+  @media screen and (min-width: 1500px) {
+    .card {
+      aspect-ratio: 5/3.25;
+    }
+  }
+
+  @media only screen and (min-width: 1780px){
+    .card {
+      aspect-ratio: 5/3.5;
     }
 
-    .container-project{ 
-      width: 590px;
-      margin: 12px;
-      border-radius: 1.2rem;
-      aspect-ratio: 12/7;
-    }
   }
