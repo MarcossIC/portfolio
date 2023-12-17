@@ -269,41 +269,6 @@ export const PROJECTS: any = {
       SOURCE: "https://github.com/MarcossIC/architecture-example",
       DEPLOY: "https://github.com/MarcossIC/architecture-example"
     },
-    {
-      ID: "e4a8892b4e63",
-      NAME: "A. Calculator",
-      DESCRIPTION: "Angular calculator a simple project but it helped me experiment and learn all the concepts of Angular, including property binding, data binding, event binding and two way binding. It encompasses enough functionality to perform simple and complex calculations..",
-      TAGS: [
-        {
-          ID: 1,
-          NAME: "html",
-          COLOR: ['#EC4E1D', '#fff'],
-        },
-        {
-          ID: 2,
-          NAME: "type script",
-          COLOR: ['#1976D2', '#fff'],
-        },
-        {
-          ID: 3,
-          NAME: "Angular",
-          COLOR: ['#B52E31', '#fff'],
-        },
-        {
-          ID: 4,
-          NAME: "Tailwind",
-          COLOR: ['#00B6D5', '#f5f5f5'],
-        },
-        {
-          ID: 5,
-          NAME: "canvas",
-          COLOR: ['#31218c', '#fff'],
-        },
-      ],
-      IMG: "../../../../assets/projects/angularCalculator.webp",
-      SOURCE: "https://github.com/MarcossIC/angular-calculator/tree/main",
-      DEPLOY: "https://github.com/MarcossIC/angular-calculator/tree/main",
-    },
   ],
 };
 
