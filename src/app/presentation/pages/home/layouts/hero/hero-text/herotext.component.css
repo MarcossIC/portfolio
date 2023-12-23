@@ -59,7 +59,7 @@
   }
 
   .clarification {
-    background: linear-gradient(162deg, rgba(40,8,94,1) 40%, rgba(20,0,48,1) 91%);
+    background: linear-gradient(162deg, rgb(50 17 106) 40%, rgba(20,0,48,1) 91%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,6 +75,7 @@
     max-width: 250px;
     color: rgb(231, 208, 251);
     user-select: none;
+    font-weight: 700;
   }
 
 
@@ -105,7 +106,7 @@
     .home-paragraph{
       font-size: 1.2rem;
       max-width: 60rem;
-     
+
     }
     .button{
       font-size: 1.2rem;

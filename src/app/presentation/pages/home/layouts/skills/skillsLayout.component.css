@@ -1,6 +1,6 @@
 
 .clarification{
-    background: linear-gradient(162deg, rgba(40,8,94,1) 40%, rgba(20,0,48,1) 91%);
+    background: linear-gradient(162deg, rgb(50 17 106) 40%, rgba(20,0,48,1) 91%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,6 +12,8 @@
     font-weight: 600;
     font-size: clamp(0.4rem, 4vw, 1.1rem);
     color: rgb(231, 208, 251);
+    font-weight: 600;
+    user-select: none;
 }
 
 .clarification span{
@@ -20,9 +22,6 @@
 
 
 @media screen and (min-width: 1580px){
-    .skills{
-        
-    }
     .clarification{
         font-size: 1.8rem;
         width: 800px;

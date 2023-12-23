@@ -1,27 +1,29 @@
 <article class="card">
 
-  <div class="rounded-lg container-project">
-    <img [ngSrc]="PROJECT.IMG" fill alt="Project image." role="img" itemprop="image" aria-label="Project sample image." loading="lazy">
-  </div>
+  <header class="rounded-lg container-project">
+    <a href="{{PROJECT.DEPLOY}}" class="w-full h-auto" target="_blank">
+      <img [ngSrc]="PROJECT.IMG" fill alt="Project image." role="img" itemprop="image" aria-label="Project sample image." loading="lazy">
+    </a>
+  </header>
 
   <div class="project-info">
 
-    <project-card-body 
-      [PROJECT_NAME]="PROJECT.NAME" 
-      [TEXT_ANCHOR]="textAnchor" 
-      [PROJECT_LINK]="PROJECT.DEPLOY" 
+    <project-card-body
+      [PROJECT_NAME]="PROJECT.NAME"
+      [TEXT_ANCHOR]="textAnchor"
+      [PROJECT_LINK]="PROJECT.DEPLOY"
       [PROJECT_DESCRIPTION]="PROJECT.DESCRIPTION"
     ></project-card-body>
 
-    <div class="types m-1" role="complementary">
-      
+    <footer class="types m-1" role="complementary">
+
       <tag *ngFor="let TAG of PROJECT.TAGS; trackBy: trackByFn"
         [tag]="TAG.NAME"
         [background]="TAG.COLOR[0]"
         [color]="TAG.COLOR[1]"
       ></tag>
 
-    </div>
+    </footer>
 
   </div>
 

@@ -5,7 +5,8 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer
   standalone: true,
   imports: [CommonModule],
   selector: 'tag',
-  template: `<span #tagRef class="tag select-none"> </span>`,
+  template: `<span #tagRef class="tag select-none" title="{{tag}}" role="tab
+  "> </span>`,
   styles: [`
     .tag{
       margin-block-start: 5px;
@@ -31,7 +32,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer
           font-size: 1.2rem;
         }
       }
-    
+
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -42,8 +43,8 @@ export class TagComponent implements OnInit {
   @ViewChild('tagRef', { static: true }) tagRef!: ElementRef;
 
   private renderer: Renderer2 = inject(Renderer2);
-  
-  constructor() { 
+
+  constructor() {
     this.tag = "";
     this.background = "";
     this.color = "";
