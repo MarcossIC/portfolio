@@ -275,7 +275,7 @@ export const PROJECTS: any = {
 
 export const ABOUT_INTRO: any = {
   TITLE: "About me",
-  PARAGRAPH: "I am Marcos López, a full stack developer with experience in Java, Spring Boot. Focused on creating high-performance backend architectures, microservices and clean architectures. On the front-end I have experience creating websites using Angular, HTML/CSS, TypeScript, Tailwind, among others. \n\nI have experience working with complete development teams, participating in the entire development process, using agile methodologies. Ability to analyze requirements, design robust and quality systems.",
+  PARAGRAPH: "I am Marcos López, a full stack developer with experience in Java, Spring Boot and Angular, TypeScript.\n\nWith experience working with different software architectures, they follow good practices. Laying out designs and connecting front-end and back-end, creating interactive web designs using Angular, HTML/CSS, TypeScript, Tailwind, among others.\n\nI have experience working with complete development teams, participating in the entire development process, using agile methodologies. Ability to analyze requirements, design robust and quality systems.",
   STRONG: {
     TITLE: "me"
   },
