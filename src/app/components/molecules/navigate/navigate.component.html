@@ -1,0 +1,14 @@
+@if(isHeader){
+<custom-link [to]="path" [classNames]="classNames">
+  {{ textLink }}
+  <span
+    class="h-[2px] inline-block bg-violet-900 absolute left-0 -bottom-0.5 group-hover:w-full transition-[width] ease duration-300"
+  >
+    &nbsp;
+  </span>
+</custom-link>
+} @else {
+<a [ngClass]="classNames" class="relative group cursor-pointer">
+  {{ textLink }}
+</a>
+}

@@ -1,21 +1,17 @@
 export const PATHS: any = {
-    start: "/",
-    home: "/home",
-    about: "/about",
-    contact: "/contact",
+  start: '/',
+  about: '/about',
+  contact: '/contact',
 };
 
 export const ROUTES: any = {
-    start: "",
-    home: "home",
-    about: "about",
-    contact: "contact",
+  start: '',
+  home: 'home',
+  about: 'about',
+  contact: 'contact',
 };
 
-
-export const API: any = { };
-
-
+export const API: any = {};
 
 export const HERO: any = {
   TITLE: 'Full Stack',
@@ -31,10 +27,10 @@ export const HERO: any = {
 
 export const SKILLS: any = {
   TITLE: {
-    TEXT: "Better architecture, easier everything",
-    HIGHLIGHT: ["architecture", "everything"]
+    TEXT: 'Better architecture, easier everything',
+    HIGHLIGHT: ['architecture', 'everything'],
   },
-  CLARIFICATION: "Some technologies with i have experience",
+  CLARIFICATION: 'Some technologies with i have experience',
 };
 
 export const PROJECTS: any = {
@@ -51,37 +47,37 @@ export const PROJECTS: any = {
         'Book leaks. Explore the online bookstore, discover literary treasures in this incredible E-commerce of books, with a shopping cart, search engine, filters and login function, with an intuitive and interactive design.',
       TAGS: [
         {
-          ID: 1,
+          ID: 11,
           NAME: 'type script',
           COLOR: ['#1976D2', '#fff'],
         },
         {
-          ID: 2,
+          ID: 12,
           NAME: 'angular',
           COLOR: ['#B52E31', '#fff'],
         },
         {
-          ID: 3,
+          ID: 13,
           NAME: 'rx js',
           COLOR: ['#BE2386', '#4c0e68'],
         },
         {
-          ID: 4,
+          ID: 14,
           NAME: 'css',
           COLOR: ['#1D7CEC', '#fff'],
         },
         {
-          ID: 5,
+          ID: 15,
           NAME: 'Tailwind',
           COLOR: ['#00B6D5', '#f5f5f5'],
         },
         {
-          ID: 1,
+          ID: 16,
           NAME: 'html',
           COLOR: ['#EC4E1D', '#fff'],
         },
         {
-          ID: 4,
+          ID: 17,
           NAME: 'spring',
           COLOR: ['#6DB33F', '#fff'],
         },
@@ -97,22 +93,22 @@ export const PROJECTS: any = {
         'PaintEase, a web platform that allows users to unleash their creativity effortlessly through simple and accessible online drawing tools. Conceived with the vision of providing a simple digital canvas, PaintEase allows people to bring their ideas to life anytime, anywhere.',
       TAGS: [
         {
-          ID: 1,
+          ID: 21,
           NAME: 'java script',
           COLOR: ['#FBF459', '#545252'],
         },
         {
-          ID: 2,
+          ID: 22,
           NAME: 'html',
           COLOR: ['#EC4E1D', '#fff'],
         },
         {
-          ID: 3,
+          ID: 23,
           NAME: 'css',
           COLOR: ['#1D7CEC', '#fff'],
         },
         {
-          ID: 4,
+          ID: 24,
           NAME: 'canvas',
           COLOR: ['#31218c', '#fff'],
         },
@@ -128,27 +124,27 @@ export const PROJECTS: any = {
         'Discover the future of artificial intelligence with this page dedicated to GPT-3. Explore the incredible capabilities of natural language technology and dive into the revolutionary impact of OpenAI in the era of artificial intelligence.',
       TAGS: [
         {
-          ID: 1,
+          ID: 31,
           NAME: 'type script',
           COLOR: ['#1976D2', '#fff'],
         },
         {
-          ID: 2,
+          ID: 32,
           NAME: 'angular',
           COLOR: ['#B52E31', '#fff'],
         },
         {
-          ID: 4,
+          ID: 34,
           NAME: 'css',
           COLOR: ['#1D7CEC', '#fff'],
         },
         {
-          ID: 5,
+          ID: 35,
           NAME: 'tailwind',
           COLOR: ['#00B6D5', '#f5f5f5'],
         },
         {
-          ID: 1,
+          ID: 36,
           NAME: 'html',
           COLOR: ['#EC4E1D', '#fff'],
         },
@@ -164,32 +160,32 @@ export const PROJECTS: any = {
         "Develop the backend and database for Facturador++. It's an educational web platform that enables users to create and manage business documents. This application is designed for students who are just starting and want to practice.",
       TAGS: [
         {
-          ID: 1,
+          ID: 41,
           NAME: 'type script',
           COLOR: ['#1976D2', '#fff'],
         },
         {
-          ID: 2,
+          ID: 42,
           NAME: 'react',
           COLOR: ['#61DAFB', '#6A6A6A'],
         },
         {
-          ID: 3,
+          ID: 43,
           NAME: 'css',
           COLOR: ['#1D7CEC', '#fff'],
         },
         {
-          ID: 4,
+          ID: 44,
           NAME: 'spring',
           COLOR: ['#6DB33F', '#fff'],
         },
         {
-          ID: 5,
+          ID: 45,
           NAME: 'mysql',
           COLOR: ['#1F8CB4', '#fff'],
         },
         {
-          ID: 6,
+          ID: 46,
           NAME: 'docker',
           COLOR: ['#186E98', '#E2F6FF'],
         },
@@ -205,32 +201,32 @@ export const PROJECTS: any = {
         'Game Galaxy is a platform for classic games. This website, featuring popular games like Tetris, Snake and Tic-Tac-Toe, is built with Angular, CSS, canvas and RxJS. Game Galaxy offers users a modern twist on beloved retro games.',
       TAGS: [
         {
-          ID: 1,
+          ID: 51,
           NAME: 'html',
           COLOR: ['#EC4E1D', '#fff'],
         },
         {
-          ID: 2,
+          ID: 52,
           NAME: 'type script',
           COLOR: ['#1976D2', '#fff'],
         },
         {
-          ID: 3,
+          ID: 53,
           NAME: 'Angular',
           COLOR: ['#B52E31', '#fff'],
         },
         {
-          ID: 4,
+          ID: 54,
           NAME: 'rx js',
           COLOR: ['#BE2386', '#4c0e68'],
         },
         {
-          ID: 5,
+          ID: 55,
           NAME: 'css',
           COLOR: ['#1D7CEC', '#fff'],
         },
         {
-          ID: 6,
+          ID: 56,
           NAME: 'Tailwind',
           COLOR: ['#00B6D5', '#f5f5f5'],
         },
@@ -246,22 +242,22 @@ export const PROJECTS: any = {
         'Repository that shows an example of how to make a clean architecture in Java following the SOLID principles. In addition, not only a simple hexagonal architecture is applied, but it is also applied together with a Vertical Slizing, in addition to applying it in two ways, one conventionally and another applying CQRS',
       TAGS: [
         {
-          ID: 1,
+          ID: 61,
           NAME: 'spring',
           COLOR: ['#6DB33F', '#fff'],
         },
         {
-          ID: 2,
+          ID: 62,
           NAME: 'Java',
           COLOR: ['#D7771E', '#fff'],
         },
         {
-          ID: 3,
+          ID: 63,
           NAME: 'CQRS',
           COLOR: ['#333333', '#fff'],
         },
         {
-          ID: 4,
+          ID: 64,
           NAME: 'Clean Arch',
           COLOR: ['#D47570', '#fff'],
         },
@@ -274,127 +270,131 @@ export const PROJECTS: any = {
 };
 
 export const ABOUT_INTRO: any = {
-  TITLE: "About me",
-  PARAGRAPH: "I am Marcos López, a full stack developer with experience in Java, Spring Boot and Angular, TypeScript.\n\nWith experience working with different software architectures, they follow good practices. Laying out designs and connecting front-end and back-end, creating interactive web designs using Angular, HTML/CSS, TypeScript, Tailwind, among others.\n\nI have experience working with complete development teams, participating in the entire development process, using agile methodologies. Ability to analyze requirements, design robust and quality systems.",
+  TITLE: 'About me',
+  PARAGRAPH:
+    'I am Marcos López, a full stack developer with experience in Java, Spring Boot and Angular, TypeScript.\n\nWith experience working with different software architectures, they follow good practices. Laying out designs and connecting front-end and back-end, creating interactive web designs using Angular, HTML/CSS, TypeScript, Tailwind, among others.\n\nI have experience working with complete development teams, participating in the entire development process, using agile methodologies. Ability to analyze requirements, design robust and quality systems.',
   STRONG: {
-    TITLE: "me"
+    TITLE: 'me',
   },
 };
 
 export const SERVICES: any = {
-  TITLE: "Our service",
+  TITLE: 'Our service',
   STRONG: {
-    TITLE: "Our",
+    TITLE: 'Our',
   },
   SERVICES: [
     {
-      ID: "f0e8d8d83883",
-      TITLE: "Backend Developer",
-      ICON: "../../../../../assets/backend.webp",
+      ID: 'f0e8d8d83883',
+      TITLE: 'Backend Developer',
+      ICON: '../../../../../assets/backend.webp',
     },
     {
-      ID: "d1cde22d3af",
-      TITLE: "Frontend Developer",
-      ICON: "../../../../../assets/web.webp",
+      ID: 'd1cde22d3af',
+      TITLE: 'Frontend Developer',
+      ICON: '../../../../../assets/web.webp',
     },
     {
-      ID: "dce9ba7f037",
-      TITLE: "Database Developer",
-      ICON: "../../../../../assets/creator.webp",
+      ID: 'dce9ba7f037',
+      TITLE: 'Database Developer',
+      ICON: '../../../../../assets/creator.webp',
     },
     {
-      ID: "df2103f1650c",
-      TITLE: "Software Architecture",
-      ICON: "../../../../../assets/architect.webp",
+      ID: 'df2103f1650c',
+      TITLE: 'Software Architecture',
+      ICON: '../../../../../assets/architect.webp',
     },
   ],
 };
 
 export const DIRECTION: any = {
-  LEFT: "LEFT",
-  RIGHT: "RIGHT",
-}
+  LEFT: 'LEFT',
+  RIGHT: 'RIGHT',
+};
 
 export const STUDIES: any = {
-  TITLE: "My Studies",
+  TITLE: 'My Studies',
   STRONG: {
-    TITLE: "My"
+    TITLE: 'My',
   },
   DATA: [
     {
-      ID: "b00fb15c9503",
-      DEGREE: "IT technician",
-      STRONG: "IT",
+      ID: 'b00fb15c9503',
+      DEGREE: 'IT technician',
+      STRONG: 'IT',
       STATE: "EPET N4 'O.E.A' - Finalized",
-      DESCRIPTION: "I learned the basics of programming, robotics, entrepreneurship concepts, design and software",
+      DESCRIPTION:
+        'I learned the basics of programming, robotics, entrepreneurship concepts, design and software',
     },
     {
-      ID: "bf39334cc71f",
-      DEGREE: "Oracle One",
-      STRONG: "Oracle",
-      STATE: "Alura Latam - Finalized",
-      DESCRIPTION: "In this program I learned essential concepts of front end architecture, mobile first and react",
+      ID: 'bf39334cc71f',
+      DEGREE: 'Oracle One',
+      STRONG: 'Oracle',
+      STATE: 'Alura Latam - Finalized',
+      DESCRIPTION:
+        'In this program I learned essential concepts of front end architecture, mobile first and react',
     },
     {
-      ID: "fdeb87d4af5",
-      DEGREE: "More Courses",
-      STRONG: "Courses",
-      STATE: "Udemy - Finalized",
-      DESCRIPTION: "Global Mentoring Courses for Java, Spring, Angular, Html, Css, TypeScript. Myth Code Functional Java Course, Amigos Code Spring Security Course, Global Mentoring",
+      ID: 'fdeb87d4af5',
+      DEGREE: 'More Courses',
+      STRONG: 'Courses',
+      STATE: 'Udemy - Finalized',
+      DESCRIPTION:
+        'Global Mentoring Courses for Java, Spring, Angular, Html, Css, TypeScript. Myth Code Functional Java Course, Amigos Code Spring Security Course, Global Mentoring',
     },
     {
-      ID: "aa75839a856",
-      DEGREE: "Informatics Engineering",
-      STRONG: "Engineering",
-      STATE: "Gaston Dachary University - In progress",
-      DESCRIPTION: "Learning fundamental concepts of Engineering, Business and increasing my knowledge in computer science",
+      ID: 'aa75839a856',
+      DEGREE: 'Informatics Engineering',
+      STRONG: 'Engineering',
+      STATE: 'Gaston Dachary University - In progress',
+      DESCRIPTION:
+        'Learning fundamental concepts of Engineering, Business and increasing my knowledge in computer science',
     },
-  ]
-}
+  ],
+};
 
 export const HEADER: any = {
-    HOME: "Home",
-    ABOUT: "About",
-    CONTACT: "Contact",
-    MORE: {
-      TITLE: "More",
-      STAR: {
-        TEXT: "Stars colours :",
-        OPTIONS: [
-          {
-            SELECTED: false,
-            COLOR: "#0369A1"
-          },
-          {
-            SELECTED: false,
-            COLOR: "#4d7c0f"
-          },
-          {
-            SELECTED: false,
-            COLOR: "#c2410c"
-          },
-          {
-            SELECTED: false,
-            COLOR: "#7e22ce"
-          },
-          {
-            SELECTED: false,
-            COLOR: "#a16207"
-          },
-          {
-            SELECTED: false,
-            COLOR: "#0f766e"
-          },
-          {
-            SELECTED: false,
-            COLOR: "#be123c"
-          },
-          {
-            SELECTED: true,
-            COLOR: "#c48cd8"
-          },
-        ],
-
-      }
-    }
+  HOME: 'Home',
+  ABOUT: 'About',
+  CONTACT: 'Contact',
+  MORE: {
+    TITLE: 'More',
+    STAR: {
+      TEXT: 'Stars colours :',
+      OPTIONS: [
+        {
+          SELECTED: false,
+          COLOR: '#0369A1',
+        },
+        {
+          SELECTED: false,
+          COLOR: '#4d7c0f',
+        },
+        {
+          SELECTED: false,
+          COLOR: '#c2410c',
+        },
+        {
+          SELECTED: false,
+          COLOR: '#7e22ce',
+        },
+        {
+          SELECTED: false,
+          COLOR: '#a16207',
+        },
+        {
+          SELECTED: false,
+          COLOR: '#0f766e',
+        },
+        {
+          SELECTED: false,
+          COLOR: '#be123c',
+        },
+        {
+          SELECTED: true,
+          COLOR: '#c48cd8',
+        },
+      ],
+    },
+  },
 };

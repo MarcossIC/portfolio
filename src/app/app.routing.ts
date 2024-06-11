@@ -1,37 +1,24 @@
-import { Routes, RouterModule, withPreloading } from '@angular/router';
-import { ToastService } from 'src/app/data/services/toast/Toast.service';
-import { CustomPreloadStrategyService } from './data/services/customPreloadStrategy.service';
+import { Routes } from '@angular/router';
+import { ToastService } from '@app/lib/toast/Toast.service';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
-    loadChildren: () =>
-      import('./presentation/pages/home/home.module').then((m) => m.HomeModule),
+    loadComponent: () => import('./pages/home/home.component'),
   },
   {
     path: 'about',
     loadChildren: () =>
-      import('./presentation/pages/about/about.module').then(
-        (m) => m.AboutModule
-      ),
-    data: { preload: true },
+      import('./pages/about/about.module').then((m) => m.AboutModule),
   },
   {
     path: 'contact',
     loadChildren: () =>
-      import('./presentation/pages/contact/contact.module').then(
-        (m) => m.ContactModule
-      ),
+      import('./pages/contact/contact.module').then((m) => m.ContactModule),
     providers: [ToastService],
-    data: { preload: true },
   },
   {
     path: '**',
-    loadChildren: () =>
-      import('./presentation/pages/home/home.module').then((m) => m.HomeModule),
+    loadComponent: () => import('./pages/home/home.component'),
   },
 ];
-
-export const AppRoutes = RouterModule.forRoot(routes, {
-  preloadingStrategy: CustomPreloadStrategyService,
-});

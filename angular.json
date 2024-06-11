@@ -11,27 +11,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "plugins": [
-            {
-              "name": "uglifyjs-webpack-plugin",
-              "options": {
-                "sourceMap": true,
-                "uglifyOptions": {
-                  "compress": {
-                    "warnings": false
-                  }
-                }
-              }
-            }
-          ],
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "allowedCommonJsDependencies": [
-              "lodash"
-            ],
             "outputPath": "dist/portfolio",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -48,13 +32,15 @@
               "src/robots.txt",
               "src/assets",
               {
-                "glob": "_redirects",
-                "input": "src",
-                "output": "/"
+                "glob": "**/*",
+                "input": "src/assets/",
+                "output": "/assets/"
               }
             ],
             "styles": [
-              "src/styles.css",
+              "src/styles/styles.css",
+              "src/styles/normalize.css",
+              "src/styles/_vars.css",
               "node_modules/aos/dist/aos.css"
             ],
             "scripts": [
@@ -78,9 +64,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": true,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -92,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "portfolio:build:production"
+              "buildTarget": "portfolio:build:production"
             },
             "development": {
-              "browserTarget": "portfolio:build:development"
+              "buildTarget": "portfolio:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -103,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "portfolio:build"
+            "buildTarget": "portfolio:build"
           }
         },
         "test": {
@@ -119,7 +103,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles/styles.css",
+              "src/styles/normalize.css",
+              "src/styles/_vars.css"
             ],
             "scripts": []
           }
