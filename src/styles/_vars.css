@@ -1,25 +1,28 @@
-:root
-{
-    --ml-red-50: oklch(90.38% 0.034 20.07);
-    --ml-red-75: oklch(71.28% 0.115 20.31);
-    --ml-red-100: oklch(0.51 0.19 27.52);
-    --ml-red-200: oklch(44.37% 0.161 26.9);
-    --ml-red-300: oklch(39.58% 0.133 25.72);
-    --ml-white-100: oklch(96.27% 0.0126 69.29909856448074);
-    --ml-white-200: oklch(93.62% 0.0214 88.13);
-    --ml-white-300: oklch(90.95% 0.0214 88.13);
+:root {
+  --ml-red-50: oklch(90.38% 0.034 20.07);
+  --ml-red-75: oklch(71.28% 0.115 20.31);
+  --ml-red-100: oklch(0.51 0.19 27.52);
+  --ml-red-200: oklch(44.37% 0.161 26.9);
+  --ml-red-300: oklch(39.58% 0.133 25.72);
+  --ml-white-100: oklch(96.27% 0.0126 69.29909856448074);
+  --ml-white-200: oklch(93.62% 0.0214 88.13);
+  --ml-white-300: oklch(90.95% 0.0214 88.13);
 
-    --ml-text-white: linear-gradient(180deg,
-            #fff 0%,
-            rgba(255, 255, 255, 0.6) 100%);
-    --ml-text-red: linear-gradient(180deg,
-            oklch(0.58 0.23 28.18) 10%,
-            oklch(0.43 0.17 28.14 / 0.76) 100%);
+  --ml-text-white: linear-gradient(
+    180deg,
+    #fff 0%,
+    rgba(255, 255, 255, 0.6) 100%
+  );
+  --ml-text-red: linear-gradient(
+    180deg,
+    oklch(0.58 0.23 28.18) 10%,
+    oklch(0.43 0.17 28.14 / 0.76) 100%
+  );
 
-    --ml-bg-img: url("../assets/bg2.webp");
-    --shadow-contact: 0px 0px 30px rgba(0, 0, 0, 0.03);
-    --shadow-liquid: inset 20px 20px 20px rgb(157 0 255 / 5%),
-        25px 35px 20px rgba(0, 0, 0, 0.05),
-        25px 30px 30px rgba(0, 0, 0, 0.05),
-        inset -9px -11px 50px 5px rgb(40 0 60 / 54%);
+  --ml-bg-img: url("../assets/bg2.webp");
+  --ml-bg-color: #0f0227;
+  --shadow-contact: 0px 0px 30px rgba(0, 0, 0, 0.03);
+  --shadow-liquid: inset 20px 20px 20px rgb(157 0 255 / 5%),
+    25px 35px 20px rgba(0, 0, 0, 0.05), 25px 30px 30px rgba(0, 0, 0, 0.05),
+    inset -9px -11px 50px 5px rgb(40 0 60 / 54%);
 }

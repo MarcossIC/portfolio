@@ -14,11 +14,9 @@ export const ROUTES: any = {
 export const API: any = {};
 
 export const HERO: any = {
-  TITLE: 'Full Stack',
+  TITLE_COMPLETE: 'Full Stack Developer',
+  TITLE: ['Full Stack', 'Developer'],
   SUBTITLE: 'Marcos Lopez',
-  STRONG: {
-    TITLE: 'Developer',
-  },
   PARAGRAPH:
     'I am a developer with 3 years of experience in Java and 1 year of experience in Angular. I have knowledge of scalable software architectures, microservices and relational databases. You can read more in the About Me section. Please feel free to contact me so we can work together.',
   RESUME: 'View Resume',
@@ -26,11 +24,59 @@ export const HERO: any = {
 };
 
 export const SKILLS: any = {
-  TITLE: {
-    TEXT: 'Better architecture, easier everything',
-    HIGHLIGHT: ['architecture', 'everything'],
-  },
+  TITLE_COMPLETE: 'Better architecture, easier everything',
+  TITLE: ['Better architecture,', 'easier', 'everything'],
   CLARIFICATION: 'Some technologies with i have experience',
+};
+
+export const PROJECTS_V2 = {
+  TITLE_COMPLETE: 'Some projects',
+  TITLE: ['Some', 'Projects'],
+  VIEW: 'View Repository',
+  DATA: [
+    {
+      ID: '1-project',
+      NAME: 'Codefend',
+      IMG: '../../../../assets/projects/CODEFEND-PROJECT.webp',
+      REPOSITORY: 'https://github.com/codefen/codefend-user',
+      DESC: 'Codefend is a webapp where I was working on the frontend, it allows companies to upload their resources, applications and request a pentest, codefend will provide a provider that scans these. It also offers intelligence services',
+    },
+    {
+      ID: '2-project',
+      NAME: 'Game Galaxy',
+      IMG: '../../../../assets/projects/GAME-GALAXY-PROJECT.png',
+      REPOSITORY: 'https://github.com/MarcossIC/Web-Games',
+      DESC: 'Game Galaxy is a platform for classic games. This website, featuring popular games like Tetris, Snake and Tic-Tac-Toe, is built with Angular, CSS, canvas and RxJS. Game Galaxy offers users a modern twist on beloved retro games.',
+    },
+    {
+      ID: '3-project',
+      NAME: 'Books Leaks',
+      IMG: '../../../../assets/projects/BOOKS-LEAKS-PROJECT.png',
+      REPOSITORY: 'https://github.com/No-Country/s12-10-m-java-angular',
+      DESC: 'Book leaks. Explore the online bookstore, discover literary treasures in this incredible E-commerce of books, with a shopping cart, search engine, filters and login function, with an intuitive and interactive design.',
+    },
+    {
+      ID: '4-project',
+      NAME: 'GPT Landing',
+      IMG: '../../../../assets/projects/GPT-WEB-PROJECT.png',
+      REPOSITORY: 'https://github.com/MarcossIC/gpt3-website',
+      DESC: 'Discover the future of artificial intelligence with this page dedicated to GPT-3. Explore the incredible capabilities of natural language technology and dive into the revolutionary impact of OpenAI in the era of artificial intelligence.',
+    },
+    {
+      ID: '5-project',
+      NAME: 'Invoicer++',
+      IMG: '../../../../assets/projects/FACTURADOR-MASMAS-PROJECT.webp',
+      REPOSITORY: 'https://github.com/conjunto-solucion/facturador',
+      DESC: 'Invoicer++ is an open source application to generate commercial documents. It is an educational web platform created for students who are learning to create and manage business documents.',
+    },
+    {
+      ID: '6-project',
+      NAME: 'Cash now',
+      IMG: '../../../../assets/projects/CASH_NOW_PROJECT.webp',
+      REPOSITORY: 'https://github.com/No-Country/S10-14-FT-Java-Angular',
+      DESC: 'At Cash Now I was working on the backend, this webapp was created to allow people to request a loan from a financial institution, be able to manage the installments and have an interest calculator on the loans.',
+    },
+  ],
 };
 
 export const PROJECTS: any = {
@@ -279,10 +325,8 @@ export const ABOUT_INTRO: any = {
 };
 
 export const SERVICES: any = {
-  TITLE: 'Our service',
-  STRONG: {
-    TITLE: 'Our',
-  },
+  TITLE_COMPLETE: 'Our service',
+  TITLE: ['Our', 'Service'],
   SERVICES: [
     {
       ID: 'f0e8d8d83883',

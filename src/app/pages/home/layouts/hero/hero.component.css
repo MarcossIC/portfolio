@@ -1,25 +1,24 @@
-.hero{
-    display: flex;
-    justify-content: space-evenly;
-    min-height: calc(100dvh - 100px);
-    margin-inline: 1rem;
-    padding-inline: 2.25rem;
+section {
+  display: flex;
+  justify-content: space-evenly;
+  min-height: calc(100dvh - 100px);
+  margin-inline: 1rem;
+  padding-inline: 2.25rem;
 }
 
-.hero-text{
-    display: flex;
-    align-items: center;
+.hero-text {
+  display: flex;
+  align-items: center;
 }
 
-.hero-img{
-    display: none;
+.hero-img {
+  display: none;
 }
-
 
 @media screen and (min-width: 1000px) {
-    .hero-img{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  .hero-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

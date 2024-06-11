@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import AOS from 'aos';
 import { FooterComponent } from '@organism/footer/footer.component';
@@ -21,10 +21,20 @@ import { LayoutComponent } from './components/layout/layout.component';
     LayoutComponent,
   ],
 })
-export class AppComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {
-    AOS.init();
+export class AppComponent implements OnInit, AfterViewInit {
+  constructor(@Inject(DOCUMENT) private document: Document) {}
+  ngAfterViewInit(): void {
+    this.document.onreadystatechange = function () {
+      if (document.readyState == 'complete') {
+        AOS.init({
+          once: true,
+          startEvent: 'DOMContentLoaded',
+          easing: 'ease',
+        });
+        AOS.refresh();
+      }
+    };
   }
+
+  ngOnInit(): void {}
 }

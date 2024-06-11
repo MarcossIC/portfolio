@@ -1,19 +1,29 @@
-.site-container{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 100dvh;
+.site-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100dvh;
 }
 
-.footer{
-    width: 100%;
-    font-weight: 500;
-    font-size: 1.75rem;
-    margin-block-start: auto;
+.site-container {
+  margin-inline: 10px;
+  width: 100%;
+  @media only screen and (min-width: 980px) {
+    & {
+      margin-inline: 6dvw;
+    }
+  }
 }
 
-.main{
-    display: flex;
-    flex-direction: column;
-    flex-grow: 3;
+.footer {
+  width: 100%;
+  font-weight: 500;
+  font-size: 1.75rem;
+  margin-block-start: auto;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 3;
 }

@@ -1,27 +1,35 @@
-<section class="container-sections">
-
+<section id="projects">
   <div data-aos="fade-up" data-aos-duration="650">
-    <app-title 
-      className="text-center font-bold"
+    <app-title
+      className="text-center"
       [titleID]="titleID"
-      class="title"
-      [title]="PROJECTS.TITLE" 
-      [name]="PROJECTS.TITLE"
-      [strong]="[PROJECTS.STRONG.TITLE]" 
-      strongStyle="text-red-700" 
-      
-      
-      
-    ></app-title>
+      [name]="PROJECTS.TITLE_COMPLETE"
+    >
+      {{ PROJECTS.TITLE[0] }}
+      <span class="bg-ml-text-red bg-clip-text text-transparent">{{
+        PROJECTS.TITLE[1]
+      }}</span>
+    </app-title>
   </div>
 
-  <div class="projects-container">
-    <project-card 
-      class="flex justify-center items-center"
-      data-aos="fade-up" data-aos-duration="650"
-      *ngFor="let PROJECT of PROJECTS.DATA; let i = index; trackBy: trackByFn" 
-      [num]="i" [PROJECT]="PROJECT" [textAnchor]="PROJECTS.VIEW"
-    ></project-card>
+  <div class="projects">
+    <article class="project-grid grid-el-1">
+      <project-article [PROJECT]="PROJECTS.DATA[0]">hola</project-article>
+    </article>
+    <article class="project-grid grid-el-2">
+      <project-article [PROJECT]="PROJECTS.DATA[1]">hola</project-article>
+    </article>
+    <article class="project-grid grid-el-3">
+      <project-article [PROJECT]="PROJECTS.DATA[2]">hola</project-article>
+    </article>
+    <article class="project-grid grid-el-4">
+      <project-article [PROJECT]="PROJECTS.DATA[3]">hola</project-article>
+    </article>
+    <article class="project-grid grid-el-5">
+      <project-article [PROJECT]="PROJECTS.DATA[4]">hola</project-article>
+    </article>
+    <article class="project-grid grid-el-6">
+      <project-article [PROJECT]="PROJECTS.DATA[5]">hola</project-article>
+    </article>
   </div>
-
 </section>

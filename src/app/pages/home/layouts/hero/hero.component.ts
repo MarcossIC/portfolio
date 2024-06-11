@@ -4,16 +4,14 @@ import { HeroTextComponent } from './hero-text/herotexto.component';
 
 @Component({
   standalone: true,
-  imports: [HeroImgComponent, HeroTextComponent],
   selector: 'hero-layout',
   templateUrl: './hero.component.html',
-  styleUrls: ['./hero.component.css'],
+  styleUrl: './hero.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  
+  imports: [HeroImgComponent, HeroTextComponent],
 })
 export class HeroLayoutComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {  }
+  ngOnInit(): void {}
 }

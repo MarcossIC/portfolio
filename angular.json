@@ -16,9 +16,7 @@
             "outputPath": "dist/portfolio",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/google70369a649c023c51.html",
@@ -41,11 +39,10 @@
               "src/styles/styles.css",
               "src/styles/normalize.css",
               "src/styles/_vars.css",
-              "node_modules/aos/dist/aos.css"
+              "node_modules/aos/dist/aos.css",
+              "node_modules/atropos/atropos.min.css"
             ],
-            "scripts": [
-              "./node_modules/vanilla-tilt/dist/vanilla-tilt.min.js"
-            ]
+            "scripts": ["./node_modules/vanilla-tilt/dist/vanilla-tilt.min.js"]
           },
           "configurations": {
             "production": {
@@ -93,15 +90,9 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles/styles.css",
               "src/styles/normalize.css",
