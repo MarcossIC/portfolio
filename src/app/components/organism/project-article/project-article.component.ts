@@ -16,6 +16,7 @@ import { ProjectArticleImgComponent } from '@app/components/molecules/project-ar
 })
 export class ProjectArticleComponent implements OnInit {
   @Input() public PROJECT: any;
+
   constructor() {}
   ngOnInit(): void {}
 }

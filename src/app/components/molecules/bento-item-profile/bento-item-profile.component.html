@@ -1,0 +1,35 @@
+<bento-item className="bento-col-2 bento-item-3"
+  ><div class="flex gap-x-[1rem] min-[840px]:gap-x-[1.35rem]">
+    <rectangle-profile
+      src="../../../../assets/utils/FOTO_CV.webp"
+      alt="My photo"
+    />
+    <div class="flex flex-col w-full">
+      <div
+        class="flex items-start gap-y-3 mb-2 min-[540px]:mb-0 flex-col min-[540px]:flex-row min-[540px]:justify-between min-[540px]:items-center"
+      >
+        <span class="space-in-text">
+          <pulse-element />
+          Available for work
+        </span>
+        <span
+          class="space-in-text cursor-pointer flex-row-reverse min-[540px]:flex-row"
+          >Resume <DownloadIcon
+        /></span>
+      </div>
+      <h2 class="bg-clip-text text-transparent">Marcos Lopez</h2>
+    </div>
+    <AstronautIcon />
+  </div>
+  <div
+    clasS="chip-style fixed-style max-[440px]:!hidden w-auto flex-row flex-wrap flex-1 !justify-start text-[24px] ml-[.25rem] mt-[15px] py-[8px] h-[95px] px-[18px] gap-y-[4px] gap-x-[15px] min-[840px]:mt-[10px] min-[440px]:flex min-[1225px]:gap-x-[18px] min-[1225px]:ml-[9rem]"
+  >
+    <text-with-icon text="Argentina"><CountryIcon /></text-with-icon>
+    <text-with-icon text="IT technician"><EducationIcon /></text-with-icon>
+    <text-with-icon text="Spanish & English"><GlobalIcon /></text-with-icon>
+    <text-with-icon text="A good boy" [addSpace]="true"
+      ><GoodBoyIcon
+    /></text-with-icon>
+    <text-with-icon text="I love a coffee"><CoffeeIcon /></text-with-icon>
+  </div>
+</bento-item>

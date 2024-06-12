@@ -1,11 +1,11 @@
 .brightness-1 {
-  width: 25rem;
-  height: 25rem;
-  top: 6%;
-  left: 12%;
+  width: 29rem;
+  height: 27rem;
+  top: 4%;
+  left: 7%;
   border-radius: 13%;
-  background: rgb(98 48 187 / 30%);
-  filter: blur(30px);
+  background: rgb(91 49 165 / 40%);
+  filter: blur(50px);
   z-index: 0;
 }
 

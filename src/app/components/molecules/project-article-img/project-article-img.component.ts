@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AtroposDirective } from '@app/lib/directives/AtroposDirective.directive';
+import { AtroposDirective } from '@lib/directives/AtroposDirective.directive';
 import { CustomLink } from '@atoms/link/custom-link.component';
 
 @Component({

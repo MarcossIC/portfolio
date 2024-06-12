@@ -1,13 +1,9 @@
 .site-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
   min-height: 100dvh;
-}
-
-.site-container {
   margin-inline: 10px;
-  width: 100%;
+
   @media only screen and (min-width: 980px) {
     & {
       margin-inline: 6dvw;
