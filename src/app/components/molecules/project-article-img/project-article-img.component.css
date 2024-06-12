@@ -1,8 +1,8 @@
 .project-img {
   --project-img-w: 100%;
-  --project-img-h: 450px;
-  --container-img-w: 380px;
-  --container-img-h: 390px;
+  --project-img-h: 470px;
+  --container-img-w: 300px;
+  --container-img-h: 300px;
 
   position: relative;
   width: var(--project-img-w);
@@ -51,16 +51,20 @@
   width: var(--container-img-w);
   height: var(--container-img-h);
   background-color: #fff;
+
   margin-inline: auto;
   border-radius: 0.5rem;
+
   -o-object-fit: cover;
   object-fit: cover;
   -o-object-position: center;
   object-position: center;
   vertical-align: middle;
+
   background-repeat: no-repeat;
   background-origin: border-box;
   background-position: left;
+  background-size: cover;
 }
 
 .project-img {
@@ -79,6 +83,14 @@
 
 .project-img:hover .project-atropos-content {
   scale: 1;
+}
+
+@media only screen and (min-width: 420px) {
+  .project-img {
+    --project-img-h: 485px;
+    --container-img-w: 380px;
+    --container-img-h: 390px;
+  }
 }
 
 @media only screen and (min-width: 560px) {

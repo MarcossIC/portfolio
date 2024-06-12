@@ -1,0 +1,25 @@
+<div
+  class="relative h-[214px] w-[90%] min-[480px]:w-[450px] min-[1080px]:w-full max-w-[450px] min-[1480px]:h-[250px] min-[1480px]:max-w-none"
+>
+  <textarea
+    [name]="name"
+    [id]="id"
+    [formControl]="fieldControl"
+    role="textbox"
+    [attr.aria-label]="aria"
+    autocapitalize="none"
+    placeholder=" "
+    [cols]="cols"
+    [rows]="rows"
+  ></textarea>
+  <label [for]="id">{{ label }}</label>
+  <error-message
+    errorClass="text-[#e12a2a] items-center font-semibold text-center"
+    [errorMessage]="errorMessage"
+    [showError]="
+      fieldControl?.touched &&
+      (fieldControl?.hasError('required')! ||
+        fieldControl?.hasError('maxLength')!)
+    "
+  ></error-message>
+</div>

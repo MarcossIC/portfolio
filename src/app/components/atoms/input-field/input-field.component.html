@@ -1,0 +1,23 @@
+<div
+  class="relative h-[76px] w-[90%] min-[480px]:w-[450px] min-[1080px]:w-full max-w-[450px] min-[1480px]:max-w-none"
+>
+  <input
+    [type]="type"
+    [name]="name"
+    [formControl]="fieldControl"
+    [id]="id"
+    [attr.aria-label]="aria"
+    [autocomplete]="autocomplete"
+    placeholder=" "
+    autocapitalize="none"
+  />
+  <label [for]="id">{{ label }}</label>
+  <error-message
+    errorClass="text-[#e12a2a] items-center font-semibold text-center"
+    [errorMessage]="errorMessage"
+    [showError]="
+      fieldControl?.touched &&
+      (fieldControl?.hasError('required') || fieldControl?.hasError('pattern'))
+    "
+  ></error-message>
+</div>

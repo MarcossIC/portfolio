@@ -4,7 +4,7 @@ import { ContactPageComponent } from './contact.component';
 import { TitleComponent } from '../../components/atoms/title/title.component';
 import { ContactRoutes } from './contact.routing';
 import { LiquidBannerComponent } from '../../components/atoms/liquid-banner/liquid-banner.component';
-import { ContactFormComponent } from './contact-form/contact-form.component';
+import { ContactFormComponent } from '../../components/organism/contact-form/contact-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastComponent } from '../../components/organism/toast/toast.component';
 

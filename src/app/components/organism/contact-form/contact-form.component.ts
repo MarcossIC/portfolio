@@ -8,22 +8,25 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ContactState } from '@app/models/contactState.model';
-import { ErrorMessageComponent } from '@app/components/atoms/error-message/error-message.component';
+import { ErrorMessageComponent } from '@atoms/error-message/error-message.component';
+import { InputFieldComponent } from '@atoms/input-field/input-field.component';
+import { TextAreaFieldComponent } from '@atoms/text-area-field/text-area-field.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ErrorMessageComponent, ReactiveFormsModule],
   selector: 'contact-form',
   templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.css'],
+  styleUrl: './contact-form.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    ErrorMessageComponent,
+    ReactiveFormsModule,
+    InputFieldComponent,
+    TextAreaFieldComponent,
+  ],
 })
 export class ContactFormComponent implements OnInit, OnDestroy {
   @Output() public contactState: EventEmitter<ContactState>;
@@ -42,23 +45,9 @@ export class ContactFormComponent implements OnInit, OnDestroy {
 
   private createContactForm(): FormGroup {
     return this.formBuilder.group({
-      fullName: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[a-zA-ZÁ-ÿ\u00E0-\u00FC' -]+$/),
-        ],
-      ],
-      email: [
-        '',
-        [
-          Validators.pattern(
-            /^\s*(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\s*$/
-          ),
-          Validators.required,
-        ],
-      ],
-      message: ['', [Validators.required, Validators.maxLength(300)]],
+      name: '',
+      email: '',
+      message: '',
     });
   }
 
