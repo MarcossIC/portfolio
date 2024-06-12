@@ -1,32 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { SocialNavComponent } from '../social-nav/social-nav.component';
-import { FooterContactComponent } from '../../molecules/footer-contact/footer-contact.component';
-import { FooterCopyComponent } from '../../atoms/footer-copy/footer-copy.component';
+import { LogoIconComponent } from '@icons/logo-icon.component';
+import { CustomLink } from '@atoms/link/custom-link.component';
+import { CoffeeIconComponent } from '@icons/coffee-icon.component';
+import { SocialButtonComponent } from '@molecules/social-button/social-button.component';
+import { CvIconComponent } from '@app/components/icons/cv-icon.component';
+import { GmailIconComponent } from '@icons/gmail-icon.component';
+import { LinkedinIconComponent } from '@icons/linkedin-icon.component';
+import { GithubIconComponent } from '@icons/github-icon.component';
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    SocialNavComponent,
-    FooterContactComponent,
-    FooterCopyComponent,
-  ],
   selector: 'app-footer',
-  template: `
-    <div
-      class="mt-[4em] bg-slate-900 text-light w-full pb-0 overflow-wrap break-all"
-    >
-      <div class="footer-content">
-        <span>Marcos Lopez</span>
-        <social-nav class="mt-2" />
-        <footer-contact />
-        <footer-copy></footer-copy>
-      </div>
-    </div>
-  `,
+  templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    LogoIconComponent,
+    CustomLink,
+    CoffeeIconComponent,
+    SocialButtonComponent,
+    CvIconComponent,
+    GmailIconComponent,
+    LinkedinIconComponent,
+    GithubIconComponent,
+  ],
 })
 export class FooterComponent implements OnInit {
   //

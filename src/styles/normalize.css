@@ -81,6 +81,29 @@
   background: transparent;
 }
 
+body,
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #b9b9b9 #1b004e;
+}
+body::-webkit-scrollbar-button,
+html::-webkit-scrollbar-button {
+  display: none;
+}
+body::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track {
+  background-color: #1b004e;
+}
+body::-webkit-scrollbar,
+html::-webkit-scrollbar {
+  width: 12px;
+  background-color: #1b004e;
+}
+body::-webkit-scrollbar-corner,
+html::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 *,
 ::after,
 ::before {
