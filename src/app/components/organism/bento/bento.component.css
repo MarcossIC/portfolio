@@ -118,6 +118,8 @@ bento-item-stack {
   max-width: var(--bento-max-w-col-2);
   min-width: var(--bento-min-w-col-2);
   margin-inline: var(--bento-mx);
+  min-height: 186px;
+  height: 225px;
 }
 
 @media only screen and (min-width: 550px) {
@@ -204,6 +206,9 @@ bento-item-stack {
     height: 100%;
   }
   bento-item-whoiam {
+    height: 100%;
+  }
+  bento-item-stack {
     height: 100%;
   }
 }

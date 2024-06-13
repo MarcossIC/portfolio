@@ -1,4 +1,259 @@
 ::ng-deep .bento-item-7 {
   flex-direction: column;
   display: flex;
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  object-fit: cover;
+  object-position: center;
+  max-width: 14%;
+}
+
+.mysql {
+  right: 9.5%;
+  bottom: 3%;
+}
+
+.angular {
+  left: 5%;
+  top: 38%;
+}
+.react {
+  left: 18%;
+  bottom: 9%;
+}
+.spring {
+  left: 30%;
+  top: 32%;
+}
+.java {
+  right: 46%;
+  top: 63%;
+}
+.css {
+  left: 50%;
+  top: 20%;
+  display: none;
+}
+.git {
+  bottom: 19%;
+  left: 60%;
+}
+.typescript {
+  left: 70%;
+  bottom: 68%;
+}
+.tailwind {
+  bottom: 37%;
+  right: 7%;
+}
+
+@media only screen and (min-width: 480px) {
+  .icon {
+    max-width: 12%;
+  }
+  .css {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 580px) {
+  .icon {
+    max-width: none;
+  }
+  .mysql {
+    right: 9.5%;
+    bottom: 2%;
+  }
+
+  .angular {
+    left: 2%;
+    top: 33%;
+  }
+  .react {
+    bottom: 2%;
+  }
+  .spring {
+    left: 29%;
+    top: 18%;
+  }
+  .java {
+    right: 49%;
+    top: 54%;
+  }
+  .css {
+    left: 47.75%;
+    top: 16%;
+  }
+  .git {
+    bottom: 10%;
+    left: 56%;
+  }
+  .typescript {
+    left: 67%;
+    bottom: 60%;
+  }
+  .tailwind {
+    bottom: 39%;
+    right: 2.5%;
+  }
+}
+
+@media only screen and (min-width: 840px) {
+  .icon {
+    max-width: 27%;
+  }
+  .angular {
+    left: 4.5%;
+    top: 40%;
+  }
+  .react {
+    left: 37%;
+    bottom: 1.75%;
+  }
+  .spring {
+    left: 62%;
+    top: 15%;
+  }
+  .mysql {
+    right: 3%;
+    bottom: -1%;
+  }
+  .java,
+  .css,
+  .git,
+  .typescript,
+  .tailwind {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1135px) {
+  .icon {
+    max-width: none;
+  }
+  .css,
+  .tailwind,
+  .typescript,
+  .java {
+    display: block;
+  }
+  .tailwind {
+    bottom: 32%;
+    right: 5%;
+  }
+  .typescript {
+    left: 43%;
+    bottom: 18%;
+  }
+  .git {
+    bottom: 35%;
+    left: 21%;
+  }
+  .java {
+    top: 50%;
+    right: 65%;
+  }
+  .css {
+    left: 67%;
+    top: 13%;
+  }
+  .angular {
+    left: 4%;
+    top: 21%;
+  }
+  .react {
+    left: 6%;
+    bottom: 4%;
+  }
+  .spring {
+    left: 42%;
+    top: 33%;
+  }
+  .mysql {
+    right: 6%;
+    bottom: 0%;
+  }
+}
+
+@media only screen and (min-width: 1225px) {
+  .react {
+    left: 10%;
+    bottom: 10%;
+  }
+  .mysql {
+    right: 7%;
+    bottom: 5%;
+  }
+  .spring {
+    left: 43%;
+    top: 12%;
+  }
+  .typescript {
+    left: 46%;
+    bottom: 15%;
+  }
+  .java {
+    top: 35%;
+    right: 31%;
+  }
+  .tailwind {
+    bottom: 30%;
+  }
+  .css {
+    left: 78%;
+    top: 14%;
+  }
+  .git {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 1480px) {
+  .java,
+  .git,
+  .tailwind {
+    display: none;
+  }
+  .angular {
+    left: 5%;
+    top: 30%;
+  }
+  .react {
+    left: 18%;
+    bottom: 7%;
+  }
+  .spring {
+    left: 40%;
+    top: 24%;
+  }
+  .css {
+    left: 72%;
+    top: 30%;
+  }
+  .mysql {
+    right: 6%;
+    bottom: 7%;
+  }
+  .typescript {
+    left: 48%;
+    bottom: 16%;
+  }
+}
+
+@media only screen and (min-width: 1700px) {
+  .typescript {
+    left: 52%;
+  }
+  .react {
+    left: 20%;
+  }
+  .spring {
+    left: 39%;
+  }
+  .css {
+    left: 70%;
+  }
 }
