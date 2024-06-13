@@ -54,9 +54,17 @@ p {
 @media only screen and (min-width: 450px) {
   ::ng-deep .bento-item-6 {
     --title-size: 3rem;
-    --github-btn-text: 1.35rem;
-    --github-btn-w: 95%;
-    --github-btn-h: 55px;
+    --github-btn-text: 1.3rem;
+    --github-btn-w: 85%;
+    --github-btn-h: 52px;
+  }
+}
+
+@media only screen and (min-width: 840px) {
+  ::ng-deep .bento-item-6 {
+    --github-btn-text: 1.115rem;
+    --github-btn-w: 50%;
+    --github-btn-h: 42px;
   }
 }
 
