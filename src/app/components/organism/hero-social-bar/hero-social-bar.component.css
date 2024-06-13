@@ -20,10 +20,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  column-gap: 3.75rem;
+  column-gap: 2rem;
   border: 1px solid #2c06701f;
   margin-inline: auto;
-  padding: 1rem;
+  padding-inline: 1rem;
+  padding-block: 0.45rem;
   border-radius: 1.25rem;
   margin-block-start: 0rem;
   background: linear-gradient(
@@ -33,4 +34,30 @@
   );
   position: relative;
   box-shadow: 19px 8px 10px 5px rgba(0, 0, 0, 0.2), inset 0 -12px 40px #3800bd26;
+}
+
+::ng-deep a.social-link {
+  scale: 0.865;
+}
+
+@media only screen and (min-width: 490px) {
+  .hero-socials {
+    column-gap: 2.5rem;
+    padding-block: 0.5rem;
+  }
+
+  ::ng-deep a.social-link {
+    scale: 0.9;
+  }
+}
+
+@media only screen and (min-width: 680px) {
+  .hero-socials {
+    column-gap: 3.75rem;
+    padding-block: 1rem;
+  }
+
+  ::ng-deep a.social-link {
+    scale: 1;
+  }
 }

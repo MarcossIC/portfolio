@@ -29,5 +29,5 @@ div.icon ::ng-deep svg {
   min-height: 29px;
   top: 50% !important;
   left: 50% !important;
-  transform: translate(-50%, -55%) !important;
+  translate: -50% -55%;
 }
