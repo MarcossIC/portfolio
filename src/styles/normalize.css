@@ -15,7 +15,7 @@
 }
 
 @font-face {
-  font-family: Manrope;
+  font-family: "Manrope";
   font-style: medium;
   font-weight: 500;
   src: local("Manrope-Medium"),
@@ -35,6 +35,48 @@
   font-weight: 700;
   src: local("Manrope-Bold"),
     url("../assets/fonts/Manrope-Bold.ttf") format("truetype");
+}
+/*******************************************************/
+/*************     MONTSERRAT FONT  ********************/
+/*******************************************************/
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: light;
+  font-weight: 300;
+  src: local("Montserrat-Light"),
+    url("../assets/fonts/Montserrat-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Montserrat-Regular"),
+    url("../assets/fonts/Montserrat-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: medium;
+  font-weight: 500;
+  src: local("Montserrat-Medium"),
+    url("../assets/fonts/Montserrat-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: bold;
+  font-weight: 600;
+  src: local("Montserrat-SemiBold"),
+    url("../assets/fonts/Montserrat-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: bolder;
+  font-weight: 700;
+  src: local("Montserrat-Bold"),
+    url("../assets/fonts/Montserrat-Bold.ttf") format("truetype");
 }
 
 ::-webkit-scrollbar {

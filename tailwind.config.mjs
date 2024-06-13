@@ -7,11 +7,14 @@ export default {
         secondTitle: "clamp(1.5rem, 8vw, 4rem)",
         largeTitle: "clamp(1.5rem, 7vw, 3rem)",
       },
-      fontFamily: { manrope: ['Manrope', 'sans-serif'], },
+      fontFamily: {
+        manrope: ["Manrope", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
+      },
       backgroundImage: {
-        'ml-text-white': 'var(--ml-text-white)',
-        'ml-text-red': 'var(--ml-text-red)',
-        'ml-bg-purple': "var(--ml-bg-img)"
+        "ml-text-white": "var(--ml-text-white)",
+        "ml-text-red": "var(--ml-text-red)",
+        "ml-bg-purple": "var(--ml-bg-img)",
       },
       colors: {
         transparents: {
@@ -29,9 +32,8 @@ export default {
         card: "rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px",
         skiil:
           "0px 5px 20px 5px rgba(0, 0, 0, 0.33),0px 4px 28px 7px rgba(0, 0, 0, 0.38) inset",
-        liquid:
-          "var(--shadow-liquid)",
-        'contact-box': 'var(--shadow-contact)',
+        liquid: "var(--shadow-liquid)",
+        "contact-box": "var(--shadow-contact)",
       },
       screens: {
         xs: "450px",
