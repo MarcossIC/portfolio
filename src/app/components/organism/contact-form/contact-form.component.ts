@@ -56,7 +56,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
   }
 
   protected onSubmit() {
-    const fullname = this.controls['fullName'].value;
+    const fullname = this.controls['name'].value;
     const email = this.controls['email'].value;
     const message = this.controls['message'].value;
 

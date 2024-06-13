@@ -1,7 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Renderer2,
+  RendererFactory2,
+  inject,
+} from '@angular/core';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 import { StartIconComponent } from '@app/components/icons/star-icon.component';
 import { EmailIconComponent } from '@app/components/icons/email-icon.component';
+import { Router } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -12,7 +21,31 @@ import { EmailIconComponent } from '@app/components/icons/email-icon.component';
   imports: [BentoItemComponent, StartIconComponent, EmailIconComponent],
 })
 export class BentoItemContactComponent implements OnInit {
+  private router: Router = inject(Router);
+  private readonly renderer: Renderer2 = inject(
+    RendererFactory2
+  ).createRenderer(null, null);
+  private _document: Document = inject(DOCUMENT);
   constructor() {}
 
   ngOnInit(): void {}
+
+  scrollToForm() {
+    this.router.navigate([], { fragment: 'contact-form-layout' }).then(() => {
+      const element = document.getElementById('contact-form-layout');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        element.addEventListener(
+          'animationend',
+          () => {
+            const inputElement = document.getElementById('contact-name');
+            if (inputElement) {
+              this.renderer.selectRootElement(inputElement).focus();
+            }
+          },
+          { once: true }
+        );
+      }
+    });
+  }
 }
