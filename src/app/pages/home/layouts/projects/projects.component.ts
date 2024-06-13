@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AngularIconComponent } from '@app/components/icons/angular-icon.component';
 import { Css3IconComponent } from '@app/components/icons/css3-icon.component';
@@ -17,7 +16,6 @@ import { ProjectArticleComponent } from '@organism/project-article/project-artic
   styleUrl: './projects.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     TitleComponent,
     ProjectArticleComponent,
 

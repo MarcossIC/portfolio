@@ -6,11 +6,10 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AtroposDirective } from '@lib/directives/AtroposDirective.directive';
-import { CustomLink } from '@atoms/link/custom-link.component';
 
 @Component({
   standalone: true,
-  imports: [RouterLink, CustomLink, AtroposDirective],
+  imports: [RouterLink, AtroposDirective],
   selector: 'project-article-img',
   templateUrl: './project-article-img.component.html',
   styleUrls: ['./project-article-img.component.css'],
