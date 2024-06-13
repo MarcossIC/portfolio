@@ -17,8 +17,15 @@ import { ToastService } from '@app/lib/toast/Toast.service';
 })
 export class ToastComponent implements OnInit {
   private readonly toastService = inject(ToastService);
-
   public readonly toasts = this.toastService.state.asReadonly();
+  protected readonly TOAST_DEFAULT = 'default';
+  protected readonly TOAST_TYPE = new Map<string, string>([
+    ['success', 'success'],
+    ['info', 'info'],
+    ['warning', 'warning'],
+    ['error', 'error'],
+    ['default', 'default'],
+  ]);
 
   constructor() {}
 
@@ -26,9 +33,5 @@ export class ToastComponent implements OnInit {
 
   protected close(ID: string): void {
     this.toastService.remove(ID);
-  }
-
-  public trackBtyFn(index: number, toast: any): string {
-    return toast.ID;
   }
 }

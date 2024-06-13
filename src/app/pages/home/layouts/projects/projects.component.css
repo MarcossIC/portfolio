@@ -34,6 +34,7 @@ section {
   align-items: center;
 
   margin-block-start: 3rem;
+  padding-block-end: 80px;
 
   display: flex;
   flex-flow: nowrap column;
@@ -78,18 +79,18 @@ section {
     grid-row-end: span 1;
   }
   .grid-el-2 {
-    margin-block-start: 11.25rem;
+    margin-block-start: 14rem;
   }
   .grid-el-3 {
-    margin-block-start: -15rem;
+    margin-block-start: -16rem;
   }
   .grid-el-4 {
-    margin-block-start: -5rem;
+    margin-block-start: 0rem;
   }
   .grid-el-5 {
-    margin-block-start: -1rem;
+    margin-block-start: -8rem;
   }
   .grid-el-6 {
-    margin-block-start: 12.5rem;
+    margin-block-start: 2rem;
   }
 }

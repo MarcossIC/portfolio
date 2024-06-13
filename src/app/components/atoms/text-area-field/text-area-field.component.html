@@ -17,9 +17,9 @@
     errorClass="text-[#e12a2a] items-center font-semibold text-center"
     [errorMessage]="errorMessage"
     [showError]="
-      fieldControl?.touched &&
-      (fieldControl?.hasError('required')! ||
-        fieldControl?.hasError('maxLength')!)
+      fieldControl.touched &&
+      (fieldControl.hasError('required')! ||
+        fieldControl.hasError('maxLength')!)
     "
   ></error-message>
 </div>

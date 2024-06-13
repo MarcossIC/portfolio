@@ -6,23 +6,28 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   imports: [CommonModule],
   selector: 'liquid-banner',
   template: `
-       <picture class="liquid-container" data-aos="fade-up" data-aos-duration="700">
-          <div class="liquid">
-            <div class="liquid-container">
-              <img 
-                src="../../../../assets/Programmer.webp" class="w-full h-auto" alt="Image of person programming" role="img">
-            </div>
-          </div>
-        </picture>
+    <picture
+      class="liquid-container"
+      data-aos="fade-up"
+      data-aos-duration="700"
+    >
+      <div class="liquid">
+        <div class="liquid-container">
+          <img
+            src="../../../../assets/utils/Programmer.webp"
+            class="w-full h-auto"
+            alt="Image of person programming"
+            role="img"
+          />
+        </div>
+      </div>
+    </picture>
   `,
   styleUrls: ['./liquid-banner.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiquidBannerComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
