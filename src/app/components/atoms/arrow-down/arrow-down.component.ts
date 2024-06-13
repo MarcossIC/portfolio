@@ -160,7 +160,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       .arrow {
         position: absolute;
         left: 50%;
-        bottom: -125%;
+        bottom: -155%;
         transform: translate(-50%, 0%);
         scale: 0.8;
 
@@ -199,6 +199,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
             var(--percentage-anim-y)
           );
           scale: var(--scale-anim);
+        }
+      }
+
+      @media only screen and (min-width: 690px) {
+        .arrow {
+          bottom: -125%;
         }
       }
     `,
