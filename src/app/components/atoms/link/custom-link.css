@@ -1,8 +1,0 @@
-a ::ng-deep span {
-  width: 0px;
-  opacity: 0.95;
-}
-
-a.active-link ::ng-deep span {
-  width: 100%;
-}

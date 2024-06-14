@@ -12,7 +12,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 export class CustomLink {
   @Input({ required: true }) public path = '';
   @Input() public rel = '';
-  @Input() public target = '_self';
+  @Input() public target = '_blank';
   @Input() public classNames = '';
 
   constructor() {}

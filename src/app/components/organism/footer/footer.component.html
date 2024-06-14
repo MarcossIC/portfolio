@@ -29,40 +29,24 @@
         <h3 class="font-bold text-[1.45rem]">Navigation</h3>
         <ul class="flex flex-col gap-y-1 mt-2" role="list">
           <li role="listitem" aria-label="Go to hero">
-            <a
-              href="#hero"
-              target="_self"
-              class="relative group mr-4 link-active text-[1.2rem]"
-            >
+            <router-link fragment="hero" classNames="foot-navigation">
               Hero
-            </a>
+            </router-link>
           </li>
           <li role="listitem" aria-label="Go to Projects">
-            <a
-              href="#projects"
-              target="_self"
-              class="relative group mr-4 link-active text-[1.2rem]"
-            >
+            <router-link fragment="projects" classNames="foot-navigation">
               Projects
-            </a>
+            </router-link>
           </li>
           <li>
-            <a
-              href="#about"
-              target="_self"
-              class="relative group mr-4 link-active text-[1.2rem]"
-            >
+            <router-link fragment="about" classNames="foot-navigation">
               About
-            </a>
+            </router-link>
           </li>
           <li role="listitem" aria-label="Go to Contact">
-            <a
-              href="#about"
-              target="_self"
-              class="relative group mr-4 link-active text-[1.2rem]"
-            >
+            <router-link fragment="contact" classNames="foot-navigation">
               Contact
-            </a>
+            </router-link>
           </li>
         </ul>
       </div>

@@ -5,18 +5,14 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { CustomLink } from '@app/components/atoms/link/custom-link.component';
 
 @Component({
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, CustomLink],
   selector: 'social-button',
   template: `
-    <a
-      [href]="socialUri"
-      [title]="title"
-      target="_blank"
-      class="social-link relative group cursor-pointer"
-    >
+    <custom-link [path]="socialUri" [title]="title" classNames="social-link">
       <div
         class="text-center w-[30px] h-[30px] rounded-full icon"
         aria-hidden="true"
@@ -25,7 +21,7 @@ import {
       >
         <ng-content></ng-content>
       </div>
-    </a>
+    </custom-link>
   `,
   styleUrl: './social-button.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

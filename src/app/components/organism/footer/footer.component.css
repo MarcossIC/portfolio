@@ -15,18 +15,20 @@ footer ::ng-deep .logo ::ng-deep img {
   min-width: 120px;
 }
 
-footer .link-active {
-  font-weight: 500;
+router-link::ng-deep .foot-navigation {
+  @apply relative mr-4 font-medium;
+
+  font-size: 1.2rem;
   color: #e7e7e7;
   opacity: 0.75;
   transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
   transition-duration: 150ms;
   transition-property: all;
+}
 
-  &:hover {
-    opacity: 1;
-    color: #fff;
-  }
+router-link::ng-deep .foot-navigation:hover {
+  opacity: 1;
+  color: #fff;
 }
 
 .footer-bg {

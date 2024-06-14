@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LogoIconComponent } from '@icons/logo-icon.component';
-import { CustomLink } from '@atoms/link/custom-link.component';
 import { CoffeeIconComponent } from '@icons/coffee-icon.component';
 import { SocialButtonComponent } from '@molecules/social-button/social-button.component';
-import { CvIconComponent } from '@app/components/icons/cv-icon.component';
+import { CvIconComponent } from '@icons/cv-icon.component';
 import { GmailIconComponent } from '@icons/gmail-icon.component';
 import { LinkedinIconComponent } from '@icons/linkedin-icon.component';
 import { GithubIconComponent } from '@icons/github-icon.component';
+import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
 
 @Component({
   standalone: true,
@@ -18,7 +18,7 @@ import { GithubIconComponent } from '@icons/github-icon.component';
   imports: [
     CommonModule,
     LogoIconComponent,
-    CustomLink,
+    RouterLinkComponent,
     CoffeeIconComponent,
     SocialButtonComponent,
     CvIconComponent,
