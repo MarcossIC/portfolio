@@ -47,6 +47,7 @@ export const ABOUT_USER = {
   profile: {
     //URL or PATH to the img
     photo: '../../../../assets/utils/FOTO_CV.webp',
+    //false still doesn't work
     isAvalaible: true,
     doYouLikeCoffee: true,
     country: 'Argentina',
