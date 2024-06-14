@@ -1,25 +1,19 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [CommonModule],
   selector: 'custom-link',
   templateUrl: './custom-link.html',
   styleUrl: './custom-link.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomLink implements OnInit {
-  @Input({ required: true }) public to: string = '';
-  @Input({ required: true }) public classNames: string = '';
+export class CustomLink {
+  @Input({ required: true }) public path = '';
+  @Input() public rel = '';
+  @Input() public target = '_self';
+  @Input() public classNames = '';
 
   constructor() {}
-
-  ngOnInit(): void {}
 }

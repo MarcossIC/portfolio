@@ -397,48 +397,9 @@ export const STUDIES: any = {
   ],
 };
 
-export const HEADER: any = {
-  HOME: 'Home',
-  ABOUT: 'About',
-  CONTACT: 'Contact',
-  MORE: {
-    TITLE: 'More',
-    STAR: {
-      TEXT: 'Stars colours :',
-      OPTIONS: [
-        {
-          SELECTED: false,
-          COLOR: '#0369A1',
-        },
-        {
-          SELECTED: false,
-          COLOR: '#4d7c0f',
-        },
-        {
-          SELECTED: false,
-          COLOR: '#c2410c',
-        },
-        {
-          SELECTED: false,
-          COLOR: '#7e22ce',
-        },
-        {
-          SELECTED: false,
-          COLOR: '#a16207',
-        },
-        {
-          SELECTED: false,
-          COLOR: '#0f766e',
-        },
-        {
-          SELECTED: false,
-          COLOR: '#be123c',
-        },
-        {
-          SELECTED: true,
-          COLOR: '#c48cd8',
-        },
-      ],
-    },
-  },
-};
+export const HEADER: any = [
+  { ID: '1-pp', LABEL: 'Projects', PATH: '', FRAGMENT: 'projects' },
+  { ID: '2-ap', LABEL: 'About', PATH: '', FRAGMENT: 'about' },
+  { ID: '3-sp', LABEL: 'Studies', PATH: '', FRAGMENT: 'studies' },
+  { ID: '4-cp', LABEL: 'Contact', PATH: '', FRAGMENT: 'contact' },
+];

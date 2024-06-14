@@ -1,8 +1,8 @@
 <a
   [ngClass]="classNames"
-  [routerLink]="to"
-  routerLinkActive="active-link"
-  [routerLinkActiveOptions]="{ exact: true }"
+  [attr.href]="path"
+  [target]="target"
+  [rel]="rel"
   role="link"
   class="relative group"
 >

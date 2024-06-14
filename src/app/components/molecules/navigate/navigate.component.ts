@@ -5,20 +5,19 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { CustomLink } from '@app/components/atoms/link/custom-link.component';
+import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, CustomLink],
+  imports: [CommonModule, RouterLinkComponent],
   selector: 'navigate',
   templateUrl: './navigate.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigateComponent implements OnInit {
   @Input({ required: true }) public path: string = '';
-  @Input({ required: true }) public textLink: string = '';
-  @Input({ required: true }) public classNames: string = '';
-  @Input({ required: true }) public isHeader: boolean = false;
+  @Input({ required: true }) public fragment: string = '';
+  @Input() public classNames: string = '';
 
   constructor() {}
 

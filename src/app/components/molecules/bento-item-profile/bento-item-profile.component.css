@@ -68,6 +68,15 @@ text-with-icon {
   display: inline-flex;
 }
 
+a.resume-download {
+  outline: none;
+  cursor: pointer;
+
+  &:has(:focus, :hover, :active) {
+    outline: none;
+  }
+}
+
 @media only screen and (min-width: 580px) {
   ::ng-deep .bento-item-3 ::ng-deep #astronaut {
     display: block;

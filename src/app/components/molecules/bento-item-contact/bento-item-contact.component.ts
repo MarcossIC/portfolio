@@ -31,8 +31,8 @@ export class BentoItemContactComponent implements OnInit {
   ngOnInit(): void {}
 
   scrollToForm() {
-    this.router.navigate([], { fragment: 'contact-form-layout' }).then(() => {
-      const element = document.getElementById('contact-form-layout');
+    this.router.navigate([], { replaceUrl: true }).then(() => {
+      const element = document.getElementById('contact');
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
         element.addEventListener(
