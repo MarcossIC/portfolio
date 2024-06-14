@@ -5,7 +5,7 @@ import AOS from 'aos';
 import { FooterComponent } from '@organism/footer/footer.component';
 import { HeaderComponent } from '@organism/header/header.component';
 import { ParticlesComponent } from '@molecules/particles/particles.component';
-import { LayoutComponent } from './components/layout/layout.component';
+import { LayoutComponent } from './components/legacy/layout/layout.component';
 
 @Component({
   selector: 'app-root',

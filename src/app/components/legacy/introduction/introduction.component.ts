@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { SpaceSvgComponent } from '@app/components/atoms/spaceSvg/spaceSvg.component';
+import { SpaceSvgComponent } from '@app/components/legacy/spaceSvg/spaceSvg.component';
 import { TitleComponent } from '@app/components/atoms/title/title.component';
 import { ABOUT_INTRO } from 'src/constants/appConst';
 

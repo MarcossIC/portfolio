@@ -5,9 +5,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { CustomLink } from '@app/components/atoms/link/custom-link.component';
-import { VerifyLinkService } from '@app/services/VerifyLink.service';
 
 @Component({
   standalone: true,

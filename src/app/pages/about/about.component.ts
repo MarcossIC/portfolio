@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,13 +6,17 @@ import {
   inject,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { SeoService } from '@app/services/seo.service';
+import { AboutIntroLayoutComponent } from '@app/components/legacy/introduction/introduction.component';
+import { StudiesLayoutComponent } from '@app/pages/about/layouts/studies/studies.component';
+import { SeoService } from '@app/services/legacy/seo.service';
 
 @Component({
+  standalone: true,
   selector: 'page-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, AboutIntroLayoutComponent, StudiesLayoutComponent],
 })
 export class AboutPageComponent implements OnInit {
   private seo: SeoService = inject(SeoService);

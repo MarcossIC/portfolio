@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { HEADER, PATHS } from 'src/constants/appConst';
-import { LogoComponent } from '../../atoms/logo/logo.component';
-import { SocialNavComponent } from '../social-nav/social-nav.component';
+import { LogoComponent } from '../../legacy/logo/logo.component';
+import { SocialNavComponent } from '../../legacy/social-nav/social-nav.component';
 import { NavigateComponent } from '../../molecules/navigate/navigate.component';
-import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,

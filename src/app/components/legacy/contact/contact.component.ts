@@ -10,8 +10,8 @@ import {
 import { Title } from '@angular/platform-browser';
 import { Observable, Subject, catchError, takeUntil } from 'rxjs';
 import { ContactState } from '@app/models/contactState.model';
-import { SeoService } from '@app/services/seo.service';
 import { ToastService } from '@app/lib/toast/Toast.service';
+import { SeoService } from '@app/services/legacy/seo.service';
 
 @Component({
   selector: 'contact-page',

@@ -5,7 +5,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { TagComponent } from '@app/components/atoms/tag/tag.component';
+import { TagComponent } from '@app/components/legacy/tag/tag.component';
 
 @Component({
   standalone: true,
