@@ -9,6 +9,14 @@
   object-fit: cover;
   object-position: center;
   max-width: 14%;
+  transition-duration: 300ms;
+  transition-property: all;
+  transition-timing-function: ease-in;
+}
+
+.icon:hover {
+  filter: saturate(1.1) brightness(1.1) contrast(1.2)
+    drop-shadow(1px 4px 4px rgba(0, 0, 0, 0.3));
 }
 
 .stack-6 {
