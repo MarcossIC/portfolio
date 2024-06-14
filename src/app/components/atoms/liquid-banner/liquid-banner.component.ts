@@ -18,6 +18,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
             class="w-full h-auto"
             alt="Image of person programming"
             role="img"
+            decoding="async"
+            loading="lazy"
           />
         </div>
       </div>
