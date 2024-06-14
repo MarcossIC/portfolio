@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Type,
+} from '@angular/core';
 import { AngularIconComponent } from '@app/components/icons/angular-icon.component';
 import { Css3IconComponent } from '@app/components/icons/css3-icon.component';
 import { ReactIconComponent } from '@app/components/icons/react-icon.component';
@@ -16,6 +22,7 @@ import { ProjectArticleComponent } from '@organism/project-article/project-artic
   styleUrl: './projects.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    CommonModule,
     TitleComponent,
     ProjectArticleComponent,
 
@@ -27,10 +34,20 @@ import { ProjectArticleComponent } from '@organism/project-article/project-artic
     TailwindIconComponent,
   ],
 })
-export class ProjectsLayoutComponent implements OnInit {
+export class ProjectsLayoutComponent {
   protected readonly PROJECTS: any = PROJECTS_V2;
   protected readonly titleID: string = 'home-projects-tt';
-  constructor() {}
+  /*If you need to add more icons, you must create the component and add it to this object*/
+  private readonly iconComponents: { [key: string]: Type<any> } = {
+    react: ReactIconComponent,
+    sass: SassIconComponent,
+    angular: AngularIconComponent,
+    css3: Css3IconComponent,
+    tailwind: TailwindIconComponent,
+    spring: SpringIconComponent,
+  };
 
-  ngOnInit(): void {}
+  protected getIconComponent(icon: string): Type<any> {
+    return this.iconComponents[icon] || null;
+  }
 }

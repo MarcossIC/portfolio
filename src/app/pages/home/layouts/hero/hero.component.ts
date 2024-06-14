@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { HeroSocialBarComponent } from '@organism/hero-social-bar/hero-social-bar.component';
 import { ArrowDownComponent } from '@atoms/arrow-down/arrow-down.component';
+import { USER } from '@constants/userConst';
 
 @Component({
   standalone: true,
@@ -11,5 +12,6 @@ import { ArrowDownComponent } from '@atoms/arrow-down/arrow-down.component';
   imports: [HeroSocialBarComponent, ArrowDownComponent],
 })
 export class HeroLayoutComponent {
+  protected readonly USER = USER;
   constructor() {}
 }

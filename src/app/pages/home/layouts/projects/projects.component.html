@@ -1,65 +1,25 @@
 <section #projects id="projects">
   <div data-aos="fade-up" data-aos-duration="200">
-    <app-title
-      className="text-center"
-      [titleID]="titleID"
-      [name]="PROJECTS.TITLE_COMPLETE"
-    >
-      {{ PROJECTS.TITLE[0] }}
-      <span class="bg-ml-text-red bg-clip-text text-transparent">{{
-        PROJECTS.TITLE[1]
-      }}</span>
+    <app-title className="text-center" [titleID]="titleID" name="Some projects">
+      Some
+      <span class="bg-ml-text-red bg-clip-text text-transparent">Projects</span>
     </app-title>
   </div>
 
   <div class="projects">
-    <article class="project-grid grid-el-1">
+    @for(PROJECT of PROJECTS; track PROJECT.ID){
+    <article class="project-grid" [ngClass]="'grid-el-' + ($index + 1)">
       <project-article
-        [PROJECT]="PROJECTS.DATA[0]"
+        [PROJECT]="PROJECT"
         data-aos="fade-up"
         data-aos-duration="250"
-        ><ReactIcon /><SassIcon />
+        >@for(ICON of PROJECT.ICONS; track $index){
+        <ng-container *ngIf="getIconComponent(ICON) as iconComponent">
+          <ng-container *ngComponentOutlet="iconComponent"></ng-container>
+        </ng-container>
+        }
       </project-article>
     </article>
-    <article class="project-grid grid-el-2">
-      <project-article
-        [PROJECT]="PROJECTS.DATA[1]"
-        data-aos="fade-up"
-        data-aos-duration="250"
-        ><AngularIcon /><Css3Icon /><TailwindIcon
-      /></project-article>
-    </article>
-    <article class="project-grid grid-el-3">
-      <project-article
-        [PROJECT]="PROJECTS.DATA[2]"
-        data-aos="fade-up"
-        data-aos-duration="250"
-        ><AngularIcon /><Css3Icon /><TailwindIcon /><SpringIcon
-      /></project-article>
-    </article>
-    <article class="project-grid grid-el-4">
-      <project-article
-        [PROJECT]="PROJECTS.DATA[3]"
-        data-aos="fade-up"
-        data-aos-duration="250"
-        ><AngularIcon /><Css3Icon /><TailwindIcon
-      /></project-article>
-    </article>
-    <article class="project-grid grid-el-5">
-      <project-article
-        [PROJECT]="PROJECTS.DATA[4]"
-        data-aos="fade-up"
-        data-aos-duration="300"
-        ><ReactIcon /><SassIcon /><SpringIcon
-      /></project-article>
-    </article>
-    <article class="project-grid grid-el-6">
-      <project-article
-        [PROJECT]="PROJECTS.DATA[5]"
-        data-aos="fade-up"
-        data-aos-duration="300"
-        ><AngularIcon /><Css3Icon /><TailwindIcon /><SpringIcon
-      /></project-article>
-    </article>
+    }
   </div>
 </section>

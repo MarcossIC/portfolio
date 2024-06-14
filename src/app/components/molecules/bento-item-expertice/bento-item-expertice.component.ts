@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PlusNumberComponent } from '@atoms/plus-number/plus-number.component';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
+import { ABOUT_USER } from '@constants/userConst';
 
 @Component({
   standalone: true,
@@ -10,8 +11,6 @@ import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BentoItemComponent, PlusNumberComponent],
 })
-export class BentoItemExperticeComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+export class BentoItemExperticeComponent {
+  protected readonly ABOUT_USER = ABOUT_USER;
 }

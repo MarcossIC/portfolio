@@ -4,33 +4,16 @@
   >
     Experience
   </h2>
+
   <div class="ps-4 pe-3 mt-4 overflow-auto flex flex-col h-full expirence-box">
+    @for (EXPIRENCE of EXPIRENCES; track EXPIRENCE.ID) {
     <expirence-item
-      title="Codefend"
-      sub="Front-end developer"
-      date="Jan 2024 - currently"
+      [title]="EXPIRENCE.COMPANY"
+      [sub]="EXPIRENCE.ROLE"
+      [date]="EXPIRENCE.TIME"
     >
-      Led the migration of a project from Solid JS to React. I continued the
-      development of the project, ensuring the timely delivery of new
-      functionalities. Mockup Photoshop designs and implement UX improvements.
+      {{ EXPIRENCE.DESCRIPTION }}
     </expirence-item>
-    <expirence-item
-      title="No country"
-      sub="Full-stack developer"
-      date="Jun 2023 - Dec 2023"
-    >
-      In the no country job simulations, I worked with spring boot, creating a
-      rest API, with microservices, security, and also worked on the front-end
-      with Angular in a book e-commerce.
-    </expirence-item>
-    <expirence-item
-      title="Internship Facturador++"
-      sub="Back-end developer"
-      date="Jan 2022 - Nov 2022"
-    >
-      Invoicer++ is a project that I did in an internship to deliver to the
-      students of the economics course, to generate commercial documents online
-      quickly, I was doing the back-end with Spring boot.
-    </expirence-item>
+    }
   </div>
 </bento-item>

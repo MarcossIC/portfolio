@@ -1,5 +1,7 @@
+import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
+import { ABOUT_USER } from '@constants/userConst';
 import { ExpirenceItemComponent } from '@molecules/expirence-item/expirence-item.component';
 
 @Component({
@@ -8,10 +10,8 @@ import { ExpirenceItemComponent } from '@molecules/expirence-item/expirence-item
   templateUrl: './bento-item-expirence.component.html',
   styleUrls: ['./bento-item-expirence.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BentoItemComponent, ExpirenceItemComponent],
+  imports: [BentoItemComponent, ExpirenceItemComponent, NgFor],
 })
-export class BentoItemExpirenceComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+export class BentoItemExpirenceComponent {
+  protected readonly EXPIRENCES = ABOUT_USER.experiences;
 }

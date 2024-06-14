@@ -11,41 +11,41 @@
   max-width: 14%;
 }
 
-.mysql {
+.stack-6 {
   right: 9.5%;
   bottom: 3%;
 }
 
-.angular {
+.stack-1 {
   left: 5%;
   top: 38%;
 }
-.react {
+.stack-2 {
   left: 18%;
   bottom: 9%;
 }
-.spring {
+.stack-3 {
   left: 30%;
   top: 32%;
 }
-.java {
+.stack-7 {
   right: 46%;
   top: 63%;
 }
-.css {
+.stack-5 {
   left: 50%;
   top: 20%;
   display: none;
 }
-.git {
+.stack-8 {
   bottom: 19%;
   left: 60%;
 }
-.typescript {
+.stack-4 {
   left: 70%;
   bottom: 68%;
 }
-.tailwind {
+.stack-9 {
   bottom: 37%;
   right: 7%;
 }
@@ -54,7 +54,7 @@
   .icon {
     max-width: 12%;
   }
-  .css {
+  .stack-5 {
     display: block;
   }
 }
@@ -63,39 +63,39 @@
   .icon {
     max-width: none;
   }
-  .mysql {
+  .stack-6 {
     right: 9.5%;
     bottom: 2%;
   }
 
-  .angular {
+  .stack-1 {
     left: 2%;
     top: 33%;
   }
-  .react {
+  .stack-2 {
     bottom: 2%;
   }
-  .spring {
+  .stack-3 {
     left: 29%;
     top: 18%;
   }
-  .java {
+  .stack-7 {
     right: 49%;
     top: 54%;
   }
-  .css {
+  .stack-5 {
     left: 47.75%;
     top: 16%;
   }
-  .git {
+  .stack-8 {
     bottom: 10%;
     left: 56%;
   }
-  .typescript {
+  .stack-4 {
     left: 67%;
     bottom: 60%;
   }
-  .tailwind {
+  .stack-9 {
     bottom: 39%;
     right: 2.5%;
   }
@@ -105,27 +105,27 @@
   .icon {
     max-width: 27%;
   }
-  .angular {
+  .stack-1 {
     left: 4.5%;
     top: 40%;
   }
-  .react {
+  .stack-2 {
     left: 37%;
     bottom: 1.75%;
   }
-  .spring {
+  .stack-3 {
     left: 62%;
     top: 15%;
   }
-  .mysql {
+  .stack-6 {
     right: 3%;
     bottom: -1%;
   }
-  .java,
-  .css,
-  .git,
-  .typescript,
-  .tailwind {
+  .stack-7,
+  .stack-5,
+  .stack-8,
+  .stack-4,
+  .stack-9 {
     display: none;
   }
 }
@@ -134,126 +134,126 @@
   .icon {
     max-width: none;
   }
-  .css,
-  .tailwind,
-  .typescript,
-  .java {
+  .stack-5,
+  .stack-9,
+  .stack-4,
+  .stack-7 {
     display: block;
   }
-  .tailwind {
+  .stack-9 {
     bottom: 32%;
     right: 5%;
   }
-  .typescript {
+  .stack-4 {
     left: 43%;
     bottom: 18%;
   }
-  .git {
+  .stack-8 {
     bottom: 35%;
     left: 21%;
   }
-  .java {
+  .stack-7 {
     top: 50%;
     right: 65%;
   }
-  .css {
+  .stack-5 {
     left: 67%;
     top: 13%;
   }
-  .angular {
+  .stack-1 {
     left: 4%;
     top: 21%;
   }
-  .react {
+  .stack-2 {
     left: 6%;
     bottom: 4%;
   }
-  .spring {
+  .stack-3 {
     left: 42%;
     top: 33%;
   }
-  .mysql {
+  .stack-6 {
     right: 6%;
     bottom: 0%;
   }
 }
 
 @media only screen and (min-width: 1225px) {
-  .react {
+  .stack-2 {
     left: 10%;
     bottom: 10%;
   }
-  .mysql {
+  .stack-6 {
     right: 7%;
     bottom: 5%;
   }
-  .spring {
+  .stack-3 {
     left: 43%;
     top: 12%;
   }
-  .typescript {
+  .stack-4 {
     left: 46%;
     bottom: 15%;
   }
-  .java {
+  .stack-7 {
     top: 35%;
     right: 31%;
   }
-  .tailwind {
+  .stack-9 {
     bottom: 30%;
   }
-  .css {
+  .stack-5 {
     left: 78%;
     top: 14%;
   }
-  .git {
+  .stack-8 {
     display: block;
   }
 }
 
 @media only screen and (min-width: 1480px) {
-  .java,
-  .git,
-  .tailwind {
+  .stack-7,
+  .stack-8,
+  .stack-9 {
     display: none;
   }
-  .angular {
+  .stack-1 {
     left: 5%;
     top: 30%;
   }
-  .react {
+  .stack-2 {
     left: 18%;
     bottom: 7%;
   }
-  .spring {
+  .stack-3 {
     left: 40%;
     top: 24%;
   }
-  .css {
+  .stack-5 {
     left: 72%;
     top: 30%;
   }
-  .mysql {
+  .stack-6 {
     right: 6%;
     bottom: 7%;
   }
-  .typescript {
+  .stack-4 {
     left: 48%;
     bottom: 16%;
   }
 }
 
 @media only screen and (min-width: 1700px) {
-  .typescript {
+  .stack-4 {
     left: 52%;
   }
-  .react {
+  .stack-2 {
     left: 20%;
   }
-  .spring {
+  .stack-3 {
     left: 39%;
   }
-  .css {
+  .stack-5 {
     left: 70%;
   }
 }

@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { HEADER, PATHS } from 'src/constants/appConst';
-import { LogoComponent } from '../../legacy/logo/logo.component';
-import { SocialNavComponent } from '../../legacy/social-nav/social-nav.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HEADER } from '@constants/appConst';
 import { NavigateComponent } from '../../molecules/navigate/navigate.component';
 import { LogoIconComponent } from '@app/components/icons/logo-icon.component';
+import { ResumeButtonComponent } from '@app/components/molecules/resume-button/resume-button.component';
 
 @Component({
   standalone: true,
@@ -24,40 +23,20 @@ import { LogoIconComponent } from '@app/components/icons/logo-icon.component';
           >
           }
         </nav>
-        <button class="button-resume">
-          <a class="button-resume">
-            View resume
-            <svg
-              class="arrow"
-              aria-hidden="true"
-              role="img"
-              width="1.5em"
-              height="1.5em"
-              color="currentColor"
-              stroke-linejoin="round"
-              stroke-linecap="round"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              fill="none"
-              stroke="currentColor"
-            >
-              <line y2="12" x2="19" y1="12" x1="5"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
-        </button>
+        <header-resume-button></header-resume-button>
       </div>
     </header>
   `,
   styleUrls: ['./header.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, NavigateComponent, LogoIconComponent],
+  imports: [
+    CommonModule,
+    NavigateComponent,
+    LogoIconComponent,
+    ResumeButtonComponent,
+  ],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   protected readonly NAVIGATIONS: any = HEADER;
-  PATHS: any = PATHS;
-
   constructor() {}
-
-  ngOnInit(): void {}
 }

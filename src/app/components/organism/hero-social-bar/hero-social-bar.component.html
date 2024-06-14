@@ -3,7 +3,7 @@
   <div class="brightness brightness-2"></div>
 
   <social-button
-    socialUri="https://www.linkedin.com/in/marcos-lopez-dev"
+    [socialUri]="USER_SOCIALS.linkedIn"
     title="Button to linkedIn profile"
     className="bg-[#0A66C2] fill-white p-[8px]"
   >
@@ -11,7 +11,7 @@
   </social-button>
 
   <social-button
-    socialUri="https://github.com/MarcossIC"
+    [socialUri]="USER_SOCIALS.gitHub"
     title="Button to github profile"
     className="bg-[#00000085] fill-white p-[4px]"
   >
@@ -19,7 +19,7 @@
   </social-button>
 
   <social-button
-    socialUri="mailto:marcoslopezdev18@gmail.com?subject=Hey%20Marcos%20how%20are%20you"
+    [socialUri]="mailTo"
     title="Button for send email"
     className="bg-[#fff] p-[4px]"
   >
@@ -27,7 +27,7 @@
   </social-button>
 
   <social-button
-    socialUri="https://drive.google.com/file/d/1znfQJffUhuawHnsKnSUGa6aGtnA9q1OY/view?usp=sharing"
+    [socialUri]="USER_SOCIALS.cv"
     className="cv p-[4px] font-bold bg-[var(--ml-red-100)]"
   >
     <CvIcon />

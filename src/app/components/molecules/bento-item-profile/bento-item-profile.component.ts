@@ -10,6 +10,7 @@ import { GoodBoyIconComponent } from '@app/components/icons/good-boy-icon.compon
 import { CoffeeIconComponent } from '@app/components/icons/coffee-icon.component';
 import { GlobalIconComponent } from '@app/components/icons/global-icon.component';
 import { EducationIconComponent } from '@app/components/icons/education-icon.component';
+import { ABOUT_USER, USER } from '@constants/userConst';
 
 @Component({
   standalone: true,
@@ -32,6 +33,9 @@ import { EducationIconComponent } from '@app/components/icons/education-icon.com
   ],
 })
 export class BentoItemProfileComponent implements OnInit {
+  protected readonly USER = USER;
+  protected readonly PROFILE = ABOUT_USER.profile;
+
   constructor() {}
 
   ngOnInit(): void {}

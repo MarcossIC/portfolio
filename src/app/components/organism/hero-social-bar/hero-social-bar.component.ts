@@ -5,6 +5,7 @@ import { LinkedinIconComponent } from '@app/components/icons/linkedin-icon.compo
 import { CvIconComponent } from '@app/components/icons/cv-icon.component';
 import { GithubIconComponent } from '@app/components/icons/github-icon.component';
 import { GmailIconComponent } from '@app/components/icons/gmail-icon.component';
+import { USER } from '@constants/userConst';
 
 @Component({
   standalone: true,
@@ -22,7 +23,12 @@ import { GmailIconComponent } from '@app/components/icons/gmail-icon.component';
   ],
 })
 export class HeroSocialBarComponent implements OnInit {
+  protected readonly USER_SOCIALS = USER;
   constructor() {}
 
   ngOnInit(): void {}
+
+  protected get mailTo() {
+    return `mailto:${this.USER_SOCIALS.email}?subject=Hey%20${this.USER_SOCIALS.name}%20how%20are%20you`;
+  }
 }

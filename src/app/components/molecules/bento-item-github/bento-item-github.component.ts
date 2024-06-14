@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
+import { USER } from '@constants/userConst';
 
 @Component({
   standalone: true,
@@ -9,8 +10,6 @@ import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BentoItemComponent],
 })
-export class BentoItemGithubComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+export class BentoItemGithubComponent {
+  protected readonly GITHUB = USER.gitHub;
 }

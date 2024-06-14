@@ -40,41 +40,8 @@ header {
   align-items: center;
 }
 
-.button-resume {
-  transition-property: color, transform, opacity;
-  transition-timing-function: ease;
-  transition-duration: 175ms;
-
-  padding: 0px;
-  color: var(--ml-white);
-  display: flex;
-  align-items: center;
-
-  &:hover {
-    color: var(--ml-red-100);
-    scale: 1.05;
-
-    .arrow {
-      transform: rotate(-45deg) scale(1.2) translateX(10%) translateY(-10%);
-    }
-  }
-}
-
-span {
-  text-align: center;
-}
-
-.arrow {
-  transition-property: color, transform, opacity;
-  transition-timing-function: ease;
-  transition-duration: 175ms;
-  margin-inline-start: 5px;
-
-  padding: 1px;
-}
-
 LogoIcon,
-.button-resume {
+header-resume-button {
   display: none;
 }
 
@@ -121,7 +88,7 @@ navigate::ng-deep router-link::ng-deep a {
 
 @media only screen and (min-width: 720px) {
   LogoIcon,
-  .button-resume {
+  header-resume-button {
     display: flex;
   }
   .header-container {
@@ -134,8 +101,8 @@ navigate::ng-deep router-link::ng-deep a {
 
 @media only screen and (min-width: 1080px) {
   header {
-    max-width: calc(100% - 12cqmax);
-    margin-inline: 6dvw;
+    max-width: calc(100% - 8cqmax);
+    margin-inline: 4dvw;
   }
   .navigation {
     column-gap: 2rem;
