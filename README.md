@@ -21,6 +21,40 @@ The project is developed in Angular 18 and uses these technologies:
    <a href="#" rel="noreferrer"> <img src="https://skillicons.dev/icons?i=angular,ts,css,html,tailwind"/> </a>
 </p>
 
+## 🚀 Project Structure
+
+Architecture used in the project
+
+```text
+/
+├── src/
+│   ├── app/
+│   │   ├──  components/
+│   |   |     ├── atoms/
+|   |   |     ├──  molecules/
+|   |   |     ├──  organism/
+|   |   |     ├──  icons/
+|   |   |     └──  legacy/
+|   |   |
+│   │   ├──  lib/
+│   │   ├──  models/
+│   │   └── pages/
+│   |        └── home/
+|   |
+│   ├── assets/
+│   |    └── asset.{png,jpg,webp,svg,ttf}
+│   ├── constanst/
+│   |    └── anyConst.ts
+│   ├── environments/
+│   |    └── environment.*.ts
+│   └── styles/
+│        └── styles.css
+|   
+├── angular.json
+├── tailwind.config.mjs
+└── package.json
+```
+
 ## ℹ️ Development server
 
 In order to deploy a local version of the project you must:
