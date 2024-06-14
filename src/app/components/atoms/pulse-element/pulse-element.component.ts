@@ -12,6 +12,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './pulse-element.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PulseElementComponent {
-  constructor() {}
-}
+export class PulseElementComponent {}

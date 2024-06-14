@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { SkillComponent } from '@app/components/molecules/skill/skill.component';
+import { SkillComponent } from '@app/components/legacy/skill/skill.component';
 import { TECHNOLOGIES } from 'src/constants/technologiesConst';
 
 @Component({

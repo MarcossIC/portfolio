@@ -27,9 +27,4 @@ import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
     GithubIconComponent,
   ],
 })
-export class FooterComponent implements OnInit {
-  //
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class FooterComponent {}

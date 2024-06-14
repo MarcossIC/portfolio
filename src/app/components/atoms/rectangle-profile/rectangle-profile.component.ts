@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -26,13 +21,9 @@ import {
   }`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RectangleProfileComponent implements OnInit {
+export class RectangleProfileComponent {
   @Input() public src = '';
   @Input() public loading = 'lazy';
   @Input() public decoding = 'async';
   @Input() public alt = '';
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { PlusNumberComponent } from '@atoms/plus-number/plus-number.component';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 
@@ -26,12 +21,8 @@ import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
   styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpirenceItemComponent implements OnInit {
+export class ExpirenceItemComponent {
   @Input({ required: true }) public title = '';
   @Input({ required: true }) public sub = '';
   @Input({ required: true }) public date = '';
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

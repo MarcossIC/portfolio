@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ProjectArticleImgComponent } from '@app/components/molecules/project-article-img/project-article-img.component';
 
 @Component({
@@ -14,9 +9,6 @@ import { ProjectArticleImgComponent } from '@app/components/molecules/project-ar
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ProjectArticleImgComponent],
 })
-export class ProjectArticleComponent implements OnInit {
+export class ProjectArticleComponent {
   @Input() public PROJECT: any;
-
-  constructor() {}
-  ngOnInit(): void {}
 }

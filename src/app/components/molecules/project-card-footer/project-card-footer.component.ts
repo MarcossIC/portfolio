@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TagComponent } from '@app/components/legacy/tag/tag.component';
 
 @Component({
@@ -39,8 +34,6 @@ import { TagComponent } from '@app/components/legacy/tag/tag.component';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectCardFooter implements OnInit {
+export class ProjectCardFooter {
   @Input({ required: true }) public TAGS = [{ ID: 0, NAME: '', COLOR: [] }];
-  constructor() {}
-  ngOnInit(): void {}
 }

@@ -10,5 +10,4 @@ import { USER } from '@constants/userConst';
 })
 export class ResumeButtonComponent {
   protected readonly USER = USER;
-  constructor() {}
 }

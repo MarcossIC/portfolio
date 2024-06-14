@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BentoItemDecoComponent } from '@molecules/bento-center-deco/bento-center-deco.component';
 import { BentoItemExpirenceComponent } from '@molecules/bento-item-expirence/bento-item-expirence.component';
 import { BentoItemGithubComponent } from '@molecules/bento-item-github/bento-item-github.component';
@@ -25,9 +25,6 @@ import { BentoItemContactComponent } from '@molecules/bento-item-contact/bento-i
     BentoItemContactComponent,
   ],
 })
-export class BentoComponent implements OnInit {
+export class BentoComponent {
   protected readonly titleID: string = 'bento-about-tt';
-  constructor() {}
-
-  ngOnInit(): void {}
 }

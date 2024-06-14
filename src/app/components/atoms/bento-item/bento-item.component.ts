@@ -1,10 +1,5 @@
 import { NgClass } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -33,10 +28,6 @@ import {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BentoItemComponent implements OnInit {
+export class BentoItemComponent {
   @Input() public className: string = '';
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

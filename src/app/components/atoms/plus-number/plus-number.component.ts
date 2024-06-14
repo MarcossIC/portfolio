@@ -1,13 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
-  imports: [],
   selector: 'plus-number',
   template: `
     <div
@@ -26,11 +20,8 @@ import {
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [],
 })
-export class PlusNumberComponent implements OnInit {
+export class PlusNumberComponent {
   @Input({ required: true }) public number: string = '';
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

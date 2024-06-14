@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, afterNextRender } from '@angular/core';
 import { IParticlesProps, NgParticlesModule } from 'ng-particles';
-import { ClickMode, Container, Engine, HoverMode, MoveDirection, OutMode } from 'tsparticles-engine';
+import {
+  ClickMode,
+  Container,
+  Engine,
+  HoverMode,
+  MoveDirection,
+  OutMode,
+} from 'tsparticles-engine';
 import { loadSlim } from 'tsparticles-slim';
 
 @Component({
@@ -9,81 +16,86 @@ import { loadSlim } from 'tsparticles-slim';
   imports: [CommonModule, NgParticlesModule],
   selector: 'app-particles',
   template: `
-  <div class="w-[1310px] h-full absolute right-0 bottom-0">
-    <div class="bg-none lg:bg-explosion lg:bg-cover lg:bg-right lg:bg-no-repeat w-full h-full">
+    <div class="w-[1310px] h-full absolute right-0 bottom-0">
+      <div
+        class="bg-none lg:bg-explosion lg:bg-cover lg:bg-right lg:bg-no-repeat w-full h-full"
+      >
         <!-- Contenedor específico para las partículas -->
-        <div class="w-full h-full absolute mix-blend-color-dodge" style="z-index: -1;">
-            <ng-particles
-                *ngIf="particlesOptions$"
-                [id]="id"
-                [options]="particlesOptions$"
-                [particlesInit]="particlesInit"
-                (particlesLoaded)="particlesLoaded($event)"
-            ></ng-particles>
+        <div
+          class="w-full h-full absolute mix-blend-color-dodge"
+          style="z-index: -1;"
+        >
+          <ng-particles
+            *ngIf="particlesOptions$"
+            [id]="id"
+            [options]="particlesOptions$"
+            [particlesInit]="particlesInit"
+            (particlesLoaded)="particlesLoaded($event)"
+          ></ng-particles>
         </div>
+      </div>
     </div>
-  </div>
   `,
   styleUrls: ['./particles.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParticlesComponent implements OnInit {
   private currenteColor: string;
-  protected id: string = "tsparticles";
+  protected id: string = 'tsparticles';
   protected particlesOptions$!: IParticlesProps;
 
-  
-  constructor() { 
-    this.currenteColor = "#c48cd8"; 
+  constructor() {
+    this.currenteColor = '#c48cd8';
   }
-  
+
   ngOnInit(): void {
-    this.particlesOptions$ = {
-      background: {
+    afterNextRender(()=>{
+      this.particlesOptions$ = {
+        background: {
           color: {
-              value: "none",
+            value: 'none',
           },
-      },
-      fpsLimit: 120,
-      interactivity: {
+        },
+        fpsLimit: 120,
+        interactivity: {
           events: {
-              onClick: {
-                  enable: false,
-                  mode: ClickMode.repulse,
-              },
-              onHover: {
-                  enable: true,
-                  mode: HoverMode.bubble,
-              },
-              resize: true,
+            onClick: {
+              enable: false,
+              mode: ClickMode.repulse,
+            },
+            onHover: {
+              enable: true,
+              mode: HoverMode.bubble,
+            },
+            resize: true,
           },
           modes: {
-              push: {
-                  quantity: 4,
-              },
-              repulse: {
-                  distance: 400,
-                  duration: 0.4,
-              },
-              buble: {
-                distance: 250,
-                size: 0,
-                duration: 2,
-                opacity: 0,
-                speed: 3,
-              },
+            push: {
+              quantity: 4,
+            },
+            repulse: {
+              distance: 400,
+              duration: 0.4,
+            },
+            buble: {
+              distance: 250,
+              size: 0,
+              duration: 2,
+              opacity: 0,
+              speed: 3,
+            },
           },
-      },
-      particles: {
+        },
+        particles: {
           color: {
-              value: this.currenteColor,
+            value: this.currenteColor,
           },
           links: {
-              color: this.currenteColor,
-              distance: 150,
-              enable: false,
-              opacity: 0.4,
-              width: 1,
+            color: this.currenteColor,
+            distance: 150,
+            enable: false,
+            opacity: 0.4,
+            width: 1,
           },
           collisions: {
             enable: false,
@@ -95,56 +107,53 @@ export class ParticlesComponent implements OnInit {
             random: false,
             straight: false,
             outModes: {
-                default: OutMode.out,
+              default: OutMode.out,
             },
-                
           },
           number: {
-              density: {
-                  enable: true,
-                  area: 800,
-              },
-              value: 100,
+            density: {
+              enable: true,
+              area: 800,
+            },
+            value: 100,
           },
           opacity: {
-              value: 0.9,
-              anim: {
-                enable: true,
-                speed: 1,
-                opacity_min: 0,
-                sync: false
-              },
+            value: 0.9,
+            anim: {
+              enable: true,
+              speed: 1,
+              opacity_min: 0,
+              sync: false,
+            },
           },
           shape: {
-              type: "circle",
-              stroke: {
-                width: 0,
-                color: "#fff"
-              },
-              polygon: {
-                nb_sides: 5
-              },
+            type: 'circle',
+            stroke: {
+              width: 0,
+              color: '#fff',
+            },
+            polygon: {
+              nb_sides: 5,
+            },
           },
           size: {
             value: { min: 1, max: 3 },
             random: true,
             anim: {
-                enable: true,
-                speed: 4,
-                size_min: 0.3,
-                sync: true
-            }
+              enable: true,
+              speed: 4,
+              size_min: 0.3,
+              sync: true,
+            },
+          },
         },
-      },
-      detectRetina: true,
-  }; 
+        detectRetina: true,
+      };
+    })
   }
 
-  particlesLoaded(container: Container): void {
-  }
-
+  particlesLoaded(container: Container): void {}
   async particlesInit(engine: Engine): Promise<void> {
-    
-      await loadSlim(engine);
+    await loadSlim(engine);
   }
 }

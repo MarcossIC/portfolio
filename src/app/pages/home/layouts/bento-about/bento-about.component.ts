@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BentoComponent } from '@organism/bento/bento.component';
 import { TitleComponent } from '@atoms/title/title.component';
 
@@ -10,9 +10,6 @@ import { TitleComponent } from '@atoms/title/title.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TitleComponent, BentoComponent],
 })
-export class BentoAboutLayout implements OnInit {
+export class BentoAboutLayout {
   protected readonly titleID: string = 'bento-about-tt';
-  constructor() {}
-
-  ngOnInit(): void {}
 }

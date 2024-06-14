@@ -1,4 +1,4 @@
-import { CommonModule, NgClass, ViewportScroller } from '@angular/common';
+import { NgClass, ViewportScroller } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,8 +31,6 @@ export class RouterLinkComponent {
   private readonly router: Router = inject(Router);
   private readonly viewportScroller: ViewportScroller =
     inject(ViewportScroller);
-
-  constructor() {}
 
   protected navigate(path: string, fragment: string) {
     const usePath = path === '/' || path === '' ? [] : [path];

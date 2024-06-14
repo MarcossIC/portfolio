@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ServiceCardComponent } from '@app/components/organism/service-card/service-card.component';
+import { ServiceCardComponent } from '@app/components/legacy/service-card/service-card.component';
 import { TitleComponent } from '@app/components/atoms/title/title.component';
 import { SERVICES } from 'src/constants/appConst';
 

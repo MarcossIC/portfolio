@@ -1,10 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ErrorIconComponent } from '@app/components/icons/error-icon.component';
 
 @Component({
@@ -22,12 +17,8 @@ import { ErrorIconComponent } from '@app/components/icons/error-icon.component';
   styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ErrorMessageComponent implements OnInit {
+export class ErrorMessageComponent {
   @Input({ required: true }) public errorMessage: string = '';
   @Input({ required: true }) public showError: any = false;
   @Input() public errorClass: string = '';
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

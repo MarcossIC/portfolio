@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 import { LittlePlantIconComponent } from '@icons/little-plant-icon.component';
 import { ReverseLittlePlantIconComponent } from '@icons/reverse-little-plant-icon.component';
@@ -21,8 +21,4 @@ import { LogoIconComponent } from '@icons/logo-icon.component';
     DevPullRequestIconComponent,
   ],
 })
-export class BentoItemDecoComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class BentoItemDecoComponent {}

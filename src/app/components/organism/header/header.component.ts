@@ -38,5 +38,4 @@ import { ResumeButtonComponent } from '@app/components/molecules/resume-button/r
 })
 export class HeaderComponent {
   protected readonly NAVIGATIONS: any = HEADER;
-  constructor() {}
 }

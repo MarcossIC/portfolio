@@ -1,7 +1,6 @@
 {
   "name": "portfolio",
   "version": "0.1.0",
-  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -12,17 +11,15 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "18.0.2",
-    "@angular/compiler": "18.0.2",
-    "@angular/core": "18.0.2",
-    "@angular/forms": "18.0.2",
-    "@angular/platform-browser": "18.0.2",
-    "@angular/platform-browser-dynamic": "18.0.2",
-    "@angular/platform-server": "^18.0.2",
-    "@angular/router": "18.0.2",
-    "@angular/ssr": "^18.0.3",
-    "@types/express": "^4.17.21",
-    "@types/node": "^20.14.2",
+    "@angular/common": "18.0.3",
+    "@angular/compiler": "18.0.3",
+    "@angular/core": "18.0.3",
+    "@angular/forms": "18.0.3",
+    "@angular/platform-browser": "18.0.3",
+    "@angular/platform-browser-dynamic": "18.0.3",
+    "@angular/platform-server": "^18.0.3",
+    "@angular/router": "18.0.3",
+    "@angular/ssr": "^18.0.4",
     "aos": "2.3.4",
     "atropos": "^2.0.2",
     "express": "^4.19.2",
@@ -35,9 +32,11 @@
     "zone.js": "0.14.7"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "18.0.3",
-    "@angular/cli": "18.0.3",
-    "@angular/compiler-cli": "18.0.2",
+    "@angular-devkit/build-angular": "18.0.4",
+    "@angular/cli": "18.0.4",
+    "@angular/compiler-cli": "18.0.3",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.2",
     "@types/aos": "3.0.7",
     "@types/jasmine": "5.1.4",
     "autoprefixer": "10.4.19",
@@ -52,8 +51,5 @@
     "typescript": "5.4.5"
   },
   "keywords": [],
-  "author": "Marcos Lopez",
-  "resolutions": {
-    "minimist": "1.2.6"
-  }
+  "author": "Marcos Lopez"
 }

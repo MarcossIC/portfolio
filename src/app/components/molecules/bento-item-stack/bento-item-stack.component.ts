@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 
 @Component({
@@ -9,8 +9,4 @@ import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BentoItemComponent],
 })
-export class BentoItemStackComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class BentoItemStackComponent {}

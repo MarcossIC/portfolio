@@ -18,6 +18,4 @@ import { NgClass } from '@angular/common';
 export class TextWithIconComponent {
   @Input() public addSpace = false;
   @Input() public text = 'lazy';
-
-  constructor() {}
 }

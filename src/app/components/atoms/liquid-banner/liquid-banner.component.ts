@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -28,8 +28,4 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./liquid-banner.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LiquidBannerComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
-}
+export class LiquidBannerComponent {}

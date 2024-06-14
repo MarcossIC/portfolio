@@ -1,18 +1,19 @@
 import { ApplicationConfig } from '@angular/core';
-import {
-  PreloadAllModules,
-  provideRouter,
-  withPreloading,
-} from '@angular/router';
+import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routing';
-import { provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideClientHydration,
+  withHttpTransferCacheOptions,
+} from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes, withPreloading(PreloadAllModules)),
-    provideClientHydration(),
-    provideHttpClient(),
+    provideRouter(routes),
+    provideClientHydration(
+      withHttpTransferCacheOptions({ includePostRequests: true })
+    ),
+    provideHttpClient(withFetch()),
   ],
 };

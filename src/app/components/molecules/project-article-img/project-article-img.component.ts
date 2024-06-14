@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AtroposDirective } from '@lib/directives/AtroposDirective.directive';
 
@@ -15,13 +10,10 @@ import { AtroposDirective } from '@lib/directives/AtroposDirective.directive';
   styleUrls: ['./project-article-img.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectArticleImgComponent implements OnInit {
+export class ProjectArticleImgComponent {
   @Input() public REPO = '';
   @Input() public SRC = '';
 
   @Input() public TITLE = '';
   @Input() public ID = '';
-
-  constructor() {}
-  ngOnInit(): void {}
 }

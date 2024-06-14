@@ -13,5 +13,4 @@ import { USER } from '@constants/userConst';
 })
 export class HeroLayoutComponent {
   protected readonly USER = USER;
-  constructor() {}
 }

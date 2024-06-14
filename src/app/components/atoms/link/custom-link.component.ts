@@ -14,6 +14,4 @@ export class CustomLink {
   @Input() public rel = '';
   @Input() public target = '_blank';
   @Input() public classNames = '';
-
-  constructor() {}
 }

@@ -1,7 +1,7 @@
 [build]
-  base = "/"
   command = "ng build"
-  publish = "dist/portfolio"
+  functions = "netlify/functions"
+  publish = "dist/portfolio/browser"
 
 [[redirects]]
   from = "/*"

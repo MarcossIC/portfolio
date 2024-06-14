@@ -212,6 +212,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
 })
-export class ArrowDownComponent {
-  constructor() {}
-}
+export class ArrowDownComponent {}

@@ -1,10 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ToastService } from '@app/lib/toast/Toast.service';
 
 @Component({
@@ -15,7 +10,7 @@ import { ToastService } from '@app/lib/toast/Toast.service';
   styleUrls: ['./toast.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToastComponent implements OnInit {
+export class ToastComponent {
   private readonly toastService = inject(ToastService);
   public readonly toasts = this.toastService.state.asReadonly();
   protected readonly TOAST_DEFAULT = 'default';
@@ -26,10 +21,6 @@ export class ToastComponent implements OnInit {
     ['error', 'error'],
     ['default', 'default'],
   ]);
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   protected close(ID: string): void {
     this.toastService.remove(ID);

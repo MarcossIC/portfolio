@@ -1,10 +1,5 @@
-import { CommonModule, NgClass } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { NgClass } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CustomLink } from '@app/components/atoms/link/custom-link.component';
 
 @Component({
@@ -30,6 +25,4 @@ export class SocialButtonComponent {
   @Input() public socialUri = '';
   @Input() public title = '';
   @Input() public className = '';
-
-  constructor() {}
 }

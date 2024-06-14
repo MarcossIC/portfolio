@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RectangleProfileComponent } from '@atoms/rectangle-profile/rectangle-profile.component';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 import { PulseElementComponent } from '@atoms/pulse-element/pulse-element.component';
@@ -32,11 +32,7 @@ import { ABOUT_USER, USER } from '@constants/userConst';
     EducationIconComponent,
   ],
 })
-export class BentoItemProfileComponent implements OnInit {
+export class BentoItemProfileComponent {
   protected readonly USER = USER;
   protected readonly PROFILE = ABOUT_USER.profile;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

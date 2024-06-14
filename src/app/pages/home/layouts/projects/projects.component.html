@@ -13,11 +13,10 @@
         [PROJECT]="PROJECT"
         data-aos="fade-up"
         data-aos-duration="250"
-        >@for(ICON of PROJECT.ICONS; track $index){
-        <ng-container *ngIf="getIconComponent(ICON) as iconComponent">
-          <ng-container *ngComponentOutlet="iconComponent"></ng-container>
-        </ng-container>
-        }
+        >@for(ICON of PROJECT.ICONS; track $index){ @if(getIconComponent(ICON);
+        as iconComponent){
+        <ng-container *ngComponentOutlet="iconComponent"></ng-container>
+        } }
       </project-article>
     </article>
     }

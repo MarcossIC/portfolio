@@ -1,7 +1,12 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  afterNextRender,
+  inject,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import AOS from 'aos';
+import * as AOS from 'aos';
 import { FooterComponent } from '@organism/footer/footer.component';
 import { HeaderComponent } from '@organism/header/header.component';
 import { ParticlesComponent } from '@molecules/particles/particles.component';
@@ -21,20 +26,21 @@ import { LayoutComponent } from './components/legacy/layout/layout.component';
     LayoutComponent,
   ],
 })
-export class AppComponent implements OnInit, AfterViewInit {
-  constructor(@Inject(DOCUMENT) private document: Document) {}
-  ngAfterViewInit(): void {
-    this.document.onreadystatechange = function () {
-      if (document.readyState == 'complete') {
-        AOS.init({
-          once: true,
-          startEvent: 'DOMContentLoaded',
-          easing: 'ease',
-        });
-        AOS.refresh();
-      }
-    };
-  }
+export class AppComponent implements AfterViewInit {
+  private readonly document: Document = inject(DOCUMENT);
 
-  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    afterNextRender(() => {
+      this.document.onreadystatechange = function () {
+        if (document.readyState == 'complete') {
+          AOS.init({
+            once: true,
+            startEvent: 'DOMContentLoaded',
+            easing: 'ease',
+          });
+          AOS.refresh();
+        }
+      };
+    });
+  }
 }

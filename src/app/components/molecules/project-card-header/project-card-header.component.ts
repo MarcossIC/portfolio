@@ -47,5 +47,4 @@ import { RouterLinkWithHref } from '@angular/router';
 export class ProjectCardHeader {
   @Input({ required: true }) public IMG: string = '';
   @Input({ required: true }) public DEPLOY: any = false;
-  constructor() {}
 }

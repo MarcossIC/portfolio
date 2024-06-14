@@ -14,12 +14,8 @@ import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
   templateUrl: './navigate.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavigateComponent implements OnInit {
+export class NavigateComponent {
   @Input({ required: true }) public path: string = '';
   @Input({ required: true }) public fragment: string = '';
   @Input() public classNames: string = '';
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -4,7 +4,6 @@ import {
   Component,
   EventEmitter,
   OnDestroy,
-  OnInit,
   Output,
   inject,
 } from '@angular/core';
@@ -28,17 +27,13 @@ import { TextAreaFieldComponent } from '@atoms/text-area-field/text-area-field.c
     TextAreaFieldComponent,
   ],
 })
-export class ContactFormComponent implements OnInit, OnDestroy {
-  @Output() public contactState: EventEmitter<ContactState>;
+export class ContactFormComponent implements OnDestroy {
+  @Output() public contactState = new EventEmitter<ContactState>();
   private formBuilder: FormBuilder = inject(FormBuilder);
   protected contactForm!: FormGroup;
   constructor() {
-    this.contactState = new EventEmitter<ContactState>();
     this.contactForm = this.createContactForm();
   }
-
-  ngOnInit(): void {}
-
   ngOnDestroy(): void {
     this.contactForm.reset();
   }

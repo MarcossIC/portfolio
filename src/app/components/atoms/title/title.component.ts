@@ -24,6 +24,4 @@ export class TitleComponent {
   @Input({ required: true }) public titleID: string = '';
   @Input() public sub: string = '';
   @Input() public className: string = '';
-
-  constructor() {}
 }
