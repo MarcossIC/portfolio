@@ -15,7 +15,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         <g id="BOT-ARROW" filter="url(#filter0_d_648_73)">
           <path
             d="M29 154L180.47 245.781L331.94 154"
-            stroke="#200B47"
+            stroke="#4f1cab"
             stroke-width="30"
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -25,7 +25,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         <g id="MID-ARROW" filter="url(#filter1_d_648_73)">
           <path
             d="M82 100L179.941 154.312L277.883 100"
-            stroke="#200B47"
+            stroke="#431793"
             stroke-width="28"
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -35,7 +35,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         <g id="TOP-ARROW" filter="url(#filter2_d_648_73)">
           <path
             d="M113 45L180 79L247 45"
-            stroke="#200B47"
+            stroke="#370f7f"
             stroke-width="22"
             stroke-linecap="round"
             stroke-linejoin="round"

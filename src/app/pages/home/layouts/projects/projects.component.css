@@ -9,11 +9,9 @@ section {
     rgba(255, 255, 255, 0) 85%
   );
   border-block-start: 1px solid;
-  padding-block-start: 3rem;
-  margin-block-start: 1rem;
   border-image-slice: 1;
-  border-radius: 10px;
   border-collapse: collapse;
+
   background: linear-gradient(
     90deg,
     transparent,
@@ -23,6 +21,10 @@ section {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+
+  padding-block-start: 80px;
+  margin-block-start: 1rem;
+  border-radius: 10px;
 }
 
 .projects {

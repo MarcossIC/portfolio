@@ -24,29 +24,29 @@ import { LogoIconComponent } from '@app/components/icons/logo-icon.component';
           >
           }
         </nav>
+        <button class="button-resume">
+          <a class="button-resume">
+            View resume
+            <svg
+              class="arrow"
+              aria-hidden="true"
+              role="img"
+              width="1.5em"
+              height="1.5em"
+              color="currentColor"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              fill="none"
+              stroke="currentColor"
+            >
+              <line y2="12" x2="19" y1="12" x1="5"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </button>
       </div>
-      <button class="button-resume">
-        <a class="button-resume">
-          View resume
-          <svg
-            class="arrow"
-            aria-hidden="true"
-            role="img"
-            width="1.5em"
-            height="1.5em"
-            color="currentColor"
-            stroke-linejoin="round"
-            stroke-linecap="round"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            fill="none"
-            stroke="currentColor"
-          >
-            <line y2="12" x2="19" y1="12" x1="5"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
-      </button>
     </header>
   `,
   styleUrls: ['./header.component.css'],

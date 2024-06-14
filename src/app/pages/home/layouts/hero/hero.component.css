@@ -1,10 +1,11 @@
 section {
   display: flex;
   justify-content: space-evenly;
-  min-height: calc(100dvh - 100px);
+  min-height: calc(100dvh - 50px);
   margin-inline: 1rem;
   padding-inline: 2.25rem;
   margin-block-end: 1rem;
+  padding-block-start: 60px;
 }
 
 .title-base {
@@ -53,5 +54,9 @@ p {
   }
   h2 {
     font-size: clamp(5rem, 15dvw, 7rem);
+    margin-block-end: 1.5rem;
+  }
+  p {
+    max-width: 100%;
   }
 }
