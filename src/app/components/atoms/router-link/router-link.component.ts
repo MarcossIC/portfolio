@@ -1,4 +1,4 @@
-import { NgClass, ViewportScroller, isPlatformBrowser } from '@angular/common';
+import { NgClass, ViewportScroller } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,10 +37,8 @@ export class RouterLinkComponent {
   protected navigate(path: string, fragment: string) {
     const usePath = path === '/' || path === '' ? [] : [path];
 
-    if (isPlatformBrowser(this.platform)) {
-      this.router.navigate(usePath, { replaceUrl: true }).then(() => {
-        this.viewportScroller.scrollToAnchor(fragment);
-      });
-    }
+    this.router.navigate(usePath, { replaceUrl: true }).then(() => {
+      this.viewportScroller.scrollToAnchor(fragment);
+    });
   }
 }

@@ -1,7 +1,8 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  PLATFORM_ID,
   afterNextRender,
   inject,
 } from '@angular/core';
@@ -28,9 +29,10 @@ import { LayoutComponent } from './components/legacy/layout/layout.component';
 })
 export class AppComponent implements AfterViewInit {
   private readonly document: Document = inject(DOCUMENT);
+  private platform = inject(PLATFORM_ID);
 
   ngAfterViewInit(): void {
-    afterNextRender(() => {
+    if (isPlatformBrowser(this.platform)) {
       this.document.onreadystatechange = function () {
         if (document.readyState == 'complete') {
           AOS.init({
@@ -41,6 +43,6 @@ export class AppComponent implements AfterViewInit {
           AOS.refresh();
         }
       };
-    });
+    }
   }
 }

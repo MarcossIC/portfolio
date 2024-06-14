@@ -10,7 +10,7 @@ import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 import { StartIconComponent } from '@app/components/icons/star-icon.component';
 import { EmailIconComponent } from '@app/components/icons/email-icon.component';
 import { Router } from '@angular/router';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -31,24 +31,21 @@ export class BentoItemContactComponent {
   private platform = inject(PLATFORM_ID);
 
   scrollToForm() {
-    if (isPlatformBrowser(this.platform)) {
-      this.router.navigate([], { replaceUrl: true }).then(() => {
-        const element = this._document.getElementById('contact');
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-          element.addEventListener(
-            'animationend',
-            () => {
-              const inputElement =
-                this._document.getElementById('contact-name');
-              if (inputElement) {
-                this.renderer.selectRootElement(inputElement).focus();
-              }
-            },
-            { once: true }
-          );
-        }
-      });
-    }
+    this.router.navigate([], { replaceUrl: true }).then(() => {
+      const element = this._document.getElementById('contact');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        element.addEventListener(
+          'animationend',
+          () => {
+            const inputElement = this._document.getElementById('contact-name');
+            if (inputElement) {
+              this.renderer.selectRootElement(inputElement).focus();
+            }
+          },
+          { once: true }
+        );
+      }
+    });
   }
 }
