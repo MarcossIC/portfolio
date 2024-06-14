@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { SKILLS } from 'src/constants/appConst';
-import { SkillsGroupComponent } from './skills-group/skills-group.component';
+import { SkillsGroupComponent } from '../skills-group/skills-group.component';
 import { TitleComponent } from '@app/components/atoms/title/title.component';
 
 @Component({
