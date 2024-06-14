@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DIRECTION } from 'src/constants/appConst';
 
 @Component({
@@ -18,8 +12,6 @@ import { DIRECTION } from 'src/constants/appConst';
 })
 export class TimelineElementComponent {
   protected DIRECTION: any = DIRECTION;
-  @ViewChild('titleElement', { static: true })
-  titleElement!: ElementRef<HTMLHeadingElement>;
 
   @Input({ required: true }) public description: string = '';
   @Input({ required: true }) public state: string = '';

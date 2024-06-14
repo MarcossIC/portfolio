@@ -1,10 +1,13 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   OnDestroy,
+  OnInit,
   Output,
+  PLATFORM_ID,
+  afterNextRender,
   inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -27,12 +30,18 @@ import { TextAreaFieldComponent } from '@atoms/text-area-field/text-area-field.c
     TextAreaFieldComponent,
   ],
 })
-export class ContactFormComponent implements OnDestroy {
+export class ContactFormComponent implements OnDestroy, OnInit {
   @Output() public contactState = new EventEmitter<ContactState>();
   private formBuilder: FormBuilder = inject(FormBuilder);
+  private platform = inject(PLATFORM_ID);
   protected contactForm!: FormGroup;
-  constructor() {
-    this.contactForm = this.createContactForm();
+  constructor() {}
+  ngOnInit(): void {
+    afterNextRender(() => {
+      if (isPlatformBrowser(this.platform)) {
+        this.contactForm = this.createContactForm();
+      }
+    });
   }
   ngOnDestroy(): void {
     this.contactForm.reset();

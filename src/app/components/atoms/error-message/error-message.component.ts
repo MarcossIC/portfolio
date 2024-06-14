@@ -7,12 +7,11 @@ import { ErrorIconComponent } from '@app/components/icons/error-icon.component';
   imports: [CommonModule, NgOptimizedImage, ErrorIconComponent],
   selector: 'error-message',
   template: `
-    <ng-container *ngIf="showError">
-      <span class=" flex mt-1 text-xs select-none" [ngClass]="errorClass">
-        <ErrorIcon />
-        {{ errorMessage }}
-      </span>
-    </ng-container>
+    @if(showError){
+    <span class=" flex mt-1 text-xs select-none" [ngClass]="errorClass">
+      <ErrorIcon />
+      {{ errorMessage }} </span
+    >}
   `,
   styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush,

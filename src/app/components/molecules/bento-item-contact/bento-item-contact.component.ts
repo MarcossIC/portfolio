@@ -1,16 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  PLATFORM_ID,
   Renderer2,
   RendererFactory2,
-  afterNextRender,
   inject,
 } from '@angular/core';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 import { StartIconComponent } from '@app/components/icons/star-icon.component';
 import { EmailIconComponent } from '@app/components/icons/email-icon.component';
 import { Router } from '@angular/router';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -25,10 +25,13 @@ export class BentoItemContactComponent {
   private readonly renderer: Renderer2 = inject(
     RendererFactory2
   ).createRenderer(null, null);
+
   private _document: Document = inject(DOCUMENT);
 
+  private platform = inject(PLATFORM_ID);
+
   scrollToForm() {
-    afterNextRender(() => {
+    if (isPlatformBrowser(this.platform)) {
       this.router.navigate([], { replaceUrl: true }).then(() => {
         const element = this._document.getElementById('contact');
         if (element) {
@@ -46,6 +49,6 @@ export class BentoItemContactComponent {
           );
         }
       });
-    });
+    }
   }
 }

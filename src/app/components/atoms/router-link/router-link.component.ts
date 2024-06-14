@@ -1,8 +1,9 @@
-import { NgClass, ViewportScroller } from '@angular/common';
+import { NgClass, ViewportScroller, isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  PLATFORM_ID,
   inject,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -29,14 +30,17 @@ export class RouterLinkComponent {
   @Input() public classNames = '';
 
   private readonly router: Router = inject(Router);
+  private platform = inject(PLATFORM_ID);
   private readonly viewportScroller: ViewportScroller =
     inject(ViewportScroller);
 
   protected navigate(path: string, fragment: string) {
     const usePath = path === '/' || path === '' ? [] : [path];
 
-    this.router.navigate(usePath, { replaceUrl: true }).then(() => {
-      this.viewportScroller.scrollToAnchor(fragment);
-    });
+    if (isPlatformBrowser(this.platform)) {
+      this.router.navigate(usePath, { replaceUrl: true }).then(() => {
+        this.viewportScroller.scrollToAnchor(fragment);
+      });
+    }
   }
 }

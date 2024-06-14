@@ -1,10 +1,14 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   Self,
+  afterNextRender,
+  inject,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -33,6 +37,7 @@ const VALIDATORS: Record<string, ValidatorFn[]> = {
 export class TextAreaFieldComponent
   implements ControlValueAccessor, OnDestroy, OnInit
 {
+  private platform = inject(PLATFORM_ID);
   protected readonly fieldControl: FormControl<string | null>;
   private readonly destroy$ = new Subject();
   private _onChange: Function = () => {};
@@ -54,14 +59,18 @@ export class TextAreaFieldComponent
   ngOnInit(): void {
     this.fieldControl.addValidators(VALIDATORS[this.name]);
 
-    this.control.control?.setValidators([this.fieldControl.validator!]);
-    this.control.control?.updateValueAndValidity();
-    this.fieldControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((fieldValue) => {
-        this._onChange(fieldValue);
-        this._onTouched();
-      });
+    afterNextRender(() => {
+      if (isPlatformBrowser(this.platform)) {
+        this.control.control?.setValidators([this.fieldControl.validator!]);
+        this.control.control?.updateValueAndValidity();
+        this.fieldControl.valueChanges
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((fieldValue) => {
+            this._onChange(fieldValue);
+            this._onTouched();
+          });
+      }
+    });
   }
 
   ngOnDestroy(): void {

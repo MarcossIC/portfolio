@@ -4,6 +4,7 @@ import {
   Directive,
   ElementRef,
   PLATFORM_ID,
+  afterNextRender,
   inject,
 } from '@angular/core';
 import Atropos from 'atropos';
@@ -17,16 +18,18 @@ export class AtroposDirective implements AfterViewInit {
   private el = inject(ElementRef);
   constructor() {}
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platform)) {
-      Atropos({
-        el: this.el.nativeElement,
-        alwaysActive: true,
-        activeOffset: 40,
-        rotateXMax: 15,
-        rotateYMax: 15,
-        shadowOffset: 40,
-        duration: 300,
-      });
-    }
+    afterNextRender(() => {
+      if (isPlatformBrowser(this.platform)) {
+        Atropos({
+          el: this.el.nativeElement,
+          alwaysActive: true,
+          activeOffset: 40,
+          rotateXMax: 15,
+          rotateYMax: 15,
+          shadowOffset: 40,
+          duration: 300,
+        });
+      }
+    });
   }
 }
