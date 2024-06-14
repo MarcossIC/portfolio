@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,19 +10,20 @@ import { TimelineElementComponent } from '../timeline-element/timeline-element.c
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TimelineElementComponent],
+  imports: [NgFor, TimelineElementComponent],
   selector: 'timeline',
   template: `
     <ul class="timeline">
+      @for (ITEM of ITEMS; track ITEM.ID) {
       <timeline-element
-        *ngFor="let ITEM of ITEMS; let i = index; trackBy: trackByFn"
-        [cardDirection]="i % 2 !== 1 ? DIRECTION.LEFT : DIRECTION.RIGHT"
+        [cardDirection]="$index % 2 !== 1 ? DIRECTION.LEFT : DIRECTION.RIGHT"
         [title]="ITEM.DEGREE"
         [strong]="ITEM.STRONG"
         strongStyle="text-red-700"
         [state]="ITEM.STATE"
         [description]="ITEM.DESCRIPTION"
       ></timeline-element>
+      }
     </ul>
   `,
   styleUrls: ['./timeline.component.css'],
@@ -30,13 +31,9 @@ import { TimelineElementComponent } from '../timeline-element/timeline-element.c
 })
 export class TimelineComponent implements OnInit {
   @Input({ required: true }) public ITEMS: any[] = [];
-
   protected DIRECTION: any = DIRECTION;
+
   constructor() {}
 
   ngOnInit(): void {}
-
-  protected trackByFn(index: number, data: any): number | string {
-    return data.ID;
-  }
 }

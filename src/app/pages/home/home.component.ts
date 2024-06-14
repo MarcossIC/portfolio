@@ -3,6 +3,7 @@ import { HeroLayoutComponent } from './layouts/hero/hero.component';
 import { ProjectsLayoutComponent } from './layouts/projects/projects.component';
 import { BentoAboutLayout } from '@app/pages/home/layouts/bento-about/bento-about.component';
 import { ContactLayoutComponent } from '@app/pages/home/layouts/contact/contact.component';
+import { StudiesLayoutComponent } from '@app/pages/home/layouts/studies/studies.component';
 
 @Component({
   selector: 'home-page',
@@ -15,6 +16,7 @@ import { ContactLayoutComponent } from '@app/pages/home/layouts/contact/contact.
     ProjectsLayoutComponent,
     BentoAboutLayout,
     ContactLayoutComponent,
+    StudiesLayoutComponent,
   ],
 })
 export class HomePageComponent implements OnInit {

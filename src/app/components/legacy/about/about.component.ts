@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AboutIntroLayoutComponent } from '@app/components/legacy/introduction/introduction.component';
-import { StudiesLayoutComponent } from '@app/pages/about/layouts/studies/studies.component';
+import { StudiesLayoutComponent } from '@app/pages/home/layouts/studies/studies.component';
 import { SeoService } from '@app/services/legacy/seo.service';
 
 @Component({

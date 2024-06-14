@@ -357,10 +357,8 @@ export const DIRECTION: any = {
 };
 
 export const STUDIES: any = {
-  TITLE: 'My Studies',
-  STRONG: {
-    TITLE: 'My',
-  },
+  TITLE_COMPLETE: 'My Studies',
+  TITLE: ['My', 'Studies'],
   DATA: [
     {
       ID: 'b00fb15c9503',
@@ -385,14 +383,6 @@ export const STUDIES: any = {
       STATE: 'Udemy - Finalized',
       DESCRIPTION:
         'Global Mentoring Courses for Java, Spring, Angular, Html, Css, TypeScript. Myth Code Functional Java Course, Amigos Code Spring Security Course, Global Mentoring',
-    },
-    {
-      ID: 'aa75839a856',
-      DEGREE: 'Informatics Engineering',
-      STRONG: 'Engineering',
-      STATE: 'Gaston Dachary University - In progress',
-      DESCRIPTION:
-        'Learning fundamental concepts of Engineering, Business and increasing my knowledge in computer science',
     },
   ],
 };

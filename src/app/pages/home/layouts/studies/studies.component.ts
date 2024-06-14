@@ -5,11 +5,11 @@ import { STUDIES } from 'src/constants/appConst';
 
 @Component({
   standalone: true,
-  imports: [TimelineComponent, TitleComponent],
   selector: 'studies-layout',
   templateUrl: './studies.component.html',
   styleUrls: ['./studies.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TimelineComponent, TitleComponent],
 })
 export class StudiesLayoutComponent implements OnInit {
   protected STUDIES: any = STUDIES;
