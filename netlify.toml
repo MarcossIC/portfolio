@@ -3,7 +3,3 @@
   functions = "netlify/functions"
   publish = "dist/portfolio/server"
 
-[[redirects]]
-  from = "/*"
-  to = "/main.js"
-  status = 200
