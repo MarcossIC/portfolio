@@ -20,7 +20,6 @@
     "@angular/platform-server": "^18.0.3",
     "@angular/router": "18.0.3",
     "@angular/ssr": "^18.0.4",
-    "@netlify/angular-runtime": "^2.1.0",
     "aos": "2.3.4",
     "atropos": "^2.0.2",
     "express": "^4.19.2",
