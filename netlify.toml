@@ -1,5 +1,9 @@
 [build]
-  base = "/"
   command = "ng build"
   functions = "netlify/functions"
-  publish = "dist/portfolio/browser"
+  publish = "dist/portfolio/server"
+
+[[redirects]]
+  from = "/*"
+  to = "/main.js"
+  status = 200
