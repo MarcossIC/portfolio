@@ -1,5 +1,9 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {
+  PreloadAllModules,
+  provideRouter,
+  withPreloading,
+} from '@angular/router';
 
 import { routes } from './app.routing';
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -10,7 +14,7 @@ import {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withPreloading(PreloadAllModules)),
     provideClientHydration(
       withHttpTransferCacheOptions({ includePostRequests: true })
     ),
