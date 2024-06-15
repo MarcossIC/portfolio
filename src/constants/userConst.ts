@@ -12,7 +12,7 @@ export const USER = {
   gitHub: 'https://github.com/MarcossIC',
   stackOverflow: 'https://es.stackoverflow.com/users/301174/marcos-lopez',
   downloadCv:
-    'https://drive.usercontent.google.com/u/0/uc?id=1znfQJffUhuawHnsKnSUGa6aGtnA9q1OY&export=download',
+    'https://drive.usercontent.google.com/u/2/uc?id=1znfQJffUhuawHnsKnSUGa6aGtnA9q1OY&export=download',
 };
 
 //User data to complete the about bento
