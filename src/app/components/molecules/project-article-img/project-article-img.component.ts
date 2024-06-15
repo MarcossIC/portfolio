@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { AtroposDirective } from '@lib/directives/AtroposDirective.directive';
 
 @Component({
   standalone: true,
-  imports: [RouterLink, AtroposDirective],
+  imports: [AtroposDirective],
   selector: 'project-article-img',
   templateUrl: './project-article-img.component.html',
   styleUrls: ['./project-article-img.component.css'],

@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     <picture
       class="liquid-container"
       data-aos="fade-up"
-      data-aos-duration="700"
+      data-aos-duration="400"
     >
       <div class="liquid">
         <div class="liquid-container">

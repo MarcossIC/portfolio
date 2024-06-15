@@ -37,11 +37,7 @@ export class ContactFormComponent implements OnDestroy, OnInit {
   protected contactForm!: FormGroup;
   constructor() {}
   ngOnInit(): void {
-    afterNextRender(() => {
-      if (isPlatformBrowser(this.platform)) {
-        this.contactForm = this.createContactForm();
-      }
-    });
+    this.contactForm = this.createContactForm();
   }
   ngOnDestroy(): void {
     this.contactForm.reset();

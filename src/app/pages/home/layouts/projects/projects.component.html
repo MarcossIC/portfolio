@@ -1,5 +1,5 @@
-<section #projects id="projects">
-  <div data-aos="fade-up" data-aos-duration="200">
+<section id="projects">
+  <div data-aos="fade-up" data-aos-duration="75">
     <app-title className="text-center" [titleID]="titleID" name="Some projects">
       Some
       <span class="bg-ml-text-red bg-clip-text text-transparent">Projects</span>
@@ -12,7 +12,7 @@
       <project-article
         [PROJECT]="PROJECT"
         data-aos="fade-up"
-        data-aos-duration="250"
+        data-aos-duration="50"
         >@for(ICON of PROJECT.ICONS; track $index){ @if(getIconComponent(ICON);
         as iconComponent){
         <ng-container *ngComponentOutlet="iconComponent"></ng-container>

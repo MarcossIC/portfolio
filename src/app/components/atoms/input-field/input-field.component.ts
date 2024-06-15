@@ -71,18 +71,14 @@ export class InputFieldComponent
   ngOnInit() {
     this.fieldControl.addValidators(VALIDATORS[this.name]);
 
-    afterNextRender(() => {
-      if (isPlatformBrowser(this.platform)) {
-        this.control.control?.setValidators([this.fieldControl.validator!]);
-        this.control.control?.updateValueAndValidity();
-        this.fieldControl.valueChanges
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((fieldValue) => {
-            this._onChange(fieldValue);
-            this._onTouched();
-          });
-      }
-    });
+    this.control.control?.setValidators([this.fieldControl.validator!]);
+    this.control.control?.updateValueAndValidity();
+    this.fieldControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((fieldValue) => {
+        this._onChange(fieldValue);
+        this._onTouched();
+      });
   }
 
   ngOnDestroy(): void {

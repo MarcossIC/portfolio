@@ -16,7 +16,6 @@ import Atropos from 'atropos';
 export class AtroposDirective implements AfterViewInit {
   private platform = inject(PLATFORM_ID);
   private el = inject(ElementRef);
-  constructor() {}
   ngAfterViewInit() {
     afterNextRender(() => {
       if (isPlatformBrowser(this.platform)) {
