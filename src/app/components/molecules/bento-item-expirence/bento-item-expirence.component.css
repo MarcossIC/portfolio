@@ -12,7 +12,7 @@
 }
 
 .expirence-box::-webkit-scrollbar-thumb {
-  background-color: #5a028dcb;
+  background-color: #7517c0c2;
   border-radius: 6px;
 }
 
@@ -26,5 +26,5 @@
 
 .expirence-box {
   scrollbar-width: thin;
-  scrollbar-color: #5a028dcb transparent;
+  scrollbar-color: #7517c0c2 transparent;
 }
