@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CommonModule, ViewportScroller } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { HEADER } from '@constants/appConst';
 import { NavigateComponent } from '../../molecules/navigate/navigate.component';
 import { LogoIconComponent } from '@app/components/icons/logo-icon.component';
@@ -11,7 +11,7 @@ import { ResumeButtonComponent } from '@app/components/molecules/resume-button/r
   template: `
     <header id="header" class="header">
       <div class="header-container">
-        <LogoIcon />
+        <LogoIcon (click)="scrollToTop()" />
         <nav class="navigation">
           @for(NAVIGATION of NAVIGATIONS; track NAVIGATION.ID) {
           <navigate
@@ -38,4 +38,9 @@ import { ResumeButtonComponent } from '@app/components/molecules/resume-button/r
 })
 export class HeaderComponent {
   protected readonly NAVIGATIONS: any = HEADER;
+  private readonly scroller = inject(ViewportScroller);
+
+  protected scrollToTop() {
+    this.scroller.scrollToAnchor('hero');
+  }
 }
