@@ -36,8 +36,6 @@ section {
   align-items: center;
 
   margin-block-start: 3rem;
-  padding-block-end: 80px;
-
   display: flex;
   flex-flow: nowrap column;
 }

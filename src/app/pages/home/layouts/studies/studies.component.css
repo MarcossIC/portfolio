@@ -1,5 +1,6 @@
 section {
   background: linear-gradient(90deg, transparent, #12032ee6, transparent);
+  padding-block-start: 80px;
 }
 
 .clean-bg {

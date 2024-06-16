@@ -3,6 +3,7 @@ section {
   display: flex;
   flex-direction: column;
   padding-block-end: 2.5rem;
+  padding-block-start: 80px;
 }
 
 .contact {
