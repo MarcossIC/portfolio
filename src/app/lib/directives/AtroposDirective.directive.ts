@@ -17,18 +17,16 @@ export class AtroposDirective implements AfterViewInit {
   private platform = inject(PLATFORM_ID);
   private el = inject(ElementRef);
   ngAfterViewInit() {
-    afterNextRender(() => {
-      if (isPlatformBrowser(this.platform)) {
-        Atropos({
-          el: this.el.nativeElement,
-          alwaysActive: true,
-          activeOffset: 40,
-          rotateXMax: 15,
-          rotateYMax: 15,
-          shadowOffset: 40,
-          duration: 300,
-        });
-      }
-    });
+    if (isPlatformBrowser(this.platform)) {
+      Atropos({
+        el: this.el.nativeElement,
+        alwaysActive: true,
+        activeOffset: 40,
+        rotateXMax: 15,
+        rotateYMax: 15,
+        shadowOffset: 40,
+        duration: 300,
+      });
+    }
   }
 }

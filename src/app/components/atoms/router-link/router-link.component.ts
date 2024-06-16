@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  PLATFORM_ID,
   inject,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -16,7 +15,7 @@ import { Router, RouterModule } from '@angular/router';
     [routerLink]="['']"
     (click)="navigate(path, fragment)"
     role="link"
-    class="relative group"
+    class="relative group outline-none focus:outline-none focus-within:outline-none"
   >
     <ng-content></ng-content>
   </a>`,
@@ -30,7 +29,6 @@ export class RouterLinkComponent {
   @Input() public classNames = '';
 
   private readonly router: Router = inject(Router);
-  private platform = inject(PLATFORM_ID);
   private readonly viewportScroller: ViewportScroller =
     inject(ViewportScroller);
 
