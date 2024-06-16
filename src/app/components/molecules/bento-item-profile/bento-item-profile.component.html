@@ -21,19 +21,79 @@
     </div>
     <AstronautIcon />
   </div>
+  <!--
   <div
-    clasS="chip-style fixed-style max-[440px]:!hidden w-auto flex-row flex-wrap flex-1 !justify-start text-[24px] ml-[.25rem] mt-[15px] py-[8px] h-[95px] px-[18px] gap-y-[4px] gap-x-[15px] min-[840px]:mt-[10px] min-[440px]:flex min-[1225px]:gap-x-[18px] min-[1225px]:ml-[9rem]"
+    class="w-full h-full flex-row flex-wrap flex-1 !justify-start text-[24px] mt-[15px] py-[8px] gap-y-[4px] gap-x-[15px] min-[840px]:mt-[10px] min-[440px]:flex min-[1225px]:gap-x-[18px]"
   >
-    <text-with-icon [text]="PROFILE.country"><CountryIcon /></text-with-icon>
-    <text-with-icon [text]="PROFILE.qualification"
-      ><EducationIcon
-    /></text-with-icon>
-    <text-with-icon [text]="PROFILE.idioms"><GlobalIcon /></text-with-icon>
-    <text-with-icon [text]="PROFILE.complement" [addSpace]="true"
-      ><GoodBoyIcon
-    /></text-with-icon>
+    <div
+      class="chip-style fixed-style flex w-fit h-[27px] flex-row flex-1 gap-x-2 px-3 py-2 text-[24px]"
+    >
+      <text-with-icon class="w-full h-full flex" [text]="PROFILE.country"
+        ><CountryIcon
+      /></text-with-icon>
+    </div>
+    <div
+      class="chip-style fixed-style flex w-fit h-[27px] flex-row flex-1 gap-x-2 px-3 py-2 text-[24px]"
+    >
+      <text-with-icon class="w-full h-full flex" [text]="PROFILE.qualification"
+        ><EducationIcon
+      /></text-with-icon>
+    </div>
+    <div
+      class="chip-style fixed-style flex w-fit h-[27px] flex-row flex-1 gap-x-2 px-3 py-2 text-[24px]"
+    >
+      <text-with-icon class="w-full h-full flex" [text]="PROFILE.idioms"
+        ><GlobalIcon
+      /></text-with-icon>
+    </div>
+    <div
+      class="chip-style fixed-style flex w-fit h-[27px] flex-row flex-1 gap-x-2 px-3 py-2 text-[24px]"
+    >
+      <text-with-icon
+        class="w-full h-full flex"
+        [text]="PROFILE.complement"
+        [addSpace]="true"
+        ><GoodBoyIcon
+      /></text-with-icon>
+    </div>
     @if(PROFILE.doYouLikeCoffee){
-    <text-with-icon text="I love a coffee"><CoffeeIcon /></text-with-icon>
+    <div
+      class="chip-style fixed-style flex w-fit h-[27px] flex-row flex-1 gap-x-2 px-3 py-2 text-[24px]"
+    >
+      <text-with-icon class="w-full h-full flex" text="I love a coffee"
+        ><CoffeeIcon
+      /></text-with-icon>
+    </div>
     }
+  </div>
+-->
+  <div
+    class="flex-row flex-wrap gap-x-3 gap-y-[.7rem] min-[680px]:gap-x-4 mt-4 hidden min-[440px]:flex min-[840px]:mt-auto"
+  >
+    <div
+      class="chip-style flex flex-row px-3 py-2 gap-x-[.3rem] min-[680px]:gap-x-2"
+    >
+      <CountryIcon /> {{ PROFILE.country }}
+    </div>
+    <div
+      class="chip-style flex flex-row px-3 py-2 gap-x-[.3rem] min-[680px]:gap-x-2"
+    >
+      <EducationIcon /> {{ PROFILE.qualification }}
+    </div>
+    <div
+      class="chip-style flex flex-row px-3 py-2 gap-x-[.3rem] min-[680px]:gap-x-2"
+    >
+      <GlobalIcon /> {{ PROFILE.idioms }}
+    </div>
+    <div
+      class="chip-style flex flex-row px-3 py-2 gap-x-[.3rem] min-[680px]:gap-x-2"
+    >
+      <GoodBoyIcon /> {{ PROFILE.complement }}
+    </div>
+    <div
+      class="chip-style flex flex-row px-3 py-2 gap-x-[.3rem] min-[680px]:gap-x-2"
+    >
+      <CoffeeIcon /> I love a coffee
+    </div>
   </div>
 </bento-item>

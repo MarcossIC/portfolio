@@ -77,10 +77,17 @@ a.resume-download {
   }
 }
 
+bento-item {
+  height: 60cqh;
+}
+
 @media only screen and (min-width: 580px) {
   ::ng-deep .bento-item-3 ::ng-deep #astronaut {
     display: block;
     --name-size: 2.75rem;
+  }
+  bento-item {
+    height: -webkit-fill-available;
   }
 }
 
@@ -94,7 +101,7 @@ a.resume-download {
   }
 }
 
-@media only screen and (min-width: 1135px) {
+@media only screen and (min-width: 1290px) {
   ::ng-deep .bento-item-3 ::ng-deep #astronaut {
     display: block;
   }

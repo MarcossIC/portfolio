@@ -7,7 +7,7 @@ import { NgClass } from '@angular/common';
   selector: 'text-with-icon',
   template: `
     <span
-      class="text-[.975rem] font-medium inline-flex justify-center items-center gap-x-3"
+      class="text-[.975rem] font-medium inline-flex justify-center items-center gap-x-3 text-nowrap"
       [ngClass]="addSpace ? 'pl-[.25rem]' : ''"
       ><ng-content></ng-content> {{ text }}</span
     >

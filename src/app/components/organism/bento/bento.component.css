@@ -81,10 +81,12 @@ bento-item-expirence {
 }
 
 bento-item-profile {
+  container: bentoItemProfile / inline-size;
   grid-area: devProfile;
   display: flex;
   box-sizing: border-box;
-  height: 315px;
+  height: fit-content;
+  min-height: 315px;
   width: var(--bento-w-col-2);
   min-width: var(--bento-min-w-col-2);
   max-width: var(--bento-max-w-col-2);
@@ -197,7 +199,7 @@ bento-item-stack {
     min-width: var(--bento-min-w-col-1);
   }
   bento-item-expirence {
-    height: 530px;
+    height: 585px;
   }
   bento-item-github {
     height: 100%;
@@ -213,15 +215,18 @@ bento-item-stack {
   }
 }
 
+@media only screen and (min-width: 1073px) {
+  bento-item-expirence {
+    height: 555px;
+  }
+}
+
 @media only screen and (min-width: 1225px) {
   .bento {
     --bento-w-col-1: 430px;
   }
   bento-item-contact {
     height: 100%;
-  }
-  bento-item-expirence {
-    height: 498px;
   }
 }
 @media only screen and (min-width: 1135px) {
