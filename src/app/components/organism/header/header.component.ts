@@ -11,7 +11,7 @@ import { ResumeButtonComponent } from '@app/components/molecules/resume-button/r
   template: `
     <header id="header" class="header">
       <div class="header-container">
-        <LogoIcon (click)="scrollToTop()" />
+        <LogoIcon class="cursor-pointer" (click)="scrollToTop()" />
         <nav class="navigation">
           @for(NAVIGATION of NAVIGATIONS; track NAVIGATION.ID) {
           <navigate
