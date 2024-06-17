@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
     <div
       class="highlight-text text-[5rem] text-center bg-clip-text text-transparent"
     >
-      {{ number }}<span class="pus-icon">+</span>
+      <span class="pus-icon">+</span>{{ number }}
     </div>
   `,
   styles: [
