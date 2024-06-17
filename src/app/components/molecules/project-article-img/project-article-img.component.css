@@ -85,6 +85,11 @@
   scale: 1;
 }
 
+.link-to-repo:has(:hover) + app-tool-tip ::ng-deep .custom-tooltip {
+  visibility: visible;
+  display: block;
+}
+
 @media only screen and (min-width: 420px) {
   .project-img {
     --project-img-h: 485px;

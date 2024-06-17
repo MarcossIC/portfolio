@@ -1,10 +1,12 @@
-<div class="project-img">
+<div class="project-img relative">
   <!-- Link to project repository -->
   <a
     [href]="REPO"
     target="_blank"
     [title]="TITLE"
-    class="cursor-pointer z-20 outline-none focus:outline-none"
+    class="link-to-repo cursor-pointer z-20 outline-none focus:outline-none"
+    (mousemove)="onMouseMove($event)"
+    #projectImg
   >
     <!-- Container for atropos -->
     <div class="atropos project-atropos-content" useAtropos>
@@ -20,6 +22,7 @@
       </div>
     </div>
   </a>
+  <app-tool-tip [x]="tooltipX" [y]="tooltipY">Go to repository</app-tool-tip>
 
   <!-- TAGS for project -->
   <div class="flex flex-nowrap gap-x-4 absolute left-[5%] bottom-[1.75%]">
