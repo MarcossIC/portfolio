@@ -187,6 +187,8 @@ body {
   outline: none;
   overscroll-behavior-x: none;
   touch-action: manipulation;
+  display: flex;
+  flex-direction: column;
 }
 
 @supports (font-variation-settings: normal) {
