@@ -12,8 +12,7 @@ import { Router, RouterModule } from '@angular/router';
   selector: 'router-link',
   template: ` <a
     [ngClass]="classNames"
-    [routerLink]="[path]"
-    [fragment]="fragment"
+    (click)="navigate(path, fragment)"
     role="link"
     class="relative group outline-none focus:outline-none focus-within:outline-none"
   >
@@ -27,4 +26,14 @@ export class RouterLinkComponent {
   @Input() public path = '';
   @Input() public fragment = '';
   @Input() public classNames = '';
+
+  private readonly router: Router = inject(Router);
+  private readonly viewportScroller: ViewportScroller =
+    inject(ViewportScroller);
+
+  protected navigate(path: string, fragment: string) {
+    const usePath = path === '/' || path === '' ? [] : [path];
+
+    this.viewportScroller.scrollToAnchor(fragment);
+  }
 }
