@@ -5,7 +5,7 @@ section {
   margin-inline: 1rem;
   padding-inline: 2.25rem;
   margin-block-end: 1rem;
-  padding-block-start: 60px;
+  padding-block-start: 16dvh;
 }
 
 .title-base {
@@ -58,5 +58,11 @@ p {
   }
   p {
     max-width: 100%;
+  }
+}
+
+@media only screen and (min-height: 500px) {
+  section {
+    padding-block-start: 13dvh;
   }
 }

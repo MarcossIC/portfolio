@@ -22,9 +22,9 @@ section {
   background-size: cover;
   background-repeat: no-repeat;
 
-  padding-block-start: 80px;
   margin-block-start: 1rem;
   border-radius: 10px;
+  padding-block-start: 19dvh;
 }
 
 .projects {
@@ -92,5 +92,11 @@ section {
   }
   .grid-el-6 {
     margin-block-start: 2rem;
+  }
+}
+
+@media only screen and (min-height: 500px) {
+  section {
+    padding-block-start: 13dvh;
   }
 }

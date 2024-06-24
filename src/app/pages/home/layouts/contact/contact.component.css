@@ -3,7 +3,7 @@ section {
   display: flex;
   flex-direction: column;
   padding-block-end: 2.5rem;
-  padding-block-start: 80px;
+  padding-block-start: 19dvh;
 }
 
 .contact {
@@ -60,5 +60,11 @@ contact-form {
 @media only screen and (min-width: 2300px) {
   .contact {
     margin-inline: 12%;
+  }
+}
+
+@media only screen and (min-height: 500px) {
+  section {
+    padding-block-start: 13dvh;
   }
 }
