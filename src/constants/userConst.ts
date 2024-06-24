@@ -7,12 +7,12 @@ export const USER = {
   motto:
     'I hope to share my journey through the world of IT and that we can work together',
   role: 'Software developer',
-  cv: 'https://drive.google.com/file/d/1znfQJffUhuawHnsKnSUGa6aGtnA9q1OY/view?usp=sharing',
+  cv: 'https://drive.google.com/file/d/1yINoSs5ZrUYssA4Y2IXLjh5Z9Bz2qCl1/view?usp=sharing',
   linkedIn: 'https://www.linkedin.com/in/marcos-lopez-dev',
   gitHub: 'https://github.com/MarcossIC',
   stackOverflow: 'https://es.stackoverflow.com/users/301174/marcos-lopez',
   downloadCv:
-    'https://drive.usercontent.google.com/u/2/uc?id=1znfQJffUhuawHnsKnSUGa6aGtnA9q1OY&export=download',
+    'https://drive.usercontent.google.com/u/2/uc?id=1yINoSs5ZrUYssA4Y2IXLjh5Z9Bz2qCl1&export=download',
 };
 
 //User data to complete the about bento
@@ -80,7 +80,7 @@ export const ABOUT_USER = {
       STRONG: 'Courses',
       STATE: 'Udemy - Finalized',
       DESCRIPTION:
-        'Global Mentoring Courses for Java, Spring, Angular, Html, Css, TypeScript. Myth Code Functional Java Course, Amigos Code Spring Security Course, Global Mentoring',
+        'Global Mentoring Courses for Java, Spring, Angular, Html, Css, TypeScript. MitoCode Functional Java Course, Amigos Code Spring Security Course',
     },
   ],
 };
