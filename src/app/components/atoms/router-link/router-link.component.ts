@@ -14,7 +14,7 @@ import { Router, RouterModule } from '@angular/router';
     [ngClass]="classNames"
     (click)="navigate(path, fragment)"
     role="link"
-    class="relative group outline-none focus:outline-none focus-within:outline-none"
+    class="relative cursor-pointer outline-none focus:outline-none focus-within:outline-none"
   >
     <ng-content></ng-content>
   </a>`,
