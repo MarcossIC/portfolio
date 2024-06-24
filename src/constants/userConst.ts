@@ -23,7 +23,7 @@ export const ABOUT_USER = {
       ID: '1-exp',
       COMPANY: 'Codefend',
       ROLE: 'Front-end developer',
-      TIME: 'Jan 2024 - currently',
+      TIME: 'January 2024 - currently',
       DESCRIPTION:
         'Led the migration of a project from Solid JS to React. I continued the development of the project, ensuring the timely delivery of new functionalities. Mockup Photoshop designs and implement UX improvements.',
     },
@@ -31,7 +31,7 @@ export const ABOUT_USER = {
       ID: '2-exp',
       COMPANY: 'No country',
       ROLE: 'Full-stack developer',
-      TIME: 'Jun 2023 - Dec 2023',
+      TIME: 'June 2023 - December 2023',
       DESCRIPTION:
         'In the no country job simulations, I worked with spring boot, creating a rest API, with microservices, security, and also worked on the front-end with Angular in a book e-commerce.',
     },
@@ -39,7 +39,7 @@ export const ABOUT_USER = {
       ID: '3-exp',
       COMPANY: 'Internship Facturador++',
       ROLE: 'Back-end developer',
-      TIME: 'Jan 2022 - Nov 2022',
+      TIME: 'January 2022 - November 2022',
       DESCRIPTION:
         'Invoicer++ is a project that I did in an internship to deliver to the students of the economics course, to generate commercial documents online quickly, I was doing the back-end with Spring boot.',
     },
