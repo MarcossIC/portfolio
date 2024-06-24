@@ -75,3 +75,8 @@ router-link::ng-deep .foot-navigation:hover {
     padding-block-start: 6rem;
   }
 }
+@media only screen and (min-width: 2500px) {
+  footer {
+    padding-block-start: 8.5rem;
+  }
+}
