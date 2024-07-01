@@ -7,6 +7,8 @@
   transition-property: ease;
   transition-property: border-radius;
   animation: liquid 4s linear infinite alternate both;
+
+  text-transform: ;
 }
 
 @keyframes liquid {

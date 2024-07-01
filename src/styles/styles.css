@@ -2,40 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.container-sections {
-  display: flex;
-  flex-direction: column;
-  margin: 4rem 1rem 0 1rem;
-  padding: 0 2.25rem;
-}
-
-.title {
-  font-size: clamp(2.8rem, 12vw, 5rem);
-  text-align: center;
-}
-.title-large {
-  font-size: clamp(1.2rem, 20dvw, 2.6rem);
-  text-align: center;
-}
-
-@media screen and (min-width: 600px) {
-  .title {
-    font-size: clamp(2.8rem, 14vw, 5rem);
-  }
-  .title-large {
-    font-size: clamp(1.2rem, 25dvw, 3rem);
-  }
-}
-
-@media screen and (min-width: 1500px) {
-  .title {
-    font-size: clamp(2rem, 6vw, 9rem);
-  }
-  .title-large {
-    font-size: clamp(2rem, 25dvw, 6rem);
-  }
-}
-
 .brightness {
   display: block;
   position: absolute;
