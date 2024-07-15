@@ -7,12 +7,12 @@ export const USER = {
   motto:
     'I hope to share my journey through the world of IT and that we can work together',
   role: 'Software developer',
-  cv: 'https://drive.google.com/file/d/1hovgwDWC40j4DtNFVGv2XwmaZKFJlPRN/view?usp=sharing',
+  cv: 'https://drive.google.com/file/d/1iYooKMNynD_4jlyP9tbMc8xbR1Ot4YpH/view?usp=sharing',
   linkedIn: 'https://www.linkedin.com/in/marcos-lopez-dev',
   gitHub: 'https://github.com/MarcossIC',
   stackOverflow: 'https://es.stackoverflow.com/users/301174/marcos-lopez',
   downloadCv:
-    'https://drive.usercontent.google.com/u/2/uc?id=1hovgwDWC40j4DtNFVGv2XwmaZKFJlPRN&export=download',
+    'https://drive.usercontent.google.com/u/0/uc?id=1iYooKMNynD_4jlyP9tbMc8xbR1Ot4YpH&export=download',
 };
 
 //User data to complete the about bento
