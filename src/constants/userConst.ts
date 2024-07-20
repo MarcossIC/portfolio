@@ -22,22 +22,22 @@ export const ABOUT_USER = {
     {
       ID: '1-exp',
       COMPANY: 'Codefend',
-      ROLE: 'Front-end developer',
-      TIME: 'January 2024 - currently',
+      ROLE: 'Front end developer',
+      TIME: 'January 2024 - July 2024',
       DESCRIPTION:
-        'Led the migration of a project from Solid JS to React. I continued the development of the project, ensuring the timely delivery of new functionalities. Mockup Photoshop designs and implement UX improvements.',
+        'I led the client development for a SAAS system connecting companies with cybersecurity providers. Successfully migrated from SolidJS to React, improving codebase maintainability, and redesigned the project architecture, reducing development time by 30%. Eliminated 40% of legacy code, boosting team productivity by 25%, and reduced project dependencies by 45%, minimizing security vulnerabilities.',
     },
     {
       ID: '2-exp',
       COMPANY: 'No country',
-      ROLE: 'Full-stack developer',
+      ROLE: 'Full stack developer',
       TIME: 'June 2023 - December 2023',
       DESCRIPTION:
-        'In the no country job simulations, I worked with spring boot, creating a rest API, with microservices, security, and also worked on the front-end with Angular in a book e-commerce.',
+        'Worked on software development projects in agile, multidisciplinary teams with Angular and Spring Boot. Developed responsive interfaces with UX/UI designers, enhancing user satisfaction. Managed an efficient Git workflow, reducing code conflicts by 60% and improving software quality. Implemented key front-end and back-end features, speeding up feature delivery by 45%. Improved requirement estimations by 25% through active participation.',
     },
     {
       ID: '3-exp',
-      COMPANY: 'Internship Facturador++',
+      COMPANY: 'Facturador++',
       ROLE: 'Back-end developer',
       TIME: 'January 2022 - November 2022',
       DESCRIPTION:
@@ -56,7 +56,7 @@ export const ABOUT_USER = {
     complement: 'A good boy',
   },
   whoIam:
-    'I am a computer technician, passionate about programming and technology. Experience in back-end development with Spring boot and front-end development with React or Angular. Proficient in agile methodologies and team collaboration. Always eager to learn and explore new technologies.',
+    'Full Stack Developer with 2+ years of experience. Skilled in back-end development with Spring Boot and front-end development with React and Angular. Proven ability to optimize development processes, reduce delivery times, and create scalable, high-performance solutions. Passionate about programming and technology, proficient in agile methodologies, and eager to learn new technologies. Seeking innovative projects that challenge my technical and creative skills.',
   studies: [
     {
       ID: 'b00fb15c9503',
