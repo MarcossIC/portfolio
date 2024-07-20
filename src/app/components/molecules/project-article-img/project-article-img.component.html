@@ -1,9 +1,8 @@
 <div class="project-img relative">
-  <!-- Link to project repository -->
   <a
-    [href]="REPO"
+    [href]="REPO()"
     target="_blank"
-    [title]="TITLE"
+    [title]="TITLE()"
     class="link-to-repo cursor-pointer z-20 outline-none focus:outline-none"
     (mousemove)="onMouseMove($event)"
     #projectImg
@@ -15,7 +14,7 @@
           <div class="atropos-inner">
             <div
               class="img-container"
-              [style.background-image]="'url(' + SRC + ')'"
+              [style.background-image]="'url(' + SRC() + ')'"
             ></div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -10,8 +10,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomLink {
-  @Input({ required: true }) public path = '';
-  @Input() public rel = '';
-  @Input() public target = '_blank';
-  @Input() public classNames = '';
+  public path = input.required<string>();
+  public rel = input<string>('');
+  public target = input<string>('_blank');
+  public classNames = input<string>('');
 }

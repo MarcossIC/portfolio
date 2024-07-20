@@ -14,8 +14,8 @@ import Atropos from 'atropos';
   standalone: true,
 })
 export class AtroposDirective implements AfterViewInit {
-  private platform = inject(PLATFORM_ID);
-  private el = inject(ElementRef);
+  private readonly platform = inject(PLATFORM_ID);
+  private readonly el = inject(ElementRef);
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platform)) {
       Atropos({

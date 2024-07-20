@@ -1,5 +1,10 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  Input,
+} from '@angular/core';
 import { CustomLink } from '@app/components/atoms/link/custom-link.component';
 
 @Component({
@@ -7,12 +12,16 @@ import { CustomLink } from '@app/components/atoms/link/custom-link.component';
   imports: [NgClass, CustomLink],
   selector: 'social-button',
   template: `
-    <custom-link [path]="socialUri" [title]="title" classNames="social-link">
+    <custom-link
+      [path]="socialUri()"
+      [title]="title()"
+      classNames="social-link"
+    >
       <div
         class="text-center w-[30px] h-[30px] rounded-full icon"
         aria-hidden="true"
         role="img"
-        [ngClass]="className"
+        [ngClass]="className()"
       >
         <ng-content></ng-content>
       </div>
@@ -22,7 +31,7 @@ import { CustomLink } from '@app/components/atoms/link/custom-link.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SocialButtonComponent {
-  @Input() public socialUri = '';
-  @Input() public title = '';
-  @Input() public className = '';
+  public socialUri = input.required<string>();
+  public title = input.required<string>();
+  public className = input<string>('');
 }

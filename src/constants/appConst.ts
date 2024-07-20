@@ -1,4 +1,8 @@
-export const PROJECTS_V2 = [
+import { Projects } from '@app/models/projects';
+import { ServicesType } from '@app/models/servicesTypes';
+import { Directions, LinksHeaderArray } from '@app/models/types';
+
+export const PROJECTS_V2: Projects = [
   {
     ID: '1-project',
     NAME: 'Codefend',
@@ -49,7 +53,7 @@ export const PROJECTS_V2 = [
   },
 ];
 
-export const SERVICES: any = {
+export const SERVICES: ServicesType = {
   TITLE_COMPLETE: 'Our service',
   TITLE: ['Our', 'Service'],
   SERVICES: [
@@ -76,12 +80,12 @@ export const SERVICES: any = {
   ],
 };
 
-export const DIRECTION: any = {
+export const DIRECTION: Directions = {
   LEFT: 'LEFT',
   RIGHT: 'RIGHT',
 };
 
-export const HEADER: any = [
+export const HEADER: LinksHeaderArray = [
   { ID: '1-pp', LABEL: 'Projects', PATH: '', FRAGMENT: 'projects' },
   { ID: '2-ap', LABEL: 'About', PATH: '', FRAGMENT: 'about' },
   { ID: '3-sp', LABEL: 'Studies', PATH: '', FRAGMENT: 'studies' },

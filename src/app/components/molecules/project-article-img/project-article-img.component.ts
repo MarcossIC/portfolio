@@ -3,11 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
-  Input,
   PLATFORM_ID,
-  ViewChild,
   inject,
+  input,
+  viewChild,
 } from '@angular/core';
 import { ToolTipComponent } from '@app/components/atoms/tool-tip/tool-tip.component';
 import { AtroposDirective } from '@lib/directives/AtroposDirective.directive';
@@ -21,22 +20,22 @@ import { AtroposDirective } from '@lib/directives/AtroposDirective.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectArticleImgComponent {
-  @ViewChild('projectImg', { static: true }) containerRef!: ElementRef;
   private readonly platform = inject(PLATFORM_ID);
-  @Input() public REPO = '';
-  @Input() public SRC = '';
+  public containerRef = viewChild.required<ElementRef>('projectImg');
+  public REPO = input.required<string>();
+  public SRC = input.required<string>();
 
-  @Input() public TITLE = '';
-  @Input() public ID = '';
+  public TITLE = input.required<string>();
+  public ID = input.required<string>();
 
   protected tooltipX: number = 0;
   protected tooltipY: number = 0;
 
   onMouseMove(event: MouseEvent) {
     if (isPlatformBrowser(this.platform)) {
-      const rect = this.containerRef.nativeElement.getBoundingClientRect();
-      this.tooltipX = event.clientX - rect.left + 10; // 10px de offset
-      this.tooltipY = event.clientY - rect.top + 10; // 10px de offset
+      const rect = this.containerRef().nativeElement.getBoundingClientRect();
+      this.tooltipX = event.clientX - rect.left + 10;
+      this.tooltipY = event.clientY - rect.top + 10;
     }
   }
 }

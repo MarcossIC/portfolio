@@ -1,5 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  Input,
+} from '@angular/core';
 import { ProjectArticleImgComponent } from '@app/components/molecules/project-article-img/project-article-img.component';
+import { Project } from '@app/models/projects';
 
 @Component({
   standalone: true,
@@ -10,5 +16,5 @@ import { ProjectArticleImgComponent } from '@app/components/molecules/project-ar
   imports: [ProjectArticleImgComponent],
 })
 export class ProjectArticleComponent {
-  @Input() public PROJECT: any;
+  public PROJECT = input.required<Project>();
 }
