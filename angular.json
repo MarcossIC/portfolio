@@ -17,6 +17,7 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
+            "allowedCommonJsDependencies": ["lodash"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/google70369a649c023c51.html",

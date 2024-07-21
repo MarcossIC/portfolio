@@ -3,7 +3,3 @@
   command = "ng build"
   publish = "dist/portfolio/browser"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.csr.html"
-  status = 200
