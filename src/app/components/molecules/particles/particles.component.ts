@@ -1,5 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+} from '@angular/core';
 import { IParticlesProps, NgParticlesModule } from 'ng-particles';
 import {
   ClickMode,
@@ -25,13 +29,14 @@ import { loadSlim } from 'tsparticles-slim';
           class="w-full h-full absolute mix-blend-color-dodge"
           style="z-index: -1;"
         >
+          @if(particlesOptions$; as options){
           <ng-particles
-            *ngIf="particlesOptions$"
             [id]="id"
-            [options]="particlesOptions$"
+            [options]="options"
             [particlesInit]="particlesInit"
             (particlesLoaded)="particlesLoaded($event)"
           ></ng-particles>
+          }
         </div>
       </div>
     </div>
@@ -39,7 +44,7 @@ import { loadSlim } from 'tsparticles-slim';
   styleUrls: ['./particles.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ParticlesComponent implements OnInit {
+export class ParticlesComponent implements AfterViewInit {
   private currenteColor: string;
   protected id: string = 'tsparticles';
   protected particlesOptions$!: IParticlesProps;
@@ -48,7 +53,7 @@ export class ParticlesComponent implements OnInit {
     this.currenteColor = '#c48cd8';
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.particlesOptions$ = {
       background: {
         color: {

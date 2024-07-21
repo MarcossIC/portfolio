@@ -1,6 +1,6 @@
-<article class="toast-list" [ngClass]="toasts().position" aria-live="assertive">
+<div class="toast-list" [ngClass]="toasts().position" aria-live="assertive">
   @for(toast of toasts().toasts; track toast?.ID){ @if(toast.visible) {
-  <section
+  <article
     class="toast"
     role="alert"
     [id]="toast.ID"
@@ -73,6 +73,6 @@
         />
       </button>
     </div>
-  </section>
+  </article>
   } }
-</article>
+</div>

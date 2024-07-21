@@ -1,4 +1,8 @@
-import { ApplicationConfig } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideExperimentalZonelessChangeDetection,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import {
   PreloadAllModules,
   provideRouter,
@@ -7,17 +11,12 @@ import {
 
 import { routes } from './app.routing';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import {
-  provideClientHydration,
-  withHttpTransferCacheOptions,
-} from '@angular/platform-browser';
+import { provideClientHydration } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withPreloading(PreloadAllModules)),
-    provideClientHydration(
-      withHttpTransferCacheOptions({ includePostRequests: true })
-    ),
+    provideClientHydration(),
     provideHttpClient(withFetch()),
   ],
 };

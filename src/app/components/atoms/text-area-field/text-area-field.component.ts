@@ -1,15 +1,14 @@
-import { isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  Input,
-  OnDestroy,
-  OnInit,
+  DestroyRef,
   PLATFORM_ID,
   Self,
-  afterNextRender,
   inject,
+  input,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,
   FormControl,
@@ -19,8 +18,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorMessageComponent } from '@atoms/error-message/error-message.component';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 const VALIDATORS: Record<string, ValidatorFn[]> = {
   message: [Validators.required, Validators.maxLength(300)],
@@ -35,47 +32,38 @@ const VALIDATORS: Record<string, ValidatorFn[]> = {
   imports: [ErrorMessageComponent, ReactiveFormsModule],
 })
 export class TextAreaFieldComponent
-  implements ControlValueAccessor, OnDestroy, OnInit
+  implements ControlValueAccessor, AfterViewInit
 {
-  private platform = inject(PLATFORM_ID);
+  private destroy = inject(DestroyRef);
   protected readonly fieldControl: FormControl<string | null>;
-  private readonly destroy$ = new Subject();
   private _onChange: Function = () => {};
   private _onTouched: Function = () => {};
 
-  @Input() name = '';
-  @Input() id = '';
-  @Input() cols = '';
-  @Input() rows = '';
-  @Input() label = '';
-  @Input() aria = '';
-  @Input() errorMessage = '';
+  public name = input<string>('');
+  public id = input.required<string>();
+  public label = input<string>('');
+  public aria = input<string>('');
+  public errorMessage = input.required<string>();
+
+  public cols = input<string>('');
+  public rows = input<string>('');
 
   constructor(@Self() private readonly control: NgControl) {
     this.control.valueAccessor = this;
     this.fieldControl = new FormControl<string | null>(null);
   }
 
-  ngOnInit(): void {
-    this.fieldControl.addValidators(VALIDATORS[this.name]);
+  ngAfterViewInit() {
+    this.fieldControl.addValidators(VALIDATORS[this.name()]);
 
-    afterNextRender(() => {
-      if (isPlatformBrowser(this.platform)) {
-        this.control.control?.setValidators([this.fieldControl.validator!]);
-        this.control.control?.updateValueAndValidity();
-        this.fieldControl.valueChanges
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((fieldValue) => {
-            this._onChange(fieldValue);
-            this._onTouched();
-          });
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next('');
-    this.destroy$.complete();
+    this.control.control?.setValidators([this.fieldControl.validator!]);
+    this.control.control?.updateValueAndValidity();
+    this.fieldControl.valueChanges
+      .pipe(takeUntilDestroyed(this.destroy))
+      .subscribe((fieldValue) => {
+        this._onChange(fieldValue);
+        this._onTouched();
+      });
   }
 
   writeValue(fieldValue: string | null): void {
@@ -92,5 +80,13 @@ export class TextAreaFieldComponent
 
   setDisabledState?(isDisabled: boolean): void {
     isDisabled ? this.fieldControl.disable() : this.fieldControl.enable();
+  }
+
+  protected get showError() {
+    return (
+      this.fieldControl.touched &&
+      (this.fieldControl.hasError('required') ||
+        this.fieldControl.hasError('maxLength'))
+    );
   }
 }

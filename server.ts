@@ -21,14 +21,15 @@ export function app(): express.Express {
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
   server.get(
-    '*.*',
+    '**',
     express.static(browserDistFolder, {
       maxAge: '1y',
+      index: 'index.html',
     })
   );
 
   // All regular routes use the Angular engine
-  server.get('*', (req: any, res: any, next: any) => {
+  server.get('**', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
 
     commonEngine
@@ -47,17 +48,13 @@ export function app(): express.Express {
 }
 
 function run(): void {
-  const port: number = Number(process.env['PORT']) || 4000;
+  const port: number = Number(process.env['PORT']) || 4200;
 
   // Start up the Node server
-  try {
-    const server: express.Express = app();
-    server.listen(port, () => {
-      console.log(`Node Express server listening on http://localhost:${port}`);
-    });
-  } catch (error) {
-    console.error(`Error starting server: ${error}`);
-  }
+  const server = app();
+  server.listen(port, () => {
+    console.log(`Node Express server listening on http://localhost:${port}`);
+  });
 }
 
 run();

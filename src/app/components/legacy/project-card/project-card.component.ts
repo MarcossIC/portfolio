@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProjectCardBodyComponent } from '../project-card-body/project-card-body.component';
-import { ProjectCardHeader } from '@app/components/molecules/project-card-header/project-card-header.component';
-import { ProjectCardFooter } from '@app/components/molecules/project-card-footer/project-card-footer.component';
+import { ProjectCardHeader } from '@app/components/legacy/project-card-header/project-card-header.component';
+import { ProjectCardFooter } from '@app/components/legacy/project-card-footer/project-card-footer.component';
 
 @Component({
   standalone: true,

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { PlusNumberComponent } from '@atoms/plus-number/plus-number.component';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 
@@ -9,20 +9,19 @@ import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
   template: `
     <div class="flex flex-col mb-2 mt-1">
       <h3 class="font-manrope font-semibold text-[1.75rem] overflow-ellipsis">
-        {{ title }}
+        {{ title() }}
       </h3>
       <h4 class="font-manrope font-medium text-[1.25rem] overflow-ellipsis">
-        {{ sub }}
+        {{ sub() }}
       </h4>
-      <span class="mb-3 overflow-ellipsis">{{ date }}</span>
+      <span class="mb-3 overflow-ellipsis">{{ date() }}</span>
       <p class="pb-3"><ng-content></ng-content></p>
     </div>
   `,
-  styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpirenceItemComponent {
-  @Input({ required: true }) public title = '';
-  @Input({ required: true }) public sub = '';
-  @Input({ required: true }) public date = '';
+  public title = input.required<string>();
+  public sub = input.required<string>();
+  public date = input.required<string>();
 }

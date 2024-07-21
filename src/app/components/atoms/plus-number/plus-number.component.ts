@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
     <div
       class="highlight-text text-[5rem] text-center bg-clip-text text-transparent"
     >
-      <span class="pus-icon">+</span>{{ number }}
+      <span class="pus-icon">+</span>{{ number() }}
     </div>
   `,
   styles: [
@@ -20,8 +20,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
 })
 export class PlusNumberComponent {
-  @Input({ required: true }) public number: string = '';
+  public number = input.required<string>();
 }

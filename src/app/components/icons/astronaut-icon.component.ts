@@ -395,7 +395,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </defs>
     </svg>
   `,
-  styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AstronautIconComponent {}

@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  PLATFORM_ID,
   Renderer2,
   RendererFactory2,
   inject,
@@ -27,8 +26,6 @@ export class BentoItemContactComponent {
   ).createRenderer(null, null);
 
   private _document: Document = inject(DOCUMENT);
-
-  private platform = inject(PLATFORM_ID);
 
   scrollToForm() {
     this.router.navigate([], { replaceUrl: true }).then(() => {

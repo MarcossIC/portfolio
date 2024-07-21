@@ -25,3 +25,8 @@
   container-type: inline-size;
   container-name: main;
 }
+
+app-toast {
+  z-index: 99;
+  position: fixed;
+}

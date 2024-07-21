@@ -1,15 +1,14 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  PLATFORM_ID,
+  DestroyRef,
   Self,
-  afterNextRender,
   inject,
+  input,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,
   FormControl,
@@ -19,8 +18,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorMessageComponent } from '@atoms/error-message/error-message.component';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 const VALIDATORS: Record<string, ValidatorFn[]> = {
   name: [
@@ -44,46 +41,39 @@ const VALIDATORS: Record<string, ValidatorFn[]> = {
   imports: [ErrorMessageComponent, ReactiveFormsModule],
 })
 export class InputFieldComponent
-  implements ControlValueAccessor, OnDestroy, OnInit
+  implements ControlValueAccessor, AfterViewInit
 {
-  private platform = inject(PLATFORM_ID);
+  private destroy = inject(DestroyRef);
   protected readonly fieldControl: FormControl<string | null>;
-  private readonly destroy$ = new Subject();
   private _onChange: Function = () => {};
   private _onTouched: Function = () => {};
 
-  @Input() type = 'text';
+  public type = input<string>('text');
 
-  @Input() name = '';
-  @Input() id = '';
+  public name = input<string>('');
+  public id = input.required<string>();
+  public label = input<string>('');
+  public aria = input<string>('');
+  public errorMessage = input.required<string>();
 
-  @Input() autocomplete = 'off';
-  @Input() label = '';
-  @Input() aria = '';
-
-  @Input() errorMessage = '';
+  public autocomplete = input<string>('off');
 
   constructor(@Self() private readonly control: NgControl) {
     this.control.valueAccessor = this;
     this.fieldControl = new FormControl<string | null>(null);
   }
 
-  ngOnInit() {
-    this.fieldControl.addValidators(VALIDATORS[this.name]);
+  ngAfterViewInit() {
+    this.fieldControl.addValidators(VALIDATORS[this.name()]);
 
     this.control.control?.setValidators([this.fieldControl.validator!]);
     this.control.control?.updateValueAndValidity();
     this.fieldControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroy))
       .subscribe((fieldValue) => {
         this._onChange(fieldValue);
         this._onTouched();
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next('');
-    this.destroy$.complete();
   }
 
   writeValue(fieldValue: string | null): void {
@@ -100,5 +90,13 @@ export class InputFieldComponent
 
   setDisabledState?(isDisabled: boolean): void {
     isDisabled ? this.fieldControl.disable() : this.fieldControl.enable();
+  }
+
+  protected get showError() {
+    return (
+      this.fieldControl.touched &&
+      (this.fieldControl.hasError('required') ||
+        this.fieldControl.hasError('pattern'))
+    );
   }
 }

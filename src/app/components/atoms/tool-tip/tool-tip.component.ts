@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   standalone: true,
-  imports: [],
   selector: 'app-tool-tip',
   template: `
     <div

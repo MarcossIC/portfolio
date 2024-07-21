@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -6,12 +6,12 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   selector: 'rectangle-profile',
   template: `<img
     class="photo"
-    [src]="src"
-    [loading]="loading"
-    [decoding]="decoding"
+    [src]="src()"
+    [loading]="loading()"
+    [decoding]="decoding()"
     width=" 135px"
     height="140px"
-    [alt]="alt"
+    [alt]="alt()"
   />`,
   styles: `  .photo {
     object-fit: cover;
@@ -22,8 +22,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RectangleProfileComponent {
-  @Input() public src = '';
-  @Input() public loading = 'lazy';
-  @Input() public decoding = 'async';
-  @Input() public alt = '';
+  public src = input.required<string>();
+  public loading = input<string>('lazy');
+  public decoding = input<string>('async');
+  public alt = input<string>('');
 }

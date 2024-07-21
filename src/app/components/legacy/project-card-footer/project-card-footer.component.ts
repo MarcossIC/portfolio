@@ -1,20 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  Input,
+} from '@angular/core';
 import { TagComponent } from '@app/components/legacy/tag/tag.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TagComponent],
+  imports: [TagComponent],
   selector: 'project-card-footer',
   template: `
     <footer class="types m-1" role="complementary">
-      @for(TAG of TAGS; track TAG?.ID){
+      @for(TAG of TAGS(); track TAG.ID){ @if (TAG.ID !== 0) {
       <tag
         [tag]="TAG.NAME"
         [background]="TAG.COLOR[0]"
         [color]="TAG.COLOR[1]"
       ></tag>
-      }
+      } }
     </footer>
   `,
   styles: [
@@ -35,5 +40,5 @@ import { TagComponent } from '@app/components/legacy/tag/tag.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectCardFooter {
-  @Input({ required: true }) public TAGS = [{ ID: 0, NAME: '', COLOR: [] }];
+  public TAGS = input([{ ID: 0, NAME: '', COLOR: [] }]);
 }

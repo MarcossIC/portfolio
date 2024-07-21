@@ -1,12 +1,12 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   standalone: true,
   imports: [NgClass],
   selector: 'bento-item',
   template: `
-    <div class="bento-item" [ngClass]="className">
+    <div class="bento-item" [ngClass]="className()">
       <ng-content></ng-content>
     </div>
   `,
@@ -29,5 +29,5 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BentoItemComponent {
-  @Input() public className: string = '';
+  public className = input<string>('');
 }

@@ -37,7 +37,7 @@ import { ResumeButtonComponent } from '@app/components/molecules/resume-button/r
   ],
 })
 export class HeaderComponent {
-  protected readonly NAVIGATIONS: any = HEADER;
+  protected readonly NAVIGATIONS = HEADER;
   private readonly scroller = inject(ViewportScroller);
 
   protected scrollToTop() {

@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  Input,
+} from '@angular/core';
 import { DIRECTION } from 'src/constants/appConst';
 
 @Component({
@@ -11,12 +16,10 @@ import { DIRECTION } from 'src/constants/appConst';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineElementComponent {
-  protected DIRECTION: any = DIRECTION;
+  protected readonly DIRECTION = DIRECTION;
 
-  @Input({ required: true }) public description: string = '';
-  @Input({ required: true }) public state: string = '';
-  @Input({ required: true }) public title: string = '';
-  @Input({ required: true }) public strong: string = '';
-  @Input({ required: true }) public strongStyle: string = '';
-  @Input({ required: true }) public cardDirection: string = '';
+  public description = input.required<string>();
+  public state = input.required<string>();
+  public title = input.required<string>();
+  public cardDirection = input.required<string>();
 }

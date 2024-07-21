@@ -1,4 +1,3 @@
-import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -28,14 +27,12 @@ export class ProjectArticleImgComponent {
   public TITLE = input.required<string>();
   public ID = input.required<string>();
 
-  protected tooltipX: number = 0;
-  protected tooltipY: number = 0;
+  protected tooltipX = 0;
+  protected tooltipY = 0;
 
   onMouseMove(event: MouseEvent) {
-    if (isPlatformBrowser(this.platform)) {
-      const rect = this.containerRef().nativeElement.getBoundingClientRect();
-      this.tooltipX = event.clientX - rect.left + 10;
-      this.tooltipY = event.clientY - rect.top + 10;
-    }
+    const rect = this.containerRef().nativeElement.getBoundingClientRect();
+    this.tooltipX = event.clientX - rect.left + 10;
+    this.tooltipY = event.clientY - rect.top + 10;
   }
 }

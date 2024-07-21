@@ -17,7 +17,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       ></path>
     </svg>
   `,
-  styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LittlePlantIconComponent {}

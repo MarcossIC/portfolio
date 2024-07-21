@@ -7,7 +7,7 @@ import {
 } from '@app/models/toast.model';
 import { SignalsStoreService } from '../store/StoreSignals.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ToastService extends SignalsStoreService<ToastProps> {
   constructor() {
     super({} as ToastProps);
@@ -36,8 +36,10 @@ export class ToastService extends SignalsStoreService<ToastProps> {
     type: ToastType,
     position: ToastPosition
   ): void {
+    console.log('Llego al show');
     if (!seconds || seconds <= 0) seconds = 5;
 
+    console.log('No paso los seconds');
     const toastModel: ToastModel = {
       ID: crypto.randomUUID(),
       title: title,
@@ -46,16 +48,21 @@ export class ToastService extends SignalsStoreService<ToastProps> {
       type: type,
       seconds: seconds,
     };
+    console.log('Creo el model toast');
     let toasts = this.select('toasts')();
+    console.log('Hago el select');
     if (!toasts) toasts = [];
     if (toasts.length >= 6) this.removeFirst();
 
+    console.log('Push model: ', toastModel);
     toasts.push(toastModel);
     this.set('position', position);
     this.set('toasts', toasts);
 
     const autoClose = seconds * 1000;
+    console.log('Creo el auto close');
     setTimeout(() => {
+      console.log('Auto close');
       this.remove(toastModel.ID);
     }, autoClose);
   }

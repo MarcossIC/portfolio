@@ -2,8 +2,8 @@ import { NgClass, ViewportScroller } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   inject,
+  input,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
@@ -11,8 +11,8 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true,
   selector: 'router-link',
   template: ` <a
-    [ngClass]="classNames"
-    (click)="navigate(path, fragment)"
+    [ngClass]="classNames()"
+    (click)="navigate()"
     role="link"
     class="relative group cursor-pointer outline-none focus:outline-none focus-within:outline-none"
   >
@@ -23,17 +23,16 @@ import { Router, RouterModule } from '@angular/router';
   imports: [NgClass, RouterModule],
 })
 export class RouterLinkComponent {
-  @Input() public path = '';
-  @Input() public fragment = '';
-  @Input() public classNames = '';
+  public path = input<string>();
+  public fragment = input<string>('');
+  public classNames = input<string>('');
 
   private readonly router: Router = inject(Router);
-  private readonly viewportScroller: ViewportScroller =
-    inject(ViewportScroller);
+  private readonly viewportScroller = inject(ViewportScroller);
 
-  protected navigate(path: string, fragment: string) {
-    const usePath = path === '/' || path === '' ? [] : [path];
+  protected navigate() {
+    //const usePath = this.path() === '/' || this.path() === '' ? [] : [this.path()];
 
-    this.viewportScroller.scrollToAnchor(fragment);
+    this.viewportScroller.scrollToAnchor(this.fragment());
   }
 }

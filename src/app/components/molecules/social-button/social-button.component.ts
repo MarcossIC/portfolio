@@ -5,11 +5,11 @@ import {
   input,
   Input,
 } from '@angular/core';
-import { CustomLink } from '@app/components/atoms/link/custom-link.component';
+import { CustomLinkComponent } from '@app/components/atoms/link/custom-link.component';
 
 @Component({
   standalone: true,
-  imports: [NgClass, CustomLink],
+  imports: [NgClass, CustomLinkComponent],
   selector: 'social-button',
   template: `
     <custom-link

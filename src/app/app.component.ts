@@ -1,17 +1,12 @@
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  PLATFORM_ID,
-  afterNextRender,
-  inject,
-} from '@angular/core';
+import { AfterViewInit, Component, PLATFORM_ID, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import * as AOS from 'aos';
 import { FooterComponent } from '@organism/footer/footer.component';
 import { HeaderComponent } from '@organism/header/header.component';
 import { ParticlesComponent } from '@molecules/particles/particles.component';
 import { LayoutComponent } from './components/legacy/layout/layout.component';
+import { ToastComponent } from '@app/components/organism/toast/toast.component';
 
 @Component({
   selector: 'app-root',
@@ -25,10 +20,11 @@ import { LayoutComponent } from './components/legacy/layout/layout.component';
     HeaderComponent,
     FooterComponent,
     LayoutComponent,
+    ToastComponent,
   ],
 })
 export class AppComponent implements AfterViewInit {
-  private readonly document: Document = inject(DOCUMENT);
+  private document: Document = inject(DOCUMENT);
   private platform = inject(PLATFORM_ID);
 
   ngAfterViewInit(): void {

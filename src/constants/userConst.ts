@@ -1,5 +1,7 @@
+import { BentoUser, User } from '@app/models/types';
+
 //General user data
-export const USER = {
+export const USER: User = {
   name: 'Marcos',
   lastname: 'Lopez',
   fullName: 'Marcos Lopez',
@@ -16,7 +18,7 @@ export const USER = {
 };
 
 //User data to complete the about bento
-export const ABOUT_USER = {
+export const ABOUT_USER: BentoUser = {
   yearsExpertice: '02',
   experiences: [
     {

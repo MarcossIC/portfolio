@@ -11,13 +11,11 @@
   </app-title>
   <div class="contact relative">
     <div class="left-content" data-aos="fade-right" data-aos-duration="400">
-      <contact-form (contactState)="handleFormSubmit($event)"></contact-form>
+      <contact-form (contactState)="handleFormSubmit($event)" />
     </div>
 
     <div class="right-content">
-      <liquid-banner></liquid-banner>
+      <liquid-banner />
     </div>
   </div>
-
-  <app-toast></app-toast>
 </section>

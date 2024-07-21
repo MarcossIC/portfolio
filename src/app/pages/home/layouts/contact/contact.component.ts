@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Observable, catchError } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+} from '@angular/core';
+import { Observable, catchError, firstValueFrom } from 'rxjs';
 import { ContactState } from '@app/models/contactState.model';
 import { ToastService } from '@app/lib/toast/Toast.service';
 import { CommonModule } from '@angular/common';
@@ -21,13 +26,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     TitleComponent,
     LiquidBannerComponent,
     ContactFormComponent,
-    ToastComponent,
   ],
-  providers: [ToastService],
 })
 export class ContactLayoutComponent {
   private readonly toast = inject(ToastService);
   private http = inject(HttpClient);
+  private destroy = inject(DestroyRef);
   protected readonly titleID: string = 'e913163167c3';
 
   protected handleFormSubmit(event: ContactState) {
@@ -40,7 +44,7 @@ export class ContactLayoutComponent {
 
     this.sendForm(contactForm)
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.destroy),
         catchError((error: any) => {
           this.toast.error(
             'Error',

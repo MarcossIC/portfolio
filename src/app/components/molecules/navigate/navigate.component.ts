@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
 
 @Component({
@@ -15,7 +10,7 @@ import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigateComponent {
-  @Input({ required: true }) public path: string = '';
-  @Input({ required: true }) public fragment: string = '';
-  @Input() public classNames: string = '';
+  public path = input<string>('');
+  public fragment = input<string>('');
+  public classNames = input<string>('');
 }
