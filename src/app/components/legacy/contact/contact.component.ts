@@ -48,7 +48,6 @@ export class ContactPageComponent implements OnInit, OnDestroy {
   }
 
   protected handleFormSubmit(event: ContactState) {
-    console.log('event before:', event);
     this.toast.info('Sending...', 'We are processing your request');
 
     let contactForm = new FormData();
@@ -69,7 +68,6 @@ export class ContactPageComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((response: any) => {
-        console.log('event afeter:', response);
         this.toast.success(
           'Success',
           'Your message has been sent successfully'

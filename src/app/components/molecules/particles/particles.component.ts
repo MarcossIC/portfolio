@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  afterNextRender,
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { IParticlesProps, NgParticlesModule } from 'ng-particles';
 import {
   ClickMode,
@@ -45,114 +40,114 @@ import { loadSlim } from 'tsparticles-slim';
   styleUrls: ['./particles.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ParticlesComponent {
+export class ParticlesComponent implements OnInit {
   private currenteColor: string;
   protected id: string = 'tsparticles';
-  protected particlesOptions$!: IParticlesProps;
+  protected particlesOptions$: IParticlesProps | undefined;
 
   constructor() {
     this.currenteColor = '#c48cd8';
-    afterNextRender(() => {
-      this.particlesOptions$ = {
-        background: {
-          color: {
-            value: 'none',
-          },
+  }
+  ngOnInit(): void {
+    this.particlesOptions$ = {
+      background: {
+        color: {
+          value: 'none',
         },
-        fpsLimit: 120,
-        interactivity: {
-          events: {
-            onClick: {
-              enable: false,
-              mode: ClickMode.repulse,
-            },
-            onHover: {
-              enable: true,
-              mode: HoverMode.bubble,
-            },
-            resize: true,
-          },
-          modes: {
-            push: {
-              quantity: 4,
-            },
-            repulse: {
-              distance: 400,
-              duration: 0.4,
-            },
-            buble: {
-              distance: 250,
-              size: 0,
-              duration: 2,
-              opacity: 0,
-              speed: 3,
-            },
-          },
-        },
-        particles: {
-          color: {
-            value: this.currenteColor,
-          },
-          links: {
-            color: this.currenteColor,
-            distance: 150,
+      },
+      fpsLimit: 120,
+      interactivity: {
+        events: {
+          onClick: {
             enable: false,
-            opacity: 0.4,
-            width: 1,
+            mode: ClickMode.repulse,
           },
-          collisions: {
-            enable: false,
-          },
-          move: {
+          onHover: {
             enable: true,
-            speed: 0.8,
-            direction: MoveDirection.topLeft,
-            random: false,
-            straight: false,
-            outModes: {
-              default: OutMode.out,
-            },
+            mode: HoverMode.bubble,
           },
-          number: {
-            density: {
-              enable: true,
-              area: 800,
-            },
-            value: 100,
+          resize: true,
+        },
+        modes: {
+          push: {
+            quantity: 4,
           },
-          opacity: {
-            value: 0.9,
-            anim: {
-              enable: true,
-              speed: 1,
-              opacity_min: 0,
-              sync: false,
-            },
+          repulse: {
+            distance: 400,
+            duration: 0.4,
           },
-          shape: {
-            type: 'circle',
-            stroke: {
-              width: 0,
-              color: '#fff',
-            },
-            polygon: {
-              nb_sides: 5,
-            },
-          },
-          size: {
-            value: { min: 1, max: 3 },
-            random: true,
-            anim: {
-              enable: true,
-              speed: 4,
-              size_min: 0.3,
-              sync: true,
-            },
+          buble: {
+            distance: 250,
+            size: 0,
+            duration: 2,
+            opacity: 0,
+            speed: 3,
           },
         },
-        detectRetina: true,
-      };
-    });
+      },
+      particles: {
+        color: {
+          value: this.currenteColor,
+        },
+        links: {
+          color: this.currenteColor,
+          distance: 150,
+          enable: false,
+          opacity: 0.4,
+          width: 1,
+        },
+        collisions: {
+          enable: false,
+        },
+        move: {
+          enable: true,
+          speed: 0.8,
+          direction: MoveDirection.topLeft,
+          random: false,
+          straight: false,
+          outModes: {
+            default: OutMode.out,
+          },
+        },
+        number: {
+          density: {
+            enable: true,
+            area: 800,
+          },
+          value: 100,
+        },
+        opacity: {
+          value: 0.9,
+          anim: {
+            enable: true,
+            speed: 1,
+            opacity_min: 0,
+            sync: false,
+          },
+        },
+        shape: {
+          type: 'circle',
+          stroke: {
+            width: 0,
+            color: '#fff',
+          },
+          polygon: {
+            nb_sides: 5,
+          },
+        },
+        size: {
+          value: { min: 1, max: 3 },
+          random: true,
+          anim: {
+            enable: true,
+            speed: 4,
+            size_min: 0.3,
+            sync: true,
+          },
+        },
+      },
+      detectRetina: true,
+    };
   }
 
   particlesLoaded(container: Container): void {}

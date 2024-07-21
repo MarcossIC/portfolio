@@ -29,7 +29,6 @@ export class ToastComponent {
   constructor() {
     effect(() => {
       const toasts = this.toasts();
-      console.log('Cambia: ', toasts);
     });
   }
 
