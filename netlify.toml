@@ -5,5 +5,5 @@
 
 [[redirects]]
   from = "/*"
-  to = "/browser/index.html"
+  to = "/index.html"
   status = 200
