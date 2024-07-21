@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  afterNextRender,
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
@@ -29,10 +30,10 @@ import { loadSlim } from 'tsparticles-slim';
           class="w-full h-full absolute mix-blend-color-dodge"
           style="z-index: -1;"
         >
-          @if(particlesOptions$; as options){
+          @if(particlesOptions$){
           <ng-particles
             [id]="id"
-            [options]="options"
+            [options]="particlesOptions$"
             [particlesInit]="particlesInit"
             (particlesLoaded)="particlesLoaded($event)"
           ></ng-particles>
@@ -44,115 +45,114 @@ import { loadSlim } from 'tsparticles-slim';
   styleUrls: ['./particles.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ParticlesComponent implements AfterViewInit {
+export class ParticlesComponent {
   private currenteColor: string;
   protected id: string = 'tsparticles';
   protected particlesOptions$!: IParticlesProps;
 
   constructor() {
     this.currenteColor = '#c48cd8';
-  }
-
-  ngAfterViewInit(): void {
-    this.particlesOptions$ = {
-      background: {
-        color: {
-          value: 'none',
+    afterNextRender(() => {
+      this.particlesOptions$ = {
+        background: {
+          color: {
+            value: 'none',
+          },
         },
-      },
-      fpsLimit: 120,
-      interactivity: {
-        events: {
-          onClick: {
+        fpsLimit: 120,
+        interactivity: {
+          events: {
+            onClick: {
+              enable: false,
+              mode: ClickMode.repulse,
+            },
+            onHover: {
+              enable: true,
+              mode: HoverMode.bubble,
+            },
+            resize: true,
+          },
+          modes: {
+            push: {
+              quantity: 4,
+            },
+            repulse: {
+              distance: 400,
+              duration: 0.4,
+            },
+            buble: {
+              distance: 250,
+              size: 0,
+              duration: 2,
+              opacity: 0,
+              speed: 3,
+            },
+          },
+        },
+        particles: {
+          color: {
+            value: this.currenteColor,
+          },
+          links: {
+            color: this.currenteColor,
+            distance: 150,
             enable: false,
-            mode: ClickMode.repulse,
+            opacity: 0.4,
+            width: 1,
           },
-          onHover: {
+          collisions: {
+            enable: false,
+          },
+          move: {
             enable: true,
-            mode: HoverMode.bubble,
+            speed: 0.8,
+            direction: MoveDirection.topLeft,
+            random: false,
+            straight: false,
+            outModes: {
+              default: OutMode.out,
+            },
           },
-          resize: true,
-        },
-        modes: {
-          push: {
-            quantity: 4,
+          number: {
+            density: {
+              enable: true,
+              area: 800,
+            },
+            value: 100,
           },
-          repulse: {
-            distance: 400,
-            duration: 0.4,
+          opacity: {
+            value: 0.9,
+            anim: {
+              enable: true,
+              speed: 1,
+              opacity_min: 0,
+              sync: false,
+            },
           },
-          buble: {
-            distance: 250,
-            size: 0,
-            duration: 2,
-            opacity: 0,
-            speed: 3,
+          shape: {
+            type: 'circle',
+            stroke: {
+              width: 0,
+              color: '#fff',
+            },
+            polygon: {
+              nb_sides: 5,
+            },
           },
-        },
-      },
-      particles: {
-        color: {
-          value: this.currenteColor,
-        },
-        links: {
-          color: this.currenteColor,
-          distance: 150,
-          enable: false,
-          opacity: 0.4,
-          width: 1,
-        },
-        collisions: {
-          enable: false,
-        },
-        move: {
-          enable: true,
-          speed: 0.8,
-          direction: MoveDirection.topLeft,
-          random: false,
-          straight: false,
-          outModes: {
-            default: OutMode.out,
-          },
-        },
-        number: {
-          density: {
-            enable: true,
-            area: 800,
-          },
-          value: 100,
-        },
-        opacity: {
-          value: 0.9,
-          anim: {
-            enable: true,
-            speed: 1,
-            opacity_min: 0,
-            sync: false,
+          size: {
+            value: { min: 1, max: 3 },
+            random: true,
+            anim: {
+              enable: true,
+              speed: 4,
+              size_min: 0.3,
+              sync: true,
+            },
           },
         },
-        shape: {
-          type: 'circle',
-          stroke: {
-            width: 0,
-            color: '#fff',
-          },
-          polygon: {
-            nb_sides: 5,
-          },
-        },
-        size: {
-          value: { min: 1, max: 3 },
-          random: true,
-          anim: {
-            enable: true,
-            speed: 4,
-            size_min: 0.3,
-            sync: true,
-          },
-        },
-      },
-      detectRetina: true,
-    };
+        detectRetina: true,
+      };
+    });
   }
 
   particlesLoaded(container: Container): void {}
