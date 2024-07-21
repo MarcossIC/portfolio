@@ -7,6 +7,7 @@ import { HeaderComponent } from '@organism/header/header.component';
 import { ParticlesComponent } from '@molecules/particles/particles.component';
 import { LayoutComponent } from './components/legacy/layout/layout.component';
 import { ToastComponent } from '@app/components/organism/toast/toast.component';
+import { SeoService } from '@app/services/legacy/seo.service';
 
 @Component({
   selector: 'app-root',

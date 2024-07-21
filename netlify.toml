@@ -1,5 +1,9 @@
 [build]
   base = "/"
   command = "ng build"
-  publish = "dist/portfolio/browser"
+  publish = "dist/portfolio"
 
+[[redirects]]
+  from = "/*"
+  to = "/browser/index.html"
+  status = 200
