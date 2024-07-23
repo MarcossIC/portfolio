@@ -199,7 +199,7 @@ bento-item-stack {
     min-width: var(--bento-min-w-col-1);
   }
   bento-item-expirence {
-    height: 585px;
+    height: 42.8rem;
   }
   bento-item-github {
     height: 100%;
@@ -212,12 +212,6 @@ bento-item-stack {
   }
   bento-item-stack {
     height: 100%;
-  }
-}
-
-@media only screen and (min-width: 1073px) {
-  bento-item-expirence {
-    height: 555px;
   }
 }
 
@@ -270,7 +264,7 @@ bento-item-stack {
     height: 100%;
   }
   bento-item-expirence {
-    height: 491px;
+    height: clamp(520px, 20cqw, 400px);
   }
   bento-item-github {
     width: var(--bento-w-col-3);

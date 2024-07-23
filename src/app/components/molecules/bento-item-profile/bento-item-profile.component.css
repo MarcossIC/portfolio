@@ -77,10 +77,6 @@ a.resume-download {
   }
 }
 
-bento-item {
-  height: 60cqh;
-}
-
 @media only screen and (min-width: 580px) {
   ::ng-deep .bento-item-3 ::ng-deep #astronaut {
     display: block;
