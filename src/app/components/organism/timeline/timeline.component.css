@@ -23,13 +23,15 @@
   z-index: -1;
 }
 
+@media screen and (max-width: 680px) {
+  .timeline::after {
+    left: 31px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .timeline {
     margin: 50px auto;
-  }
-
-  .timeline::after {
-    left: 31px;
   }
 }
 
