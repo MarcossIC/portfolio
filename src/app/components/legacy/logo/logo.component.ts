@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
-import AOS from 'aos';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -10,11 +9,4 @@ import AOS from 'aos';
   styleUrls: ['./logo.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogoComponent implements OnInit{
-  constructor() {
-  }
-  ngOnInit(): void {
-    
-  }
-  
-}
+export class LogoComponent {}

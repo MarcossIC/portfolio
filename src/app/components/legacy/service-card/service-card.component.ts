@@ -20,9 +20,9 @@ import VanillaTilt from 'vanilla-tilt';
 })
 export class ServiceCardComponent implements OnInit {
   @ViewChild('serviceCard', { static: true }) serviceCardRef!: ElementRef;
-  @Input({ required: true }) public icon: string = '';
-  @Input({ required: true }) public title: string = '';
-  @Input({ required: true }) public index: number = 0;
+  @Input({ required: true }) public icon = '';
+  @Input({ required: true }) public title = '';
+  @Input({ required: true }) public index = 0;
 
   ngOnInit(): void {
     afterNextRender(() => {

@@ -11,7 +11,7 @@ import { ABOUT_USER } from '@constants/userConst';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TimelineComponent, TitleComponent],
 })
-export class StudiesLayoutComponent {
+export class StudiesLayout {
   protected STUDIES = ABOUT_USER.studies;
   protected titleID = 't01agf453';
 }

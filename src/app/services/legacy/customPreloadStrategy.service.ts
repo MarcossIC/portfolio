@@ -9,7 +9,7 @@ export class CustomPreloadStrategyService extends PreloadingStrategy {
   constructor() {
     super();
   }
-  preload(route: Route, load: () => Observable<any>): Observable<any> {
+  preload(route: Route, load: () => Observable<unknown>): Observable<unknown> {
     return route.data?.['preload'] === true ? load() : of(null);
   }
 }

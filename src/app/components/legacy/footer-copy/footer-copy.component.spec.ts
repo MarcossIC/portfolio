@@ -1,7 +1,4 @@
-/* tslint:disable:no-unused-variable */
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { FooterCopyComponent } from './footer-copy.component';
 
@@ -11,9 +8,8 @@ describe('FooterCopyComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ FooterCopyComponent ]
-    })
-    .compileComponents();
+      declarations: [FooterCopyComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -12,6 +12,7 @@ import { Router, RouterModule } from '@angular/router';
   selector: 'router-link',
   template: ` <a
     [ngClass]="classNames()"
+    [attr.aria-hidden]="true"
     (click)="navigate()"
     role="link"
     class="relative group cursor-pointer outline-none focus:outline-none focus-within:outline-none"

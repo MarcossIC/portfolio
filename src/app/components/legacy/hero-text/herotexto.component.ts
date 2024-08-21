@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { USER } from 'src/constants/userConst';
-import { HERO } from 'src/constants/appConst';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -11,11 +10,8 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./herotext.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeroTextComponent implements OnInit {
-  protected readonly USER: any = USER;
-  protected readonly HERO: any = HERO;
+export class HeroTextComponent  {
+  protected readonly USER = USER;
+  protected readonly HERO = { TITLE: ["", ""], PARAGRAPH: "", RESUME: "", CONTACT: "", SUBTITLE: ""};
 
-  constructor() { }
-
-  ngOnInit(): void { }
 }

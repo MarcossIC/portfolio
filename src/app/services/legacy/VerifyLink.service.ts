@@ -7,8 +7,6 @@ import { IsActiveMatchOptions, Router } from '@angular/router';
 export class VerifyLinkService {
   private router: Router = inject(Router);
 
-  constructor() { }
-
   isLinkActive(url: string): boolean {
     console.log(url);
     const options: IsActiveMatchOptions = { paths: 'exact', queryParams: 'exact', fragment: 'exact', matrixParams: 'exact' };

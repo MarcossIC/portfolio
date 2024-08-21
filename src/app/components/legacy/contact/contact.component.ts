@@ -1,17 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
-  OnInit,
   inject,
 } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { Observable, Subject, catchError, takeUntil } from 'rxjs';
 import { ContactState } from '@app/models/contactState.model';
 import { ToastService } from '@app/lib/toast/Toast.service';
-import { SeoService } from '@app/services/legacy/seo.service';
 
 @Component({
   selector: 'contact-page',
@@ -19,27 +15,14 @@ import { SeoService } from '@app/services/legacy/seo.service';
   styleUrls: ['./contact.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContactPageComponent implements OnInit, OnDestroy {
+export class ContactPageComponent implements OnDestroy {
   private readonly toast = inject(ToastService);
-  private readonly seo: SeoService = inject(SeoService);
-  private readonly title: Title = inject(Title);
   private http = inject(HttpClient);
   private destroy$: Subject<void>;
   protected readonly titleID: string = 'e913163167c3';
 
   constructor() {
     this.destroy$ = new Subject<void>();
-  }
-
-  ngOnInit(): void {
-    let t: string = 'Contact - Marcos Lopez Web Portfolio';
-    this.title.setTitle(t);
-    this.seo.generateTags({
-      title: t,
-      description:
-        'If you liked the work of Marcos Lopez as a developer, contact him now from this page.',
-      slug: 'contact',
-    });
   }
 
   ngOnDestroy(): void {
@@ -50,7 +33,7 @@ export class ContactPageComponent implements OnInit, OnDestroy {
   protected handleFormSubmit(event: ContactState) {
     this.toast.info('Sending...', 'We are processing your request');
 
-    let contactForm = new FormData();
+    const contactForm = new FormData();
     contactForm.append('name', event.name);
     contactForm.append('email', event.email);
     contactForm.append('message', event.message);
@@ -58,7 +41,7 @@ export class ContactPageComponent implements OnInit, OnDestroy {
     this.sendForm(contactForm)
       .pipe(takeUntil(this.destroy$))
       .pipe(
-        catchError((error: any) => {
+        catchError((error) => {
           this.toast.error(
             'Error',
             'An unexpected error has occurred with the server'
@@ -67,7 +50,7 @@ export class ContactPageComponent implements OnInit, OnDestroy {
           return error;
         })
       )
-      .subscribe((response: any) => {
+      .subscribe((_) => {
         this.toast.success(
           'Success',
           'Your message has been sent successfully'
@@ -75,7 +58,7 @@ export class ContactPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  private sendForm(data: FormData): Observable<any> {
+  private sendForm(data: FormData): Observable<unknown> {
     return this.http.post('https://formspree.io/f/xdorrewr', data, {
       headers: {
         Accept: 'application/json',

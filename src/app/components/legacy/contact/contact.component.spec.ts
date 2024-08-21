@@ -1,4 +1,3 @@
-/* tslint:disable:no-unused-variable */
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContactPageComponent } from './contact.component';
@@ -9,9 +8,8 @@ describe('ContactPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContactPageComponent ]
-    })
-    .compileComponents();
+      declarations: [ContactPageComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -3,7 +3,7 @@ import { AbstractStoreService } from './AbstractStore.service';
 
 export class SignalsStoreService<T> extends AbstractStoreService<
   T,
-  Signal<T[any]>
+  Signal<T[keyof T]>
 > {
   public state: WritableSignal<T>;
 

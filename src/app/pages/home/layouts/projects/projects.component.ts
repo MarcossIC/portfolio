@@ -30,7 +30,7 @@ import { ProjectArticleComponent } from '@organism/project-article/project-artic
     TailwindIconComponent,
   ],
 })
-export class ProjectsLayoutComponent {
+export class ProjectsLayout {
   protected readonly PROJECTS = PROJECTS_V2;
   protected readonly titleID: string = 'home-projects-tt';
   /*If you need to add more icons, you must create the component and add it to this object*/
@@ -43,7 +43,7 @@ export class ProjectsLayoutComponent {
     spring: SpringIconComponent,
   };
 
-  protected getIconComponent(icon: string): Type<any> {
+  protected getIconComponent(icon: string): Type<unknown> {
     return this.iconComponents[icon] || null;
   }
 }

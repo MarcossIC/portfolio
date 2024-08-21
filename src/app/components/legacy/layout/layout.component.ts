@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'layout-bg',
@@ -12,7 +12,4 @@ import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core';
   </div> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutComponent implements OnInit {
-  //
-  ngOnInit(): void {}
-}
+export class LayoutComponent {}

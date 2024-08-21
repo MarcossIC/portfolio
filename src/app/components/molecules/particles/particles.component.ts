@@ -42,7 +42,7 @@ import { loadSlim } from 'tsparticles-slim';
 })
 export class ParticlesComponent implements OnInit {
   private currenteColor: string;
-  protected id: string = 'tsparticles';
+  protected id = 'tsparticles';
   protected particlesOptions$: IParticlesProps | undefined;
 
   constructor() {
@@ -149,8 +149,9 @@ export class ParticlesComponent implements OnInit {
       detectRetina: true,
     };
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   particlesLoaded(container: Container): void {}
+
   async particlesInit(engine: Engine): Promise<void> {
     await loadSlim(engine);
   }

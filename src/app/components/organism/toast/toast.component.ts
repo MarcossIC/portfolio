@@ -1,10 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ToastService } from '@app/lib/toast/Toast.service';
 
 @Component({
@@ -26,11 +21,6 @@ export class ToastComponent {
     ['error', 'error'],
     ['default', 'default'],
   ]);
-  constructor() {
-    effect(() => {
-      const toasts = this.toasts();
-    });
-  }
 
   protected close(ID: string): void {
     this.toastService.remove(ID);

@@ -4,7 +4,6 @@ import {
   Directive,
   ElementRef,
   PLATFORM_ID,
-  afterNextRender,
   inject,
 } from '@angular/core';
 import Atropos from 'atropos';

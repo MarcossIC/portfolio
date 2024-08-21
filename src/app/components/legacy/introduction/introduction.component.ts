@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SpaceSvgComponent } from '@app/components/legacy/spaceSvg/spaceSvg.component';
 import { TitleComponent } from '@app/components/atoms/title/title.component';
-import { ABOUT_INTRO } from 'src/constants/appConst';
 
 @Component({
   standalone: true,
@@ -11,11 +10,7 @@ import { ABOUT_INTRO } from 'src/constants/appConst';
   styleUrls: ['./introduction.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutIntroLayoutComponent implements OnInit {
-  INTRODUCTION: any = ABOUT_INTRO;
-  protected titleID: string = 'gc39cb09';
-
-  constructor() {}
-
-  ngOnInit(): void {}
+export class AboutIntroLayoutComponent {
+  protected INTRODUCTION = {PARAGRAPH:""};
+  protected titleID = 'gc39cb09';
 }

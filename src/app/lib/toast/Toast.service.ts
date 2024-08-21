@@ -17,7 +17,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
   public remove(ID: string | number): void {
     this.state.update((currentValue) => {
       currentValue.toasts = currentValue.toasts.filter(
-        (val: any) => val.ID !== ID
+        (val: ToastModel) => val.ID !== ID
       );
       return currentValue;
     });
@@ -67,7 +67,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
   public info(
     title: string,
     message: string,
-    seconds: number = 100,
+    seconds = 100,
     position: ToastPosition = ToastPosition.TOP_RIGHT
   ): void {
     this.show(title, message, seconds, ToastType.INFO, position);
@@ -76,7 +76,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
   public success(
     title: string,
     message: string,
-    seconds: number = 100,
+    seconds = 100,
     position: ToastPosition = ToastPosition.TOP_RIGHT
   ): void {
     this.show(title, message, seconds, ToastType.SUCCESS, position);
@@ -85,7 +85,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
   public waring(
     title: string,
     message: string,
-    seconds: number = 100,
+    seconds = 100,
     position: ToastPosition = ToastPosition.TOP_RIGHT
   ): void {
     this.show(title, message, seconds, ToastType.WARNING, position);
@@ -94,7 +94,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
   public error(
     title: string,
     message: string,
-    seconds: number = 100,
+    seconds = 100,
     position: ToastPosition = ToastPosition.TOP_RIGHT
   ): void {
     this.show(title, message, seconds, ToastType.ERROR, position);

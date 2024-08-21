@@ -1,6 +1,6 @@
 import { Projects } from '@app/models/projects';
 import { ServicesType } from '@app/models/servicesTypes';
-import { Directions, LinksHeaderArray } from '@app/models/types';
+import { LinksHeaderArray } from '@app/models/types';
 
 export const PROJECTS_V2: Projects = [
   {
@@ -78,11 +78,6 @@ export const SERVICES: ServicesType = {
       ICON: '../../../../../assets/architect.webp',
     },
   ],
-};
-
-export const DIRECTION: Directions = {
-  LEFT: 'LEFT',
-  RIGHT: 'RIGHT',
 };
 
 export const HEADER: LinksHeaderArray = [

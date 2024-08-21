@@ -1,26 +1,26 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ErrorMessageComponent } from './error-message.component';
 
 describe('ErrorMessageComponent', () => {
   let component: ErrorMessageComponent;
+  let fixture: ComponentFixture<ErrorMessageComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ErrorMessageComponent],
-    }).compileComponents();
-  });
-
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ ErrorMessageComponent ]
+    })
+    .compileComponents();
+  }));
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(ErrorMessageComponent);
+    fixture = TestBed.createComponent(ErrorMessageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(ErrorMessageComponent);
+    fixture = TestBed.createComponent(ErrorMessageComponent);
     component= fixture.componentInstance;
     expect(fixture).toBeTruthy();
   });

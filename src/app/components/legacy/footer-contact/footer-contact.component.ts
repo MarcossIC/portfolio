@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -9,11 +9,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./footer-contact.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FooterContactComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+export class FooterContactComponent {
 
 }

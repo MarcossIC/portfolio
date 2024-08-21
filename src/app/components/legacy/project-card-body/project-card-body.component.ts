@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -59,13 +58,11 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   styleUrls: ['./project-card-body.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectCardBodyComponent implements OnInit {
+export class ProjectCardBodyComponent  {
   @Input({ required: true }) public PROJECT_NAME = '';
   @Input({ required: true }) public TEXT_ANCHOR = '';
   @Input({ required: true }) public PROJECT_LINK = '';
   @Input({ required: true }) public PROJECT_DESCRIPTION = '';
 
-  constructor() {}
 
-  ngOnInit(): void {}
 }

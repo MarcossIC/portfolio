@@ -5,7 +5,6 @@ import {
   EventEmitter,
   OnDestroy,
   Output,
-  afterNextRender,
   inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -30,11 +29,9 @@ import { TextAreaFieldComponent } from '@atoms/text-area-field/text-area-field.c
 })
 export class ContactFormComponent implements OnDestroy {
   @Output() public contactState = new EventEmitter<ContactState>();
-  private formBuilder: FormBuilder = inject(FormBuilder);
-  protected contactForm!: FormGroup;
-  constructor() {
-    this.contactForm = this.createContactForm();
-  }
+  private formBuilder = inject(FormBuilder);
+  protected contactForm = this.createContactForm();
+
   ngOnDestroy(): void {
     this.contactForm.reset();
   }

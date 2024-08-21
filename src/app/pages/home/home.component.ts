@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { HeroLayoutComponent } from './layouts/hero/hero.component';
-import { ProjectsLayoutComponent } from './layouts/projects/projects.component';
+import { HeroLayout } from './layouts/hero/hero.component';
+import { ProjectsLayout } from './layouts/projects/projects.component';
 import { BentoAboutLayout } from '@app/pages/home/layouts/bento-about/bento-about.component';
-import { ContactLayoutComponent } from '@app/pages/home/layouts/contact/contact.component';
-import { StudiesLayoutComponent } from '@app/pages/home/layouts/studies/studies.component';
-import { ToastComponent } from '@app/components/organism/toast/toast.component';
+import { ContactLayout } from '@app/pages/home/layouts/contact/contact.component';
+import { StudiesLayout } from '@app/pages/home/layouts/studies/studies.component';
 
 @Component({
   selector: 'home-page',
@@ -13,13 +12,13 @@ import { ToastComponent } from '@app/components/organism/toast/toast.component';
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    HeroLayoutComponent,
-    ProjectsLayoutComponent,
+    HeroLayout,
+    ProjectsLayout,
     BentoAboutLayout,
-    ContactLayoutComponent,
-    StudiesLayoutComponent,
+    ContactLayout,
+    StudiesLayout,
   ],
 })
-export class HomePageComponent {}
+export class HomePage {}
 
-export default HomePageComponent;
+export default HomePage;

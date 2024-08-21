@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { SOCIAL_URLS } from 'src/constants/userConst';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,11 +9,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./social-nav.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SocialNavComponent implements OnInit {
-  protected SOCIAL_URLS: any = SOCIAL_URLS;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+export class SocialNavComponent  {
+  protected SOCIAL_URLS = {linkedIn: "", gitHub: "", stackOverflow:""};
 }

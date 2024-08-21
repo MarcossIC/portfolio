@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LogoIconComponent } from '@icons/logo-icon.component';
 import { CoffeeIconComponent } from '@icons/coffee-icon.component';
 import { SocialButtonComponent } from '@molecules/social-button/social-button.component';

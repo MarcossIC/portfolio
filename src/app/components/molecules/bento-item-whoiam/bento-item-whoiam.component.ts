@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 import { ABOUT_USER } from '@constants/userConst';
 

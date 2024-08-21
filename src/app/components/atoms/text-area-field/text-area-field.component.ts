@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  PLATFORM_ID,
   Self,
   inject,
   input,
@@ -23,6 +23,8 @@ const VALIDATORS: Record<string, ValidatorFn[]> = {
   message: [Validators.required, Validators.maxLength(300)],
 };
 
+type FunctionVoid = (e?: unknown) => void;
+
 @Component({
   standalone: true,
   selector: 'app-textarea-field',
@@ -36,8 +38,8 @@ export class TextAreaFieldComponent
 {
   private destroy = inject(DestroyRef);
   protected readonly fieldControl: FormControl<string | null>;
-  private _onChange: Function = () => {};
-  private _onTouched: Function = () => {};
+  private _onChange: FunctionVoid = () => {};
+  private _onTouched: FunctionVoid = () => {};
 
   public name = input<string>('');
   public id = input.required<string>();
@@ -70,16 +72,20 @@ export class TextAreaFieldComponent
     this.fieldControl.setValue(fieldValue);
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: FunctionVoid): void {
     this._onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: FunctionVoid): void {
     this._onTouched = fn;
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    isDisabled ? this.fieldControl.disable() : this.fieldControl.enable();
+    if (isDisabled) {
+      this.fieldControl.disable();
+    } else {
+      this.fieldControl.enable();
+    }
   }
 
   protected get showError() {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -34,8 +34,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FooterCopyComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
+export class FooterCopyComponent {
+ 
 }

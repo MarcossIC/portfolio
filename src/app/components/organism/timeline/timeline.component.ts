@@ -1,13 +1,7 @@
 import { NgFor } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  Input,
-} from '@angular/core';
-import { DIRECTION } from 'src/constants/appConst';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TimelineElementComponent } from '../timeline-element/timeline-element.component';
-import { UserStudies } from '@app/models/types';
+import { Directions, UserStudies } from '@app/models/types';
 
 @Component({
   standalone: true,
@@ -30,5 +24,8 @@ import { UserStudies } from '@app/models/types';
 })
 export class TimelineComponent {
   public ITEMS = input.required<UserStudies[]>();
-  protected readonly DIRECTION = DIRECTION;
+  protected readonly DIRECTION = {
+    LEFT: Directions.LEFT,
+    RIGHT: Directions.RIGHT,
+  };
 }

@@ -18,7 +18,7 @@ import { ResumeButtonComponent } from '@app/components/molecules/resume-button/r
             [path]="NAVIGATION.PATH"
             [fragment]="NAVIGATION.FRAGMENT"
             class="text-[1.1rem] min-[1500px]:text-2xl min-[1700px]:text-3xl"
-            [classNames]="$index == 0 ? 'mr-4' : 'mr-4 ml-4'"
+            [classNames]="$index === 0 ? 'mr-4' : 'mr-4 ml-4'"
             >{{ NAVIGATION.LABEL }}</navigate
           >
           }

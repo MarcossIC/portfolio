@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{html,ts,js}"],
+  darkMode: ['class'],
+  prefix: '',
+  separator: ':',
   theme: {
     extend: {
       fontFamily: {
@@ -42,4 +45,9 @@ export default {
     },
   },
   plugins: [],
+  future: {
+    hoverOnlyWhenSupported: true,
+    removeDeprecatedGapUtilities: true,
+    standardFontWeights: true,
+  },
 };

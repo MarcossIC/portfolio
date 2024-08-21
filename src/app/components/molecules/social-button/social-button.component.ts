@@ -1,10 +1,5 @@
 import { NgClass } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CustomLinkComponent } from '@app/components/atoms/link/custom-link.component';
 
 @Component({

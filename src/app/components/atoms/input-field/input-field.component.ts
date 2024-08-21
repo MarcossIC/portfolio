@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
+/* eslint-disable @typescript-eslint/no-empty-function */
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -31,6 +31,7 @@ const VALIDATORS: Record<string, ValidatorFn[]> = {
     Validators.required,
   ],
 };
+type FunctionVoid = (e?: unknown) => void;
 
 @Component({
   standalone: true,
@@ -45,8 +46,8 @@ export class InputFieldComponent
 {
   private destroy = inject(DestroyRef);
   protected readonly fieldControl: FormControl<string | null>;
-  private _onChange: Function = () => {};
-  private _onTouched: Function = () => {};
+  private _onChange: FunctionVoid = () => {};
+  private _onTouched: FunctionVoid = () => {};
 
   public type = input<string>('text');
 
@@ -80,16 +81,20 @@ export class InputFieldComponent
     this.fieldControl.setValue(fieldValue);
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: FunctionVoid): void {
     this._onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: FunctionVoid): void {
     this._onTouched = fn;
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    isDisabled ? this.fieldControl.disable() : this.fieldControl.enable();
+    if (isDisabled) {
+      this.fieldControl.disable();
+    } else {
+      this.fieldControl.enable();
+    }
   }
 
   protected get showError() {

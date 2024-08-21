@@ -1,8 +1,4 @@
-import {
-  ApplicationConfig,
-  provideExperimentalZonelessChangeDetection,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import {
   PreloadAllModules,
   provideRouter,

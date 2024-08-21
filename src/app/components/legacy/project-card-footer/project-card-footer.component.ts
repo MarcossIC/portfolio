@@ -1,9 +1,7 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   input,
-  Input,
 } from '@angular/core';
 import { TagComponent } from '@app/components/legacy/tag/tag.component';
 
@@ -39,6 +37,6 @@ import { TagComponent } from '@app/components/legacy/tag/tag.component';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectCardFooter {
+export class ProjectCardFooterComponent {
   public TAGS = input([{ ID: 0, NAME: '', COLOR: [] }]);
 }

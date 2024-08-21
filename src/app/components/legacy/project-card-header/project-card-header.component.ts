@@ -44,7 +44,7 @@ import { RouterLinkWithHref } from '@angular/router';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectCardHeader {
-  @Input({ required: true }) public IMG: string = '';
-  @Input({ required: true }) public DEPLOY: any = false;
+export class ProjectCardHeaderComponent {
+  @Input({ required: true }) public IMG = '';
+  @Input({ required: true }) public DEPLOY = false;
 }

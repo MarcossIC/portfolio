@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { SKILLS } from 'src/constants/appConst';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkillsGroupComponent } from '../skills-group/skills-group.component';
 import { TitleComponent } from '@app/components/atoms/title/title.component';
 
@@ -11,10 +10,7 @@ import { TitleComponent } from '@app/components/atoms/title/title.component';
   styleUrls: ['./skillsLayout.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkillsLayoutComponent implements OnInit {
-  protected readonly SKILLS: any = SKILLS;
-  protected readonly titleID: string = 'b11d-4fa6';
-  constructor() {}
-
-  ngOnInit(): void {}
+export class SkillsLayoutComponent  {
+  protected readonly SKILLS = {TITLE: ["", "", ""], CLARIFICATION: ""};
+  protected readonly titleID = 'b11d-4fa6';
 }

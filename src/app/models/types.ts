@@ -1,7 +1,7 @@
-export type Directions = {
-  LEFT: 'LEFT';
-  RIGHT: 'RIGHT';
-};
+export enum Directions {
+  LEFT = 'LEFT',
+  RIGHT = 'RIGHT',
+}
 
 export interface Header {
   ID: string;

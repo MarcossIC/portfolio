@@ -1,4 +1,4 @@
-/* tslint:disable:no-unused-variable */
+
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SkillComponent } from './skill.component';

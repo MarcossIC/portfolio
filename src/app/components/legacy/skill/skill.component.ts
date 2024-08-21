@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkillComponent {
-  @Input({ required: true }) public icon: string = '';
-  @Input({ required: true }) public caption: string = '';
-  @Input({ required: true }) public size: number = 50;
+  @Input({ required: true }) public icon = '';
+  @Input({ required: true }) public caption = '';
+  @Input({ required: true }) public size = 50;
 }

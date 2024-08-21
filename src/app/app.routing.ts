@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { ToastService } from '@app/lib/toast/Toast.service';
 
 export const routes: Routes = [
   {

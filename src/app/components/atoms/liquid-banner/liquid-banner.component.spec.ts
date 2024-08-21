@@ -1,7 +1,4 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LiquidBannerComponent } from './liquid-banner.component';
 
@@ -9,7 +6,7 @@ describe('LiquidBannerComponent', () => {
   let component: LiquidBannerComponent;
   let fixture: ComponentFixture<LiquidBannerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ LiquidBannerComponent ]
     })
