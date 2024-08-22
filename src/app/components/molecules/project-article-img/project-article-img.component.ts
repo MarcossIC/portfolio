@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
+  type ElementRef,
   PLATFORM_ID,
   inject,
   input,

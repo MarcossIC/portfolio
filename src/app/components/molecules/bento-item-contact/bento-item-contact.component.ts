@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Renderer2,
+  type Renderer2,
   RendererFactory2,
   inject,
 } from '@angular/core';
@@ -22,7 +22,7 @@ import { DOCUMENT } from '@angular/common';
 export class BentoItemContactComponent {
   private router: Router = inject(Router);
   private readonly renderer: Renderer2 = inject(
-    RendererFactory2
+    RendererFactory2,
   ).createRenderer(null, null);
 
   private _document: Document = inject(DOCUMENT);
@@ -40,7 +40,7 @@ export class BentoItemContactComponent {
               this.renderer.selectRootElement(inputElement).focus();
             }
           },
-          { once: true }
+          { once: true },
         );
       }
     });

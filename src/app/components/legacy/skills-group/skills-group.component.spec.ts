@@ -1,4 +1,8 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  waitForAsync,
+  type ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { SkillsGroupComponent } from './skills-group.component';
 
@@ -8,9 +12,8 @@ describe('SkillsGroupComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SkillsGroupComponent ]
-    })
-    .compileComponents();
+      declarations: [SkillsGroupComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

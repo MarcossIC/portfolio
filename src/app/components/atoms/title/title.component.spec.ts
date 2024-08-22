@@ -1,4 +1,8 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  waitForAsync,
+  type ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { TitleComponent } from './title.component';
 
@@ -8,9 +12,8 @@ describe('TitleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TitleComponent ]
-    })
-    .compileComponents();
+      declarations: [TitleComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

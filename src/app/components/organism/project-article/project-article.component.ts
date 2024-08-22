@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ProjectArticleImgComponent } from '@app/components/molecules/project-article-img/project-article-img.component';
-import { Project } from '@app/models/projects';
+import type { Project } from '@app/models/projects';
 
 @Component({
   standalone: true,

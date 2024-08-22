@@ -1,7 +1,7 @@
 import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TimelineElementComponent } from '../timeline-element/timeline-element.component';
-import { Directions, UserStudies } from '@app/models/types';
+import { Directions, type UserStudies } from '@app/models/types';
 
 @Component({
   standalone: true,
@@ -10,12 +10,12 @@ import { Directions, UserStudies } from '@app/models/types';
   template: `
     <ul class="timeline">
       @for (ITEM of ITEMS(); track ITEM.ID) {
-      <timeline-element
-        [cardDirection]="$index % 2 !== 1 ? DIRECTION.LEFT : DIRECTION.RIGHT"
-        [title]="ITEM.DEGREE"
-        [state]="ITEM.STATE"
-        [description]="ITEM.DESCRIPTION"
-      ></timeline-element>
+        <timeline-element
+          [cardDirection]="$index % 2 !== 1 ? DIRECTION.LEFT : DIRECTION.RIGHT"
+          [title]="ITEM.DEGREE"
+          [state]="ITEM.STATE"
+          [description]="ITEM.DESCRIPTION"
+        ></timeline-element>
       }
     </ul>
   `,

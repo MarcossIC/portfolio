@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import {
-  AfterViewInit,
+  type AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  Self,
   inject,
   input,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  ControlValueAccessor,
+  type ControlValueAccessor,
   FormControl,
   NgControl,
   ReactiveFormsModule,
-  ValidatorFn,
+  type ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ErrorMessageComponent } from '@atoms/error-message/error-message.component';
@@ -26,7 +25,7 @@ const VALIDATORS: Record<string, ValidatorFn[]> = {
   ],
   email: [
     Validators.pattern(
-      /^\s*(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\s*$/
+      /^\s*(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\s*$/,
     ),
     Validators.required,
   ],
@@ -58,8 +57,9 @@ export class InputFieldComponent
   public errorMessage = input.required<string>();
 
   public autocomplete = input<string>('off');
+  private readonly control = inject(NgControl, { self: true });
 
-  constructor(@Self() private readonly control: NgControl) {
+  constructor() {
     this.control.valueAccessor = this;
     this.fieldControl = new FormControl<string | null>(null);
   }

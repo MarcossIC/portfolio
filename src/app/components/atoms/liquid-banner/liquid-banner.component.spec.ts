@@ -1,4 +1,8 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  waitForAsync,
+  type ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { LiquidBannerComponent } from './liquid-banner.component';
 
@@ -8,9 +12,8 @@ describe('LiquidBannerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ LiquidBannerComponent ]
-    })
-    .compileComponents();
+      declarations: [LiquidBannerComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

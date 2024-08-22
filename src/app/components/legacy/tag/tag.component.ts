@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
+  type ElementRef,
   Input,
-  OnInit,
-  Renderer2,
+  type OnInit,
+  type Renderer2,
+  RendererFactory2,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -57,11 +58,13 @@ export class TagComponent implements OnInit {
   @Input({ required: true }) public background = '';
   @Input({ required: true }) public color = '';
   @ViewChild('tagRef', { static: true }) tagRef!: ElementRef;
-  private renderer = inject(Renderer2);
+  private readonly renderer: Renderer2 = inject(
+    RendererFactory2,
+  ).createRenderer(null, null);
 
   ngOnInit(): void {
     const tagSpan: HTMLElement = this.renderer.selectRootElement(
-      this.tagRef.nativeElement
+      this.tagRef.nativeElement,
     );
     this.renderer.setStyle(tagSpan, 'background', this.background);
     this.renderer.setStyle(tagSpan, 'color', this.color);

@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
+  type OnDestroy,
   inject,
 } from '@angular/core';
-import { Observable, Subject, catchError, takeUntil } from 'rxjs';
-import { ContactState } from '@app/models/contactState.model';
+import { type Observable, Subject, catchError, takeUntil } from 'rxjs';
+import type { ContactState } from '@app/models/contactState.model';
 import { ToastService } from '@app/lib/toast/Toast.service';
 
 @Component({

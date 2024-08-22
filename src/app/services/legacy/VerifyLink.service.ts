@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { IsActiveMatchOptions, Router } from '@angular/router';
+import { type IsActiveMatchOptions, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'any'

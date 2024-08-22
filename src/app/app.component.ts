@@ -1,5 +1,10 @@
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, PLATFORM_ID, inject } from '@angular/core';
+import {
+  type AfterViewInit,
+  Component,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import * as AOS from 'aos';
 import { FooterComponent } from '@organism/footer/footer.component';

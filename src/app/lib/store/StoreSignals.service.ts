@@ -1,4 +1,9 @@
-import { Signal, WritableSignal, computed, signal } from '@angular/core';
+import {
+  type Signal,
+  type WritableSignal,
+  computed,
+  signal,
+} from '@angular/core';
 import { AbstractStoreService } from './AbstractStore.service';
 
 export class SignalsStoreService<T> extends AbstractStoreService<

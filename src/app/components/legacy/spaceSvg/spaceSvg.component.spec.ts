@@ -1,4 +1,8 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  waitForAsync,
+  type ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { SpaceSvgComponent } from './spaceSvg.component';
 
@@ -8,9 +12,8 @@ describe('SpaceSvgComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SpaceSvgComponent ]
-    })
-    .compileComponents();
+      declarations: [SpaceSvgComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,4 +1,9 @@
-import { AfterViewInit, Directive, ElementRef } from '@angular/core';
+import {
+  type AfterViewInit,
+  Directive,
+  ElementRef,
+  inject,
+} from '@angular/core';
 import VanillaTilt from 'vanilla-tilt';
 
 @Directive({
@@ -6,7 +11,7 @@ import VanillaTilt from 'vanilla-tilt';
   standalone: true,
 })
 export class VanillaTiltDirective implements AfterViewInit {
-  constructor(private el: ElementRef) {}
+  private el = inject(ElementRef);
 
   ngAfterViewInit() {
     const tiltContainer = this.el.nativeElement;

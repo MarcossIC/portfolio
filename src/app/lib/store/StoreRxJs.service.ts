@@ -1,4 +1,9 @@
-import { BehaviorSubject, Observable, distinctUntilChanged, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  type Observable,
+  distinctUntilChanged,
+  map,
+} from 'rxjs';
 import { AbstractStoreService } from './AbstractStore.service';
 
 export class RxjsStoreService<T> extends AbstractStoreService<
@@ -21,7 +26,7 @@ export class RxjsStoreService<T> extends AbstractStoreService<
   public select<K extends keyof T>(key: K): Observable<T[K]> {
     return this.state$.pipe(
       map((state) => state[key]),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 

@@ -1,6 +1,6 @@
-import { Projects } from '@app/models/projects';
-import { ServicesType } from '@app/models/servicesTypes';
-import { LinksHeaderArray } from '@app/models/types';
+import type { Projects } from '@app/models/projects';
+import type { ServicesType } from '@app/models/servicesTypes';
+import type { LinksHeaderArray } from '@app/models/types';
 
 export const PROJECTS_V2: Projects = [
   {

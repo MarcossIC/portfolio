@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  ToastModel,
-  ToastPosition,
-  ToastProps,
-  ToastType,
-} from '@app/models/toast.model';
+import type { ToastModel, ToastProps } from '@app/models/toast.model';
+import { ToastType, ToastPosition } from '@app/models/toast.model';
 import { SignalsStoreService } from '../store/StoreSignals.service';
 import { delay, of, take } from 'rxjs';
 
@@ -17,7 +13,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
   public remove(ID: string | number): void {
     this.state.update((currentValue) => {
       currentValue.toasts = currentValue.toasts.filter(
-        (val: ToastModel) => val.ID !== ID
+        (val: ToastModel) => val.ID !== ID,
       );
       return currentValue;
     });
@@ -35,7 +31,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
     message: string,
     seconds: number,
     type: ToastType,
-    position: ToastPosition
+    position: ToastPosition,
   ): void {
     if (!seconds || seconds <= 0) seconds = 5;
 
@@ -68,7 +64,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
     title: string,
     message: string,
     seconds = 100,
-    position: ToastPosition = ToastPosition.TOP_RIGHT
+    position: ToastPosition = ToastPosition.TOP_RIGHT,
   ): void {
     this.show(title, message, seconds, ToastType.INFO, position);
   }
@@ -77,7 +73,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
     title: string,
     message: string,
     seconds = 100,
-    position: ToastPosition = ToastPosition.TOP_RIGHT
+    position: ToastPosition = ToastPosition.TOP_RIGHT,
   ): void {
     this.show(title, message, seconds, ToastType.SUCCESS, position);
   }
@@ -86,7 +82,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
     title: string,
     message: string,
     seconds = 100,
-    position: ToastPosition = ToastPosition.TOP_RIGHT
+    position: ToastPosition = ToastPosition.TOP_RIGHT,
   ): void {
     this.show(title, message, seconds, ToastType.WARNING, position);
   }
@@ -95,7 +91,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
     title: string,
     message: string,
     seconds = 100,
-    position: ToastPosition = ToastPosition.TOP_RIGHT
+    position: ToastPosition = ToastPosition.TOP_RIGHT,
   ): void {
     this.show(title, message, seconds, ToastType.ERROR, position);
   }

@@ -1,4 +1,4 @@
-import { BentoUser, User } from '@app/models/types';
+import type { BentoUser, User } from '@app/models/types';
 
 //General user data
 export const USER: User = {

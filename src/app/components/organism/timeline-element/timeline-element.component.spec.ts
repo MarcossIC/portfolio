@@ -1,4 +1,8 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  waitForAsync,
+  type ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { TimelineElementComponent } from './timeline-element.component';
 
@@ -8,9 +12,8 @@ describe('TimelineElementComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimelineElementComponent ]
-    })
-    .compileComponents();
+      declarations: [TimelineElementComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -2,9 +2,9 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
+  type ElementRef,
   Input,
-  OnInit,
+  type OnInit,
   ViewChild,
   afterNextRender,
 } from '@angular/core';

@@ -1,4 +1,8 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  waitForAsync,
+  type ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { SkillsLayoutComponent } from './skillsLayout.component';
 
@@ -8,9 +12,8 @@ describe('SkillsLayoutComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SkillsLayoutComponent ]
-    })
-    .compileComponents();
+      declarations: [SkillsLayoutComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

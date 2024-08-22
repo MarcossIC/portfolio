@@ -1,4 +1,8 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  waitForAsync,
+  type ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { ProjectCardBodyComponent } from './project-card-body.component';
 
@@ -8,9 +12,8 @@ describe('ProjectCardBodyComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProjectCardBodyComponent ]
-    })
-    .compileComponents();
+      declarations: [ProjectCardBodyComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

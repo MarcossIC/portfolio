@@ -47,6 +47,10 @@ module.exports = tseslint.config(
         { suffixes: ["Component", "Page", "Layout"] },
       ],
       "@angular-eslint/template/click-events-have-key-events": "off",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { disallowTypeAnnotations: false },
+      ],
     },
   },
   {
@@ -56,5 +60,5 @@ module.exports = tseslint.config(
       ...angular.configs.templateAccessibility,
     ],
     rules: {},
-  }
+  },
 );

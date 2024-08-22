@@ -5,8 +5,8 @@ import {
   DestroyRef,
   inject,
 } from '@angular/core';
-import { Observable, catchError } from 'rxjs';
-import { ContactState } from '@app/models/contactState.model';
+import { type Observable, catchError } from 'rxjs';
+import type { ContactState } from '@app/models/contactState.model';
 import { ToastService } from '@app/lib/toast/Toast.service';
 import { CommonModule } from '@angular/common';
 import { TitleComponent } from '@app/components/atoms/title/title.component';

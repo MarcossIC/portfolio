@@ -1,4 +1,8 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  waitForAsync,
+  type ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { ServiceLayoutComponent } from './ourService.component';
 
@@ -8,9 +12,8 @@ describe('OurServiceComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ServiceLayoutComponent ]
-    })
-    .compileComponents();
+      declarations: [ServiceLayoutComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

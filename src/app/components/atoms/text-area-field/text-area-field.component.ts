@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import {
-  AfterViewInit,
+  type AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  Self,
   inject,
   input,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  ControlValueAccessor,
+  type ControlValueAccessor,
   FormControl,
   NgControl,
   ReactiveFormsModule,
-  ValidatorFn,
+  type ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ErrorMessageComponent } from '@atoms/error-message/error-message.component';
@@ -49,8 +48,9 @@ export class TextAreaFieldComponent
 
   public cols = input<string>('');
   public rows = input<string>('');
+  private readonly control = inject(NgControl, { self: true });
 
-  constructor(@Self() private readonly control: NgControl) {
+  constructor() {
     this.control.valueAccessor = this;
     this.fieldControl = new FormControl<string | null>(null);
   }

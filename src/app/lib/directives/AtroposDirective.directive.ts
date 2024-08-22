@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
-  AfterViewInit,
+  type AfterViewInit,
   Directive,
   ElementRef,
   PLATFORM_ID,

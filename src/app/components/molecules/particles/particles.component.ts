@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IParticlesProps, NgParticlesModule } from 'ng-particles';
+import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core';
+import { type IParticlesProps, NgParticlesModule } from 'ng-particles';
 import {
   ClickMode,
-  Container,
-  Engine,
+  type Container,
+  type Engine,
   HoverMode,
   MoveDirection,
   OutMode,
@@ -25,13 +25,13 @@ import { loadSlim } from 'tsparticles-slim';
           class="w-full h-full absolute mix-blend-color-dodge"
           style="z-index: -1;"
         >
-          @if(particlesOptions$){
-          <ng-particles
-            [id]="id"
-            [options]="particlesOptions$"
-            [particlesInit]="particlesInit"
-            (particlesLoaded)="particlesLoaded($event)"
-          ></ng-particles>
+          @if (particlesOptions$) {
+            <ng-particles
+              [id]="id"
+              [options]="particlesOptions$"
+              [particlesInit]="particlesInit"
+              (particlesLoaded)="particlesLoaded($event)"
+            ></ng-particles>
           }
         </div>
       </div>

@@ -3,12 +3,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  OnDestroy,
+  type OnDestroy,
   Output,
   inject,
 } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ContactState } from '@app/models/contactState.model';
+import {
+  FormBuilder,
+  type FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import type { ContactState } from '@app/models/contactState.model';
 import { ErrorMessageComponent } from '@atoms/error-message/error-message.component';
 import { InputFieldComponent } from '@atoms/input-field/input-field.component';
 import { TextAreaFieldComponent } from '@atoms/text-area-field/text-area-field.component';
