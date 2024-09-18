@@ -2176,6 +2176,170 @@
             ]
         },
         {
+            "name": "MoveBackgroundDirective",
+            "id": "directive-MoveBackgroundDirective-5221903ad4a7116449893a676159b229c10d1694578d4b4c6a4f7b2cd67d161ec54e0bf7acef1bec4506f2348e4e019f1b2925eb902ee9511c129d3f41223ad4",
+            "file": "src/app/lib/directives/MoveBackground.directive.ts",
+            "type": "directive",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { isPlatformBrowser } from '@angular/common';\r\nimport {\r\n  type AfterViewInit,\r\n  Directive,\r\n  ElementRef,\r\n  HostListener,\r\n  PLATFORM_ID,\r\n  inject,\r\n} from '@angular/core';\r\n\r\n@Directive({\r\n  selector: '[useMoveBackground]',\r\n  standalone: true,\r\n})\r\nexport class MoveBackgroundDirective implements AfterViewInit {\r\n  private target: HTMLElement | null = null;\r\n  private readonly platform = inject(PLATFORM_ID);\r\n  private readonly el = inject(ElementRef);\r\n\r\n  ngAfterViewInit() {\r\n    if (isPlatformBrowser(this.platform)) {\r\n      this.target = this.el.nativeElement.querySelector('.pfl-btn-target');\r\n    }\r\n  }\r\n\r\n  @HostListener('pointermove', ['$event'])\r\n  onPointerMove(event: PointerEvent) {\r\n    this.handleMove(event);\r\n  }\r\n\r\n  private handleMove(event: PointerEvent) {\r\n    if (!this.target) return;\r\n\r\n    const button = this.el.nativeElement;\r\n    const x = -50 + (event.pageX - button.offsetLeft - 300 / 2) / 3;\r\n    const y = -10 + (event.pageY - button.offsetTop - 100 / 2) / 3;\r\n\r\n    this.target.style.setProperty('--x', `${x}px`);\r\n    this.target.style.setProperty('--y', `${y}px`);\r\n  }\r\n}\r\n",
+            "selector": "[useMoveBackground]",
+            "providers": [],
+            "hostDirectives": [],
+            "standalone": true,
+            "inputsClass": [],
+            "outputsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [
+                {
+                    "name": "pointermove",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "PointerEvent",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "argsDecorator": [
+                        "$event"
+                    ],
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 27
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "el",
+                    "defaultValue": "inject(ElementRef)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 18,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                },
+                {
+                    "name": "platform",
+                    "defaultValue": "inject(PLATFORM_ID)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 17,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                },
+                {
+                    "name": "target",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "HTMLElement | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 16,
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "handleMove",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "PointerEvent",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 31,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        123
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "PointerEvent",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ngAfterViewInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 20,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "onPointerMove",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "PointerEvent",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 27,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "decorators": [
+                        {
+                            "name": "HostListener",
+                            "stringifiedArguments": "'pointermove', ['$event']"
+                        }
+                    ],
+                    "modifierKind": [
+                        170
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "PointerEvent",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "extends": [],
+            "implements": [
+                "AfterViewInit"
+            ]
+        },
+        {
             "name": "VanillaTiltDirective",
             "id": "directive-VanillaTiltDirective-39d3bdd553cb194a932ed6f62644add3fbd9d108578608cedce0108035383ab821c159367c0916545c8b6332669eae8d9e5b1d4117b8d4ccbf0595f7eae69d3f",
             "file": "src/app/lib/directives/VanillaTiltDirective.directive.ts",
@@ -5391,7 +5555,7 @@
         },
         {
             "name": "HeroSocialBarComponent",
-            "id": "component-HeroSocialBarComponent-7e7a598315179c40b9f50f6c7348d08ec00c62ecf55078d41d0c194371a5c3fe183e1ceb8e61de2de9277d9a3de54a75005da6872377e9f2a7d07b027b98ad31",
+            "id": "component-HeroSocialBarComponent-9a7fd01fd1589491174b866abffc39432974b7775ffe5379d65436ebbf996eab10f8a3097819114516026bddaea46eecf49568892e16fe5a445323c14a066056",
             "file": "src/app/components/organism/hero-social-bar/hero-social-bar.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -5420,7 +5584,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 26,
+                    "line": 15,
                     "modifierKind": [
                         124,
                         148
@@ -5441,28 +5605,12 @@
                 {
                     "name": "SocialButtonComponent",
                     "type": "component"
-                },
-                {
-                    "name": "LinkedinIconComponent",
-                    "type": "component"
-                },
-                {
-                    "name": "CvIconComponent",
-                    "type": "component"
-                },
-                {
-                    "name": "GithubIconComponent",
-                    "type": "component"
-                },
-                {
-                    "name": "GmailIconComponent",
-                    "type": "component"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { ChangeDetectionStrategy, Component } from '@angular/core';\r\nimport { SocialButtonComponent } from '@app/components/molecules/social-button/social-button.component';\r\nimport { LinkedinIconComponent } from '@app/components/icons/linkedin-icon.component';\r\nimport { CvIconComponent } from '@app/components/icons/cv-icon.component';\r\nimport { GithubIconComponent } from '@app/components/icons/github-icon.component';\r\nimport { GmailIconComponent } from '@app/components/icons/gmail-icon.component';\r\nimport { USER } from '@constants/userConst';\r\n\r\n@Component({\r\n  standalone: true,\r\n  selector: 'hero-social-bar',\r\n  templateUrl: './hero-social-bar.component.html',\r\n  styleUrls: ['./hero-social-bar.component.css'],\r\n  imports: [\r\n    CommonModule,\r\n    SocialButtonComponent,\r\n    LinkedinIconComponent,\r\n    CvIconComponent,\r\n    GithubIconComponent,\r\n    GmailIconComponent,\r\n  ],\r\n  changeDetection: ChangeDetectionStrategy.OnPush,\r\n})\r\nexport class HeroSocialBarComponent {\r\n  protected readonly USER_SOCIALS = USER;\r\n\r\n  protected get mailTo() {\r\n    return `mailto:${this.USER_SOCIALS.email}?subject=Hey%20${this.USER_SOCIALS.name}%20how%20are%20you`;\r\n  }\r\n}\r\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { ChangeDetectionStrategy, Component } from '@angular/core';\r\nimport { SocialButtonComponent } from '@app/components/core/social-button/social-button.component';\r\nimport { USER } from '@constants/userConst';\r\n\r\n@Component({\r\n  standalone: true,\r\n  selector: 'hero-social-bar',\r\n  templateUrl: './hero-social-bar.component.html',\r\n  styleUrls: ['./hero-social-bar.component.css'],\r\n  imports: [CommonModule, SocialButtonComponent],\r\n  changeDetection: ChangeDetectionStrategy.OnPush,\r\n})\r\nexport class HeroSocialBarComponent {\r\n  protected readonly USER_SOCIALS = USER;\r\n\r\n  protected get mailTo() {\r\n    return `mailto:${this.USER_SOCIALS.email}?subject=Hey%20${this.USER_SOCIALS.name}%20how%20are%20you`;\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -5479,11 +5627,11 @@
                         "name": "mailTo",
                         "type": "",
                         "returnType": "",
-                        "line": 28
+                        "line": 17
                     }
                 }
             },
-            "templateData": "<div class=\"hero-socials\">\r\n  <div class=\"brightness brightness-1\"></div>\r\n  <div class=\"brightness brightness-2\"></div>\r\n\r\n  <social-button\r\n    [socialUri]=\"USER_SOCIALS.linkedIn\"\r\n    title=\"Button to linkedIn profile\"\r\n    className=\"bg-[#0A66C2] fill-white p-[8px]\"\r\n  >\r\n    <LinkedinIcon />\r\n  </social-button>\r\n\r\n  <social-button\r\n    [socialUri]=\"USER_SOCIALS.gitHub\"\r\n    title=\"Button to github profile\"\r\n    className=\"bg-[#00000085] fill-white p-[4px]\"\r\n  >\r\n    <GithubIcon />\r\n  </social-button>\r\n\r\n  <social-button\r\n    [socialUri]=\"mailTo\"\r\n    title=\"Button for send email\"\r\n    className=\"bg-[#fff] p-[4px]\"\r\n  >\r\n    <GmailIcon />\r\n  </social-button>\r\n\r\n  <social-button\r\n    [socialUri]=\"USER_SOCIALS.cv\"\r\n    title=\"Button to CV\"\r\n    className=\"cv p-[4px] font-bold bg-[var(--ml-red-100)]\"\r\n  >\r\n    <CvIcon />\r\n  </social-button>\r\n</div>\r\n"
+            "templateData": "<div class=\"hero-socials\">\r\n  <div class=\"brightness brightness-1\"></div>\r\n  <div class=\"brightness brightness-2\"></div>\r\n\r\n  <social-button\r\n    [to]=\"USER_SOCIALS.linkedIn\"\r\n    [rel]=\"true\"\r\n    icon=\"linkedin\"\r\n    title=\"Visit Github profile\"\r\n  ></social-button>\r\n\r\n  <social-button\r\n    [to]=\"USER_SOCIALS.gitHub\"\r\n    [rel]=\"true\"\r\n    icon=\"github\"\r\n    title=\"Visit Github profile\"\r\n  ></social-button>\r\n\r\n  <social-button\r\n    [to]=\"mailTo\"\r\n    [rel]=\"true\"\r\n    icon=\"gmail\"\r\n    title=\"Send mail\"\r\n  ></social-button>\r\n\r\n  <social-button\r\n    [to]=\"USER_SOCIALS.cv\"\r\n    [rel]=\"true\"\r\n    icon=\"cv\"\r\n    title=\"Download CV\"\r\n  ></social-button>\r\n</div>\r\n"
         },
         {
             "name": "HeroTextComponent",
@@ -6570,6 +6718,103 @@
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "\n      .pus-icon {\n        font-size: 3rem;\n        line-height: 8rem;\n        vertical-align: bottom;\n      }\n    \n",
+            "extends": []
+        },
+        {
+            "name": "PortfolioButtonComponent",
+            "id": "component-PortfolioButtonComponent-4c3640ca4983fb0b796db201b45f909e610bc42521f0d0e0185a5ae74bd15e9f4825f8a62bbc1239000e67ee8cdaedd45661ccf2c9e45897244dd453b4baa3be",
+            "file": "src/app/components/core/portfolio-button/portfolio-button.component.ts",
+            "changeDetection": "ChangeDetectionStrategy.OnPush",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "portfolio-button",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<button\n  useMoveBackground\n  [class]=\"getClasses()\"\n  (click)=\"clicked.emit($event)\"\n>\n  <div\n    class=\"z-20 relative flex justify-center items-center gap-x-3 w-full h-full\"\n  >\n    <ng-content></ng-content>\n  </div>\n  <div class=\"pfl-btn-pattern\"><div class=\"pfl-btn-target\"></div></div>\n</button>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [
+                {
+                    "name": "clicked",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 34,
+                    "modifierKind": [
+                        125
+                    ],
+                    "required": false
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "clicked",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 34,
+                    "modifierKind": [
+                        125
+                    ],
+                    "required": false
+                },
+                {
+                    "name": "size",
+                    "defaultValue": "input<SizeButtonType>('DEFAULT')",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 33,
+                    "modifierKind": [
+                        125
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "getClasses",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "string",
+                    "typeParameters": [],
+                    "line": 36,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        125
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "MoveBackgroundDirective",
+                    "type": "directive"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import {\r\n  ChangeDetectionStrategy,\r\n  Component,\r\n  input,\r\n  output,\r\n} from '@angular/core';\r\nimport { MoveBackgroundDirective } from '@app/lib/directives/MoveBackground.directive';\r\n\r\ntype SizeButtonType = 'DEFAULT' | 'full' | 'lg' | 'md' | 'sm';\r\n\r\n@Component({\r\n  standalone: true,\r\n  selector: 'portfolio-button',\r\n  imports: [MoveBackgroundDirective],\r\n  template: `\r\n    <button\r\n      useMoveBackground\r\n      [class]=\"getClasses()\"\r\n      (click)=\"clicked.emit($event)\"\r\n    >\r\n      <div\r\n        class=\"z-20 relative flex justify-center items-center gap-x-3 w-full h-full\"\r\n      >\r\n        <ng-content></ng-content>\r\n      </div>\r\n      <div class=\"pfl-btn-pattern\"><div class=\"pfl-btn-target\"></div></div>\r\n    </button>\r\n  `,\r\n  styleUrl: './portfolio-button.component.css',\r\n  changeDetection: ChangeDetectionStrategy.OnPush,\r\n})\r\nexport class PortfolioButtonComponent {\r\n  public size = input<SizeButtonType>('DEFAULT');\r\n  public clicked = output<MouseEvent>();\r\n\r\n  public getClasses() {\r\n    const btnStyle =\r\n      'flex justify-center items-center w-fit no-outline truncate opacity-90 disabled:opacity-60 disabled:cursor-default rounded-2xl select-none text-base [&:not(:disabled)]:hover:opacity-100 transition-all ease-in portfolio-button';\r\n\r\n    let sizeStyle = 'px-9 py-2';\r\n    const size = this.size();\r\n    if (size === 'full') {\r\n      sizeStyle = 'px-5 py-2 w-full max-w-none';\r\n    } else if (size === 'lg') {\r\n      sizeStyle = 'px-[4.25rem] py-2';\r\n    } else if (size === 'md') {\r\n      sizeStyle = 'px-[3.25rem] py-2';\r\n    } else if (size === 'sm') {\r\n      sizeStyle = 'px-5 py-2';\r\n    }\r\n\r\n    return `${btnStyle} ${sizeStyle}`;\r\n  }\r\n}\r\n",
+            "styleUrl": "./portfolio-button.component.css",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
             "extends": []
         },
         {
@@ -8369,7 +8614,212 @@
         },
         {
             "name": "SocialButtonComponent",
-            "id": "component-SocialButtonComponent-986fe93e05a6e70f7217b124e26d1340608bac0b987c5d4556a4e380586829104e53d6a4c020d95ad03d3f790c75073e5853864ceaafd0e03214005ead70cbfc",
+            "id": "component-SocialButtonComponent-0cad5cba7e58ba533a0508e4d0f3b0c659bc08b962d20caf40fcb1cbee42b93ba5a30f9cbb0f3942dbd6810fc6900ee6191b20aa2ef1f2d10bc7354f0fc9b6ba",
+            "file": "src/app/components/core/social-button/social-button.component.ts",
+            "changeDetection": "ChangeDetectionStrategy.OnPush",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "social-button",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<a\n  [href]=\"to()\"\n  target=\"_blank\"\n  [rel]=\"isActiveRel()\"\n  [ngStyle]=\"{\n    '--btn-icon': getImgIconUrl(),\n  }\"\n  [title]=\"title()\"\n  class=\"flex relative w-[40px] aspect-square rounded-full border-none outline-none outline-0 social-button bg-no-repeat bg-cover \"\n>\n  <p class=\"visually-hidden\" aria-hidden=\"true\" role=\"contentinfo\">\n    Social media URL\n  </p>\n</a>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "icon",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 37,
+                    "modifierKind": [
+                        125
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "rel",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 36,
+                    "modifierKind": [
+                        125
+                    ],
+                    "required": false
+                },
+                {
+                    "name": "title",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 38,
+                    "modifierKind": [
+                        125
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "to",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 35,
+                    "modifierKind": [
+                        125
+                    ],
+                    "required": true
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "icon",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 37,
+                    "modifierKind": [
+                        125
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "imgIcon",
+                    "defaultValue": "computed(() => {\r\n    const defaultIcon = {\r\n      github: '/icons/github-icon.png',\r\n      linkedin: '/icons/linkedin-icon.png',\r\n      gmail: '/icons/gmail-icon.png',\r\n      cv: '/icons/cv-icon.png',\r\n    }[this.icon()];\r\n    return defaultIcon ? defaultIcon : this.icon();\r\n  })",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 39,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "rel",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 36,
+                    "modifierKind": [
+                        125
+                    ],
+                    "required": false
+                },
+                {
+                    "name": "title",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 38,
+                    "modifierKind": [
+                        125
+                    ],
+                    "required": true
+                },
+                {
+                    "name": "to",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 35,
+                    "modifierKind": [
+                        125
+                    ],
+                    "required": true
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "getImgIcon",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "string",
+                    "typeParameters": [],
+                    "line": 53,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        124
+                    ]
+                },
+                {
+                    "name": "getImgIconUrl",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "string",
+                    "typeParameters": [],
+                    "line": 56,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        124
+                    ]
+                },
+                {
+                    "name": "isActiveRel",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "\"noopener noreferrer\" | \"\"",
+                    "typeParameters": [],
+                    "line": 49,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        124
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "NgOptimizedImage"
+                },
+                {
+                    "name": "NgStyle"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { NgOptimizedImage, NgStyle } from '@angular/common';\r\nimport {\r\n  ChangeDetectionStrategy,\r\n  Component,\r\n  computed,\r\n  input,\r\n} from '@angular/core';\r\n\r\ntype IconType = string | 'github' | 'linkedin' | 'gmail' | 'cv';\r\n\r\n@Component({\r\n  standalone: true,\r\n  selector: 'social-button',\r\n  imports: [NgOptimizedImage, NgStyle],\r\n  template: `\r\n    <a\r\n      [href]=\"to()\"\r\n      target=\"_blank\"\r\n      [rel]=\"isActiveRel()\"\r\n      [ngStyle]=\"{\r\n        '--btn-icon': getImgIconUrl(),\r\n      }\"\r\n      [title]=\"title()\"\r\n      class=\"flex relative w-[40px] aspect-square rounded-full border-none outline-none outline-0 social-button bg-no-repeat bg-cover \"\r\n    >\r\n      <p class=\"visually-hidden\" aria-hidden=\"true\" role=\"contentinfo\">\r\n        Social media URL\r\n      </p>\r\n    </a>\r\n  `,\r\n  styleUrl: './social-button.component.css',\r\n  changeDetection: ChangeDetectionStrategy.OnPush,\r\n})\r\nexport class SocialButtonComponent {\r\n  public to = input.required<string>();\r\n  public rel = input<boolean>(true);\r\n  public icon = input.required<IconType>();\r\n  public title = input.required<string>();\r\n  private imgIcon = computed(() => {\r\n    const defaultIcon = {\r\n      github: '/icons/github-icon.png',\r\n      linkedin: '/icons/linkedin-icon.png',\r\n      gmail: '/icons/gmail-icon.png',\r\n      cv: '/icons/cv-icon.png',\r\n    }[this.icon()];\r\n    return defaultIcon ? defaultIcon : this.icon();\r\n  });\r\n\r\n  protected isActiveRel() {\r\n    return this.rel() ? 'noopener noreferrer' : '';\r\n  }\r\n\r\n  protected getImgIcon(): string {\r\n    return this.imgIcon();\r\n  }\r\n  protected getImgIconUrl(): string {\r\n    const imgUrl = this.getImgIcon();\r\n    if (imgUrl.includes('/') || imgUrl.includes('http')) {\r\n      return `url(${imgUrl})`;\r\n    }\r\n    return imgUrl;\r\n  }\r\n}\r\n",
+            "styleUrl": "./social-button.component.css",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": []
+        },
+        {
+            "name": "SocialButtonComponent",
+            "id": "component-SocialButtonComponent-986fe93e05a6e70f7217b124e26d1340608bac0b987c5d4556a4e380586829104e53d6a4c020d95ad03d3f790c75073e5853864ceaafd0e03214005ead70cbfc-1",
             "file": "src/app/components/molecules/social-button/social-button.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -8477,7 +8927,10 @@
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
-            "extends": []
+            "extends": [],
+            "isDuplicate": true,
+            "duplicateId": 1,
+            "duplicateName": "SocialButtonComponent-1"
         },
         {
             "name": "SocialNavComponent",
@@ -10218,6 +10671,17 @@
                 "kind": 184
             },
             {
+                "name": "IconType",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "string | \"github\" | \"linkedin\" | \"gmail\" | \"cv\"",
+                "file": "src/app/components/core/social-button/social-button.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 192
+            },
+            {
                 "name": "LinksHeaderArray",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
@@ -10249,6 +10713,17 @@
                 "deprecationMessage": "",
                 "description": "",
                 "kind": 188
+            },
+            {
+                "name": "SizeButtonType",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "\"DEFAULT\" | \"full\" | \"lg\" | \"md\" | \"sm\"",
+                "file": "src/app/components/core/portfolio-button/portfolio-button.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 192
             }
         ],
         "enumerations": [
@@ -10659,6 +11134,19 @@
                     "kind": 184
                 }
             ],
+            "src/app/components/core/social-button/social-button.component.ts": [
+                {
+                    "name": "IconType",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "string | \"github\" | \"linkedin\" | \"gmail\" | \"cv\"",
+                    "file": "src/app/components/core/social-button/social-button.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 192
+                }
+            ],
             "src/app/models/types.ts": [
                 {
                     "name": "LinksHeaderArray",
@@ -10696,6 +11184,19 @@
                     "deprecationMessage": "",
                     "description": "",
                     "kind": 188
+                }
+            ],
+            "src/app/components/core/portfolio-button/portfolio-button.component.ts": [
+                {
+                    "name": "SizeButtonType",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "\"DEFAULT\" | \"full\" | \"lg\" | \"md\" | \"sm\"",
+                    "file": "src/app/components/core/portfolio-button/portfolio-button.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 192
                 }
             ]
         }
@@ -10888,6 +11389,24 @@
                 "name": "ToolTipComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/core/portfolio-button/portfolio-button.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "PortfolioButtonComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/components/core/social-button/social-button.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SocialButtonComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/13",
                 "status": "low"
             },
             {
@@ -11528,6 +12047,15 @@
                 "name": "AtroposDirective",
                 "coveragePercent": 0,
                 "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/lib/directives/MoveBackground.directive.ts",
+                "type": "directive",
+                "linktype": "directive",
+                "name": "MoveBackgroundDirective",
+                "coveragePercent": 0,
+                "coverageCount": "0/8",
                 "status": "low"
             },
             {

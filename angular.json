@@ -16,12 +16,8 @@
             "outputPath": "dist/portfolio",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
-            "allowedCommonJsDependencies": [
-              "lodash"
-            ],
+            "polyfills": ["zone.js"],
+            "allowedCommonJsDependencies": ["lodash"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/google70369a649c023c51.html",
@@ -103,15 +99,9 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles/styles.css",
               "src/styles/normalize.css",
@@ -123,10 +113,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         },
         "storybook": {
@@ -135,13 +122,15 @@
             "configDir": ".storybook",
             "browserTarget": "portfolio:build",
             "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              "."
-            ],
-            "port": 6006
+            "compodocArgs": ["-e", "json", "-d", "."],
+            "port": 6006,
+            "styles": [
+              "src/styles/styles.css",
+              "src/styles/normalize.css",
+              "src/styles/_vars.css",
+              "node_modules/aos/dist/aos.css",
+              "node_modules/atropos/atropos.min.css"
+            ]
           }
         },
         "build-storybook": {
@@ -150,12 +139,7 @@
             "configDir": ".storybook",
             "browserTarget": "portfolio:build",
             "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              "."
-            ],
+            "compodocArgs": ["-e", "json", "-d", "."],
             "outputDir": "storybook-static"
           }
         }
@@ -163,8 +147,6 @@
     }
   },
   "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

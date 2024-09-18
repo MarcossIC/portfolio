@@ -21,6 +21,17 @@
 
   --ml-bg-img: url("../assets/bg2.webp");
   --ml-bg-color: #0f0227;
+  --ml-chip-gradient: linear-gradient(
+    300deg,
+    rgba(20, 0, 48, 0.175) 27.3%,
+    rgba(50, 17, 106, 0.5) 66.15%
+  );
+
+  --ml-chip-gradient-revert: linear-gradient(
+    143deg,
+    rgba(20, 0, 48, 0.175) 27.3%,
+    rgba(50, 17, 106, 0.5) 66.15%
+  );
 
   --shadow-contact: 0px 0px 30px rgba(0, 0, 0, 0.03);
   --shadow-liquid: inset 20px 20px 20px rgb(157 0 255 / 5%),
@@ -35,4 +46,7 @@
 
   --shadow-skills: 0px 5px 20px 5px rgba(0, 0, 0, 0.33),
     0px 4px 28px 7px rgba(0, 0, 0, 0.38) inset;
+
+  --shadow-social: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000,
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, type Type } from '@angular/core';
-import { AngularIconComponent } from '@app/components/icons/angular-icon.component';
+import { AngularIconComponent } from '@app/components/icons/angular/angular-icon.component';
 import { Css3IconComponent } from '@app/components/icons/css3-icon.component';
 import { ReactIconComponent } from '@app/components/icons/react-icon.component';
 import { SassIconComponent } from '@app/components/icons/sass-icon.component';

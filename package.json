@@ -14,7 +14,7 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "storybook": "ng run portfolio:storybook",
-    "build-storybook": "ng run portfolio:build-storybook"
+    "build:storybook": "ng run portfolio:build-storybook"
   },
   "dependencies": {
     "@angular/animations": "18.2.0",

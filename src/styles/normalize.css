@@ -2,7 +2,8 @@
   font-family: "Manrope";
   font-style: light;
   font-weight: 300;
-  src: local("Manrope-Light"),
+  src:
+    local("Manrope-Light"),
     url("../assets/fonts/Manrope-Light.ttf") format("truetype");
 }
 
@@ -10,7 +11,8 @@
   font-family: "Manrope";
   font-style: normal;
   font-weight: 400;
-  src: local("Manrope-Regular"),
+  src:
+    local("Manrope-Regular"),
     url("../assets/fonts/Manrope-Regular.ttf") format("truetype");
 }
 
@@ -18,14 +20,16 @@
   font-family: "Manrope";
   font-style: medium;
   font-weight: 500;
-  src: local("Manrope-Medium"),
+  src:
+    local("Manrope-Medium"),
     url("../assets/fonts/Manrope-Medium.ttf") format("truetype");
 }
 @font-face {
   font-family: "Manrope";
   font-style: bold;
   font-weight: 600;
-  src: local("Manrope-SemiBold"),
+  src:
+    local("Manrope-SemiBold"),
     url("../assets/fonts/Manrope-SemiBold.ttf") format("truetype");
 }
 
@@ -33,7 +37,8 @@
   font-family: "Manrope";
   font-style: bolder;
   font-weight: 700;
-  src: local("Manrope-Bold"),
+  src:
+    local("Manrope-Bold"),
     url("../assets/fonts/Manrope-Bold.ttf") format("truetype");
 }
 /*******************************************************/
@@ -44,7 +49,8 @@
   font-family: "Montserrat";
   font-style: light;
   font-weight: 300;
-  src: local("Montserrat-Light"),
+  src:
+    local("Montserrat-Light"),
     url("../assets/fonts/Montserrat-Light.ttf") format("truetype");
 }
 
@@ -52,7 +58,8 @@
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
-  src: local("Montserrat-Regular"),
+  src:
+    local("Montserrat-Regular"),
     url("../assets/fonts/Montserrat-Regular.ttf") format("truetype");
 }
 
@@ -60,14 +67,16 @@
   font-family: "Montserrat";
   font-style: medium;
   font-weight: 500;
-  src: local("Montserrat-Medium"),
+  src:
+    local("Montserrat-Medium"),
     url("../assets/fonts/Montserrat-Medium.ttf") format("truetype");
 }
 @font-face {
   font-family: "Montserrat";
   font-style: bold;
   font-weight: 600;
-  src: local("Montserrat-SemiBold"),
+  src:
+    local("Montserrat-SemiBold"),
     url("../assets/fonts/Montserrat-SemiBold.ttf") format("truetype");
 }
 
@@ -75,7 +84,8 @@
   font-family: "Montserrat";
   font-style: bolder;
   font-weight: 700;
-  src: local("Montserrat-Bold"),
+  src:
+    local("Montserrat-Bold"),
     url("../assets/fonts/Montserrat-Bold.ttf") format("truetype");
 }
 
@@ -176,7 +186,11 @@ html,
 body {
   background: var(--ml-bg-color);
   color: #f5f5f5;
-  font-family: "Montserrat", system-ui, -apple-system, sans-serif;
+  font-family:
+    "Montserrat",
+    system-ui,
+    -apple-system,
+    sans-serif;
   color: #f5f5f5;
   padding: 0;
   margin: 0;
@@ -193,7 +207,10 @@ body {
 
 @supports (font-variation-settings: normal) {
   html {
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 }
 
@@ -237,10 +254,6 @@ button {
 [hidden],
 template {
   display: none;
-}
-
-a {
-  background: transparent;
 }
 
 a:focus {

@@ -1,10 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SocialButtonComponent } from '@app/components/molecules/social-button/social-button.component';
-import { LinkedinIconComponent } from '@app/components/icons/linkedin-icon.component';
-import { CvIconComponent } from '@app/components/icons/cv-icon.component';
-import { GithubIconComponent } from '@app/components/icons/github-icon.component';
-import { GmailIconComponent } from '@app/components/icons/gmail-icon.component';
+import { SocialButtonComponent } from '@app/components/core/social-button/social-button.component';
 import { USER } from '@constants/userConst';
 
 @Component({
@@ -12,14 +8,7 @@ import { USER } from '@constants/userConst';
   selector: 'hero-social-bar',
   templateUrl: './hero-social-bar.component.html',
   styleUrls: ['./hero-social-bar.component.css'],
-  imports: [
-    CommonModule,
-    SocialButtonComponent,
-    LinkedinIconComponent,
-    CvIconComponent,
-    GithubIconComponent,
-    GmailIconComponent,
-  ],
+  imports: [CommonModule, SocialButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroSocialBarComponent {
