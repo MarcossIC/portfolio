@@ -1,10 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-@Component({
-  standalone: true,
-  selector: 'GoodBoyIcon',
-  template: `
-    <svg width="22px" height="22px" viewBox="0 0 18 18" fill="none">
+ <svg width="22px" height="22px" viewBox="0 0 18 18" fill="none">
       <path
         fill-rule="evenodd"
         clip-rule="evenodd"
@@ -12,8 +6,3 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         fill="#6814BB"
       ></path>
     </svg>
-  `,
-  styles: [``],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class GoodBoyIconComponent {}

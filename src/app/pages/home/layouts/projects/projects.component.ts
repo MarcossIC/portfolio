@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, type Type } from '@angular/core';
 import { AngularIconComponent } from '@app/components/icons/angular/angular-icon.component';
-import { Css3IconComponent } from '@app/components/icons/css3-icon.component';
-import { ReactIconComponent } from '@app/components/icons/react-icon.component';
-import { SassIconComponent } from '@app/components/icons/sass-icon.component';
-import { SpringIconComponent } from '@app/components/icons/spring-icon.component';
+import { Css3IconComponent } from '@app/components/icons/css3/css3-icon.component';
+import { ReactIconComponent } from '@app/components/icons/react/react-icon.component';
+import { SassIconComponent } from '@app/components/icons/scss/sass-icon.component';
+import { SpringIconComponent } from '@app/components/icons/spring/spring-icon.component';
 import { TailwindIconComponent } from '@app/components/icons/tailwind-icon.component';
 import type { MapIconComponents } from '@app/models/mapIconComponent';
 import { TitleComponent } from '@atoms/title/title.component';
@@ -21,7 +21,6 @@ import { ProjectArticleComponent } from '@organism/project-article/project-artic
     CommonModule,
     TitleComponent,
     ProjectArticleComponent,
-
     ReactIconComponent,
     SassIconComponent,
     SpringIconComponent,

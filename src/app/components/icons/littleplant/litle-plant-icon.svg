@@ -1,10 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-@Component({
-  standalone: true,
-  selector: 'LittlePlantIcon',
-  template: `
-    <svg
+<svg
       width="28"
       height="37"
       viewBox="0 0 28 37"
@@ -16,7 +10,3 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         fill="#30007C"
       ></path>
     </svg>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class LittlePlantIconComponent {}

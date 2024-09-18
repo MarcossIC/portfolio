@@ -1,9 +1,3 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-@Component({
-  standalone: true,
-  selector: 'Css3Icon',
-  template: `
     <svg
       fill="#fff"
       version="1.1"
@@ -25,8 +19,3 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         ></path>
       </g>
     </svg>
-  `,
-  styles: [``],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class Css3IconComponent {}

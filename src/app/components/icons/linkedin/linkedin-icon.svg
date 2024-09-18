@@ -1,9 +1,3 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-@Component({
-  standalone: true,
-  selector: 'LinkedinIcon',
-  template: `
     <svg
       fill="#fff"
       stroke="#fff"
@@ -18,8 +12,3 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         fill-rule="evenodd"
       ></path>
     </svg>
-  `,
-  styles: [``],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class LinkedinIconComponent {}

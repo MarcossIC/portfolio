@@ -1,10 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-@Component({
-  standalone: true,
-  selector: 'DownloadIcon',
-  template: `
-    <svg width="27" height="25" viewBox="0 0 27 25" fill="none">
+  <svg width="27" height="25" viewBox="0 0 27 25" fill="none">
       <rect width="27" height="25" rx="4" fill="#190339"></rect>
       <rect
         x="0.5"
@@ -23,8 +17,3 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         fill-opacity="0.75"
       ></path>
     </svg>
-  `,
-  styles: [``],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class DownloadIconComponent {}

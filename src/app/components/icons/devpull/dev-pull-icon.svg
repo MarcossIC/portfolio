@@ -1,10 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-@Component({
-  standalone: true,
-  selector: 'DevPullRequestIcon',
-  template: `
-    <svg
+<svg
       width="136"
       height="149"
       viewBox="0 0 136 149"
@@ -92,7 +86,3 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         fill="#633EB1"
       ></path>
     </svg>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class DevPullRequestIconComponent {}

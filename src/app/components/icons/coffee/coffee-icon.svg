@@ -1,10 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-@Component({
-  standalone: true,
-  selector: 'CoffeeIcon',
-  template: `
-    <svg width="22px" height="22px" viewBox="0 0 18 18" fill="none">
+<svg width="22px" height="22px" viewBox="0 0 18 18" fill="none">
       <path
         d="M8.74101 15.5H6.25899C3.56115 15.5 1.29496 13.625 0.86331 11.125L0 6.54167C0 6.22917 -2.09045e-07 6.02083 0.215827 5.8125C0.431654 5.60417 0.647482 5.5 0.971223 5.5H14.0288C14.3525 5.5 14.5683 5.60417 14.7842 5.8125C15 6.02083 15 6.33333 15 6.54167L14.1367 11.125C13.705 13.7292 11.4388 15.5 8.74101 15.5ZM1.18705 6.64583L1.94245 11.0208C2.26619 13.1042 4.10072 14.5625 6.25899 14.5625H8.74101C10.8993 14.5625 12.7338 13.1042 13.0576 11.0208L13.8129 6.64583H1.18705Z"
         fill="#6814BB"
@@ -30,8 +24,3 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         fill="#6814BB"
       ></path>
     </svg>
-  `,
-  styles: [``],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class CoffeeIconComponent {}

@@ -1,6 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { ErrorIconComponent } from '@app/components/icons/error-icon.component';
+import { ErrorIconComponent } from '@app/components/icons/error/error-icon.component';
 
 @Component({
   standalone: true,

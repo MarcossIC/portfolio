@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
-import { LittlePlantIconComponent } from '@icons/little-plant-icon.component';
-import { ReverseLittlePlantIconComponent } from '@icons/reverse-little-plant-icon.component';
-import { DevProductivityIconComponent } from '@icons/dev-productivity.component';
-import { DevPullRequestIconComponent } from '@icons/dev-pull-req.component';
+import { ReverseLittlePlantIconComponent } from '@app/components/icons/rightlittleplant/reverse-little-plant-icon.component';
+import { DevProductivityIconComponent } from '@app/components/icons/devproductivity/dev-productivity.component';
+import { DevPullRequestIconComponent } from '@app/components/icons/devpull/dev-pull-req.component';
 import { LogoIconComponent } from '@icons/logo-icon.component';
+import { LittlePlantIconComponent } from '@app/components/icons/littleplant/little-plant-icon.component';
 
 @Component({
   standalone: true,

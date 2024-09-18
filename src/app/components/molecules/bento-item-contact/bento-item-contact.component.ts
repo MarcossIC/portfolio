@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 import { StartIconComponent } from '@app/components/icons/star-icon.component';
-import { EmailIconComponent } from '@app/components/icons/email-icon.component';
+import { EmailIconComponent } from '@app/components/icons/email/email-icon.component';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 

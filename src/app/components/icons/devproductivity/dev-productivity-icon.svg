@@ -1,10 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-@Component({
-  standalone: true,
-  selector: 'DevProductivityIcon',
-  template: `
-    <svg
+ <svg
       width="143"
       height="120"
       viewBox="0 0 143 120"
@@ -153,7 +147,3 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         fill="#1B0242"
       ></path>
     </svg>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class DevProductivityIconComponent {}
