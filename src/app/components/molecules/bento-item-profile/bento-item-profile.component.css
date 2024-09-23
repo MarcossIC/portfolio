@@ -24,6 +24,9 @@ rectangle-profile {
     }
   }
 }
+#bento-item-profile {
+  height: auto;
+}
 
 ::ng-deep .bento-item-3 {
   display: flex;

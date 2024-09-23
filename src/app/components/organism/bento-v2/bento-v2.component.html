@@ -1,0 +1,46 @@
+<div id="bento-v2" class="w-full h-full p-4 flex justify-center items-start">
+  <div class="max-w-[1280px] w-full mx-auto bento-v2">
+    <bento-item
+      id="about-me-V2"
+      className="p-4 sm:p-6 bento-v2-intro flex flex-col justify-center"
+    >
+      <div class="flex gap-x-[1rem]">
+        <rectangle-profile [src]="PROFILE.photo" alt="My photo" />
+
+        <div class="flex flex-col w-full">
+          <div
+            class="flex items-start gap-y-3 mb-2 min-[540px]:mb-0 flex-col min-[540px]:flex-row min-[540px]:justify-between min-[540px]:items-center"
+          >
+            <span class="space-in-text">
+              <pulse-element />
+              {{ PROFILE.isAvalaible ? "Available for work" : "Not available" }}
+            </span>
+            <a
+              href="cv"
+              target="_blank"
+              class="resume-download space-in-text cursor-pointer flex-row-reverse min-[540px]:flex-row pointer"
+            >
+              <span>Resume</span>
+              <DownloadIcon />
+            </a>
+          </div>
+          <h2 class="bg-clip-text text-transparent">Marcos Lopez</h2>
+          <p>
+            Alguna descripcion larga e interesante de marcos que llame la
+            atencion y quede piola para que sepan quien soy yo pues carajo
+            mierda
+          </p>
+        </div>
+
+        <!-- <AstronautIcon />  -->
+      </div>
+    </bento-item>
+
+    <bento-item id="stats">B</bento-item>
+    <bento-item id="skills">C</bento-item>
+    <bento-item id="featured-p">D</bento-item>
+    <bento-item id="latest-p">E</bento-item>
+    <bento-item id="work-experience">F</bento-item>
+    <bento-item id="explore-github">G</bento-item>
+  </div>
+</div>

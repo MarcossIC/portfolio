@@ -58,7 +58,7 @@ export const ABOUT_USER: BentoUser = {
     complement: 'A good boy',
   },
   whoIam:
-    'Full Stack Developer with 2+ years of experience. Skilled in back-end development with Spring Boot and front-end development with React and Angular. Proven ability to optimize development processes, reduce delivery times, and create scalable, high-performance solutions. Passionate about programming and technology, proficient in agile methodologies, and eager to learn new technologies. Seeking innovative projects that challenge my technical and creative skills.',
+    'Developer with over 2 years of experience. Skill in backend development with Spring Boot and frontend development with React and Angular. Ability to optimize development processes, create scalable solutions. Experience working with agile methodologies, with a constant focus on continuous improvement.',
   studies: [
     {
       ID: 'b00fb15c9503',
