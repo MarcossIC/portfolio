@@ -9,12 +9,12 @@ export const USER: User = {
   motto:
     'I hope to share my journey through the world of IT and that we can work together',
   role: 'Software developer',
-  cv: 'https://drive.google.com/file/d/1iYooKMNynD_4jlyP9tbMc8xbR1Ot4YpH/view?usp=sharing',
+  cv: 'https://drive.google.com/file/d/1fxazKwrFJ91R2-3bIAKGsu4gkfaXB-iJ/view?usp=sharing',
   linkedIn: 'https://www.linkedin.com/in/marcos-lopez-dev',
   gitHub: 'https://github.com/MarcossIC',
   stackOverflow: 'https://es.stackoverflow.com/users/301174/marcos-lopez',
   downloadCv:
-    'https://drive.usercontent.google.com/u/0/uc?id=1iYooKMNynD_4jlyP9tbMc8xbR1Ot4YpH&export=download',
+    'https://drive.usercontent.google.com/u/2/uc?id=1fxazKwrFJ91R2-3bIAKGsu4gkfaXB-iJ&export=download',
 };
 
 //User data to complete the about bento
@@ -25,17 +25,17 @@ export const ABOUT_USER: BentoUser = {
       ID: '1-exp',
       COMPANY: 'Codefend',
       ROLE: 'Front end developer',
-      TIME: 'January 2024 - July 2024',
+      TIME: 'January 2024 - October 2024',
       DESCRIPTION:
-        'I led the client development for a SAAS system connecting companies with cybersecurity providers. Successfully migrated from SolidJS to React, improving codebase maintainability, and redesigned the project architecture, reducing development time by 30%. Eliminated 40% of legacy code, boosting team productivity by 25%, and reduced project dependencies by 45%, minimizing security vulnerabilities.',
+        'At Codefend, I led the frontend development of a SaaS platform connecting companies with cybersecurity providers, migrating from SolidJS to React, optimizing the architecture, reducing dependencies, and collaborating on the implementation of security intelligence APIs.',
     },
     {
       ID: '2-exp',
       COMPANY: 'No country',
       ROLE: 'Full stack developer',
-      TIME: 'June 2023 - December 2023',
+      TIME: 'June 2023 - March 2024',
       DESCRIPTION:
-        'Worked on software development projects in agile, multidisciplinary teams with Angular and Spring Boot. Developed responsive interfaces with UX/UI designers, enhancing user satisfaction. Managed an efficient Git workflow, reducing code conflicts by 60% and improving software quality. Implemented key front-end and back-end features, speeding up feature delivery by 45%. Improved requirement estimations by 25% through active participation.',
+        'I worked as a frontend developer in multidisciplinary teams during hackathons, collaborating on design, requirement definition, architecture, testing, and advanced implementations such as animations with Framer Motion and 2D environments with Phaser.',
     },
     {
       ID: '3-exp',
@@ -43,7 +43,7 @@ export const ABOUT_USER: BentoUser = {
       ROLE: 'Back-end developer',
       TIME: 'January 2022 - November 2022',
       DESCRIPTION:
-        'Invoicer++ is a project that I did in an internship to deliver to the students of the economics course, to generate commercial documents online quickly, I was doing the back-end with Spring boot.',
+        'I developed Facturador++, an application for the EPET school to enhance the learning experience of economics students, working on the API, security, MySQL database design, functional testing, and deployment with Docker on Google Cloud.',
     },
   ],
   profile: {
@@ -70,7 +70,7 @@ export const ABOUT_USER: BentoUser = {
     },
     {
       ID: 'bf39334cc71f',
-      DEGREE: 'Oracle One',
+      DEGREE: 'Oracle One Next',
       STRONG: 'Oracle',
       STATE: 'Alura Latam - Finalized',
       DESCRIPTION:

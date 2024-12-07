@@ -29,11 +29,11 @@ export const PROJECTS_V2: Projects = [
   },
   {
     ID: '4-project',
-    NAME: 'GPT Landing',
-    IMG: '../../../../assets/projects/GPT-WEB-PROJECT.png',
-    REPOSITORY: 'https://github.com/MarcossIC/gpt3-website',
-    DESC: 'Discover the future of artificial intelligence with this page dedicated to GPT-3. Explore the incredible capabilities of natural language technology and dive into the revolutionary impact of OpenAI in the era of artificial intelligence.',
-    ICONS: ['angular', 'css', 'tailwind'],
+    NAME: 'Notable',
+    IMG: '../../../../assets/projects/NOTABLE_PROJECT.png',
+    REPOSITORY: 'https://github.com/MarcossIC/NotAble',
+    DESC: 'NotAble is an online note-taking app that transcribes your voice into text in real time. Additionally, it uses AI to summarize your notes, highlighting the most important points. Developed with Next.js, it integrates Vercel AI SDK and Google Speech-to-Text to deliver a seamless and intelligent note-taking experience.',
+    ICONS: ['nextjs', 'tailwind', 'openai'],
   },
   {
     ID: '5-project',

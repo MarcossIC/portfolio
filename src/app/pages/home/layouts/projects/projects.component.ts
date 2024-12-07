@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, type Type } from '@angular/core';
 import { AngularIconComponent } from '@app/components/icons/angular/angular-icon.component';
 import { Css3IconComponent } from '@app/components/icons/css3/css3-icon.component';
+import { NextjsIconComponent } from '@app/components/icons/nextjs/nextjs.component';
+import { OpenAiIconComponent } from '@app/components/icons/openai/openai.component';
 import { ReactIconComponent } from '@app/components/icons/react/react-icon.component';
 import { SassIconComponent } from '@app/components/icons/scss/sass-icon.component';
 import { SpringIconComponent } from '@app/components/icons/spring/spring-icon.component';
@@ -27,6 +29,8 @@ import { ProjectArticleComponent } from '@organism/project-article/project-artic
     Css3IconComponent,
     AngularIconComponent,
     TailwindIconComponent,
+    NextjsIconComponent,
+    OpenAiIconComponent
   ],
 })
 export class ProjectsLayout {
@@ -40,6 +44,8 @@ export class ProjectsLayout {
     css3: Css3IconComponent,
     tailwind: TailwindIconComponent,
     spring: SpringIconComponent,
+    nextjs: NextjsIconComponent,
+    openai: OpenAiIconComponent
   };
 
   protected getIconComponent(icon: string): Type<unknown> {
