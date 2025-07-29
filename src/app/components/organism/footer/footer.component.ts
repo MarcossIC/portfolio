@@ -8,6 +8,7 @@ import { GmailIconComponent } from '@app/components/icons/gmail/gmail-icon.compo
 import { LinkedinIconComponent } from '@app/components/icons/linkedin/linkedin-icon.component';
 import { GithubIconComponent } from '@app/components/icons/github/github-icon.component';
 import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
+import { FOOTER } from '@constants/appConst';
 
 @Component({
   standalone: true,
@@ -27,4 +28,6 @@ import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
     GithubIconComponent,
   ],
 })
-export class FooterComponent {}
+export class FooterComponent {
+  protected readonly FOOTER = FOOTER;
+}

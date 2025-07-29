@@ -18,7 +18,7 @@
       <h2
         class="bg-ml-text-white bg-clip-text !text-transparent fill-transparent text-[2rem] font-semibold -mt-[10px] min-[1080px]:mt-0"
       >
-        Marcos Lopez
+        {{ FOOTER.BRAND.NAME }}
       </h2>
     </div>
 
@@ -26,28 +26,15 @@
       class="flex flex-col flex-[.4] justify-start items-center mb-7 min-[1080px]:my-0"
     >
       <div>
-        <h3 class="font-bold text-[1.45rem]">Navigation</h3>
+        <h3 class="font-bold text-[1.45rem]">{{ FOOTER.NAVIGATION.TITLE }}</h3>
         <ul class="flex flex-col gap-y-1 mt-2" role="list">
-          <li role="listitem" aria-label="Go to hero">
-            <router-link fragment="hero" classNames="foot-navigation">
-              Hero
-            </router-link>
-          </li>
-          <li role="listitem" aria-label="Go to Projects">
-            <router-link fragment="projects" classNames="foot-navigation">
-              Projects
-            </router-link>
-          </li>
-          <li>
-            <router-link fragment="about" classNames="foot-navigation">
-              About
-            </router-link>
-          </li>
-          <li role="listitem" aria-label="Go to Contact">
-            <router-link fragment="contact" classNames="foot-navigation">
-              Contact
-            </router-link>
-          </li>
+          @for (link of FOOTER.NAVIGATION.LINKS; track link.ID) {
+            <li role="listitem" [attr.aria-label]="link.ARIA_LABEL">
+              <router-link [fragment]="link.FRAGMENT" classNames="foot-navigation">
+                {{ link.LABEL }}
+              </router-link>
+            </li>
+          }
         </ul>
       </div>
     </div>
@@ -64,7 +51,7 @@
           <li
             class="flex relative gap-x-4"
             role="listitem"
-            aria-label="Address"
+            [attr.aria-label]="FOOTER.CONTACT.LOCATION.ARIA_LABEL"
           >
             <svg
               class="w-6 h-6 min-[1500px]:w-8 min-[1500px]:h-8"
@@ -86,7 +73,7 @@
                 d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
               ></path>
             </svg>
-            Argentina, Misiones, Posadas
+            {{ FOOTER.CONTACT.LOCATION.TEXT }}
           </li>
           <li class="flex relative gap-x-4" role="listitem" aria-label="Email">
             <svg
@@ -107,10 +94,10 @@
             <img
               src="../../../../assets/email.svg"
               role="img"
-              aria-describedby="email"
-              aria-label="Email in image format, for security"
+              [attr.aria-describedby]="'email'"
+              [attr.aria-label]="FOOTER.CONTACT.EMAIL.ARIA_LABEL"
               class="min-[1500px]:w-[18]"
-              alt="Marcos Lopez Email"
+              [alt]="FOOTER.CONTACT.EMAIL.ALT"
             />
           </li>
         </ul>
@@ -119,33 +106,33 @@
         class="flex flex-row gap-x-5 justify-center items-center relative mx-auto"
       >
         <social-button
-          socialUri="https://www.linkedin.com/in/marcos-lopez-dev"
-          title="Button to linkedIn profile"
-          className="bg-[#0A66C2] fill-white p-[8px]"
+          [socialUri]="FOOTER.SOCIAL.LINKEDIN.URL"
+          [title]="FOOTER.SOCIAL.LINKEDIN.TITLE"
+          [className]="FOOTER.SOCIAL.LINKEDIN.CLASS"
         >
           <LinkedinIcon />
         </social-button>
 
         <social-button
-          socialUri="https://github.com/MarcossIC"
-          title="Button to github profile"
-          className="bg-[#00000085] fill-white p-[4px]"
+          [socialUri]="FOOTER.SOCIAL.GITHUB.URL"
+          [title]="FOOTER.SOCIAL.GITHUB.TITLE"
+          [className]="FOOTER.SOCIAL.GITHUB.CLASS"
         >
           <GithubIcon />
         </social-button>
 
         <social-button
-          socialUri="mailto:marcoslopezdev18@gmail.com?subject=Hey%20Marcos%20how%20are%20you"
-          title="Button for send email"
-          className="bg-[#fff] p-[4px]"
+          [socialUri]="FOOTER.SOCIAL.GMAIL.URL"
+          [title]="FOOTER.SOCIAL.GMAIL.TITLE"
+          [className]="FOOTER.SOCIAL.GMAIL.CLASS"
         >
           <GmailIcon />
         </social-button>
 
         <social-button
-          socialUri="https://drive.google.com/file/d/1znfQJffUhuawHnsKnSUGa6aGtnA9q1OY/view?usp=sharing"
-          className="cv p-[4px] font-bold bg-[var(--ml-red-100)]"
-          title="Button to CV"
+          [socialUri]="FOOTER.SOCIAL.CV.URL"
+          [className]="FOOTER.SOCIAL.CV.CLASS"
+          [title]="FOOTER.SOCIAL.CV.TITLE"
         >
           <CvIcon />
         </social-button>
@@ -154,8 +141,8 @@
   </div>
 
   <div
-    class="w-full mt-auto flex mx-auto justify-center item-center gap-x-3 pt-[1rem] pb-1 text-[60%]"
+    class="w-full mt-auto flex mx-auto justify-center items-center gap-x-2 pt-[1.5rem] pb-3 text-[0.875rem]"
   >
-    <CoffeeIcon /><small>Developed by Marcos Lopez - Last update 2024</small>
+    <CoffeeIcon class="coffee-icon" /><small>{{ FOOTER.COPYRIGHT.TEXT }}</small>
   </div>
 </footer>

@@ -53,6 +53,47 @@ export const PROJECTS_V2: Projects = [
   },
 ];
 
+export const PROJECTS_TITLE = {
+  TITLE_COMPLETE: 'Some projects',
+  TITLE: ['Some', 'Projects']
+};
+
+export const STUDIES_TITLE = {
+  TITLE_COMPLETE: 'My studies',
+  TITLE: ['My', 'Studies']
+};
+
+export const CONTACT_TITLE = {
+  TITLE_COMPLETE: 'Get in touch',
+  TITLE: ['Get', 'in touch']
+};
+
+export const CONTACT_FORM = {
+  FORM: {
+    ARIA_LABEL: 'Contact Form'
+  },
+  FIELDS: {
+    NAME: {
+      LABEL: 'Name',
+      ARIA: 'Write your name.',
+      ERROR_MESSAGE: 'Please enter a valid name.'
+    },
+    EMAIL: {
+      LABEL: 'Email',
+      ARIA: 'Write your email.',
+      ERROR_MESSAGE: 'Please enter a valid email.'
+    },
+    MESSAGE: {
+      LABEL: 'Write your message...',
+      ARIA: 'Write your message.',
+      ERROR_MESSAGE: 'Please enter a valid message (there is a 300 character limit).'
+    }
+  },
+  BUTTON: {
+    TEXT: 'Send'
+  }
+};
+
 export const SERVICES: ServicesType = {
   TITLE_COMPLETE: 'Our service',
   TITLE: ['Our', 'Service'],
@@ -86,3 +127,53 @@ export const HEADER: LinksHeaderArray = [
   { ID: '3-sp', LABEL: 'Studies', PATH: '', FRAGMENT: 'studies' },
   { ID: '4-cp', LABEL: 'Contact', PATH: '', FRAGMENT: 'contact' },
 ];
+
+export const FOOTER = {
+  BRAND: {
+    NAME: 'Marcos Lopez'
+  },
+  NAVIGATION: {
+    TITLE: 'Navigation',
+    LINKS: [
+      { ID: 'nav-hero', LABEL: 'Hero', FRAGMENT: 'hero', ARIA_LABEL: 'Go to hero' },
+      { ID: 'nav-projects', LABEL: 'Projects', FRAGMENT: 'projects', ARIA_LABEL: 'Go to Projects' },
+      { ID: 'nav-about', LABEL: 'About', FRAGMENT: 'about', ARIA_LABEL: 'Go to About' },
+      { ID: 'nav-contact', LABEL: 'Contact', FRAGMENT: 'contact', ARIA_LABEL: 'Go to Contact' }
+    ]
+  },
+  CONTACT: {
+    LOCATION: {
+      TEXT: 'Argentina, Misiones, Puerto Iguazú',
+      ARIA_LABEL: 'Address'
+    },
+    EMAIL: {
+      ALT: 'Marcos Lopez Email',
+      ARIA_LABEL: 'Email in image format, for security'
+    }
+  },
+  SOCIAL: {
+    LINKEDIN: {
+      URL: 'https://www.linkedin.com/in/marcos-lopez-dev',
+      TITLE: 'Button to linkedIn profile',
+      CLASS: 'bg-[#0A66C2] fill-white p-[8px]'
+    },
+    GITHUB: {
+      URL: 'https://github.com/MarcossIC',
+      TITLE: 'Button to github profile',
+      CLASS: 'bg-[#00000085] fill-white p-[4px]'
+    },
+    GMAIL: {
+      URL: 'mailto:marcoslopezdev18@gmail.com?subject=Hey%20Marcos%20how%20are%20you',
+      TITLE: 'Button for send email',
+      CLASS: 'bg-[#fff] p-[4px]'
+    },
+    CV: {
+      URL: 'https://drive.google.com/file/d/1znfQJffUhuawHnsKnSUGa6aGtnA9q1OY/view?usp=sharing',
+      TITLE: 'Button to CV',
+      CLASS: 'cv p-[4px] font-bold bg-[var(--ml-red-100)]'
+    }
+  },
+  COPYRIGHT: {
+    TEXT: 'Developed by Marcos Lopez - Last update 2025'
+  }
+};

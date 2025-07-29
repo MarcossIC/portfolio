@@ -20,6 +20,8 @@ export const USER: User = {
 //User data to complete the about bento
 export const ABOUT_USER: BentoUser = {
   yearsExpertice: '02',
+  experticeTitle: 'Years of experience',
+  experienceTitle: 'Experience',
   experiences: [
     {
       ID: '1-exp',
@@ -56,7 +58,10 @@ export const ABOUT_USER: BentoUser = {
     qualification: 'IT technician',
     idioms: 'Spanish & English',
     complement: 'A good boy',
+    resume: 'Resume',
+    motto: "I love a coffee"
   },
+  whoIamTitle: 'Who I am?',
   whoIam:
     'Developer with over 2 years of experience. Skill in backend development with Spring Boot and frontend development with React and Angular. Ability to optimize development processes, create scalable solutions. Experience working with agile methodologies, with a constant focus on continuous improvement.',
   studies: [
@@ -85,4 +90,9 @@ export const ABOUT_USER: BentoUser = {
         'Global Mentoring Courses for Java, Spring, Angular, Html, Css, TypeScript. MitoCode Functional Java Course, Amigos Code Spring Security Course',
     },
   ],
+  stackTitle: 'Stack',
+  bentoCTA: {
+    title: 'Let’s Work Together',
+    button: 'Contact me',
+  }
 };

@@ -1,10 +1,10 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ErrorIconComponent } from '@app/components/icons/error/error-icon.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, ErrorIconComponent],
+  imports: [CommonModule, ErrorIconComponent],
   selector: 'error-message',
   template: `
     <span class=" flex mt-1 text-xs select-none" [ngClass]="errorClass()">

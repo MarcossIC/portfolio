@@ -11,5 +11,6 @@ import { ABOUT_USER } from '@constants/userConst';
   imports: [BentoItemComponent],
 })
 export class BentoItemWhoiamComponent {
+  protected readonly WHOIAM_TITLE = ABOUT_USER.whoIamTitle;
   protected readonly DESCRIPTION = ABOUT_USER.whoIam;
 }

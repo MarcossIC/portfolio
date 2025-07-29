@@ -14,7 +14,7 @@
           target="_blank"
           class="resume-download space-in-text cursor-pointer flex-row-reverse min-[540px]:flex-row pointer"
         >
-          <span>Resume</span> <DownloadIcon />
+          <span>{{ PROFILE.resume }}</span> <DownloadIcon />
         </a>
       </div>
       <h2 class="bg-clip-text text-transparent">{{ USER.fullName }}</h2>
@@ -47,7 +47,7 @@
     <div
       class="chip-style flex flex-row px-3 py-2 gap-x-[.3rem] min-[680px]:gap-x-2"
     >
-      <CoffeeIcon /> I love a coffee
+      <CoffeeIcon /> {{ PROFILE.motto }}
     </div>
   </div>
 </bento-item>

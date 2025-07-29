@@ -1,4 +1,4 @@
-import { NgOptimizedImage, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,7 +11,7 @@ type IconType = string | 'github' | 'linkedin' | 'gmail' | 'cv';
 @Component({
   standalone: true,
   selector: 'social-button',
-  imports: [NgOptimizedImage, NgStyle],
+  imports: [NgStyle],
   template: `
     <a
       [href]="to()"

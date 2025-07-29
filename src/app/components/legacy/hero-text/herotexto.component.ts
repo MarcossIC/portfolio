@@ -12,6 +12,6 @@ import { RouterLink } from '@angular/router';
 })
 export class HeroTextComponent  {
   protected readonly USER = USER;
-  protected readonly HERO = { TITLE: ["", ""], PARAGRAPH: "", RESUME: "", CONTACT: "", SUBTITLE: ""};
+  protected readonly HERO = { TITLE: ["", ""], TITLE_COMPLETE: "", PARAGRAPH: "", RESUME: "", CONTACT: "", SUBTITLE: ""};
 
 }

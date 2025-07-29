@@ -10,7 +10,7 @@ import { SpringIconComponent } from '@app/components/icons/spring/spring-icon.co
 import { TailwindIconComponent } from '@app/components/icons/tailwind-icon.component';
 import type { MapIconComponents } from '@app/models/mapIconComponent';
 import { TitleComponent } from '@atoms/title/title.component';
-import { PROJECTS_V2 } from '@constants/appConst';
+import { PROJECTS_V2, PROJECTS_TITLE } from '@constants/appConst';
 import { ProjectArticleComponent } from '@organism/project-article/project-article.component';
 
 @Component({
@@ -23,18 +23,11 @@ import { ProjectArticleComponent } from '@organism/project-article/project-artic
     CommonModule,
     TitleComponent,
     ProjectArticleComponent,
-    ReactIconComponent,
-    SassIconComponent,
-    SpringIconComponent,
-    Css3IconComponent,
-    AngularIconComponent,
-    TailwindIconComponent,
-    NextjsIconComponent,
-    OpenAiIconComponent
   ],
 })
 export class ProjectsLayout {
   protected readonly PROJECTS = PROJECTS_V2;
+  protected readonly PROJECTS_TITLE = PROJECTS_TITLE;
   protected readonly titleID: string = 'home-projects-tt';
   /*If you need to add more icons, you must create the component and add it to this object*/
   private readonly iconComponents: MapIconComponents = {

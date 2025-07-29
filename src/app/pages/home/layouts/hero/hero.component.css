@@ -9,7 +9,10 @@ section {
 }
 
 .title-base {
-  @apply font-bold font-montserrat bg-clip-text text-transparent;
+  background-clip: text;
+  font-family: Montserrat, sans-serif;
+  font-weight: 700;
+  color: transparent;
 }
 
 h1 {

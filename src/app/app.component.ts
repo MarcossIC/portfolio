@@ -24,7 +24,6 @@ import { ToastComponent } from '@app/components/organism/toast/toast.component';
     ParticlesComponent,
     HeaderComponent,
     FooterComponent,
-    LayoutComponent,
     ToastComponent,
   ],
 })

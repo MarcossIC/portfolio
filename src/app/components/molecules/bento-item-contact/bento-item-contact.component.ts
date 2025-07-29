@@ -6,10 +6,10 @@ import {
   inject,
 } from '@angular/core';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
-import { StartIconComponent } from '@app/components/icons/star-icon.component';
 import { EmailIconComponent } from '@app/components/icons/email/email-icon.component';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { ABOUT_USER } from '@constants/userConst';
 
 @Component({
   standalone: true,
@@ -17,9 +17,10 @@ import { DOCUMENT } from '@angular/common';
   templateUrl: './bento-item-contact.component.html',
   styleUrls: ['./bento-item-contact.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BentoItemComponent, StartIconComponent, EmailIconComponent],
+  imports: [BentoItemComponent, EmailIconComponent],
 })
 export class BentoItemContactComponent {
+  protected readonly BENTO_CTA = ABOUT_USER.bentoCTA;
   private router: Router = inject(Router);
   private readonly renderer: Renderer2 = inject(
     RendererFactory2,

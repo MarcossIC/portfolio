@@ -1,47 +1,71 @@
 .form {
   display: flex;
   flex-direction: column;
-  row-gap: 13px;
+  gap: 24px;
   align-items: center;
   justify-content: center;
+  padding: 20px;
 }
+
 app-textarea-field,
 app-input-field {
   width: 100%;
 }
 
 .button-form {
-  background-color: rgba(185, 28, 28, 1);
-  width: 35%;
+  background: linear-gradient(135deg, rgba(185, 28, 28, 1) 0%, rgba(153, 27, 27, 1) 100%);
+  width: 100%;
+  max-width: 200px;
   overflow: hidden;
   outline: none;
-  border-radius: 1.2rem;
-  font-weight: 500;
-  height: 45px;
-  padding-block: 0;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  height: 50px;
+  padding: 0 24px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(185, 28, 28, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .button-form:disabled {
-  background-color: rgb(180, 51, 51);
+  background: linear-gradient(135deg, rgba(120, 120, 120, 0.6) 0%, rgba(100, 100, 100, 0.6) 100%);
+  cursor: not-allowed;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transform: none;
 }
 
 .button-form:not(:disabled):hover {
-  background-color: rgba(153, 27, 27, 1);
+  background: linear-gradient(135deg, rgba(153, 27, 27, 1) 0%, rgba(127, 29, 29, 1) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(185, 28, 28, 0.4);
 }
+
 .button-form:not(:disabled):active {
-  background-color: rgba(127, 29, 29, 1);
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(185, 28, 28, 0.3);
 }
 
 @media only screen and (min-width: 480px) {
   app-textarea-field,
   app-input-field {
-    width: fit-contnent;
+    width: 100%;
+    max-width: 450px;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .form .button-form {
-    margin: auto;
+  .form {
+    padding: 16px;
+    gap: 20px;
+  }
+  .button-form {
+    width: 100%;
+    max-width: 280px;
   }
 }
 
@@ -49,19 +73,24 @@ app-input-field {
   app-textarea-field,
   app-input-field {
     width: 100%;
+    max-width: 500px;
   }
   .button-form {
-    width: 40%;
+    width: 220px;
   }
   .form {
     align-items: flex-start;
+    padding: 24px;
   }
 }
 
 @media only screen and (min-width: 1580px) {
   .button-form {
-    font-size: 1.8rem;
-
-    width: 16rem;
+    font-size: 1.1rem;
+    height: 55px;
+    width: 240px;
+  }
+  .form {
+    gap: 28px;
   }
 }

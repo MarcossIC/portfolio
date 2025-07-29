@@ -11,6 +11,6 @@ import { TitleComponent } from '@app/components/atoms/title/title.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkillsLayoutComponent  {
-  protected readonly SKILLS = {TITLE: ["", "", ""], CLARIFICATION: ""};
+protected readonly SKILLS = {TITLE: ["", "", ""], CLARIFICATION: "", TITLE_COMPLETE: ""};
   protected readonly titleID = 'b11d-4fa6';
 }

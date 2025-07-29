@@ -1,20 +1,44 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.mjs";
 
-@layer utilities {
-  .clip-path-circle {
-    --tw-circle-path: 50% at 50% 50%;
-    clip-path: circle(var(--tw-circle-path));
-  }
+/* @theme {
+  --font-manrope: "Manrope", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+  --color-primary: #b565fd;
+  --color-primary-dark: #58E6D9;
+  --color-primary-blue-dark: #050816;
+  --color-secondary: #aaa6c3;
+  --color-tertiary: #151030;
+  --color-dark: #1b1b1b;
+  --color-light: #f5f5f5;
+  --color-transparent-purple: #66008057;
+  --shadow-card: var(--shadow-card);
+  --shadow-skills: var(--shadow-skills);
+  --shadow-liquid: var(--shadow-liquid);
+  --shadow-contact: var(--shadow-contact);
+  --shadow-contact-box: var(--shadow-contact-box);
+  --shadow-contact-box-hover: var(--shadow-contact-box-hover);
+  --shadow-contact-box-hover-hover: var(--shadow-contact-box-hover-hover);
+  --shadow-contact-box-hover-hover-hover: var(--shadow-contact-box-hover-hover-hover);
+  --ml-text-white: var(--ml-text-white);
+  --ml-text-red: var(--ml-text-red);
+  --ml-bg-img: var(--ml-bg-img);
+  --ml-chip-gradient: var(--ml-chip-gradient);
+  --shadow-card: var(--shadow-card);
+  --shadow-skills: var(--shadow-skills);
+  --shadow-liquid: var(--shadow-liquid);
+} */
 
-  .no-outline {
+@utility clip-path-circle {
+  --tw-circle-path: 50% at 50% 50%;
+  clip-path: circle(var(--tw-circle-path));
+}
+@utility no-outline {
     outline: none;
 
     &:is(:focus, :focus-visible, :focus-within, :active) {
       outline: none;
     }
-  }
 }
 
 .brightness {

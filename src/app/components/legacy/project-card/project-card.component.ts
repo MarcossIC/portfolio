@@ -3,7 +3,6 @@ import {
   Component,
   Input,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { ProjectCardBodyComponent } from '../project-card-body/project-card-body.component';
 import { ProjectCardHeaderComponent } from '@app/components/legacy/project-card-header/project-card-header.component';
 import { ProjectCardFooterComponent } from '@app/components/legacy/project-card-footer/project-card-footer.component';
@@ -12,7 +11,6 @@ import { ProjectCardFooterComponent } from '@app/components/legacy/project-card-
   standalone: true,
   imports: [
     ProjectCardBodyComponent,
-    RouterLink,
     ProjectCardHeaderComponent,
     ProjectCardFooterComponent,
   ],
@@ -22,7 +20,7 @@ import { ProjectCardFooterComponent } from '@app/components/legacy/project-card-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectCardComponent {
-  @Input() public PROJECT = {};
+  @Input() public PROJECT = { NAME: "", DEPLOY: "", DESCRIPTION: "", TAGS: [], IMG: "" };
   @Input() public num = 0;
   @Input() public textAnchor = '';
 

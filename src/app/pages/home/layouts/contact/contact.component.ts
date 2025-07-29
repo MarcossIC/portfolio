@@ -13,6 +13,7 @@ import { TitleComponent } from '@app/components/atoms/title/title.component';
 import { LiquidBannerComponent } from '@app/components/atoms/liquid-banner/liquid-banner.component';
 import { ContactFormComponent } from '@app/components/organism/contact-form/contact-form.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CONTACT_TITLE } from '@constants/appConst';
 
 @Component({
   standalone: true,
@@ -28,6 +29,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class ContactLayout {
+  protected readonly CONTACT_TITLE = CONTACT_TITLE.TITLE;
   private readonly toast = inject(ToastService);
   private http = inject(HttpClient);
   private destroy = inject(DestroyRef);

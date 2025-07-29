@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BentoItemComponent } from '@app/components/atoms/bento-item/bento-item.component';
 import { PulseElementComponent } from '@app/components/atoms/pulse-element/pulse-element.component';
 import { RectangleProfileComponent } from '@app/components/atoms/rectangle-profile/rectangle-profile.component';
-import { AstronautIconComponent } from '@app/components/icons/astronaut/astronaut-icon.component';
 import { DownloadIconComponent } from '@app/components/icons/download/download-icon.component';
 import { ABOUT_USER } from '@constants/userConst';
 
@@ -17,7 +16,6 @@ import { ABOUT_USER } from '@constants/userConst';
     RectangleProfileComponent,
     PulseElementComponent,
     DownloadIconComponent,
-    AstronautIconComponent,
   ],
 })
 export class BentoV2Component {

@@ -13,9 +13,9 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import type { ContactState } from '@app/models/contactState.model';
-import { ErrorMessageComponent } from '@atoms/error-message/error-message.component';
 import { InputFieldComponent } from '@atoms/input-field/input-field.component';
 import { TextAreaFieldComponent } from '@atoms/text-area-field/text-area-field.component';
+import { CONTACT_FORM } from '@constants/appConst';
 
 @Component({
   standalone: true,
@@ -25,7 +25,6 @@ import { TextAreaFieldComponent } from '@atoms/text-area-field/text-area-field.c
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    ErrorMessageComponent,
     ReactiveFormsModule,
     InputFieldComponent,
     TextAreaFieldComponent,
@@ -35,6 +34,7 @@ export class ContactFormComponent implements OnDestroy {
   @Output() public contactState = new EventEmitter<ContactState>();
   private formBuilder = inject(FormBuilder);
   protected contactForm = this.createContactForm();
+  protected readonly CONTACT_FORM = CONTACT_FORM;
 
   ngOnDestroy(): void {
     this.contactForm.reset();

@@ -3,7 +3,7 @@
   [formGroup]="contactForm"
   (submit)="onSubmit()"
   role="form"
-  aria-label="Contact Form"
+  [attr.aria-label]="CONTACT_FORM.FORM.ARIA_LABEL"
 >
   <app-input-field
     type="text"
@@ -11,9 +11,9 @@
     formControlName="name"
     id="contact-name"
     autocomplete="name"
-    label="Name"
-    aria="Write your name."
-    errorMessage="Please enter a valid name."
+    [label]="CONTACT_FORM.FIELDS.NAME.LABEL"
+    [aria]="CONTACT_FORM.FIELDS.NAME.ARIA"
+    [errorMessage]="CONTACT_FORM.FIELDS.NAME.ERROR_MESSAGE"
   ></app-input-field>
 
   <app-input-field
@@ -22,18 +22,18 @@
     formControlName="email"
     id="contact-email"
     autocomplete="email"
-    label="Email"
-    aria="Write your email."
-    errorMessage="Please enter a valid email."
+    [label]="CONTACT_FORM.FIELDS.EMAIL.LABEL"
+    [aria]="CONTACT_FORM.FIELDS.EMAIL.ARIA"
+    [errorMessage]="CONTACT_FORM.FIELDS.EMAIL.ERROR_MESSAGE"
   ></app-input-field>
 
   <app-textarea-field
     name="message"
     formControlName="message"
     id="contact-message"
-    label="Write your message..."
-    aria="Write your message."
-    errorMessage="Please enter a valid message (there is a 300 character limit)."
+    [label]="CONTACT_FORM.FIELDS.MESSAGE.LABEL"
+    [aria]="CONTACT_FORM.FIELDS.MESSAGE.ARIA"
+    [errorMessage]="CONTACT_FORM.FIELDS.MESSAGE.ERROR_MESSAGE"
     cols="20"
     rows="7"
   ></app-textarea-field>
@@ -45,6 +45,6 @@
     [disabled]="contactForm.invalid"
     [attr.aria-disabled]="contactForm.invalid"
   >
-    Send
+    {{ CONTACT_FORM.BUTTON.TEXT }}
   </button>
 </form>

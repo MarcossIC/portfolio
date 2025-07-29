@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "./dist/out-tsc",
+    "outDir": "./dist/portfolio",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
@@ -28,12 +28,22 @@
       "@molecules/*": ["./src/app/components/molecules/*"],
       "@organism/*": ["./src/app/components/organism/*"],
       "@icons/*": ["./src/app/components/icons/*"]
-    }
+    },
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
     "strictTemplates": true
-  }
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }

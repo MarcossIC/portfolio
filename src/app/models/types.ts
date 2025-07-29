@@ -42,6 +42,8 @@ export interface UserProfile {
   qualification: string;
   idioms: string;
   complement: string;
+  resume: string;
+  motto: string;
 }
 export interface UserStudies {
   ID: string;
@@ -53,8 +55,16 @@ export interface UserStudies {
 
 export interface BentoUser {
   yearsExpertice: string;
+  experticeTitle: string;
+  experienceTitle: string;
   experiences: UserExperience[];
   profile: UserProfile;
   whoIam: string;
+  whoIamTitle: string;
+  stackTitle: string;
   studies: UserStudies[];
+  bentoCTA: {
+    title: string;
+    button: string;
+  }
 }

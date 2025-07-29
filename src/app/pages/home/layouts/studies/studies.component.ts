@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TimelineComponent } from '@app/components/organism/timeline/timeline.component';
 import { TitleComponent } from '@app/components/atoms/title/title.component';
 import { ABOUT_USER } from '@constants/userConst';
+import { STUDIES_TITLE } from '@constants/appConst';
 
 @Component({
   standalone: true,
@@ -13,5 +14,6 @@ import { ABOUT_USER } from '@constants/userConst';
 })
 export class StudiesLayout {
   protected STUDIES = ABOUT_USER.studies;
+  protected STUDIES_TITLE = STUDIES_TITLE.TITLE;
   protected titleID = 't01agf453';
 }
