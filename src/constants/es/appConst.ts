@@ -44,7 +44,8 @@ export const STUDIES_TITLE = {
 
 export const CONTACT_TITLE = {
   TITLE_COMPLETE: 'Ponte en contacto',
-  TITLE: ['Ponte en', 'contacto']
+  TITLE: ['Ponte en', 'contacto'],
+  SUB: 'No dudes en enviarme un mensaje para cualquier consulta o proyecto'
 };
 
 export const ABOUT_TITLE = {

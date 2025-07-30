@@ -138,12 +138,25 @@ navigate::ng-deep router-link::ng-deep a {
 
 @supports (backdrop-filter: blur(8px)) {
   header {
-    background: #0f0227a1;
-    backdrop-filter: blur(8px);
+    background: rgb(15 2 39 / 65%);
+    backdrop-filter: blur(12px);
+    border-bottom-left-radius: 22px;
+    border-bottom-right-radius: 22px;
+    padding-inline: 8px;
+    border: 1px solid rgb(90 0 255 / 10%);
   }
 }
 
+
+
 @media only screen and (max-width: 540px) {
+  header {
+    margin-inline: 0;
+    width: 100%;
+    max-width: none;
+    padding-inline: 12px;
+  }
+
   .header-left {
     display: none;
   }
@@ -156,23 +169,35 @@ navigate::ng-deep router-link::ng-deep a {
     padding-left: 0;
   }
 
-  /* .header-right {
-    flex: 0;
-    width: auto;
-  } */
+  .header-right {
+    flex: none;
+  }
 
   .header-container {
     justify-content: space-between;
   }
 
   .navigation {
-    column-gap: min(10dvw, 1.85rem);
+    column-gap: 5.25dvw;
     width: auto;
     justify-content: flex-start;
   }
 
   .nav-link-responsive {
     font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  header {
+    padding-inline: 8px;
+  }
+
+  .navigation {
+    column-gap: max(1rem, 4dvw);
+  }
+  .nav-link-responsive {
+    font-size: .85rem;
   }
 }
 

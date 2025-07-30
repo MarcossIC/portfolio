@@ -44,7 +44,8 @@ export const STUDIES_TITLE = {
 
 export const CONTACT_TITLE = {
   TITLE_COMPLETE: 'Get in touch',
-  TITLE: ['Get', 'in touch']
+  TITLE: ['Get', 'in touch'],
+  SUB: 'Don\'t hesitate to send me a message for any inquiry or project'
 };
 
 export const ABOUT_TITLE = {
