@@ -1,57 +1,36 @@
 import type { Projects } from '@app/models/projects';
 import type { ServicesType } from '@app/models/servicesTypes';
 import type { LinksHeaderArray } from '@app/models/types';
+import { combineProjectsWithTranslations, type ProjectTranslation } from '../projectBase';
 
-export const PROJECTS_V2: Projects = [
+const PROJECTS_TRANSLATIONS: ProjectTranslation[] = [
   {
     ID: '1-project',
-    NAME: 'Codefend',
-    IMG: '../../../../assets/projects/CODEFEND-PROJECT.webp',
-    REPOSITORY: 'https://github.com/codefen/codefend-user',
     DESC: 'Codefend es una webapp donde trabajé en el frontend, permite a las empresas subir sus recursos, aplicaciones y solicitar un pentest, codefend proporcionará un proveedor que los escanee. También ofrece servicios de inteligencia',
-    ICONS: ['react', 'sass'],
   },
   {
     ID: '2-project',
-    NAME: 'Game Galaxy',
-    IMG: '../../../../assets/projects/GAME-GALAXY-PROJECT.png',
-    REPOSITORY: 'https://github.com/MarcossIC/Web-Games',
     DESC: 'Game Galaxy es una plataforma para juegos clásicos. Este sitio web, que incluye juegos populares como Tetris, Snake y Tic-Tac-Toe, está construido con Angular, CSS, canvas y RxJS. Game Galaxy ofrece a los usuarios un toque moderno a los queridos juegos retro.',
-    ICONS: ['angular', 'css', 'tailwind'],
   },
   {
     ID: '3-project',
-    NAME: 'Books Leaks',
-    IMG: '../../../../assets/projects/BOOKS-LEAKS-PROJECT.png',
-    REPOSITORY: 'https://github.com/MarcossIC/Books-Leaks',
     DESC: 'Book leaks. Explora la librería online, descubre tesoros literarios en este increíble E-commerce de libros, con carrito de compras, motor de búsqueda, filtros y función de login, con un diseño intuitivo e interactivo.',
-    ICONS: ['angular', 'css', 'tailwind', 'spring'],
   },
   {
     ID: '4-project',
-    NAME: 'Notable',
-    IMG: '../../../../assets/projects/NOTABLE_PROJECT.png',
-    REPOSITORY: 'https://github.com/MarcossIC/NotAble',
     DESC: 'NotAble es una aplicación de toma de notas online que transcribe tu voz a texto en tiempo real. Además, utiliza IA para resumir tus notas, destacando los puntos más importantes. Desarrollado con Next.js, integra Vercel AI SDK y Google Speech-to-Text para brindar una experiencia de toma de notas fluida e inteligente.',
-    ICONS: ['nextjs', 'tailwind', 'openai'],
   },
   {
     ID: '5-project',
-    NAME: 'Invoicer++',
-    IMG: '../../../../assets/projects/FACTURADOR-MASMAS-PROJECT.webp',
-    REPOSITORY: 'https://github.com/conjunto-solucion/facturador',
     DESC: 'Invoicer++ es una aplicación de código abierto para generar documentos comerciales. Es una plataforma web educativa creada para estudiantes que están aprendiendo a crear y gestionar documentos empresariales.',
-    ICONS: ['react', 'sass', 'spring'],
   },
   {
     ID: '6-project',
-    NAME: 'Cash now',
-    IMG: '../../../../assets/projects/CASH_NOW_PROJECT.webp',
-    REPOSITORY: 'https://github.com/MarcossIC/Cash-now.git',
     DESC: 'En Cash Now trabajé en el backend, esta webapp fue creada para permitir a las personas solicitar un préstamo de una institución financiera, poder gestionar las cuotas y tener una calculadora de intereses sobre los préstamos.',
-    ICONS: ['angular', 'css', 'tailwind', 'spring'],
   },
 ];
+
+export const PROJECTS_V2: Projects = combineProjectsWithTranslations(PROJECTS_TRANSLATIONS);
 
 export const PROJECTS_TITLE = {
   TITLE_COMPLETE: 'Algunos proyectos',

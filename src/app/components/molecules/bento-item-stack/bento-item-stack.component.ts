@@ -13,5 +13,5 @@ import { ABOUT_USER } from '@constants/userConst';
 })
 export class BentoItemStackComponent {
   protected readonly i18nService = inject(I18nService);
-  protected readonly STACK_TITLE = computed(() => this.i18nService.getConstant('userConst')?.ABOUT_USER?.stackTitle as string);
+  protected readonly STACK_TITLE = computed(() => this.i18nService.getConstant('userConst')?.ABOUT_USER?.stackTitle || ABOUT_USER.stackTitle);
 }

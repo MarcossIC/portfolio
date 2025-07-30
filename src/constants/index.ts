@@ -6,18 +6,17 @@ import * as userConstEn from './en/userConst';
 import * as appConstEs from './es/appConst';
 import * as appConstEn from './en/appConst';
 
-import * as technologiesConstEs from './technologiesConst';
-import * as technologiesConstEn from './technologiesConst';
+import * as technologiesConst from './technologiesConst';
 
 export const constants = {
   es: {
     userConst: userConstEs,
     appConst: appConstEs,
-    technologiesConst: technologiesConstEs
+    technologiesConst: technologiesConst
   },
   en: {
     userConst: userConstEn,
     appConst: appConstEn,
-    technologiesConst: technologiesConstEn
+    technologiesConst: technologiesConst
   }
 };
