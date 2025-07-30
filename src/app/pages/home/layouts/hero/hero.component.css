@@ -34,7 +34,8 @@ p {
     font-size: clamp(1.85rem, 7dvw, 3.75rem);
   }
   h2 {
-    font-size: clamp(2.156em, 7dvw, 5rem);
+    font-size: clamp(2.156em,  5.75dvw, 5rem);
+    white-space: normal;
   }
 }
 
@@ -44,9 +45,10 @@ p {
     line-height: 0.9;
   }
   h2 {
-    font-size: clamp(4rem, 7dvw, 6rem);
+    font-size: clamp(4rem,  5.75dvw, 6rem);
     line-height: 1.2;
     margin-block-end: 1rem;
+    white-space: nowrap;
   }
 }
 
@@ -58,6 +60,7 @@ p {
   h2 {
     font-size: clamp(5rem, 15dvw, 7rem);
     margin-block-end: 1.5rem;
+    white-space: nowrap;
   }
   p {
     max-width: 100%;
