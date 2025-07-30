@@ -7,6 +7,7 @@
   --ml-white-100: oklch(96.27% 0.0126 69.29909856448074);
   --ml-white-200: oklch(93.62% 0.0214 88.13);
   --ml-white-300: oklch(90.95% 0.0214 88.13);
+  --ml-violet-100: #d8b4fe;
 
   --ml-text-white: linear-gradient(
     180deg,
@@ -49,4 +50,9 @@
 
   --shadow-social: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000,
     0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Layout Variables */
+  --ml-container-margin-mobile: 10px;
+  --ml-container-margin-desktop: 6dvw;
+  --ml-container-max-width: calc(100% - calc(var(--ml-container-margin-desktop) * 2));
 }

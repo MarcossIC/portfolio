@@ -9,11 +9,10 @@
   align-items: center;
 
   &:hover {
-    color: var(--ml-red-100);
-    scale: 1.05;
+    color: var(--ml-violet-100);
 
     .arrow {
-      transform: rotate(-45deg) scale(1.2) translateX(10%) translateY(-10%);
+      transform: rotate(-45deg) translateX(10%) translateY(-10%);
     }
   }
 }

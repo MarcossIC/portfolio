@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { HEADER } from '@constants/appConst';
 import { NavigateComponent } from '../../molecules/navigate/navigate.component';
 import { LogoIconComponent } from '@app/components/icons/logo-icon.component';
-import { ResumeButtonComponent } from '@app/components/molecules/resume-button/resume-button.component';
+import { HeaderMenuOptionsComponent } from '@app/components/organism/header-menu-options/header-menu-options.component';
 
 @Component({
   standalone: true,
@@ -11,19 +11,26 @@ import { ResumeButtonComponent } from '@app/components/molecules/resume-button/r
   template: `
     <header id="header" class="header">
       <div class="header-container">
-        <LogoIcon class="cursor-pointer" (click)="scrollToTop()" />
-        <nav class="navigation">
-          @for(NAVIGATION of NAVIGATIONS; track NAVIGATION.ID) {
-          <navigate
-            [path]="NAVIGATION.PATH"
-            [fragment]="NAVIGATION.FRAGMENT"
-            class="text-[1.1rem] min-[1500px]:text-2xl min-[1700px]:text-3xl"
-            [classNames]="$index === 0 ? 'mr-4' : 'mr-4 ml-4'"
-            >{{ NAVIGATION.LABEL }}</navigate
-          >
-          }
-        </nav>
-        <header-resume-button></header-resume-button>
+        <div class="header-left">
+          <LogoIcon class="cursor-pointer" (click)="scrollToTop()" />
+        </div>
+
+        <div class="header-center">
+          <nav class="navigation">
+            @for(NAVIGATION of NAVIGATIONS; track NAVIGATION.ID) {
+            <navigate
+              [path]="NAVIGATION.PATH"
+              [fragment]="NAVIGATION.FRAGMENT"
+              class="nav-link-responsive nav-link-item"
+              >{{ NAVIGATION.LABEL }}</navigate
+            >
+            }
+          </nav>
+        </div>
+
+        <div class="header-right">
+          <header-menu-options></header-menu-options>
+        </div>
       </div>
     </header>
   `,
@@ -33,7 +40,7 @@ import { ResumeButtonComponent } from '@app/components/molecules/resume-button/r
     CommonModule,
     NavigateComponent,
     LogoIconComponent,
-    ResumeButtonComponent,
+    HeaderMenuOptionsComponent,
   ],
 })
 export class HeaderComponent {

@@ -1,8 +1,7 @@
 header {
-  width: 100%;
-
-  max-width: 100%;
-  margin-inline: 0px;
+  width: calc(100% - calc(var(--ml-container-margin-mobile) * 2));
+  max-width: calc(100% - calc(var(--ml-container-margin-mobile) * 2));
+  margin-inline: var(--ml-container-margin-mobile);
   display: flex;
   position: fixed;
   z-index: 50;
@@ -18,35 +17,103 @@ header {
 .header-container {
   width: 100%;
   max-width: 100%;
-
   background: transparent;
   display: flex;
-  flex-flow: row nowrap;
+  align-items: center;
+  padding-block: 0px;
+  position: relative;
+}
+
+.header-left,
+.header-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+
+.header-left {
+  justify-content: flex-start;
+}
+
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
+  white-space: nowrap;
+  max-width: none;
+  overflow: visible;
+}
 
-  padding-block: 0px;
+.header-right {
+  justify-content: flex-end;
 }
 .navigation {
   font-weight: 500;
   display: flex;
-  justify-self: center;
+  justify-content: center;
+  align-items: center;
   column-gap: 8px;
+  width: auto;
+  flex-wrap: nowrap;
 }
 
 .navigation > navigate {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
 }
 
-LogoIcon,
-header-resume-button {
-  display: none;
+.nav-link-item {
+  white-space: nowrap;
+  text-align: center;
+  display: inline-block;
+  width: auto;
+}
+
+/* Mobile responsive */
+@media only screen and (max-width: 539px) {
+  .header-container {
+    justify-content: center;
+  }
+
+  .header-center {
+    position: static;
+    transform: none;
+    flex: 1;
+    max-width: 100%;
+    justify-content: flex-start;
+  }
+
+  .header-left {
+    display: none;
+  }
+  .header-right {
+    width: fit-content;
+    flex: none;
+  }
+
+  .navigation {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+/* Estilos responsive para texto de navegación */
+.nav-link-responsive {
+  font-size: 0.9rem;
+  transition: font-size 0.2s ease;
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.2;
 }
 
 navigate::ng-deep router-link::ng-deep a {
-  font-size: 0.9rem;
+  font-size: inherit;
 }
 
 @supports (
@@ -77,33 +144,94 @@ navigate::ng-deep router-link::ng-deep a {
   }
 }
 
-@media only screen and (min-width: 540px) {
-  .navigation {
-    column-gap: 1.85rem;
+@media only screen and (max-width: 540px) {
+  .header-left {
+    display: none;
   }
-  navigate::ng-deep router-link::ng-deep a {
+
+  .header-center {
+    position: static;
+    transform: none;
+    flex: 1;
+    justify-content: flex-start;
+    padding-left: 0;
+  }
+
+  /* .header-right {
+    flex: 0;
+    width: auto;
+  } */
+
+  .header-container {
+    justify-content: space-between;
+  }
+
+  .navigation {
+    column-gap: min(10dvw, 1.85rem);
+    width: auto;
+    justify-content: flex-start;
+  }
+
+  .nav-link-responsive {
     font-size: 1rem;
   }
 }
 
+@media only screen and (min-width: 768px) {
+  .nav-link-responsive {
+    font-size: 1.05rem;
+  }
+}
+
+@media only screen and (min-width: 980px) {
+  .nav-link-responsive {
+    font-size: 1.1rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .nav-link-responsive {
+    font-size: 1.15rem;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .nav-link-responsive {
+    font-size: 1.25rem;
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+  .nav-link-responsive {
+    font-size: 1.35rem;
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  .nav-link-responsive {
+    font-size: 1.5rem;
+  }
+}
+
 @media only screen and (min-width: 720px) {
-  LogoIcon,
-  header-resume-button {
+  .header-right {
     display: flex;
   }
-  .header-container {
-    justify-content: space-between;
-  }
+
   .navigation {
-    column-gap: 0.85rem;
+    column-gap: 1.2rem;
+  }
+}
+
+@media only screen and (min-width: 980px) {
+  header {
+    width: calc(100% - calc(var(--ml-container-margin-desktop) * 2));
+    max-width: calc(100% - calc(var(--ml-container-margin-desktop) * 2));
+    margin-inline: var(--ml-container-margin-desktop);
   }
 }
 
 @media only screen and (min-width: 1080px) {
-  header {
-    max-width: calc(100% - 8cqmax);
-    margin-inline: 4dvw;
-  }
   .navigation {
     column-gap: 2rem;
   }
