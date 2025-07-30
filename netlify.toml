@@ -1,7 +1,11 @@
 [build]
   base = "/"
+  NODE_VERSION = "20.19.0"
   command = "bun run build"
   publish = "dist/portfolio/browser"
+
+[build.environment]
+  NODE_VERSION = "20.19.2"
 
 [[redirects]]
   from = "/*"
