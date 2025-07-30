@@ -5,6 +5,7 @@ import {
   EventEmitter,
   type OnDestroy,
   Output,
+  computed,
   inject,
 } from '@angular/core';
 import {
@@ -13,6 +14,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import type { ContactState } from '@app/models/contactState.model';
+import { I18nService } from '@app/services/i18n.service';
 import { InputFieldComponent } from '@atoms/input-field/input-field.component';
 import { TextAreaFieldComponent } from '@atoms/text-area-field/text-area-field.component';
 import { CONTACT_FORM } from '@constants/appConst';
@@ -31,10 +33,12 @@ import { CONTACT_FORM } from '@constants/appConst';
   ],
 })
 export class ContactFormComponent implements OnDestroy {
-  @Output() public contactState = new EventEmitter<ContactState>();
   private formBuilder = inject(FormBuilder);
+  protected readonly i18nService = inject(I18nService);
+  protected readonly CONTACT_FORM = computed(() => this.i18nService.getConstant('appConst')?.CONTACT_FORM || CONTACT_FORM);
+
+  @Output() public contactState = new EventEmitter<ContactState>();
   protected contactForm = this.createContactForm();
-  protected readonly CONTACT_FORM = CONTACT_FORM;
 
   ngOnDestroy(): void {
     this.contactForm.reset();

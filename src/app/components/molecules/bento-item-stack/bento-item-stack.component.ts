@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { I18nService } from '@app/services/i18n.service';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 import { ABOUT_USER } from '@constants/userConst';
 
@@ -11,5 +12,6 @@ import { ABOUT_USER } from '@constants/userConst';
   imports: [BentoItemComponent],
 })
 export class BentoItemStackComponent {
-  protected readonly STACK_TITLE = ABOUT_USER.stackTitle;
+  protected readonly i18nService = inject(I18nService);
+  protected readonly STACK_TITLE = computed(() => this.i18nService.getConstant('userConst')?.ABOUT_USER?.stackTitle as string);
 }

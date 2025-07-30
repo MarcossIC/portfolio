@@ -5,11 +5,11 @@
   <app-title
     className="text-center"
     [titleID]="titleID"
-    name="About me"
-    sub="Better architecture, easier everything"
+    [name]="ABOUT_TITLE().TITLE_COMPLETE"
+    [sub]="ABOUT_TITLE().SUB"
   >
-    About
-    <span class="bg-ml-text-red bg-clip-text text-transparent">Me</span>
+    {{ ABOUT_TITLE().TITLE[0] }}
+    <span class="bg-ml-text-red bg-clip-text text-transparent">{{ ABOUT_TITLE().TITLE[1] }}</span>
   </app-title>
 
   <bento-about />

@@ -9,7 +9,6 @@ header {
   height: 10dvh;
   min-height: 72px;
   max-height: 120px;
-  overflow: hidden;
   backdrop-filter: blur(20px);
   background: #0f0227;
 }
@@ -43,7 +42,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  /* z-index: 1; */
   white-space: nowrap;
   max-width: none;
   overflow: visible;

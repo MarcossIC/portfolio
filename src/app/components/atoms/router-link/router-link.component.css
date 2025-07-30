@@ -9,9 +9,13 @@ a {
   white-space: nowrap;
   line-height: 1.2;
   vertical-align: baseline;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  animation-duration: 300ms;
 }
 
-a ::ng-deep span {
+/* a ::ng-deep span {
   width: 0px;
   opacity: 0.95;
   outline: none;
@@ -27,4 +31,4 @@ a ::ng-deep span {
 
 a.active-link ::ng-deep span {
   width: 100%;
-}
+} */

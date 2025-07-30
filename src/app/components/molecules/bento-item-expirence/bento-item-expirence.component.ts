@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { UserExperience } from '@app/models/types';
+import { I18nService } from '@app/services/i18n.service';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
-import { ABOUT_USER } from '@constants/userConst';
 import { ExpirenceItemComponent } from '@molecules/expirence-item/expirence-item.component';
 
 @Component({
@@ -12,6 +13,7 @@ import { ExpirenceItemComponent } from '@molecules/expirence-item/expirence-item
   imports: [BentoItemComponent, ExpirenceItemComponent],
 })
 export class BentoItemExpirenceComponent {
-  protected readonly EXPERIENCE_TITLE = ABOUT_USER.experienceTitle;
-  protected readonly EXPIRENCES = ABOUT_USER.experiences;
+  protected readonly i18nService = inject(I18nService);
+  protected readonly EXPERIENCE_TITLE = computed(() => this.i18nService.getConstant('userConst')?.ABOUT_USER?.experienceTitle as string);
+  protected readonly EXPIRENCES = computed(() => this.i18nService.getConstant('userConst')?.ABOUT_USER?.experiences as UserExperience[]);
 }

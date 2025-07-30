@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RectangleProfileComponent } from '@atoms/rectangle-profile/rectangle-profile.component';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 import { PulseElementComponent } from '@atoms/pulse-element/pulse-element.component';
@@ -9,6 +9,7 @@ import { GoodBoyIconComponent } from '@app/components/icons/goodboy/good-boy-ico
 import { CoffeeIconComponent } from '@app/components/icons/coffee/coffee-icon.component';
 import { GlobalIconComponent } from '@app/components/icons/global/global-icon.component';
 import { EducationIconComponent } from '@app/components/icons/education/education-icon.component';
+import { I18nService } from '@app/services/i18n.service';
 import { ABOUT_USER, USER } from '@constants/userConst';
 
 @Component({
@@ -31,6 +32,8 @@ import { ABOUT_USER, USER } from '@constants/userConst';
   ],
 })
 export class BentoItemProfileComponent {
-  protected readonly USER = USER;
-  protected readonly PROFILE = ABOUT_USER.profile;
+  protected readonly i18nService = inject(I18nService);
+  protected readonly USER = computed(() => this.i18nService.getConstant('userConst')?.USER || USER);
+  protected readonly PROFILE = computed(() => this.i18nService.getConstant('userConst')?.ABOUT_USER?.profile || ABOUT_USER.profile);
+  protected readonly PHOTO = ABOUT_USER.profile.photo;
 }

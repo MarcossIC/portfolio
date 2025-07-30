@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { I18nService } from '@app/services/i18n.service';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
-import { USER } from '@constants/userConst';
+import { ABOUT_USER, USER } from '@constants/userConst';
 
 @Component({
   standalone: true,
@@ -11,5 +12,7 @@ import { USER } from '@constants/userConst';
   imports: [BentoItemComponent],
 })
 export class BentoItemGithubComponent {
-  protected readonly GITHUB = USER.gitHub;
+  protected readonly i18nService = inject(I18nService);
+  protected readonly GITHUB = computed(() => this.i18nService.getConstant('userConst')?.USER?.gitHub || USER.gitHub);
+  protected readonly GITHUB_BENTO = computed(() => this.i18nService.getConstant('userConst')?.ABOUT_USER?.githubBento || ABOUT_USER.githubBento);
 }

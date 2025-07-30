@@ -3,12 +3,14 @@ import {
   Component,
   type Renderer2,
   RendererFactory2,
+  computed,
   inject,
 } from '@angular/core';
 import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 import { EmailIconComponent } from '@app/components/icons/email/email-icon.component';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { I18nService } from '@app/services/i18n.service';
 import { ABOUT_USER } from '@constants/userConst';
 
 @Component({
@@ -20,7 +22,8 @@ import { ABOUT_USER } from '@constants/userConst';
   imports: [BentoItemComponent, EmailIconComponent],
 })
 export class BentoItemContactComponent {
-  protected readonly BENTO_CTA = ABOUT_USER.bentoCTA;
+  protected readonly i18nService = inject(I18nService);
+  protected readonly BENTO_CTA = computed(() => this.i18nService.getConstant('userConst')?.ABOUT_USER?.bentoCTA || ABOUT_USER.bentoCTA);
   private router: Router = inject(Router);
   private readonly renderer: Renderer2 = inject(
     RendererFactory2,

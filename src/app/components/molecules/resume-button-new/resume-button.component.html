@@ -1,6 +1,6 @@
-<a class="resume-link" [href]="USER.cv" target="_blank">
-  <span class="resume-text resume-text-full">View resume</span>
-  <span class="resume-text resume-text-short">Resume</span>
+<a class="resume-link" [href]="USER().cv" target="_blank">
+  <span class="resume-text resume-text-full">{{ USER().viewResume }}</span>
+  <span class="resume-text resume-text-short">{{ USER().shortResume }}</span>
   <svg
     class="arrow-icon"
     width="16"

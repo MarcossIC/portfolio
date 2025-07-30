@@ -1,13 +1,13 @@
 <section id="projects">
   <div data-aos="fade-up" data-aos-duration="75">
-    <app-title className="text-center" [titleID]="titleID" [name]="PROJECTS_TITLE.TITLE_COMPLETE">
-      {{ PROJECTS_TITLE.TITLE[0] }}
-      <span class="bg-ml-text-red bg-clip-text text-transparent">{{ PROJECTS_TITLE.TITLE[1] }}</span>
+    <app-title className="text-center" [titleID]="titleID" [name]="PROJECTS_TITLE().TITLE_COMPLETE">
+      {{ PROJECTS_TITLE().TITLE[0] }}
+      <span class="bg-ml-text-red bg-clip-text text-transparent">{{ PROJECTS_TITLE().TITLE[1] }}</span>
     </app-title>
   </div>
 
   <div class="projects">
-    @for(PROJECT of PROJECTS; track PROJECT.ID){
+    @for(PROJECT of PROJECTS(); track PROJECT.ID){
     <article class="project-grid" [ngClass]="'grid-el-' + ($index + 1)">
       <project-article
         [PROJECT]="PROJECT"

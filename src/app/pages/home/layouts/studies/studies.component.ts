@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { TimelineComponent } from '@app/components/organism/timeline/timeline.component';
 import { TitleComponent } from '@app/components/atoms/title/title.component';
+import { I18nService } from '@app/services/i18n.service';
 import { ABOUT_USER } from '@constants/userConst';
 import { STUDIES_TITLE } from '@constants/appConst';
 
@@ -13,7 +14,8 @@ import { STUDIES_TITLE } from '@constants/appConst';
   imports: [TimelineComponent, TitleComponent],
 })
 export class StudiesLayout {
-  protected STUDIES = ABOUT_USER.studies;
-  protected STUDIES_TITLE = STUDIES_TITLE.TITLE;
+  protected readonly i18nService = inject(I18nService);
+  protected readonly STUDIES = computed(() => this.i18nService.getConstant('userConst')?.ABOUT_USER?.studies || ABOUT_USER.studies);
+  protected readonly STUDIES_TITLE = computed(() => this.i18nService.getConstant('appConst')?.STUDIES_TITLE || STUDIES_TITLE);
   protected titleID = 't01agf453';
 }

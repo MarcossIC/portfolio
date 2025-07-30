@@ -6,8 +6,6 @@ export const USER: User = {
   lastname: 'Lopez',
   fullName: 'Marcos Lopez',
   email: 'marcoslopezdev18@gmail.com',
-  viewResume: 'View resume',
-  shortResume: 'Resume',
   motto:
     'I hope to share my journey through the world of IT and that we can work together',
   role: 'Software developer',
@@ -17,9 +15,9 @@ export const USER: User = {
   stackOverflow: 'https://es.stackoverflow.com/users/301174/marcos-lopez',
   downloadCv:
     'https://drive.usercontent.google.com/u/2/uc?id=1fxazKwrFJ91R2-3bIAKGsu4gkfaXB-iJ&export=download',
+  viewResume: 'View resume',
+  shortResume: 'Resume',
 };
-
-
 
 //User data to complete the about bento
 export const ABOUT_USER: BentoUser = {

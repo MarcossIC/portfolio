@@ -1,23 +1,23 @@
 <bento-item id="bento-item-profile" className="bento-col-2 bento-item-3">
   <div class="flex gap-x-[1rem] min-[840px]:gap-x-[1.35rem]">
-    <rectangle-profile [src]="PROFILE.photo" alt="My photo" />
+    <rectangle-profile [src]="PHOTO" alt="My photo" />
     <div class="flex flex-col w-full">
       <div
         class="flex items-start gap-y-3 mb-2 min-[540px]:mb-0 flex-col min-[540px]:flex-row min-[540px]:justify-between min-[540px]:items-center"
       >
         <span class="space-in-text">
           <pulse-element />
-          {{ PROFILE.isAvalaible ? "Available for work" : "Not available" }}
+          {{ PROFILE().isAvalaible ? PROFILE().availableText : PROFILE().notAvailableText }}
         </span>
         <a
-          [href]="USER.downloadCv"
+          [href]="USER().downloadCv"
           target="_blank"
           class="resume-download space-in-text cursor-pointer flex-row-reverse min-[540px]:flex-row pointer"
         >
-          <span>{{ PROFILE.resume }}</span> <DownloadIcon />
+          <span>{{ PROFILE().resume }}</span> <DownloadIcon />
         </a>
       </div>
-      <h2 class="bg-clip-text text-transparent">{{ USER.fullName }}</h2>
+      <h2 class="bg-clip-text text-transparent">{{ USER().fullName }}</h2>
     </div>
     <AstronautIcon />
   </div>
@@ -27,27 +27,27 @@
     <div
       class="chip-style flex flex-row px-3 py-2 gap-x-[.3rem] min-[680px]:gap-x-2"
     >
-      <CountryIcon /> {{ PROFILE.country }}
+      <CountryIcon /> {{ PROFILE().country }}
     </div>
     <div
       class="chip-style flex flex-row px-3 py-2 gap-x-[.3rem] min-[680px]:gap-x-2"
     >
-      <EducationIcon /> {{ PROFILE.qualification }}
+      <EducationIcon /> {{ PROFILE().qualification }}
     </div>
     <div
       class="chip-style flex flex-row px-3 py-2 gap-x-[.3rem] min-[680px]:gap-x-2"
     >
-      <GlobalIcon /> {{ PROFILE.idioms }}
+      <GlobalIcon /> {{ PROFILE().idioms }}
     </div>
     <div
       class="chip-style flex flex-row px-3 py-2 gap-x-[.3rem] min-[680px]:gap-x-2"
     >
-      <GoodBoyIcon /> {{ PROFILE.complement }}
+      <GoodBoyIcon /> {{ PROFILE().complement }}
     </div>
     <div
       class="chip-style flex flex-row px-3 py-2 gap-x-[.3rem] min-[680px]:gap-x-2"
     >
-      <CoffeeIcon /> {{ PROFILE.motto }}
+      <CoffeeIcon /> {{ PROFILE().motto }}
     </div>
   </div>
 </bento-item>

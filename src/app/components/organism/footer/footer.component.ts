@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { LogoIconComponent } from '@icons/logo-icon.component';
 import { CoffeeIconComponent } from '@app/components/icons/coffee/coffee-icon.component';
 import { SocialButtonComponent } from '@molecules/social-button/social-button.component';
@@ -9,6 +9,7 @@ import { LinkedinIconComponent } from '@app/components/icons/linkedin/linkedin-i
 import { GithubIconComponent } from '@app/components/icons/github/github-icon.component';
 import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
 import { FOOTER } from '@constants/appConst';
+import { I18nService } from '@app/services/i18n.service';
 
 @Component({
   standalone: true,
@@ -29,5 +30,6 @@ import { FOOTER } from '@constants/appConst';
   ],
 })
 export class FooterComponent {
-  protected readonly FOOTER = FOOTER;
+  protected readonly i18nService = inject(I18nService);
+  protected readonly FOOTER = computed(() => this.i18nService.getConstant('appConst')?.FOOTER || FOOTER);
 }

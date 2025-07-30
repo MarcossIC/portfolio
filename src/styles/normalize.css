@@ -241,7 +241,7 @@ img {
   overflow: clip;
 }
 
-button {
+/* button {
   font-weight: 600;
   padding-inline: 1rem;
   padding-block: 0.5rem;
@@ -249,7 +249,7 @@ button {
   width: 160px;
   font-size: 1rem;
   border-radius: 1.1rem;
-}
+} */
 
 [hidden],
 template {

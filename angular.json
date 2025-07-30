@@ -34,9 +34,9 @@
               }
             ],
             "styles": [
-              "src/styles/styles.css",
-              "src/styles/normalize.css",
               "src/styles/_vars.css",
+              "src/styles/normalize.css",
+              "src/styles/styles.css",
               "node_modules/aos/dist/aos.css",
               "node_modules/atropos/atropos.min.css"
             ],
@@ -108,9 +108,9 @@
               }
             ],
             "styles": [
-              "src/styles/styles.css",
-              "src/styles/normalize.css",
               "src/styles/_vars.css",
+              "src/styles/normalize.css",
+              "src/styles/styles.css",
               "node_modules/aos/dist/aos.css",
               "node_modules/atropos/atropos.min.css"
             ],
@@ -126,9 +126,9 @@
             "compodocArgs": ["-e", "json", "-d", "."],
             "port": 6006,
             "styles": [
-              "src/styles/styles.css",
-              "src/styles/normalize.css",
               "src/styles/_vars.css",
+              "src/styles/normalize.css",
+              "src/styles/styles.css",
               "node_modules/aos/dist/aos.css",
               "node_modules/atropos/atropos.min.css"
             ]
