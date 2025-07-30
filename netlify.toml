@@ -1,6 +1,6 @@
 [build]
   base = "/"
-  command = "ng build"
+  command = "bun run build"
   publish = "dist/portfolio/browser"
 
 [[redirects]]
