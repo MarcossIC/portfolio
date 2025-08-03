@@ -1,85 +1,6 @@
 <app-header></app-header>
 
-<div className="fixed inset-0 z-0">
-  <!-- <div class="absolute inset-0" [style.background]="currentBackground" [@backgroundAnimation]="animationState"
-    (@backgroundAnimation.done)="onAnimationDone($event)">
-  </div> -->
-  <div class="absolute top-1/2 left-1/2 pointer-events-none will-change-transform" [style]="style()">
-    <div class="relative w-[600px] h-[600px] md:w-[800px] md:h-[800px] lg:w-[1000px] lg:h-[1000px] backface-hidden">
-      <!-- Elementos blob optimizados con mejor compositing -->
-      <!-- Normal motion version -->
-      <div *ngIf="!prefersReducedMotion()" class="liquid-blob blob-1 absolute rounded-full top-0 left-0 w-[400px] h-[400px] will-change-transform"
-           [style.background]="blobLiquidBackground"
-           [@morphAnimation]="morphAnimationState()"></div>
-      <!-- Reduced motion version -->
-      <div *ngIf="prefersReducedMotion()" class="liquid-blob blob-1 absolute rounded-full top-0 left-0 w-[400px] h-[400px] will-change-transform"
-           [style.background]="blobLiquidBackground"
-           [@morphAnimationReduced]="morphAnimationState()"></div>
-      <!-- Normal motion version -->
-      <div *ngIf="!prefersReducedMotion()" class="liquid-blob blob-2 absolute rounded-full top-20 right-20 w-[350px] h-[350px] will-change-transform"
-           [style.background]="blobLiquidBackground"
-           [@morphAnimation]="morphAnimationState()"></div>
-      <!-- Reduced motion version -->
-      <div *ngIf="prefersReducedMotion()" class="liquid-blob blob-2 absolute rounded-full top-20 right-20 w-[350px] h-[350px] will-change-transform"
-           [style.background]="blobLiquidBackground"
-           [@morphAnimationReduced]="morphAnimationState()"></div>
-      <!-- Normal motion version -->
-      <div *ngIf="!prefersReducedMotion()" class="liquid-blob blob-3 absolute rounded-full bottom-10 left-10 w-[300px] h-[300px] will-change-transform"
-           [style.background]="blobLiquidBackground"
-           [@morphAnimation]="morphAnimationState()"></div>
-      <!-- Reduced motion version -->
-      <div *ngIf="prefersReducedMotion()" class="liquid-blob blob-3 absolute rounded-full bottom-10 left-10 w-[300px] h-[300px] will-change-transform"
-           [style.background]="blobLiquidBackground"
-           [@morphAnimationReduced]="morphAnimationState()"></div>
-      <!-- Normal motion version -->
-      <div *ngIf="!prefersReducedMotion()" class="liquid-blob blob-4 absolute rounded-full bottom-20 right-0 w-[250px] h-[250px] will-change-transform"
-           [style.background]="blobLiquidBackground"
-           [@morphAnimation]="morphAnimationState()"></div>
-      <!-- Reduced motion version -->
-      <div *ngIf="prefersReducedMotion()" class="liquid-blob blob-4 absolute rounded-full bottom-20 right-0 w-[250px] h-[250px] will-change-transform"
-           [style.background]="blobLiquidBackground"
-           [@morphAnimationReduced]="morphAnimationState()"></div>
-
-      <!-- Normal motion version -->
-      <div *ngIf="!prefersReducedMotion()" class="central-blob absolute top-1/2 left-1/2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] -translate-x-[50%] -translate-y-[50%] will-change-transform"
-           [style.background]="centralBackground"
-           [@centralMorphAnimation]="blobAnimationState()"></div>
-      <!-- Reduced motion version -->
-      <div *ngIf="prefersReducedMotion()" class="central-blob absolute top-1/2 left-1/2 w-[200px] h-[200px] md:w-[300px] md:h-[300px] -translate-x-[50%] -translate-y-[50%] will-change-transform"
-           [style.background]="centralBackground"
-           [@centralMorphAnimationReduced]="blobAnimationState()"></div>
-    </div>
-  </div>
-
-  <!-- <motion.div
-  className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-l from-blue-500/8 to-purple-500/8 rounded-full blur-3xl"
-  style={{
-    y: backgroundY,
-    opacity: liquidOpacity,
-  }}
-  animate={{
-    scale: [1, 0.9, 1],
-    x: [0, -25, 0],
-    y: [0, 25, 0],
-  }}
-  transition={{
-    duration: 10,
-    repeat: Number.POSITIVE_INFINITY,
-    ease: "easeInOut",
-    delay: 2,
-  }}
-/> -->
-<!-- Normal motion version -->
-<div *ngIf="!prefersReducedMotion()" class="floating-orb absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-full blur-3xl" [@animateFloatingOrbLarge]="floatingOrbAnimationStateLarge()" [style]="floatingOrbStyle()"></div>
-<!-- Reduced motion version -->
-<div *ngIf="prefersReducedMotion()" class="floating-orb absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-full blur-3xl" [@animateFloatingOrbLargeReduced]="floatingOrbAnimationStateLarge()" [style]="floatingOrbStyle()"></div>
-<!-- Normal motion version -->
-<div *ngIf="!prefersReducedMotion()" class="floating-orb absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-l from-blue-500/8 to-purple-500/8 rounded-full blur-3xl" [@animateFloatingOrb]="floatingOrbAnimationState()" [style]="floatingOrbStyle()"></div>
-<!-- Reduced motion version -->
-<div *ngIf="prefersReducedMotion()" class="floating-orb absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-l from-blue-500/8 to-purple-500/8 rounded-full blur-3xl" [@animateFloatingOrbReduced]="floatingOrbAnimationState()" [style]="floatingOrbStyle()"></div>
-</div>
-
-
+<animation-module></animation-module>
 
 <div class="site-container z-10 relative">
   <main class="main">
@@ -95,11 +16,3 @@
 </footer>
 
 <app-toast />
-<div
-  #followerElement
-  class="follower-element fixed w-96 h-96 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none transition-all duration-300 ease-out top-0 left-0"
-  [style]="followerPosition()"
-></div>
-<!-- <div
-  #followerElement
-></div> -->
