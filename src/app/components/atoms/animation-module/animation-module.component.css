@@ -88,7 +88,7 @@
 }
 
 /* Optimización para pantallas de alta densidad */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+@media (min-resolution: 2dppx), (min-resolution: 192dpi) {
   .liquid-blob,
   .central-blob {
     filter: blur(35px);

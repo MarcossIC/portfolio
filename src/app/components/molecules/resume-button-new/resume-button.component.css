@@ -41,6 +41,15 @@
 
 /* Responsive design progresivo */
 
+@media (max-width: 1100px) {
+  .resume-text-full {
+    display: none;
+  }
+  .resume-text-short {
+    display: inline-block;
+  }
+}
+
 /* Pantallas grandes - reducir tamaño */
 @media (max-width: 1400px) {
   .resume-link {

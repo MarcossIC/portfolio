@@ -3,6 +3,7 @@ import {
   type AfterViewInit,
   Component,
   DestroyRef,
+  ElementRef,
   HostListener,
   OnInit,
   PLATFORM_ID,
@@ -530,7 +531,7 @@ export class AnimationModuleComponent implements AfterViewInit {
     },
   };
 
-  public readonly followerElement = viewChild<any>('followerElement');
+  public readonly followerElement = viewChild.required<ElementRef<HTMLDivElement>>('followerElement');
   protected mousePosition = signal(this.ANIMATION_CONFIG.mouse.initialPosition);
   protected mousePositionPercentage = signal({ x: 0, y: 0 });
   protected elementSize = signal({ width: 0, height: 0 });
@@ -584,16 +585,23 @@ export class AnimationModuleComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platform)) {
-      this.document.onreadystatechange = function () {
-        if (document.readyState == 'complete') {
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        AOS.init({
+          once: true,
+          startEvent: 'DOMContentLoaded',
+          easing: 'ease',
+        });
+        AOS.refresh();
+      } else {
+        this.document.addEventListener('DOMContentLoaded', () => {
           AOS.init({
             once: true,
             startEvent: 'DOMContentLoaded',
             easing: 'ease',
           });
           AOS.refresh();
-        }
-      };
+        }, { once: true });
+      }
     }
   }
 
@@ -800,8 +808,18 @@ export class AnimationModuleComponent implements AfterViewInit {
   private startInfiniteAnimation() {
     // Usar un enfoque más performante con timeouts para animaciones
     const scheduleAnimation = (callback: () => void, delay: number) => {
-      const timeoutId = setTimeout(callback, delay);
-      this.destroyRef.onDestroy(() => clearTimeout(timeoutId));
+      let animationFrameId: number;
+      const timeoutId = setTimeout(()=> {
+        animationFrameId = requestAnimationFrame(callback)
+      }, delay);
+      this.destroyRef.onDestroy(() => {
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+      });
     };
 
     // Función recursiva para animaciones infinitas más eficiente
