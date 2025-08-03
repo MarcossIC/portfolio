@@ -3,6 +3,8 @@
   flex-direction: column;
   min-height: 100dvh;
   margin-inline: var(--ml-container-margin-mobile);
+  /* Isolation para prevenir reflows */
+  isolation: isolate;
 
   @media only screen and (min-width: 980px) {
     & {
@@ -29,4 +31,67 @@
 app-toast {
   z-index: 99;
   position: fixed;
+}
+
+/* Optimizaciones de performance para animaciones */
+.liquid-blob {
+  filter: blur(40px);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  /* Forzar compositing layer para mejor performance */
+  will-change: transform, border-radius;
+  /* Usar GPU acelerada */
+  transform: translateZ(0);
+}
+
+.central-blob {
+  filter: blur(60px);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Optimización para elementos flotantes */
+.floating-orb {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Contenedor principal optimizado */
+.backface-hidden {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Optimizaciones para el elemento follower */
+.follower-element {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  /* Reducir repaints usando contain */
+  contain: layout style paint;
+  z-index: 110;
+}
+
+/* Mejoras de performance para contenedores aplicadas arriba en .site-container */
+
+/* Media queries para reducir animaciones en dispositivos de bajo rendimiento */
+@media (prefers-reduced-motion: reduce) {
+  .liquid-blob,
+  .central-blob,
+  .floating-orb {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Optimización para pantallas de alta densidad */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .liquid-blob,
+  .central-blob {
+    /* Reducir blur en pantallas HiDPI para mejor performance */
+    filter: blur(35px);
+  }
 }

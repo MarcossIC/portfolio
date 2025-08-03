@@ -1,4 +1,4 @@
-section {
+/* section {
   border-image: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 15%,
@@ -21,7 +21,9 @@ section {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+} */
 
+section {
   margin-block-start: 1rem;
   border-radius: 10px;
   padding-block-start: 19dvh;

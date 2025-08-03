@@ -2,14 +2,11 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { LogoIconComponent } from '@icons/logo-icon.component';
 import { CoffeeIconComponent } from '@app/components/icons/coffee/coffee-icon.component';
-import { SocialButtonComponent } from '@molecules/social-button/social-button.component';
-import { CvIconComponent } from '@app/components/icons/cv/cv-icon.component';
-import { GmailIconComponent } from '@app/components/icons/gmail/gmail-icon.component';
-import { LinkedinIconComponent } from '@app/components/icons/linkedin/linkedin-icon.component';
-import { GithubIconComponent } from '@app/components/icons/github/github-icon.component';
 import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
 import { FOOTER } from '@constants/appConst';
 import { I18nService } from '@app/services/i18n.service';
+import { type NavigationConfig } from '@app/services/NavigationService.service';
+import { SocialButtonComponent } from '@app/components/core/social-button/social-button.component';
 
 @Component({
   standalone: true,
@@ -23,13 +20,19 @@ import { I18nService } from '@app/services/i18n.service';
     RouterLinkComponent,
     CoffeeIconComponent,
     SocialButtonComponent,
-    CvIconComponent,
-    GmailIconComponent,
-    LinkedinIconComponent,
-    GithubIconComponent,
   ],
 })
 export class FooterComponent {
   protected readonly i18nService = inject(I18nService);
   protected readonly FOOTER = computed(() => this.i18nService.getConstant('appConst')?.FOOTER || FOOTER);
+
+  /**
+   * Configuración personalizada para la navegación del footer
+   * Incluye un offset para compensar posibles headers fijos
+   */
+  protected readonly footerNavigationConfig: NavigationConfig = {
+    duration: 1000, // Navegación un poco más lenta para mejor UX desde el footer
+    offset: 20, // Pequeño offset para mejor posicionamiento visual
+    fallbackBehavior: 'fallback'
+  };
 }

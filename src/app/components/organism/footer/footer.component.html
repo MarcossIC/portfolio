@@ -30,7 +30,10 @@
         <ul class="flex flex-col gap-y-1 mt-2" role="list">
           @for (link of FOOTER().NAVIGATION.LINKS; track link.ID) {
             <li role="listitem" [attr.aria-label]="link.ARIA_LABEL">
-              <router-link [fragment]="link.FRAGMENT" classNames="foot-navigation">
+              <router-link
+                [fragment]="link.FRAGMENT"
+                classNames="foot-navigation"
+                [navigationConfig]="footerNavigationConfig">
                 {{ link.LABEL }}
               </router-link>
             </li>
@@ -105,7 +108,7 @@
       <div
         class="flex flex-row gap-x-5 justify-center items-center relative mx-auto"
       >
-        <social-button
+        <!-- <social-button
           [socialUri]="FOOTER().SOCIAL.LINKEDIN.URL"
           [title]="FOOTER().SOCIAL.LINKEDIN.TITLE"
           [className]="FOOTER().SOCIAL.LINKEDIN.CLASS"
@@ -135,7 +138,34 @@
           [title]="FOOTER().SOCIAL.CV.TITLE"
         >
           <CvIcon />
-        </social-button>
+        </social-button> -->
+        <social-button
+          [to]="FOOTER().SOCIAL.LINKEDIN.URL"
+          [rel]="true"
+          icon="linkedin"
+          title="Visit Github profile"
+        ></social-button>
+
+        <social-button
+          [to]="FOOTER().SOCIAL.GITHUB.URL"
+          [rel]="true"
+          icon="github"
+          title="Visit Github profile"
+        ></social-button>
+
+        <social-button
+          [to]="FOOTER().SOCIAL.GMAIL.URL"
+          [rel]="true"
+          icon="gmail"
+          title="Send mail"
+        ></social-button>
+
+        <social-button
+          [to]="FOOTER().SOCIAL.CV.URL"
+          [rel]="true"
+          icon="cv"
+          title="Download CV"
+        ></social-button>
       </div>
     </div>
   </div>

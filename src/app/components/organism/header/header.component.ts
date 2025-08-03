@@ -6,6 +6,7 @@ import { LogoIconComponent } from '@app/components/icons/logo-icon.component';
 import { HeaderMenuOptionsComponent } from '@app/components/organism/header-menu-options/header-menu-options.component';
 import { I18nService } from '@app/services/i18n.service';
 import { LinksHeaderArray } from '@app/models/types';
+import { ScrollProgressService } from '@app/services/ScrollProgressService.service';
 
 @Component({
   standalone: true,
@@ -46,11 +47,13 @@ import { LinksHeaderArray } from '@app/models/types';
   ],
 })
 export class HeaderComponent {
+  private readonly scrollService = inject(ScrollProgressService);
   private readonly scroller = inject(ViewportScroller);
   protected readonly i18nService = inject(I18nService);
-  protected readonly NAVIGATIONS = computed(() => this.i18nService.getConstant('appConst')?.HEADER as LinksHeaderArray);
+  protected readonly NAVIGATIONS = computed(() => this.i18nService.getConstant('appConst')?.HEADER || HEADER);
 
   protected scrollToTop() {
-    this.scroller.scrollToAnchor('hero');
+    // this.scroller.scrollToAnchor('hero');
+    this.scrollService.scrollTo(0);
   }
 }

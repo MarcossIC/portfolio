@@ -4,6 +4,7 @@ import {
   provideRouter,
   withPreloading,
 } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routing';
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -16,5 +17,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),
+    provideAnimations(),
   ],
 };

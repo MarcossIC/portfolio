@@ -2,6 +2,7 @@ footer {
   width: 100%;
   position: relative;
   background: #1b004e;
+  z-index: 100;
 }
 
 footer ::ng-deep .logo {

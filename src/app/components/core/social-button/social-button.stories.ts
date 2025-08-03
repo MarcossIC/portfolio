@@ -49,7 +49,7 @@ export const WithLinearGradient: Story = {
   args: {
     to: 'some',
     rel: true,
-    icon: 'linear-gradient(#f0f0f0, #f0f0f0)',
+    icon: 'github',
     title: 'Without icon',
   },
 };
