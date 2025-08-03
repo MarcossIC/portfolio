@@ -24,7 +24,7 @@ import { AtroposDirective } from '@lib/directives/AtroposDirective.directive';
 export class ProjectArticleImgComponent {
   private readonly platform = inject(PLATFORM_ID);
   protected readonly i18nService = inject(I18nService);
-  protected readonly TOOLTIP = computed(() => this.i18nService.getConstant('appConst')?.PROJECTS_TITLE.TOOLTIP || PROJECTS_TITLE);
+  protected readonly TOOLTIP = computed(() => this.i18nService.getConstant('appConst')?.PROJECTS_TITLE.TOOLTIP || PROJECTS_TITLE.TOOLTIP);
 
   public containerRef = viewChild.required<ElementRef>('projectImg');
   public REPO = input.required<string>();
