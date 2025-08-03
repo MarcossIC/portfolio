@@ -20,7 +20,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Observable } from 'rxjs';
+import { fromEvent, Observable, throttleTime } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TransformService } from '@app/services/TransformService.service';
 import { ScrollProgressService } from '@app/services/ScrollProgressService.service';
@@ -526,6 +526,7 @@ export class AnimationModuleComponent implements AfterViewInit {
     mouse: {
       exitOffset: 400,
       initialPosition: { x: -400, y: -400 },
+      throttleMs: 16,
     },
   };
 
@@ -577,6 +578,7 @@ export class AnimationModuleComponent implements AfterViewInit {
       this.initializeScrollObservables();
       this.initializeTransformations();
       this.startInfiniteAnimation();
+      this.setupPointerEventListeners();
     });
   }
 
@@ -593,6 +595,33 @@ export class AnimationModuleComponent implements AfterViewInit {
         }
       };
     }
+  }
+
+  private setupPointerEventListeners(): void {
+    if (!isPlatformBrowser(this.platform)) {
+      return;
+    }
+
+    // Throttled pointer move events (~60fps)
+    fromEvent<PointerEvent>(this.document, 'pointermove')
+      .pipe(
+        throttleTime(this.ANIMATION_CONFIG.mouse.throttleMs, undefined, {
+          leading: true,
+          trailing: true
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((event) => this.onMouseMove(event));
+
+    // Pointer leave events (no throttling needed)
+    fromEvent<PointerEvent>(this.document, 'pointerleave')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => this.onMouseLeave(event));
+
+    // Pointer enter events (no throttling needed)
+    fromEvent<PointerEvent>(this.document, 'pointerenter')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => this.onMouseEnter(event));
   }
 
   /**
@@ -659,7 +688,6 @@ export class AnimationModuleComponent implements AfterViewInit {
       });
   }
 
-  @HostListener('document:pointermove', ['$event'])
   onMouseMove(evt: PointerEvent) {
     // const { left, top } = this.document.documentElement.getBoundingClientRect();
     // const [x, y] = this.getFixedCoords([evt.pageX - left , evt.pageY - top ]);
@@ -670,13 +698,12 @@ export class AnimationModuleComponent implements AfterViewInit {
     });
     this.setMousePositionPercentage(evt);
   }
-  @HostListener('document:pointerleave', ['$event'])
+
   onMouseLeave(event: PointerEvent) {
     const exitPosition = this.getExitPosition();
     this.mousePosition.set(exitPosition);
   }
 
-  @HostListener('document:pointerenter', ['$event'])
   onMouseEnter(evt: PointerEvent) {
     // const [x, y] = this.getFixedCoords([evt.pageX - left , evt.pageY - top ]);
     const [x, y] = this.getFixedCoords([evt.clientX, evt.clientY]);

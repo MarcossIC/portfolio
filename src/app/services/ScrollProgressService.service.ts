@@ -17,6 +17,7 @@ import {
   observeOn,
   shareReplay,
   startWith,
+  Subscription,
 } from 'rxjs';
 
 /**
@@ -64,6 +65,7 @@ export class ScrollProgressService implements OnDestroy {
   private animationFrame: number | null = null;
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
+  private springAnimationSubscription: Subscription | null = null;
 
   // Configuración del spring (similar a Framer Motion)
   private defaultSpringConfig: SpringConfig = {
@@ -131,9 +133,10 @@ export class ScrollProgressService implements OnDestroy {
     if (!this.scrollYProgress$.observed) {
       this.startScrollListener();
     }
+    this.springAnimationSubscription?.unsubscribe();
 
     // Suscribirse a los cambios del scroll para actualizar el target
-    this.scrollYProgress$
+    this.springAnimationSubscription = this.scrollYProgress$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((progress) => {
         this.targetValue = progress;
