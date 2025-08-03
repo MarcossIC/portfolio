@@ -204,7 +204,12 @@ export class ScrollProgressService implements OnDestroy {
     let lastTime = performance.now();
 
     const animate = (currentTime: number) => {
-      const deltaTime = Math.min((currentTime - lastTime) / 1000, 0.016); // Max 60fps
+      const rawDeltaTime = (currentTime - lastTime) / 1000;
+
+      // Apply adaptive clamping based on expected refresh rate
+      // Allow for up to 240Hz (4.17ms) but cap at reasonable maximum for stability
+      const deltaTime = Math.min(Math.max(rawDeltaTime, 0.001), 0.033);
+      // const deltaTime = Math.min((currentTime - lastTime) / 1000, 0.016); // Max 60fps
       lastTime = currentTime;
 
       const displacement = this.targetValue - this.currentValue;
@@ -235,11 +240,14 @@ export class ScrollProgressService implements OnDestroy {
 
       // Clamp para evitar valores fuera de rango
       this.currentValue = Math.max(0, Math.min(1, this.currentValue));
+      // Scale rest criteria based on deltaTime for consistent behavior across refresh rates
+      const restDeltaThreshold = config.restDelta * (deltaTime / 0.016); // Normalize to 60fps baseline
+      const velocityThreshold = config.restDelta * 5 * (deltaTime / 0.016);
 
       // Verificar si la animación debe continuar (criterio más preciso)
       const isAtRest =
-        Math.abs(displacement) < config.restDelta &&
-        Math.abs(this.velocity) < config.restDelta * 5;
+      Math.abs(displacement) < restDeltaThreshold &&
+      Math.abs(this.velocity) < velocityThreshold;
 
       this.smoothScrollYProgress$.next(this.currentValue);
 
@@ -297,5 +305,7 @@ export class ScrollProgressService implements OnDestroy {
       this.animationFrame = null;
     }
     this.isAnimating = false;
+    this.scrollYProgress$.complete();
+    this.smoothScrollYProgress$.complete();
   }
 }
