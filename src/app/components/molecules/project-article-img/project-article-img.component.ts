@@ -3,11 +3,14 @@ import {
   Component,
   type ElementRef,
   PLATFORM_ID,
+  computed,
   inject,
   input,
   viewChild,
 } from '@angular/core';
 import { ToolTipComponent } from '@app/components/atoms/tool-tip/tool-tip.component';
+import { I18nService } from '@app/services/i18n.service';
+import { PROJECTS_TITLE } from '@constants/appConst';
 import { AtroposDirective } from '@lib/directives/AtroposDirective.directive';
 
 @Component({
@@ -20,6 +23,9 @@ import { AtroposDirective } from '@lib/directives/AtroposDirective.directive';
 })
 export class ProjectArticleImgComponent {
   private readonly platform = inject(PLATFORM_ID);
+  protected readonly i18nService = inject(I18nService);
+  protected readonly TOOLTIP = computed(() => this.i18nService.getConstant('appConst')?.PROJECTS_TITLE.TOOLTIP || PROJECTS_TITLE);
+
   public containerRef = viewChild.required<ElementRef>('projectImg');
   public REPO = input.required<string>();
   public SRC = input.required<string>();

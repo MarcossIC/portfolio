@@ -13,6 +13,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+// Note: Using native browser API instead of @angular/cdk/a11y to avoid additional dependency
 import { RouterOutlet } from '@angular/router';
 import * as AOS from 'aos';
 import { FooterComponent } from '@organism/footer/footer.component';
@@ -62,6 +63,24 @@ import { ScrollProgressService } from '@app/services/ScrollProgressService.servi
             style({ backgroundPosition: '0% 0%', offset: 0 }),
             style({ backgroundPosition: '100% 100%', offset: 0.5 }),
             style({ backgroundPosition: '0% 0%', offset: 1 }),
+          ])
+        ),
+      ]),
+    ]),
+    // Reduced motion version of background animation
+    trigger('backgroundAnimationReduced', [
+      state(
+        'active',
+        style({
+          backgroundPosition: '0% 0%',
+        })
+      ),
+      transition('* => active', [
+        animate(
+          '1s ease-in-out',
+          keyframes([
+            style({ backgroundPosition: '0% 0%', offset: 0 }),
+            style({ backgroundPosition: '0% 0%', offset: 1 }), // No movement for reduced motion
           ])
         ),
       ]),
@@ -156,6 +175,57 @@ import { ScrollProgressService } from '@app/services/ScrollProgressService.servi
         ),
       ]),
     ]),
+    // Reduced motion version of morph animation
+    trigger('morphAnimationReduced', [
+      state(
+        'active1',
+        style({
+          transform: 'scale(1) rotate(0deg)',
+          borderRadius: '50%',
+        })
+      ),
+      state(
+        'active2',
+        style({
+          transform: 'scale(1) rotate(0deg)',
+          borderRadius: '50%',
+        })
+      ),
+      transition('* => active1', [
+        animate(
+          '1s ease-in-out',
+          keyframes([
+            style({
+              transform: 'scale(1) rotate(0deg)',
+              borderRadius: '50%',
+              offset: 0,
+            }),
+            style({
+              transform: 'scale(1) rotate(0deg)', // No rotation for reduced motion
+              borderRadius: '50%',               // No shape change
+              offset: 1,
+            }),
+          ])
+        ),
+      ]),
+      transition('* => active2', [
+        animate(
+          '1s ease-in-out',
+          keyframes([
+            style({
+              transform: 'scale(1) rotate(0deg)',
+              borderRadius: '50%',
+              offset: 0,
+            }),
+            style({
+              transform: 'scale(1) rotate(0deg)', // No rotation for reduced motion
+              borderRadius: '50%',               // No shape change
+              offset: 1,
+            }),
+          ])
+        ),
+      ]),
+    ]),
     trigger('centralMorphAnimation', [
       state(
         'active',
@@ -185,6 +255,30 @@ import { ScrollProgressService } from '@app/services/ScrollProgressService.servi
             // Keyframe 100% - Vuelta al estado inicial
             style({
               transform: 'scale(1) rotate(0deg)',
+              offset: 1,
+            }),
+          ])
+        ),
+      ]),
+    ]),
+    // Reduced motion version of central morph animation
+    trigger('centralMorphAnimationReduced', [
+      state(
+        'active',
+        style({
+          transform: 'scale(1) rotate(0deg)',
+        })
+      ),
+      transition('* => active', [
+        animate(
+          '1s ease-in-out',
+          keyframes([
+            style({
+              transform: 'scale(1) rotate(0deg)',
+              offset: 0,
+            }),
+            style({
+              transform: 'scale(1) rotate(0deg)', // No scaling or rotation for reduced motion
               offset: 1,
             }),
           ])
@@ -243,6 +337,51 @@ import { ScrollProgressService } from '@app/services/ScrollProgressService.servi
         ),
       ]),
     ]),
+    // Reduced motion version of floating orb animation
+    trigger('animateFloatingOrbReduced', [
+      state(
+        'active1',
+        style({
+          transform: 'scale(1) translateX(0px) translateY(0px)',
+        })
+      ),
+      state(
+        'active2',
+        style({
+          transform: 'scale(1) translateX(0px) translateY(0px)',
+        })
+      ),
+      transition('* => active1', [
+        animate(
+          '0.5s ease-in-out',
+          keyframes([
+            style({
+              transform: 'scale(1) translateX(0px) translateY(0px)',
+              offset: 0,
+            }),
+            style({
+              transform: 'scale(1) translateX(0px) translateY(0px)', // No movement for reduced motion
+              offset: 1,
+            }),
+          ])
+        ),
+      ]),
+      transition('* => active2', [
+        animate(
+          '0.5s ease-in-out',
+          keyframes([
+            style({
+              transform: 'scale(1) translateX(0px) translateY(0px)',
+              offset: 0,
+            }),
+            style({
+              transform: 'scale(1) translateX(0px) translateY(0px)', // No movement for reduced motion
+              offset: 1,
+            }),
+          ])
+        ),
+      ]),
+    ]),
     trigger('animateFloatingOrbLarge', [
       state(
         'active1',
@@ -295,6 +434,51 @@ import { ScrollProgressService } from '@app/services/ScrollProgressService.servi
         ),
       ]),
     ]),
+    // Reduced motion version of large floating orb animation
+    trigger('animateFloatingOrbLargeReduced', [
+      state(
+        'active1',
+        style({
+          transform: 'scale(1) translateX(0px) translateY(0px)',
+        })
+      ),
+      state(
+        'active2',
+        style({
+          transform: 'scale(1) translateX(0px) translateY(0px)',
+        })
+      ),
+      transition('* => active1', [
+        animate(
+          '0.5s ease-in-out',
+          keyframes([
+            style({
+              transform: 'scale(1) translateX(0px) translateY(0px)',
+              offset: 0,
+            }),
+            style({
+              transform: 'scale(1) translateX(0px) translateY(0px)', // No movement for reduced motion
+              offset: 1,
+            }),
+          ])
+        ),
+      ]),
+      transition('* => active2', [
+        animate(
+          '0.5s ease-in-out',
+          keyframes([
+            style({
+              transform: 'scale(1) translateX(0px) translateY(0px)',
+              offset: 0,
+            }),
+            style({
+              transform: 'scale(1) translateX(0px) translateY(0px)', // No movement for reduced motion
+              offset: 1,
+            }),
+          ])
+        ),
+      ]),
+    ]),
   ],
 })
 export class AppComponent implements AfterViewInit, OnInit {
@@ -305,6 +489,26 @@ export class AppComponent implements AfterViewInit, OnInit {
   private readonly scrollService = inject(ScrollProgressService);
   private readonly transformService = inject(TransformService);
 
+  // Accessibility: Track user's motion preference
+  protected readonly prefersReducedMotion = signal(false);
+
+  // Accessibility: Computed animation trigger names based on motion preference
+  protected readonly backgroundAnimationTrigger = computed(() =>
+    this.prefersReducedMotion() ? 'backgroundAnimationReduced' : 'backgroundAnimation'
+  );
+  protected readonly morphAnimationTrigger = computed(() =>
+    this.prefersReducedMotion() ? 'morphAnimationReduced' : 'morphAnimation'
+  );
+  protected readonly centralMorphAnimationTrigger = computed(() =>
+    this.prefersReducedMotion() ? 'centralMorphAnimationReduced' : 'centralMorphAnimation'
+  );
+  protected readonly floatingOrbAnimationTrigger = computed(() =>
+    this.prefersReducedMotion() ? 'animateFloatingOrbReduced' : 'animateFloatingOrb'
+  );
+  protected readonly floatingOrbLargeAnimationTrigger = computed(() =>
+    this.prefersReducedMotion() ? 'animateFloatingOrbLargeReduced' : 'animateFloatingOrbLarge'
+  );
+
   // Configuración de animaciones centralizadas
   private readonly ANIMATION_CONFIG = {
     durations: {
@@ -313,6 +517,14 @@ export class AppComponent implements AfterViewInit, OnInit {
       floatingOrb: 12000,
       floatingOrbLarge: 8000,
       initialDelay: 100,
+    },
+    // Accessibility: Reduced motion durations (significantly shorter or static)
+    reducedMotionDurations: {
+      blob: 1000,        // Much shorter duration
+      morph: 1000,       // Much shorter duration
+      floatingOrb: 500,  // Much shorter duration
+      floatingOrbLarge: 500, // Much shorter duration
+      initialDelay: 0,   // No delay for reduced motion
     },
     spring: {
       stiffness: 400,
@@ -375,7 +587,9 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   constructor() {
     this.i18nService.initializeLanguage();
+
     afterNextRender(() => {
+      this.setupMotionPreferenceDetection();
       this.updateCenteredPosition();
       this.scrollService.startScrollListener();
       this.scrollService.startSpringAnimation();
@@ -389,6 +603,37 @@ export class AppComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     // this.initializeScrollObservables();
     // this.initializeTransformations();
+  }
+
+    /**
+   * Sets up reactive detection for user's motion preferences using native browser API
+   * Updates the prefersReducedMotion signal when the preference changes
+   */
+  private setupMotionPreferenceDetection(): void {
+    if (!isPlatformBrowser(this.platform)) {
+      return;
+    }
+
+    // Use native browser API instead of Angular CDK
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      // Set initial value
+      this.prefersReducedMotion.set(mediaQuery.matches);
+
+      // Listen for changes
+      const listener = (event: MediaQueryListEvent) => {
+        this.prefersReducedMotion.set(event.matches);
+      };
+
+      mediaQuery.addEventListener('change', listener);
+
+      // Cleanup listener on destroy
+      this.destroyRef.onDestroy(() => {
+        mediaQuery.removeEventListener('change', listener);
+      });
+    }
+    console.log(this.prefersReducedMotion());
   }
 
   ngAfterViewInit(): void {
@@ -576,37 +821,44 @@ export class AppComponent implements AfterViewInit, OnInit {
       }
     };
 
+    // Accessibility: Choose durations based on motion preference
+    const getCurrentDurations = () => {
+      return this.prefersReducedMotion()
+        ? this.ANIMATION_CONFIG.reducedMotionDurations
+        : this.ANIMATION_CONFIG.durations;
+    };
+
     // Iniciar la primera animación después de un pequeño delay
     scheduleAnimation(() => {
       this.morphAnimationState.set('active1');
       this.floatingOrbAnimationState.set('active1');
       this.floatingOrbAnimationStateLarge.set('active1');
-    }, this.ANIMATION_CONFIG.durations.initialDelay);
+    }, getCurrentDurations().initialDelay);
 
     // Animaciones infinitas optimizadas usando configuración centralizada
     createInfiniteAnimation(() => {
       this.blobAnimationState.update((state) =>
         state === 'active' ? 'inactive' : 'active'
       );
-    }, this.ANIMATION_CONFIG.durations.blob);
+    }, getCurrentDurations().blob);
 
     createInfiniteAnimation(() => {
       this.morphAnimationState.update((state) =>
         state === 'active1' ? 'active2' : 'active1'
       );
-    }, this.ANIMATION_CONFIG.durations.morph);
+    }, getCurrentDurations().morph);
 
     createInfiniteAnimation(() => {
       this.floatingOrbAnimationState.update((state) =>
         state === 'active1' ? 'active2' : 'active1'
       );
-    }, this.ANIMATION_CONFIG.durations.floatingOrb);
+    }, getCurrentDurations().floatingOrb);
 
     createInfiniteAnimation(() => {
       this.floatingOrbAnimationStateLarge.update((state) =>
         state === 'active1' ? 'active2' : 'active1'
       );
-    }, this.ANIMATION_CONFIG.durations.floatingOrbLarge);
+    }, getCurrentDurations().floatingOrbLarge);
   }
 
   get blobLiquidBackground(): string {

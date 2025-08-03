@@ -34,7 +34,8 @@ export const PROJECTS_V2: Projects = combineProjectsWithTranslations(PROJECTS_TR
 
 export const PROJECTS_TITLE = {
   TITLE_COMPLETE: 'Some projects',
-  TITLE: ['Some', 'Projects']
+  TITLE: ['Some', 'Projects'],
+  TOOLTIP: 'Go to repository'
 };
 
 export const STUDIES_TITLE = {
