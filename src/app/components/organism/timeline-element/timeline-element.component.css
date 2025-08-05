@@ -1,164 +1,389 @@
-.time-element-container {
-  padding: 10px 50px;
+/* Timeline Item Container */
+.timeline-item {
+  --item-offset: 33px;
+  --item-offset-right: calc(var(--item-offset) * -1);
+  --item-offset-position: 0%;
   position: relative;
-  margin-bottom: 40px;
-  width: 100%;
-  padding-left: 65px;
-  padding-right: 13px;
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  list-style: none;
+  opacity: 0;
+  animation: slideInLeft 0.8s ease-out forwards;
+  left: var(--item-offset-position);
 }
 
-.text-box {
-  padding: 20px 20px;
-  background: linear-gradient(
-    162deg,
-    rgba(40, 8, 94, 1) 40%,
-    rgba(20, 0, 48, 1) 91%
-  );
+.timeline-item--right {
+  transform: translateX(-10px);
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Timeline Node */
+.timeline-node {
   position: relative;
-  border-radius: 6px;
-  font-size: 15px;
-  top: -36px;
-}
-
-.left-container {
-  left: 0;
-}
-
-.right-container {
-  left: 0px;
-}
-
-.time-element-container svg {
-  position: absolute;
-  width: 75px;
-  height: 75px;
-  right: -38px;
-  top: -8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   z-index: 10;
 }
 
-.left-container svg,
-.right-container svg {
-  left: -7px;
+.timeline-node__circle {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  backdrop-filter: blur(20px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  animation: nodeAppear 0.6s ease-out 0.2s forwards;
+  transform: scale(0) rotate(-180deg);
 }
 
-.left-container-arrow,
-.right-container-arrow {
-  border-right: 15px solid #28085e;
-  border-left: 0;
-  left: -15px;
+.timeline-node__circle:hover {
+  transform: scale(1.1) rotate(5deg);
 }
 
-.left-container-arrow {
-  height: 0;
-  width: 0;
+.timeline-node__glow {
   position: absolute;
-  top: 23px;
-  z-index: 1;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
-  right: -14px;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3));
+  filter: blur(20px);
+  z-index: -1;
 }
 
-.right-container-arrow {
-  height: 0;
-  width: 0;
+.timeline-node__icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: white;
+  position: relative;
+  z-index: 10;
+}
+
+/* Timeline Content */
+.timeline-content {
+  flex: 1;
+  max-width: 32rem;
+  transform: translateY(30px);
+  animation: slideInUp 0.8s ease-out 0.3s forwards;
+}
+
+.timeline-item--left .timeline-content {
+  order: -1;
+}
+
+.timeline-item--right .timeline-content {
+  order: 1;
+}
+
+/* Timeline Card */
+.timeline-card {
+  position: relative;
+  /* Angular animation will handle the hover transform */
+}
+
+.timeline-card__background {
   position: absolute;
-  top: 23px;
+  inset: 0;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.timeline-card__hover-effect {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), transparent, rgba(59, 130, 246, 0.15));
+  opacity: 0;
+  transform: scale(0.95);
+  /* Remove CSS transition - Angular animation will handle this */
+}
+
+.timeline-card__blob {
+  position: absolute;
+  inset: -4px;
+  border-radius: 1.5rem;
+  background: linear-gradient(45deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+  filter: blur(24px);
+  opacity: 0;
+  transform: scale(0.95);
+  animation: blobAnimation 3s ease-in-out infinite;
+  /* Remove CSS transition - Angular animation will handle this */
+}
+
+.timeline-card__content {
+  position: relative;
+  padding: 2rem;
   z-index: 1;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
 }
 
-.text-box small {
-  margin-bottom: 10px;
+/* Card Header */
+.timeline-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
-@media screen and (max-width: 330px) {
-  .time-element-container {
-    padding: 10px 5px;
-    margin-bottom: 35px;
-    padding-left: 60px;
-    padding-right: 0px;
-  }
-  .text-box {
-    padding: 10px 5px;
-    font-size: 12px;
+.timeline-card__title-section {
+  flex: 1;
+}
+
+.timeline-card__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+  transition: color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  text-align: left;
+}
+
+.timeline-card:hover .timeline-card__title {
+  color: rgb(196, 181, 253);
+}
+
+.timeline-card__company {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgb(196, 181, 253);
+  margin-bottom: 0.5rem;
+}
+
+.timeline-card__company-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.timeline-card__company-name {
+  font-weight: 600;
+}
+
+.timeline-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+}
+
+.timeline-card__time {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.timeline-card__time-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+/* Link Button */
+.timeline-card__link-btn {
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.timeline-card__link-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1) rotate(15deg);
+}
+
+.timeline-card__link-icon {
+  width: 1rem;
+  height: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Description */
+.timeline-card__description {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+  text-align: left;
+}
+
+/* Technologies */
+.timeline-card__technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.timeline-card__tech-tag {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: tagAppear 0.4s ease-out forwards;
+}
+
+.timeline-card__tech-tag:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05) translateY(-2px);
+}
+
+/* Animations */
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(var(--item-offset)) translateX(0);
   }
 }
 
-@media screen and (min-width: 680px) {
-  .text-box small {
-    margin-bottom: 0px;
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(var(--item-offset-right));
+  }
+}
+
+@keyframes slideInUp {
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes nodeAppear {
+  to {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes tagAppear {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes blobAnimation {
+  0%, 100% {
+    background: linear-gradient(45deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+  }
+  50% {
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.2), rgba(236, 72, 153, 0.2), rgba(59, 130, 246, 0.2));
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .timeline-item {
+    gap: 1rem;
+    margin-bottom: 3rem;
   }
 
-  .time-element-container {
-    padding: 10px 50px;
-    padding-left: 40px;
-    margin-bottom: 40px;
+  .timeline-node__circle {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .timeline-node__icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .timeline-card__content {
+    padding: 1.5rem;
+  }
+
+  .timeline-card__title {
+    font-size: 1.25rem;
+  }
+
+  .timeline-content {
+    max-width: none;
+  }
+
+  .timeline-item--left .timeline-content,
+  .timeline-item--right .timeline-content {
+    order: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-item {
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .timeline-node__circle {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .timeline-node__icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .timeline-card__content {
+    padding: 1rem;
+  }
+
+  .timeline-card__title {
+    font-size: 1.125rem;
+  }
+
+  .timeline-card__header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .timeline-card__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+/* Desktop Layout - Two columns */
+@media (min-width: 768px) {
+  .timeline-item {
     width: 50%;
-  }
-  .text-box {
-    padding: 20px 20px;
-  }
-  .right-container {
-    left: 50%;
-  }
-  .right-container svg {
-    left: -38px;
-  }
-  .left-container svg {
-    left: auto;
+    margin-bottom: 4rem;
+    align-self: center;
   }
 
-  .left-container-arrow {
-    border-right: 0;
-    border-left: 15px solid #20054be8;
-    left: auto;
-  }
-  .right-container-arrow {
-    border-left: 0;
-    border-right: 15px solid #28085e;
-    left: -14px;
-  }
-}
-
-@media screen and (min-width: 1580px) {
-  .time-element-container {
-    width: 800px;
+  .timeline-item--left {
+    justify-content: flex-end;
   }
 
-  .text-box {
-    padding-block-end: 50px;
+  .timeline-item--right {
+    --item-offset-position: 50%;
+    justify-content: flex-start;
   }
 
-  .text-box > h3 {
-    font-size: 2rem;
-    line-height: 4rem;
+  .timeline-item--left .timeline-content {
+    order: -1;
   }
 
-  .text-box > small {
-    font-size: 1.2rem;
-  }
-  .text-box > p {
-    font-size: 1.5rem;
-  }
-  .right-container {
-  }
-
-  .left-container {
-    left: -200px;
-  }
-
-  .left-container svg {
-    width: 110px;
-    height: 110px;
-    right: -55px;
-  }
-
-  .right-container svg {
-    width: 110px;
-    height: 110px;
-    left: -53px;
+  .timeline-item--right .timeline-content {
+    order: 1;
   }
 }

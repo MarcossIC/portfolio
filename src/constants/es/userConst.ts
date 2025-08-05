@@ -26,25 +26,35 @@ export const ABOUT_USER: BentoUser = {
   experienceTitle: 'Experiencia',
   githubBento: {
     TITLE: 'Más proyectos',
-    SUB: "Puedes encontrar más de mis proyectos en github",
+    SUB: 'Puedes encontrar más de mis proyectos en github',
     BUTTON: 'Ir a github',
   },
   experiences: [
     {
+      ID: '0-exp',
+      COMPANY: 'Boutique Software',
+      ROLE: 'Full stack developer',
+      TIME: 'Diciembre 2024 - Presente',
+      DESCRIPTION: '',
+      STACK: ['Angular', 'Spring Boot', 'Docker'],
+    },
+    {
       ID: '1-exp',
       COMPANY: 'Codefend',
       ROLE: 'Desarrollador Front end',
-      TIME: 'Enero 2024 - Octubre 2024',
+      TIME: 'Diciembre 2023 - Abril 2025',
       DESCRIPTION:
         'En Codefend, lideré el desarrollo frontend de una plataforma SaaS que conecta empresas con proveedores de ciberseguridad, migrando de SolidJS a React, optimizando la arquitectura, reduciendo dependencias y colaborando en la implementación de APIs de inteligencia de seguridad.',
+      STACK: ['React', 'Tauri', 'Rust'],
     },
     {
       ID: '2-exp',
       COMPANY: 'No country',
       ROLE: 'Desarrollador Full stack',
-      TIME: 'Junio 2023 - Marzo 2024',
+      TIME: 'Junio 2023 - Diciembre 2023',
       DESCRIPTION:
         'Trabajé como desarrollador frontend en equipos multidisciplinarios durante hackathons, colaborando en diseño, definición de requerimientos, arquitectura, testing e implementaciones avanzadas como animaciones con Framer Motion y entornos 2D con Phaser.',
+      STACK: ['Angular', 'React', 'Spring Boot', 'GCP'],
     },
     {
       ID: '3-exp',
@@ -53,6 +63,7 @@ export const ABOUT_USER: BentoUser = {
       TIME: 'Enero 2022 - Noviembre 2022',
       DESCRIPTION:
         'Desarrollé Facturador++, una aplicación para la escuela EPET para mejorar la experiencia de aprendizaje de los estudiantes de economía, trabajando en la API, seguridad, diseño de base de datos MySQL, testing funcional y despliegue con Docker en Google Cloud.',
+      STACK: ['Spring Boot'],
     },
   ],
   profile: {
@@ -68,7 +79,7 @@ export const ABOUT_USER: BentoUser = {
     idioms: 'Español e Inglés',
     complement: 'Un buen chico',
     resume: 'Currículum',
-    motto: "Me encanta un café"
+    motto: 'Me encanta un café',
   },
   whoIamTitle: '¿Quién soy?',
   whoIam:
@@ -103,5 +114,5 @@ export const ABOUT_USER: BentoUser = {
   bentoCTA: {
     TITLE: 'Trabajemos juntos',
     BUTTON: 'Contáctame',
-  }
+  },
 };

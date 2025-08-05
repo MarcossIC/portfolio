@@ -31,28 +31,39 @@ export const ABOUT_USER: BentoUser = {
   },
   experiences: [
     {
+      ID: '0-exp',
+      COMPANY: 'Boutique Software',
+      ROLE: 'Full stack developer',
+      TIME: 'December 2024 - Present',
+      DESCRIPTION: '',
+      STACK: ['Angular', 'Spring Boot', 'Docker'],
+    },
+    {
       ID: '1-exp',
       COMPANY: 'Codefend',
       ROLE: 'Front end developer',
-      TIME: 'January 2024 - October 2024',
+      TIME: 'December 2023 - April 2025',
       DESCRIPTION:
         'At Codefend, I led the frontend development of a SaaS platform connecting companies with cybersecurity providers, migrating from SolidJS to React, optimizing the architecture, reducing dependencies, and collaborating on the implementation of security intelligence APIs.',
+      STACK: ['React', 'Tauri', 'Rust'],
     },
     {
       ID: '2-exp',
       COMPANY: 'No country',
       ROLE: 'Full stack developer',
-      TIME: 'June 2023 - March 2024',
+      TIME: 'June 2023 - December 2023',
       DESCRIPTION:
         'I worked as a frontend developer in multidisciplinary teams during hackathons, collaborating on design, requirement definition, architecture, testing, and advanced implementations such as animations with Framer Motion and 2D environments with Phaser.',
+      STACK: ['Angular', 'React', 'Spring Boot', 'GCP'],
     },
     {
       ID: '3-exp',
-      COMPANY: 'Facturador++',
+      COMPANY: 'Practices',
       ROLE: 'Back-end developer',
       TIME: 'January 2022 - November 2022',
       DESCRIPTION:
         'I developed Facturador++, an application for the EPET school to enhance the learning experience of economics students, working on the API, security, MySQL database design, functional testing, and deployment with Docker on Google Cloud.',
+      STACK: ['Spring Boot'],
     },
   ],
   profile: {

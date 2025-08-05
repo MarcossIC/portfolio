@@ -34,6 +34,7 @@ export interface UserExperience {
   ROLE: string;
   TIME: string;
   DESCRIPTION: string;
+  STACK: string[];
 }
 
 export interface UserProfile {
