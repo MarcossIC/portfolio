@@ -1,9 +1,14 @@
 <div class="skill-group">
-        
-  <skill class="skills" 
+  <!-- <skill class="skills"
     data-aos="zoom-in-up" data-aos-duration="aosNum" data-aos-anchor-placement="top-bottom"
-    *ngFor="let TECHNOLOGY of TECHNOLOGIES; let i = index; trackBy: trackByFn"  
+    *ngFor="let TECHNOLOGY of TECHNOLOGIES; let i = index; trackBy: trackByFn"
     [icon]="TECHNOLOGY.ICON" [caption]="TECHNOLOGY.NAME" [size]="TECHNOLOGY.SIZE"
-  ></skill>
+  ></skill> -->
+  @for(TECHNOLOGY of TECHNOLOGIES; track TECHNOLOGY.ID){
+    <skill class="skills"
+      data-aos="zoom-in-up" data-aos-duration="aosNum" data-aos-anchor-placement="top-bottom"
+      [icon]="TECHNOLOGY.ICON" [caption]="TECHNOLOGY.NAME" [size]="TECHNOLOGY.SIZE"
+    ></skill>
+  }
 
 </div>

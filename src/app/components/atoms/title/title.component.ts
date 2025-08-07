@@ -6,15 +6,17 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   imports: [NgClass],
   selector: 'app-title',
   template: `
-    <h2
-      [id]="titleID()"
-      [ngClass]="className()"
-      class="title-section bg-ml-text-white bg-clip-text text-transparent"
-      [title]="name()"
-    >
-      <ng-content></ng-content>
-    </h2>
-    <h3 class="sub-title">{{ sub() }}</h3>
+    <hgroup>
+      <h2
+        [id]="titleID()"
+        [ngClass]="className()"
+        class="title-section bg-ml-text-white bg-clip-text text-transparent"
+        [title]="name()"
+      >
+        <ng-content></ng-content>
+      </h2>
+      <p class="sub-title">{{ sub() }}</p>
+    </hgroup>
   `,
   styleUrls: ['./title.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

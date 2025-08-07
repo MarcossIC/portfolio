@@ -1,34 +1,90 @@
 textarea {
-  background: rgba(253, 253, 253, 0);
+  background: rgba(255, 255, 255, 0.05);
   outline: none;
-  border: 1px solid rgba(255, 0, 0, 0);
-  border-radius: 0.5rem;
-  padding: 10px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
+  padding: 28px 14px 16px 14px;
   width: 100%;
   display: block;
-  color: rgb(207, 207, 207);
+  color: rgb(255, 255, 255);
   font-weight: 400;
-  font-size: 1em;
-  box-shadow: inset 4px 4px 4px rgb(35 0 65 / 13%),
-    4px 4px 4px rgb(46 0 85 / 13%);
+  font-size: 1rem;
   resize: none;
-  background: #4a127014;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: inherit;
+  line-height: 1.5;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
+textarea:focus {
+  border-color: rgba(185, 28, 28, 0.8);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.1);
+  transform: translateY(-1px);
+}
+
+/* textarea:hover:not(:focus) {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.07);
+} */
+
+/* Estado inválido - borde rojo (aplica siempre que sea inválido) */
+textarea.ng-invalid {
+  border-color: rgba(239, 68, 68, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Estado inválido con foco - borde rojo más intenso */
+textarea.ng-invalid:focus {
+  border-color: rgba(239, 68, 68, 0.8);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  transform: translateY(-1px);
+}
+
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Estado activo/focus - color neutral */
 textarea:focus + label,
-textarea.ng-valid + label,
-textarea.ng-invalid:not(:placeholder-shown) + label {
-  transform: translateY(-140%) scale(0.9);
-  left: 4%;
+textarea.ng-valid + label {
+  transform: translateY(-60%) scale(0.85);
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  left: 10px;
+}
+
+/* Estado inválido - color rojo (aplica siempre que sea inválido) */
+textarea.ng-invalid + label {
+  transform: translateY(-60%) scale(0.85);
+  color: rgba(239, 68, 68, 0.9);
+  font-weight: 500;
+  left: 10px;
+}
+
+/* Estado inválido con foco - mantiene color rojo */
+textarea.ng-invalid:focus + label {
+  transform: translateY(-60%) scale(0.85);
+  color: rgba(239, 68, 68, 0.9);
+  font-weight: 600;
+  left: 10px;
 }
 
 label {
   position: absolute;
-  left: 5%;
-  top: 8%;
+  left: 14px;
+  top: 16px;
   pointer-events: none;
-  color: rgb(238, 238, 238);
-  transition: all 0.4s;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  background: linear-gradient(to bottom, transparent 45%, rgba(26, 26, 46, 0.9) 45%, rgba(26, 26, 46, 0.9) 55%, transparent 55%);
+  padding: 0 6px;
+  z-index: 1;
 }
 
 @media only screen and (min-width: 1080px) {
@@ -36,11 +92,13 @@ label {
     width: 85%;
   }
 }
+
 @media only screen and (min-width: 1700px) {
   textarea {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    padding: 30px 16px 18px 16px;
   }
   label {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 }

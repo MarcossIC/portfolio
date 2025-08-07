@@ -2,6 +2,7 @@ footer {
   width: 100%;
   position: relative;
   background: #1b004e;
+  z-index: 100;
 }
 
 footer ::ng-deep .logo {
@@ -16,7 +17,9 @@ footer ::ng-deep .logo ::ng-deep img {
 }
 
 router-link::ng-deep .foot-navigation {
-  @apply relative mr-4 font-medium;
+  position: relative;
+  margin-right: 1rem;
+  font-weight: 500;
 
   font-size: 1.2rem;
   color: #e7e7e7;
@@ -58,9 +61,27 @@ router-link::ng-deep .foot-navigation:hover {
   margin-block-end: 2rem;
 }
 
+/* Estilos para el ícono de café */
+::ng-deep .coffee-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+::ng-deep .coffee-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
 @media screen and (min-width: 1580px) {
   .footer-content span {
     font-size: 2.5rem;
+  }
+
+  /* Ícono de café más grande en pantallas grandes */
+  ::ng-deep .coffee-icon {
+    width: 18px;
+    height: 18px;
   }
 }
 
@@ -75,6 +96,7 @@ router-link::ng-deep .foot-navigation:hover {
     padding-block-start: 6rem;
   }
 }
+
 @media only screen and (min-width: 2500px) {
   footer {
     padding-block-start: 8.5rem;

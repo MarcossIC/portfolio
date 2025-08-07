@@ -1,0 +1,17 @@
+<section
+  id="about"
+  class="max-w-[100vw] flex flex-col w-[99%] flex-1 justify-center items-center"
+>
+  <app-title
+    className="text-center"
+    [titleID]="titleID"
+    [name]="ABOUT_TITLE().TITLE_COMPLETE"
+    [sub]="ABOUT_TITLE().SUB"
+  >
+    {{ ABOUT_TITLE().TITLE[0] }}
+    <span class="bg-ml-text-red bg-clip-text text-transparent">{{ ABOUT_TITLE().TITLE[1] }}</span>
+  </app-title>
+
+  <bento-about />
+  <!-- <bento-v2 /> -->
+</section>

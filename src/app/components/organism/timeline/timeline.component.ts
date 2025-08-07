@@ -1,11 +1,10 @@
-import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TimelineElementComponent } from '../timeline-element/timeline-element.component';
 import { Directions, type UserStudies } from '@app/models/types';
 
 @Component({
   standalone: true,
-  imports: [NgFor, TimelineElementComponent],
+  imports: [TimelineElementComponent],
   selector: 'timeline',
   template: `
     <ul class="timeline">

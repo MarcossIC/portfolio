@@ -19,9 +19,9 @@ import { ToastComponent } from '../../organism/toast/toast.component';
     HttpClientModule,
     ToastComponent,
   ],
-  declarations: [ContactPageComponent],
+  declarations: [],
   providers: [],
-  exports: [ContactPageComponent],
-  bootstrap: [ContactPageComponent],
+  exports: [],
+  bootstrap: [],
 })
 export class ContactModule {}

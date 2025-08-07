@@ -4,10 +4,10 @@
     className="text-center"
     [titleID]="titleID"
     name="Contact me"
-    sub="Don't hesitate to send me a message for any inquiry or project"
+    sub="{{ CONTACT_TITLE().SUB }}"
   >
-    Get in
-    <span class="bg-ml-text-red bg-clip-text text-transparent">touch</span>
+    {{ CONTACT_TITLE().TITLE[0] }}
+    <span class="bg-ml-text-red bg-clip-text text-transparent">{{ CONTACT_TITLE().TITLE[1] }}</span>
   </app-title>
   <div class="contact relative">
     <div class="left-content" data-aos="fade-right" data-aos-duration="400">

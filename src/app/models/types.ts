@@ -24,6 +24,9 @@ export interface User {
   gitHub: string;
   stackOverflow: string;
   downloadCv: string;
+  viewResume: string;
+  shortResume: string;
+  photo: string;
 }
 
 export interface UserExperience {
@@ -32,16 +35,21 @@ export interface UserExperience {
   ROLE: string;
   TIME: string;
   DESCRIPTION: string;
+  STACK: string[];
 }
 
 export interface UserProfile {
   photo: string;
   isAvalaible: boolean;
+  availableText: string;
+  notAvailableText: string;
   doYouLikeCoffee: boolean;
   country: string;
   qualification: string;
   idioms: string;
   complement: string;
+  resume: string;
+  motto: string;
 }
 export interface UserStudies {
   ID: string;
@@ -51,10 +59,27 @@ export interface UserStudies {
   DESCRIPTION: string;
 }
 
+export interface BentoCTA {
+  TITLE: string;
+  BUTTON: string;
+}
+
+export interface GithubBento extends BentoCTA {
+  SUB: string;
+}
+
+
+
 export interface BentoUser {
   yearsExpertice: string;
+  experticeTitle: string;
+  experienceTitle: string;
+  githubBento: GithubBento;
   experiences: UserExperience[];
   profile: UserProfile;
   whoIam: string;
+  whoIamTitle: string;
+  stackTitle: string;
   studies: UserStudies[];
+  bentoCTA: BentoCTA;
 }

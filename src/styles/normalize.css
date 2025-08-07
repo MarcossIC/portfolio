@@ -156,13 +156,6 @@ html::-webkit-scrollbar-corner {
   background: transparent;
 }
 
-*,
-::after,
-::before {
-  box-sizing: border-box;
-  min-width: 0;
-  scrollbar-width: thin;
-}
 
 html,
 :host {
@@ -241,15 +234,6 @@ img {
   overflow: clip;
 }
 
-button {
-  font-weight: 600;
-  padding-inline: 1rem;
-  padding-block: 0.5rem;
-  border-radius: 1rem;
-  width: 160px;
-  font-size: 1rem;
-  border-radius: 1.1rem;
-}
 
 [hidden],
 template {
@@ -275,4 +259,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+section {
+  outline: none;
 }

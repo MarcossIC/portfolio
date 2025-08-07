@@ -6,6 +6,7 @@ export const USER: User = {
   lastname: 'Lopez',
   fullName: 'Marcos Lopez',
   email: 'marcoslopezdev18@gmail.com',
+
   motto:
     'I hope to share my journey through the world of IT and that we can work together',
   role: 'Software developer',
@@ -15,35 +16,58 @@ export const USER: User = {
   stackOverflow: 'https://es.stackoverflow.com/users/301174/marcos-lopez',
   downloadCv:
     'https://drive.usercontent.google.com/u/2/uc?id=1fxazKwrFJ91R2-3bIAKGsu4gkfaXB-iJ&export=download',
+  viewResume: 'View resume',
+  shortResume: 'Resume',
+  photo: 'assets/utils/FOTO_CV.webp'
 };
+
+
 
 //User data to complete the about bento
 export const ABOUT_USER: BentoUser = {
   yearsExpertice: '02',
+  experticeTitle: 'Years of experience',
+  experienceTitle: 'Experience',
+  githubBento: {
+    TITLE: 'More projects',
+    SUB: "You can find more of my projects on github",
+    BUTTON: 'Go to github',
+  },
   experiences: [
+    {
+      ID: '0-exp',
+      COMPANY: 'Boutique Software',
+      ROLE: 'Full stack developer',
+      TIME: 'December 2024 - Present',
+      DESCRIPTION: '',
+      STACK: ['Angular', 'Spring Boot', 'Docker'],
+    },
     {
       ID: '1-exp',
       COMPANY: 'Codefend',
       ROLE: 'Front end developer',
-      TIME: 'January 2024 - October 2024',
+      TIME: 'December 2023 - April 2025',
       DESCRIPTION:
         'At Codefend, I led the frontend development of a SaaS platform connecting companies with cybersecurity providers, migrating from SolidJS to React, optimizing the architecture, reducing dependencies, and collaborating on the implementation of security intelligence APIs.',
+      STACK: ['React', 'Tauri', 'Rust'],
     },
     {
       ID: '2-exp',
       COMPANY: 'No country',
       ROLE: 'Full stack developer',
-      TIME: 'June 2023 - March 2024',
+      TIME: 'June 2023 - December 2023',
       DESCRIPTION:
         'I worked as a frontend developer in multidisciplinary teams during hackathons, collaborating on design, requirement definition, architecture, testing, and advanced implementations such as animations with Framer Motion and 2D environments with Phaser.',
+      STACK: ['Angular', 'React', 'Spring Boot', 'GCP'],
     },
     {
       ID: '3-exp',
-      COMPANY: 'Facturador++',
+      COMPANY: 'Practices',
       ROLE: 'Back-end developer',
       TIME: 'January 2022 - November 2022',
       DESCRIPTION:
         'I developed Facturador++, an application for the EPET school to enhance the learning experience of economics students, working on the API, security, MySQL database design, functional testing, and deployment with Docker on Google Cloud.',
+      STACK: ['Spring Boot'],
     },
   ],
   profile: {
@@ -51,12 +75,17 @@ export const ABOUT_USER: BentoUser = {
     photo: '../../../../assets/utils/FOTO_CV.webp',
     //false still doesn't work
     isAvalaible: true,
+    availableText: 'Available for work',
+    notAvailableText: 'Not available',
     doYouLikeCoffee: true,
     country: 'Argentina',
     qualification: 'IT technician',
     idioms: 'Spanish & English',
     complement: 'A good boy',
+    resume: 'Resume',
+    motto: "I love a coffee"
   },
+  whoIamTitle: 'Who I am?',
   whoIam:
     'Developer with over 2 years of experience. Skill in backend development with Spring Boot and frontend development with React and Angular. Ability to optimize development processes, create scalable solutions. Experience working with agile methodologies, with a constant focus on continuous improvement.',
   studies: [
@@ -85,4 +114,9 @@ export const ABOUT_USER: BentoUser = {
         'Global Mentoring Courses for Java, Spring, Angular, Html, Css, TypeScript. MitoCode Functional Java Course, Amigos Code Spring Security Course',
     },
   ],
+  stackTitle: 'Stack',
+  bentoCTA: {
+    TITLE: 'Let’s Work Together',
+    BUTTON: 'Contact me',
+  }
 };

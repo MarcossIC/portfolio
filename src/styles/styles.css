@@ -1,19 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.mjs";
 
-@layer utilities {
-  .clip-path-circle {
-    --tw-circle-path: 50% at 50% 50%;
-    clip-path: circle(var(--tw-circle-path));
-  }
+@utility clip-path-circle {
+  --tw-circle-path: 50% at 50% 50%;
+  clip-path: circle(var(--tw-circle-path));
+}
 
-  .no-outline {
+@utility no-outline {
+  outline: none;
+
+  &:is(:focus, :focus-visible, :focus-within, :active) {
     outline: none;
-
-    &:is(:focus, :focus-visible, :focus-within, :active) {
-      outline: none;
-    }
   }
 }
 
@@ -40,8 +37,7 @@
   box-sizing: border-box;
   background: var(--ml-chip-gradient);
   border: 1px solid rgba(33, 0, 87, 0.2);
-  box-shadow:
-    inset -1px -6px 16px rgba(35, 0, 70, 0.25),
+  box-shadow: inset -1px -6px 16px rgba(35, 0, 70, 0.25),
     inset 6px 8px 24px rgba(30, 0, 60, 0.83);
   backdrop-filter: blur(8px);
   border-radius: 15px;
@@ -59,8 +55,7 @@
       rgba(50, 17, 106, 0.3) 66.15%
     );
     border: 1px solid rgba(33, 0, 87, 0.7);
-    box-shadow:
-      inset -1px -6px 16px rgb(35 0 70 / 10%),
+    box-shadow: inset -1px -6px 16px rgb(35 0 70 / 10%),
       inset 6px 8px 24px rgb(30 0 60 / 40%);
   }
 }
@@ -82,4 +77,45 @@
   white-space: nowrap;
   -webkit-user-select: none;
   user-select: none;
+}
+
+.highlight-text-description {
+  color: var(--ml-violet-100);
+  font-weight: 500;
+}
+
+
+
+.animate-in {
+  animation-name: enter;
+  animation-duration: 150ms;
+  --tw-enter-opacity: initial;
+  --tw-enter-scale: initial;
+  --tw-enter-rotate: initial;
+  --tw-enter-translate-x: initial;
+  --tw-enter-translate-y: initial;
+}
+
+.slide-in-from-top-2 {
+  --tw-enter-translate-y: -0.5rem;
+}
+
+.duration-200 {
+  animation-duration: 200ms;
+}
+
+.animate-in {
+  animation: animate-in 0.2s ease-out;
+}
+
+@keyframes animate-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

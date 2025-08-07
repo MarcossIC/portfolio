@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AboutIntroLayoutComponent } from '@app/components/legacy/introduction/introduction.component';
-import { StudiesLayout } from '@app/pages/home/layouts/studies/studies.component';
+import { StudiesLayout } from '@app/components/legacy/studies/studies.component';
 
 @Component({
   standalone: true,

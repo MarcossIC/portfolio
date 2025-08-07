@@ -2,23 +2,25 @@ section {
   display: flex;
   justify-content: space-evenly;
   min-height: calc(100dvh - 50px);
-  margin-inline: 1rem;
-  padding-inline: 2.25rem;
   margin-block-end: 1rem;
   padding-block-start: 16dvh;
+  container-type: inline-size;
 }
 
 .title-base {
-  @apply font-bold font-montserrat bg-clip-text text-transparent;
+  background-clip: text;
+  font-family: Montserrat, sans-serif;
+  font-weight: 700;
+  color: transparent;
 }
 
 h1 {
-  font-size: clamp(1rem, 7dvw, 3rem);
+  font-size: clamp(1rem, 8.5dvw, 3rem);
   line-height: 1;
 }
 h2 {
-  font-size: clamp(1.25em, 5.5dvw, 3.75rem);
-  line-height: 1.7;
+  font-size: clamp(1.25em, 7dvw, 3.75rem);
+  line-height: 1.25;
   margin-block-end: 0.5rem;
 }
 p {
@@ -26,14 +28,26 @@ p {
   max-width: 90%;
 }
 
+
 @media only screen and (min-width: 480px) {
   h1 {
     font-size: clamp(1.85rem, 7dvw, 3.75rem);
   }
   h2 {
-    font-size: clamp(2.156em, 7dvw, 5rem);
+    font-size: clamp(2em,  5.75dvw, 5rem);
+    white-space: normal;
   }
 }
+@media only screen and (min-width: 580px) {
+  h2 {
+    line-height: 1.7;
+  }
+  .contact {
+    margin-inline: 1rem;
+    padding-inline: 2.25rem;
+  }
+}
+
 
 @media only screen and (min-width: 785px) {
   h1 {
@@ -41,9 +55,10 @@ p {
     line-height: 0.9;
   }
   h2 {
-    font-size: clamp(4rem, 7dvw, 6rem);
+    font-size: clamp(4rem,  5.75dvw, 6rem);
     line-height: 1.2;
     margin-block-end: 1rem;
+    /* white-space: nowrap; */
   }
 }
 
@@ -55,6 +70,7 @@ p {
   h2 {
     font-size: clamp(5rem, 15dvw, 7rem);
     margin-block-end: 1.5rem;
+    /* white-space: nowrap; */
   }
   p {
     max-width: 100%;

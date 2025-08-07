@@ -11,6 +11,6 @@ import { TitleComponent } from '@app/components/atoms/title/title.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutIntroLayoutComponent {
-  protected INTRODUCTION = {PARAGRAPH:""};
+  protected INTRODUCTION = {PARAGRAPH:"", TITLE: ""};
   protected titleID = 'gc39cb09';
 }

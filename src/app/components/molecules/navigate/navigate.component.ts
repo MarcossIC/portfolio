@@ -7,6 +7,7 @@ import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
   imports: [CommonModule, RouterLinkComponent],
   selector: 'navigate',
   templateUrl: './navigate.component.html',
+  styleUrl: './navigate.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigateComponent {

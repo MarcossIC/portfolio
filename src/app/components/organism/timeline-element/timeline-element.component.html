@@ -1,67 +1,87 @@
 <li
-  class="time-element-container text-light"
-  [ngClass]="
-    cardDirection() === DIRECTION.LEFT ? 'left-container' : 'right-container'
-  "
-  data-aos="fade-up"
-  data-aos-duration="300"
-  data-aos-offset="100"
-  data-aos-anchor-placement="top-bottom"
+  class="timeline-item"
+  [ngClass]="{
+    'timeline-item--left': cardDirection() === DIRECTION.LEFT,
+    'timeline-item--right': cardDirection() === DIRECTION.RIGHT
+  }"
 >
-  <svg
-    aria-hidden="true"
-    class="-rotate-90 md:w-[60px] md:h-[60px] xs:w-[40px] xs:h-[40px]"
-    width="75"
-    height="75"
-    viewBox="0 0 100 100"
-    role="img"
-    aria-hidden="true"
-  >
-    <circle
-      cx="75"
-      cy="50"
-      r="20"
-      pathLength="1"
-      class="stroke-primary stroke-1 fill-none"
-    ></circle>
-    <circle
-      cx="75"
-      cy="50"
-      r="20"
-      pathLength="1"
-      class="stroke-[5px] dark:fill-dark"
-      stroke-dashoffset="0px"
-      stroke-dasharray="0px 1px"
-    ></circle>
-    <circle
-      cx="75"
-      cy="50"
-      r="10"
-      pathLength="1"
-      class="animate-pulse stroke-1 fill-primary"
-    ></circle>
-  </svg>
-  <div
-    class="text-box"
-    data-aos="zoom-in-right"
-    data-aos-duration="500"
-    data-aos-offset="100"
-    data-aos-anchor-placement="top-bottom"
-  >
-    <h3 class="font-bold text-2xl max-[330px]:text-base sm:text-xl xs:text-lg">
-      {{ title() }}
-    </h3>
+<!-- [@fadeIn]="'active'" -->
+  <!-- Timeline line and node -->
+  <div class="timeline-node">
+    <!-- Node circle -->
+    <div class="timeline-node__circle" [@nodeAnimation]="animationState">
+      <!-- Glowing background -->
+      <div class="timeline-node__glow"></div>
 
-    <small class="inline-block mb-4 text-gray-400">{{ state() }}</small>
+      <!-- Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7 text-white relative z-10"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+    </div>
+  </div>
 
-    <p>{{ description() }}</p>
+  <!-- Content card -->
+  <div class="timeline-content">
+    <!-- Glassmorphism card -->
+    <div
+      class="timeline-card"
+      [@cardHover]="getHoverState()"
+      (mouseenter)="onCardMouseEnter()"
+      (mouseleave)="onCardMouseLeave()"
+    >
+      <!-- Background blur layers -->
+      <div class="timeline-card__background"></div>
+      <div
+        class="timeline-card__hover-effect"
+        [@backgroundHover]="getHoverState()"
+      ></div>
 
-    <span
-      [ngClass]="
-        cardDirection() === DIRECTION.LEFT
-          ? 'left-container-arrow'
-          : 'right-container-arrow'
-      "
-    ></span>
+      <!-- Liquid blob effect -->
+      <div
+        class="timeline-card__blob"
+        [@backgroundHover]="getHoverState()"
+      ></div>
+
+      <!-- Content -->
+      <div class="timeline-card__content">
+        <!-- Header -->
+        <div class="timeline-card__header">
+          <div class="timeline-card__title-section">
+            <h3 class="timeline-card__title">{{ title() }}</h3>
+            <div class="timeline-card__company">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+              <span class="timeline-card__company-name">{{ state() }}</span>
+            </div>
+            <div class="timeline-card__meta">
+              <div class="timeline-card__time">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg>
+                <span>{{ time() }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- External link button -->
+          <!-- <button class="timeline-card__link-btn">
+            <svg class="timeline-card__link-icon" viewBox="0 0 24 24" fill="none">
+              <path d="M14 3V5H17.59L7.76 14.83L9.17 16.24L19 6.41V10H21V3H14Z" fill="currentColor"/>
+              <path d="M19 19H5V5H12V3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V12H19V19Z" fill="currentColor"/>
+            </svg>
+          </button> -->
+        </div>
+
+        <!-- Description -->
+        <p class="timeline-card__description">{{ description() }}</p>
+
+        <!-- Technologies -->
+        <div class="timeline-card__technologies">
+          @for(tag of tags(); track tag; let i = $index) {
+            <span
+              class="timeline-card__tech-tag"
+              [style.animation-delay]="(i * 0.1) + 's'"
+            >
+              {{ tag }}
+            </span>
+          }
+        </div>
+      </div>
+    </div>
   </div>
 </li>

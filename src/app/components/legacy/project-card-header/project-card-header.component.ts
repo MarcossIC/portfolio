@@ -1,10 +1,9 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { RouterLinkWithHref } from '@angular/router';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, RouterLinkWithHref],
+  imports: [CommonModule, NgOptimizedImage],
   selector: 'project-card-header',
   template: `
     <div class="rounded-lg container-project">
@@ -46,5 +45,5 @@ import { RouterLinkWithHref } from '@angular/router';
 })
 export class ProjectCardHeaderComponent {
   @Input({ required: true }) public IMG = '';
-  @Input({ required: true }) public DEPLOY = false;
+  @Input({ required: true }) public DEPLOY = "";
 }

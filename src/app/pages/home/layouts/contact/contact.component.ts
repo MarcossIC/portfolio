@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
   inject,
 } from '@angular/core';
@@ -13,6 +14,8 @@ import { TitleComponent } from '@app/components/atoms/title/title.component';
 import { LiquidBannerComponent } from '@app/components/atoms/liquid-banner/liquid-banner.component';
 import { ContactFormComponent } from '@app/components/organism/contact-form/contact-form.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CONTACT_TITLE } from '@constants/appConst';
+import { I18nService } from '@app/services/i18n.service';
 
 @Component({
   standalone: true,
@@ -28,6 +31,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class ContactLayout {
+  protected readonly i18nService = inject(I18nService);
+  protected readonly CONTACT_TITLE = computed(() => this.i18nService.getConstant('appConst')?.CONTACT_TITLE || CONTACT_TITLE);
   private readonly toast = inject(ToastService);
   private http = inject(HttpClient);
   private destroy = inject(DestroyRef);

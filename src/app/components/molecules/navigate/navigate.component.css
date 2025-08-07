@@ -1,0 +1,20 @@
+::ng-deep a:hover {
+  color: var(--ml-violet-100);
+
+  span {
+    width: 0px;
+    opacity: 0.95;
+    outline: none;
+    border: 0;
+
+    &:hover,
+    &:active,
+    &:focus {
+      outline: none;
+      border: 0;
+      width: 100%;
+    }
+  }
+}
+
+

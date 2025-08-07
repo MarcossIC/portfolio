@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { PlusNumberComponent } from '@atoms/plus-number/plus-number.component';
-import { BentoItemComponent } from '@atoms/bento-item/bento-item.component';
 
 @Component({
   standalone: true,
-  imports: [BentoItemComponent, PlusNumberComponent],
   selector: 'expirence-item',
   template: `
     <div class="flex flex-col mb-2 mt-1">
