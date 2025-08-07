@@ -1,22 +1,12 @@
 <hero-layout />
 <experiency-layout />
-
-<!-- About me section - defer until visible -->
-@defer (on viewport) {
-  <about-me-layout />
-} @placeholder {
-  <div class="min-h-[800px] bg-gradient-to-l from-purple-900/10 to-transparent flex items-center justify-center">
-    <div class="text-center">
-      <div class="animate-pulse text-white/30">Cargando sobre mí...</div>
-    </div>
-  </div>
-}
+<about-me-layout />
 
 <!-- Projects section - defer until visible -->
 @defer (on viewport) {
   <projects-layout />
 } @placeholder {
-  <div class="min-h-[600px] bg-gradient-to-r from-blue-900/10 to-transparent flex items-center justify-center">
+  <div class="min-h-[600px] flex items-center justify-center">
     <div class="text-center">
       <div class="animate-pulse text-white/30">Cargando proyectos...</div>
     </div>
@@ -27,7 +17,7 @@
 @defer (on viewport) {
   <contact-layout />
 } @placeholder {
-  <div class="min-h-[500px] bg-gradient-to-t from-slate-900/50 to-transparent flex items-center justify-center">
+  <div class="min-h-[500px] flex items-center justify-center">
     <div class="text-center">
       <div class="animate-pulse text-white/30">Cargando contacto...</div>
     </div>
