@@ -248,49 +248,6 @@
   transform: scale(1.05) translateY(-2px);
 }
 
-/* Animations */
-@keyframes slideInLeft {
-  to {
-    opacity: 1;
-    transform: translateX(var(--item-offset)) translateX(0);
-  }
-}
-
-@keyframes slideInRight {
-  to {
-    opacity: 1;
-    transform: translateX(var(--item-offset-right));
-  }
-}
-
-@keyframes slideInUp {
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes nodeAppear {
-  to {
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes tagAppear {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes blobAnimation {
-  0%, 100% {
-    background: linear-gradient(45deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
-  }
-  50% {
-    background: linear-gradient(45deg, rgba(59, 130, 246, 0.2), rgba(236, 72, 153, 0.2), rgba(59, 130, 246, 0.2));
-  }
-}
-
 /* Responsive Design */
 @media only screen and (max-width: 979.9px) {
   .timeline-item {
@@ -333,8 +290,17 @@
 
 @media only screen and (max-width: 480px) {
   .timeline-item {
+    --item-offset-position: -7%;
+    --item-offset: 24px;
+    --item-offset-right: var(--item-offset);
     gap: 0.75rem;
-    margin-bottom: 2rem;
+  }
+  .timeline-node {
+    scale: .9;
+
+    svg {
+      scale: .85;
+    }
   }
 
   .timeline-node__circle {
@@ -390,5 +356,48 @@
 
   .timeline-item--right .timeline-content {
     order: 1;
+  }
+}
+
+/* Animations */
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(var(--item-offset)) translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(var(--item-offset-right));
+  }
+}
+
+@keyframes slideInUp {
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes nodeAppear {
+  to {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes tagAppear {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes blobAnimation {
+  0%, 100% {
+    background: linear-gradient(45deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+  }
+  50% {
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.2), rgba(236, 72, 153, 0.2), rgba(59, 130, 246, 0.2));
   }
 }

@@ -39,15 +39,15 @@ const LIST_DEFAULT_ICONS: Record<IconType, Icon> = {
   selector: 'social-button',
   imports: [NgClass],
   template: `
-  <div class="flex justify-center gap-6 relative z-20 no-outline">
+  <div class="social-button-v2 no-outline">
     <a
       [href]="to()"
       target="_blank"
       [rel]="isActiveRel()"
       [title]="title()"
-      class="group relative no-outline"
+      class="group no-outline"
     >
-      <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br rounded-[1.5rem] flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-white/10 shadow-lg hover:shadow-2xl hover:shadow-purple-500/25 no-outline" [ngClass]="imgIcon().color" [innerHTML]="imgIcon().icon">
+      <div class="social-icon w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br rounded-[1.5rem] flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-white/10 shadow-lg hover:shadow-2xl hover:shadow-purple-500/25 no-outline" [ngClass]="imgIcon().color" [innerHTML]="imgIcon().icon">
       </div>
       <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-[1.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       <p class="visually-hidden" aria-hidden="true" role="contentinfo">

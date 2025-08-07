@@ -1,3 +1,24 @@
+.social-button-v2 {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 20;
+  gap: 1.5rem;
+
+  a {
+    position: relative;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .social-button-v2  a {
+    .social-icon {
+      width: 13cqw;
+      height: 13cqw;
+      border-radius: 4cqw;
+    }
+  }
+}
+
 .social-button {
   --x: 0;
   --y: 0;
@@ -9,7 +30,6 @@
   transition:
     opacity 200ms cubic-bezier(0.4, 0, 1, 1),
     transform 150ms ease;
-  /* background-image: var(--btn-icon); */
 
   &:is(:focus, :focus-visible, :focus-within, :active) {
     outline: none;

@@ -46,7 +46,7 @@
 
 @media (max-width: 480px) {
   .timeline::after {
-    left: 1.5rem;
+    left: .75rem;
   }
 }
 
