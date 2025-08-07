@@ -7,7 +7,7 @@ import { Directions, UserExperience, type UserStudies } from '@app/models/types'
   imports: [TimelineElementComponent],
   selector: 'timeline-experiency',
   template: `
-      <ul class="timeline">
+      <div class="timeline">
         @for (ITEM of ITEMS(); track ITEM.ID) {
           <timeline-element
             [cardDirection]="$index % 2 !== 1 ? DIRECTION.LEFT : DIRECTION.RIGHT"
@@ -19,7 +19,7 @@ import { Directions, UserExperience, type UserStudies } from '@app/models/types'
             [style.width]="'100%'"
           ></timeline-element>
         }
-      </ul>
+      </div>
   `,
   styleUrls: ['./timeline-experiency.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

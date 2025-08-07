@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, type OnInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, type OnInit, OnDestroy, PLATFORM_ID, Inject, afterNextRender } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { type IParticlesProps, NgParticlesModule } from 'ng-particles';
 import {
@@ -11,6 +11,7 @@ import {
   OutMode,
 } from 'tsparticles-engine';
 import { loadSlim } from 'tsparticles-slim';
+import { take, timer } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -41,7 +42,7 @@ import { loadSlim } from 'tsparticles-slim';
   styleUrls: ['./particles.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ParticlesComponent implements OnInit, OnDestroy {
+export class ParticlesComponent implements OnInit {
   private currenteColor: string;
   private isMobile: boolean = false;
   private loadTimeout?: number;
@@ -52,28 +53,31 @@ export class ParticlesComponent implements OnInit, OnDestroy {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.currenteColor = '#c48cd8';
     this.isMobile = this.detectMobile();
+    afterNextRender(() => {
+      if (!isPlatformBrowser(this.platformId) || this.shouldShowParticles) {
+        return;
+      }
+      if (this.isMobile) {
+        timer(2000).pipe(take(1)).subscribe(() => {
+          this.shouldShowParticles = true;
+        });
+      } else {
+        this.shouldShowParticles = true;
+      }
+    });
   }
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-
     // Configurar partículas según el dispositivo
     this.particlesOptions$ = this.isMobile ? this.getMobileConfig() : this.getDesktopConfig();
-
-    // En móviles, cargar con delay para no bloquear la carga inicial
     if (this.isMobile) {
-      this.loadTimeout = window.setTimeout(() => {
+      timer(2000).pipe(take(1)).subscribe(() => {
         this.shouldShowParticles = true;
-      }, 2000); // Delay de 2 segundos en móviles
+      });
     } else {
       this.shouldShowParticles = true;
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.loadTimeout) {
-      clearTimeout(this.loadTimeout);
     }
   }
 
