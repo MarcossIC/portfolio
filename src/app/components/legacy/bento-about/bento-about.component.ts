@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { BentoComponent } from '@organism/bento/bento.component';
+import { BentoComponent } from '@app/components/legacy/bento/bento.component';
 import { TitleComponent } from '@atoms/title/title.component';
 import { I18nService } from '@app/services/i18n.service';
 import { ABOUT_TITLE } from '@constants/appConst';

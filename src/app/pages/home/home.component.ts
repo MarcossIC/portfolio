@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HeroLayout } from './layouts/hero/hero.component';
 import { ProjectsLayout } from './layouts/projects/projects.component';
-import { BentoAboutLayout } from '@app/pages/home/layouts/bento-about/bento-about.component';
 import { ContactLayout } from '@app/pages/home/layouts/contact/contact.component';
-import { StudiesLayout } from '@app/pages/home/layouts/studies/studies.component';
 import { ExperiencyComponent } from '@app/pages/home/layouts/experiency/experiency.component';
 import { AboutMeLayout } from '@app/pages/home/layouts/about-me/about-me.component';
 
@@ -16,9 +14,7 @@ import { AboutMeLayout } from '@app/pages/home/layouts/about-me/about-me.compone
   imports: [
     HeroLayout,
     ProjectsLayout,
-    BentoAboutLayout,
     ContactLayout,
-    StudiesLayout,
     ExperiencyComponent,
     AboutMeLayout,
   ],

@@ -150,9 +150,9 @@ export const SERVICES: ServicesType = {
 };
 
 export const HEADER: LinksHeaderArray = [
+  { ID: '3-sp', LABEL: 'Career', PATH: '', FRAGMENT: 'career' },
+  { ID: '2-ap', LABEL: 'About', PATH: '', FRAGMENT: 'about-me' },
   { ID: '1-pp', LABEL: 'Projects', PATH: '', FRAGMENT: 'projects' },
-  { ID: '2-ap', LABEL: 'About', PATH: '', FRAGMENT: 'about' },
-  { ID: '3-sp', LABEL: 'Studies', PATH: '', FRAGMENT: 'studies' },
   { ID: '4-cp', LABEL: 'Contact', PATH: '', FRAGMENT: 'contact' },
 ];
 
@@ -164,8 +164,9 @@ export const FOOTER = {
     TITLE: 'Navigation',
     LINKS: [
       { ID: 'nav-hero', LABEL: 'Hero', FRAGMENT: 'hero', ARIA_LABEL: 'Go to hero' },
+      { ID: 'nav-about', LABEL: 'Career', FRAGMENT: 'career', ARIA_LABEL: 'Go to career' },
+      { ID: 'nav-about', LABEL: 'About', FRAGMENT: 'about-me', ARIA_LABEL: 'Go to About' },
       { ID: 'nav-projects', LABEL: 'Projects', FRAGMENT: 'projects', ARIA_LABEL: 'Go to Projects' },
-      { ID: 'nav-about', LABEL: 'About', FRAGMENT: 'about', ARIA_LABEL: 'Go to About' },
       { ID: 'nav-contact', LABEL: 'Contact', FRAGMENT: 'contact', ARIA_LABEL: 'Go to Contact' }
     ]
   },

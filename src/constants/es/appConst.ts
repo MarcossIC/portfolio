@@ -151,11 +151,12 @@ export const SERVICES: ServicesType = {
 };
 
 export const HEADER: LinksHeaderArray = [
-  { ID: '1-pp', LABEL: 'Proyectos', PATH: '', FRAGMENT: 'projects' },
-  { ID: '2-ap', LABEL: 'Acerca de', PATH: '', FRAGMENT: 'about' },
-  { ID: '3-sp', LABEL: 'Estudios', PATH: '', FRAGMENT: 'studies' },
+  { ID: '1-pp', LABEL: 'Experiencia', PATH: '', FRAGMENT: 'career' },
+  { ID: '2-ap', LABEL: 'Acerca de', PATH: '', FRAGMENT: 'about-me' },
+  { ID: '3-sp', LABEL: 'Proyectos', PATH: '', FRAGMENT: 'projects' },
   { ID: '4-cp', LABEL: 'Contacto', PATH: '', FRAGMENT: 'contact' },
 ];
+
 
 export const FOOTER = {
   BRAND: {
@@ -165,8 +166,9 @@ export const FOOTER = {
     TITLE: 'Navegación',
     LINKS: [
       { ID: 'nav-hero', LABEL: 'Inicio', FRAGMENT: 'hero', ARIA_LABEL: 'Ir al inicio' },
+      { ID: 'nav-about', LABEL: 'Experiencia', FRAGMENT: 'career', ARIA_LABEL: 'Ir a experiencias' },
+      { ID: 'nav-about', LABEL: 'Acerca de', FRAGMENT: 'about-me', ARIA_LABEL: 'Ir a acerca de' },
       { ID: 'nav-projects', LABEL: 'Proyectos', FRAGMENT: 'projects', ARIA_LABEL: 'Ir a Proyectos' },
-      { ID: 'nav-about', LABEL: 'Acerca de', FRAGMENT: 'about', ARIA_LABEL: 'Ir a Acerca de' },
       { ID: 'nav-contact', LABEL: 'Contacto', FRAGMENT: 'contact', ARIA_LABEL: 'Ir a Contacto' }
     ]
   },

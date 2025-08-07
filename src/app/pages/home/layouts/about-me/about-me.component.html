@@ -3,24 +3,11 @@
   id="about-me"
   class="max-w-[100vw] flex flex-col w-[99%] flex-1 justify-center items-center py-20 px-6 relative overflow-hidden"
 >
-  <!-- Background effects -->
   <div class="absolute inset-0">
-
-    <!-- Floating particles -->
-    <!-- <div class="floating-particles">
-      <div *ngFor="let position of particlePositions; let idx = index"
-           class="particle"
-           [style.left.%]="position.left"
-           [style.top.%]="position.top">
-      </div>
-    </div> -->
-
-    <!-- Large decorative elements -->
     <div class="decorative-element"></div>
   </div>
 
   <div class="max-w-7xl mx-auto relative z-10 w-full">
-    <!-- Section header -->
     <div class="text-center mb-16" *ngIf="isInView() || isBrowser" @fadeInUp>
       <app-title
         className="text-center"
