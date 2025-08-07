@@ -1,14 +1,18 @@
 .liquid-container {
-  @apply w-full flex items-center justify-center py-12 px-0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: 3rem;
+  padding-inline: 0;
 }
 .liquid-container .liquid {
-  @apply bg-transparents-purple shadow-liquid w-auto h-auto max-w-maxCalc xs:max-w-none  xs:h-80 sm:h-[29rem] xl:w-[31rem] xl:h-[28rem] min-[1600px]:w-[50rem] min-[1600px]:h-[45rem];
   transition-duration: 0.5s;
   transition-property: ease;
   transition-property: border-radius;
   animation: liquid 4s linear infinite alternate both;
 
-  text-transform: ;
+  text-transform: none;
 }
 
 @keyframes liquid {
