@@ -248,6 +248,9 @@
   transform: scale(1.05) translateY(-2px);
 }
 
+
+
+
 /* Responsive Design */
 @media only screen and (max-width: 979.9px) {
   .timeline-item {
@@ -288,6 +291,11 @@
   }
 }
 
+@media only screen and (max-width: 490px) {
+  .timeline-item {
+    width: 98%;
+  }
+}
 @media only screen and (max-width: 480px) {
   .timeline-item {
     --item-offset-position: -7%;
