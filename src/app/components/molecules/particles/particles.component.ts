@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, type OnInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { type IParticlesProps, NgParticlesModule } from 'ng-particles';
 import {
   ClickMode,
@@ -25,7 +26,7 @@ import { loadSlim } from 'tsparticles-slim';
           class="w-full h-full absolute mix-blend-color-dodge"
           style="z-index: -1;"
         >
-          @if (particlesOptions$) {
+          @if (particlesOptions$ && shouldShowParticles) {
             <ng-particles
               [id]="id"
               [options]="particlesOptions$"
@@ -40,22 +41,154 @@ import { loadSlim } from 'tsparticles-slim';
   styleUrls: ['./particles.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ParticlesComponent implements OnInit {
+export class ParticlesComponent implements OnInit, OnDestroy {
   private currenteColor: string;
+  private isMobile: boolean = false;
+  private loadTimeout?: number;
   protected id = 'tsparticles';
   protected particlesOptions$: IParticlesProps | undefined;
+  protected shouldShowParticles: boolean = false;
 
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.currenteColor = '#c48cd8';
+    this.isMobile = this.detectMobile();
   }
   ngOnInit(): void {
-    this.particlesOptions$ = {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    // Configurar partículas según el dispositivo
+    this.particlesOptions$ = this.isMobile ? this.getMobileConfig() : this.getDesktopConfig();
+
+    // En móviles, cargar con delay para no bloquear la carga inicial
+    if (this.isMobile) {
+      this.loadTimeout = window.setTimeout(() => {
+        this.shouldShowParticles = true;
+      }, 2000); // Delay de 2 segundos en móviles
+    } else {
+      this.shouldShowParticles = true;
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.loadTimeout) {
+      clearTimeout(this.loadTimeout);
+    }
+  }
+
+  private detectMobile(): boolean {
+    if (!isPlatformBrowser(this.platformId)) {
+      return false;
+    }
+
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    const isSmallScreen = window.innerWidth <= 768;
+
+    return isMobileDevice || isSmallScreen;
+  }
+
+  private getMobileConfig(): IParticlesProps {
+    return {
       background: {
         color: {
           value: 'none',
         },
       },
-      fpsLimit: 120,
+      fpsLimit: 30, // Reducido para móviles
+      interactivity: {
+        events: {
+          onClick: {
+            enable: false,
+            mode: ClickMode.repulse,
+          },
+          onHover: {
+            enable: false, // Deshabilitado en móviles
+            mode: HoverMode.bubble,
+          },
+          resize: true,
+        },
+        modes: {
+          push: {
+            quantity: 2,
+          },
+          repulse: {
+            distance: 200,
+            duration: 0.2,
+          },
+        },
+      },
+      particles: {
+        color: {
+          value: this.currenteColor,
+        },
+        links: {
+          color: this.currenteColor,
+          distance: 100, // Reducido
+          enable: false,
+          opacity: 0.2, // Menos opacidad
+          width: 1,
+        },
+        collisions: {
+          enable: false,
+        },
+        move: {
+          enable: true,
+          speed: 0.4, // Mucho más lento
+          direction: MoveDirection.topLeft,
+          random: false,
+          straight: false,
+          outModes: {
+            default: OutMode.out,
+          },
+        },
+        number: {
+          density: {
+            enable: true,
+            area: 1200, // Mayor área = menos densidad
+          },
+          value: 30, // Muchas menos partículas
+        },
+        opacity: {
+          value: 0.6, // Menos opacidad
+          anim: {
+            enable: false, // Sin animación de opacidad
+            speed: 1,
+            opacity_min: 0,
+            sync: false,
+          },
+        },
+        shape: {
+          type: 'circle',
+          stroke: {
+            width: 0,
+            color: '#fff',
+          },
+        },
+        size: {
+          value: { min: 1, max: 2 }, // Partículas más pequeñas
+          random: true,
+          anim: {
+            enable: false, // Sin animación de tamaño
+            speed: 2,
+            size_min: 0.3,
+            sync: true,
+          },
+        },
+      },
+      detectRetina: false, // Deshabilitado en móviles
+    };
+  }
+
+  private getDesktopConfig(): IParticlesProps {
+    return {
+      background: {
+        color: {
+          value: 'none',
+        },
+      },
+      fpsLimit: 60, // Reducido de 120 a 60
       interactivity: {
         events: {
           onClick: {
@@ -76,7 +209,7 @@ export class ParticlesComponent implements OnInit {
             distance: 400,
             duration: 0.4,
           },
-          buble: {
+          bubble: { // Corregido el typo "buble"
             distance: 250,
             size: 0,
             duration: 2,
@@ -114,7 +247,7 @@ export class ParticlesComponent implements OnInit {
             enable: true,
             area: 800,
           },
-          value: 100,
+          value: 80, // Reducido de 100 a 80
         },
         opacity: {
           value: 0.9,
