@@ -188,7 +188,9 @@ navigate::ng-deep router-link::ng-deep a {
   }
 }
 
-@media only screen and (max-width: 440px) {
+
+
+@media only screen and (max-width: 480px) {
   header {
     padding-inline: 8px;
   }
@@ -198,6 +200,12 @@ navigate::ng-deep router-link::ng-deep a {
   }
   .nav-link-responsive {
     font-size: .85rem;
+  }
+}
+
+@media only screen and (max-width: 413px) {
+  .nav-link-responsive {
+    font-size: .75rem;
   }
 }
 

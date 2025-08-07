@@ -20,11 +20,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  column-gap: 2rem;
+  column-gap: 9cqw;
   border: 1px solid #2c06701f;
   margin-inline: auto;
   padding-inline: 1rem;
-  padding-block: 0.45rem;
+  padding-block: 0.75rem;
   border-radius: 1.25rem;
   margin-block-start: 0rem;
   background: linear-gradient(
