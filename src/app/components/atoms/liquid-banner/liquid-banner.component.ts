@@ -11,7 +11,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       data-aos="fade-up"
       data-aos-duration="400"
     >
-      <div class="liquid">
+      <div class="liquid bg-transparents-purple shadow-liquid w-auto h-auto max-w-maxCalc xs:max-w-none  xs:h-80 sm:h-[29rem] xl:w-[31rem] xl:h-[28rem] min-[1600px]:w-[50rem] min-[1600px]:h-[45rem]">
         <div class="liquid-container">
           <img
             src="../../../../assets/utils/Programmer.webp"

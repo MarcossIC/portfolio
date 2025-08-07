@@ -34,35 +34,36 @@ import { ButtonComponent } from './button.component';
         <h1>Acme</h1>
       </div>
       <div>
-        <div *ngIf="user">
+        @if (user) {
+          <div>
           <span class="welcome">
             Welcome, <b>{{ user.name }}</b
             >!
           </span>
           <storybook-button
-            *ngIf="user"
             size="small"
             (onClick)="outLogout.emit($event)"
             label="Log out"
           ></storybook-button>
-        </div>
-        <div *ngIf="!user">
+          </div>
+        }
+        @if (!user) {
+          <div>
           <storybook-button
-            *ngIf="!user"
             size="small"
             class="margin-left"
             (onClick)="outLogin.emit($event)"
             label="Log in"
           ></storybook-button>
           <storybook-button
-            *ngIf="!user"
             size="small"
             [primary]="true"
             class="margin-left"
             (onClick)="outCreateAccount.emit($event)"
             label="Sign up"
           ></storybook-button>
-        </div>
+          </div>
+        }
       </div>
     </div>
   </header>`,

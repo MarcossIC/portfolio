@@ -1,18 +1,43 @@
 <app-header></app-header>
 
-<animation-module></animation-module>
+<!-- Defer the animation module as it's heavy and not critical for initial render -->
+@defer (on viewport) {
+  <animation-module></animation-module>
+} @placeholder {
+  <!-- Lightweight placeholder for background animations -->
+  <div class="fixed inset-0 z-0 bg-gradient-to-br from-purple-900/5 to-blue-900/5"></div>
+}
 
 <div class="site-container z-10 relative">
   <main class="main">
     <router-outlet />
   </main>
 
+  <!-- Defer particles as they're heavy and decorative -->
   <div class="relative">
-    <app-particles></app-particles>
+    @defer (on viewport; prefetch on idle) {
+      <app-particles></app-particles>
+    } @placeholder {
+      <!-- Simple gradient placeholder -->
+      <div class="w-[1310px] h-full absolute right-0 bottom-0">
+        <div class="bg-none lg:bg-gradient-to-l lg:from-purple-500/5 lg:to-transparent w-full h-full"></div>
+      </div>
+    }
   </div>
 </div>
-<footer class="footer">
-  <app-footer></app-footer>
-</footer>
 
-<app-toast />
+<!-- Defer footer as it's below the fold -->
+@defer (on viewport) {
+  <footer class="footer">
+    <app-footer></app-footer>
+  </footer>
+} @placeholder {
+  <div class="footer bg-slate-900/50 min-h-[200px]"></div>
+}
+
+<!-- Defer toast as it's only needed when notifications occur -->
+@defer (on interaction; prefetch on idle) {
+  <app-toast />
+} @placeholder {
+  <div></div>
+}
