@@ -7,6 +7,9 @@
   list-style: none;
   z-index: 1;
   margin-block-start: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Timeline Central Line */
@@ -30,9 +33,13 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 979.9px) {
+  .timeline {
+    gap: 2rem;
+  }
+
   .timeline::after {
-    left: 2rem;
+    left: 2.9rem;
     transform: translateX(0);
   }
 }
@@ -40,15 +47,6 @@
 @media (max-width: 480px) {
   .timeline::after {
     left: 1.5rem;
-  }
-}
-
-/* Desktop Two-Column Layout */
-@media (min-width: 768px) {
-  .timeline {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 }
 

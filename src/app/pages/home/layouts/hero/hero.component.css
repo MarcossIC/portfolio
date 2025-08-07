@@ -2,8 +2,6 @@ section {
   display: flex;
   justify-content: space-evenly;
   min-height: calc(100dvh - 50px);
-  margin-inline: 1rem;
-  padding-inline: 2.25rem;
   margin-block-end: 1rem;
   padding-block-start: 16dvh;
 }
@@ -29,6 +27,7 @@ p {
   max-width: 90%;
 }
 
+
 @media only screen and (min-width: 480px) {
   h1 {
     font-size: clamp(1.85rem, 7dvw, 3.75rem);
@@ -38,6 +37,13 @@ p {
     white-space: normal;
   }
 }
+@media only screen and (min-width: 580px) {
+  .contact {
+    margin-inline: 1rem;
+    padding-inline: 2.25rem;
+  }
+}
+
 
 @media only screen and (min-width: 785px) {
   h1 {

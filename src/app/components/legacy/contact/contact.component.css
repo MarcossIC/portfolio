@@ -2,8 +2,7 @@
   display: flex;
   justify-content: space-evenly;
   min-height: calc(100dvh - 100px);
-  margin-inline: 1rem;
-  padding-inline: 2.25rem;
+
   column-gap: 25px;
 }
 
@@ -16,6 +15,13 @@
 
 .right-content {
   display: none;
+}
+
+@media only screen and (min-width: 580px) {
+  .contact {
+    margin-inline: 1rem;
+    padding-inline: 2.25rem;
+  }
 }
 
 @media only screen and (max-width: 768px) {

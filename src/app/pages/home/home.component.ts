@@ -5,6 +5,7 @@ import { BentoAboutLayout } from '@app/pages/home/layouts/bento-about/bento-abou
 import { ContactLayout } from '@app/pages/home/layouts/contact/contact.component';
 import { StudiesLayout } from '@app/pages/home/layouts/studies/studies.component';
 import { ExperiencyComponent } from '@app/pages/home/layouts/experiency/experiency.component';
+import { AboutMeLayout } from '@app/pages/home/layouts/about-me/about-me.component';
 
 @Component({
   selector: 'home-page',
@@ -19,6 +20,7 @@ import { ExperiencyComponent } from '@app/pages/home/layouts/experiency/experien
     ContactLayout,
     StudiesLayout,
     ExperiencyComponent,
+    AboutMeLayout,
   ],
 })
 export class HomePage {}

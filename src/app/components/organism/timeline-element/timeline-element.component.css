@@ -292,10 +292,15 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media only screen and (max-width: 979.9px) {
   .timeline-item {
+    --item-offset-position: 0%;
+    --item-offset: 24px;
+    --item-offset-right: var(--item-offset);
     gap: 1rem;
     margin-bottom: 3rem;
+    width: 90%;
+    justify-content: flex-end;
   }
 
   .timeline-node__circle {
@@ -326,7 +331,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media only screen and (max-width: 480px) {
   .timeline-item {
     gap: 0.75rem;
     margin-bottom: 2rem;
@@ -363,7 +368,7 @@
 }
 
 /* Desktop Layout - Two columns */
-@media (min-width: 768px) {
+@media only screen and (min-width: 980px) {
   .timeline-item {
     width: 50%;
     margin-bottom: 4rem;

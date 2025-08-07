@@ -17,6 +17,7 @@ export const USER: User = {
     'https://drive.usercontent.google.com/u/2/uc?id=1fxazKwrFJ91R2-3bIAKGsu4gkfaXB-iJ&export=download',
   viewResume: 'Ver currículum',
   shortResume: 'Currículum',
+  photo: '../../../../assets/utils/FOTO_CV.webp'
 };
 
 //User data to complete the about bento

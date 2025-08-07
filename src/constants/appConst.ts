@@ -52,7 +52,48 @@ export const CONTACT_TITLE = {
 export const ABOUT_TITLE = {
   TITLE_COMPLETE: 'About me',
   TITLE: ['About', 'me'],
-  SUB: 'Better architecture, easier everything'
+  SUB: 'Better architecture, easier everything',
+  DESCRIPTION: [
+    {
+      ID: '1-description',
+      MAIN: true,
+      TEXT: "I’m a <span class='highlight-text-description'>Full Stack Developer</span> with over 3 years of professional experience building modern, scalable, and user-centered applications. I’ve worked across both frontend and backend, using technologies like Angular, React, Next.js, Spring Boot, and NestJS. I’m currently part of the Boutique Software team, where I develop end-to-end solutions using Angular and Spring Boot.",
+    },
+    {
+      ID: '2-description',
+      MAIN: false,
+      TEXT: "Throughout my career, I’ve led tech migrations, optimized frontend architectures, collaborated with multidisciplinary teams, and actively participated in hackathons and collaborative projects. I’m passionate about continuous improvement, clean and sustainable code, and creating robust digital experiences. I’m always looking for new challenges where I can deliver real value—technically and humanly."
+    }
+  ],
+  TAGS: [
+    {
+      ID: '1-tag',
+      ICON: 'code2',
+      COLOR: 'text-purple-400',
+      TEXT: "Frontend Specialist"
+    },
+    {
+      ID: '2-tag',
+      ICON: 'heart',
+      COLOR: 'text-red-400',
+      TEXT: "Passionate Developer"
+    },
+    {
+      ID: '3-tag',
+      ICON: 'zap',
+      COLOR: 'text-green-400',
+      TEXT: "Fast Learner"
+    },
+    {
+      ID: '4-tag',
+      ICON: 'zap',
+      COLOR: 'text-blue-400',
+      TEXT: "Team Player"
+    }
+  ],
+  BUTTON: {
+    TEXT: "Download CV"
+  }
 };
 
 export const CONTACT_FORM = {

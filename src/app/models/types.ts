@@ -26,6 +26,7 @@ export interface User {
   downloadCv: string;
   viewResume: string;
   shortResume: string;
+  photo: string;
 }
 
 export interface UserExperience {

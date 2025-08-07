@@ -17,11 +17,12 @@ export const USER: User = {
     'https://drive.usercontent.google.com/u/2/uc?id=1fxazKwrFJ91R2-3bIAKGsu4gkfaXB-iJ&export=download',
   viewResume: 'View resume',
   shortResume: 'Resume',
+  photo: '../../../../assets/utils/FOTO_CV.webp'
 };
 
 //User data to complete the about bento
 export const ABOUT_USER: BentoUser = {
-  yearsExpertice: '02',
+  yearsExpertice: '03',
   experticeTitle: 'Years of experience',
   experienceTitle: 'Experience',
   githubBento: {

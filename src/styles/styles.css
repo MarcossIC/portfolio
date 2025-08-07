@@ -79,6 +79,11 @@
   user-select: none;
 }
 
+.highlight-text-description {
+  color: var(--ml-violet-100);
+  font-weight: 500;
+}
+
 
 
 .animate-in {
