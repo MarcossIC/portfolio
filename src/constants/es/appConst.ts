@@ -152,7 +152,7 @@ export const SERVICES: ServicesType = {
 
 export const HEADER: LinksHeaderArray = [
   { ID: '1-pp', LABEL: 'Experiencia', PATH: '', FRAGMENT: 'career' },
-  { ID: '2-ap', LABEL: 'Acerca de', PATH: '', FRAGMENT: 'about-me' },
+  { ID: '2-ap', LABEL: 'Personal', PATH: '', FRAGMENT: 'about-me' },
   { ID: '3-sp', LABEL: 'Proyectos', PATH: '', FRAGMENT: 'projects' },
   { ID: '4-cp', LABEL: 'Contacto', PATH: '', FRAGMENT: 'contact' },
 ];
@@ -167,7 +167,7 @@ export const FOOTER = {
     LINKS: [
       { ID: 'nav-hero', LABEL: 'Inicio', FRAGMENT: 'hero', ARIA_LABEL: 'Ir al inicio' },
       { ID: 'nav-about', LABEL: 'Experiencia', FRAGMENT: 'career', ARIA_LABEL: 'Ir a experiencias' },
-      { ID: 'nav-about', LABEL: 'Acerca de', FRAGMENT: 'about-me', ARIA_LABEL: 'Ir a acerca de' },
+      { ID: 'nav-about', LABEL: 'Personal', FRAGMENT: 'about-me', ARIA_LABEL: 'Ir a acerca de' },
       { ID: 'nav-projects', LABEL: 'Proyectos', FRAGMENT: 'projects', ARIA_LABEL: 'Ir a Proyectos' },
       { ID: 'nav-contact', LABEL: 'Contacto', FRAGMENT: 'contact', ARIA_LABEL: 'Ir a Contacto' }
     ]

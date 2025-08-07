@@ -46,7 +46,7 @@
 
 @media (max-width: 480px) {
   .timeline::after {
-    left: .75rem;
+    left: calc(calc(2.5rem * 0.675) / 2.2);
   }
 }
 
