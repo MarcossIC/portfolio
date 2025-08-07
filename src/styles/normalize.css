@@ -45,7 +45,7 @@
 /*************     MONTSERRAT FONT  ********************/
 /*******************************************************/
 
-@font-face {
+/* @font-face {
   font-family: "Montserrat";
   font-style: light;
   font-weight: 300;
@@ -87,7 +87,7 @@
   src:
     local("Montserrat-Bold"),
     url("../assets/fonts/Montserrat-Bold.ttf") format("truetype");
-}
+} */
 
 ::-webkit-scrollbar {
   width: 2px;
