@@ -90,7 +90,7 @@ export const ABOUT_USER: BentoUser = {
       ID: 'b00fb15c9503',
       DEGREE: 'IT technician',
       STRONG: 'IT',
-      STATE: "EPET N4 'O.E.A' - Finalized",
+      STATE: "E.P.E.T N4 'O.E.A' - Finalized",
       DESCRIPTION:
         'I learned the basics of programming, robotics, entrepreneurship concepts, design and software',
     },

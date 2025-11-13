@@ -22,7 +22,7 @@ const PROJECTS_TRANSLATIONS: ProjectTranslation[] = [
   },
   {
     ID: '5-project',
-    DESC: 'Invoicer++ is an open source application to generate commercial documents. It is an educational web platform created for students who are learning to create and manage business documents.',
+    DESC: 'Facturador++ is an open source application to generate commercial documents. It is an educational web platform created for students who are learning to create and manage business documents.',
   },
   {
     ID: '6-project',
