@@ -7,7 +7,7 @@ import {
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { PortfolioButtonComponent } from '@app/components/core/portfolio-button/portfolio-button.component';
-import { fn } from '@storybook/test';
+import { fn } from 'storybook/test';
 import { MoveBackgroundDirective } from '@app/lib/directives/MoveBackground.directive';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories

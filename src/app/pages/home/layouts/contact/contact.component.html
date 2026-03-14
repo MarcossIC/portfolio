@@ -1,4 +1,4 @@
-<section #contact id="contact">
+<section #contact>
   <app-title
     class="w-fit mx-auto pb-6"
     className="text-center"
@@ -10,7 +10,7 @@
     <span class="bg-ml-text-red bg-clip-text text-transparent">{{ CONTACT_TITLE().TITLE[1] }}</span>
   </app-title>
   <div class="contact relative">
-    <div class="left-content" data-aos="fade-right" data-aos-duration="400">
+    <div class="left-content" scrollAnimate="fade-right">
       <contact-form (contactState)="handleFormSubmit($event)" />
     </div>
 

@@ -1,5 +1,4 @@
 import {
-  waitForAsync,
   type ComponentFixture,
   TestBed,
 } from '@angular/core/testing';
@@ -10,11 +9,11 @@ describe('FooterCopyComponent', () => {
   let component: FooterCopyComponent;
   let fixture: ComponentFixture<FooterCopyComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [FooterCopyComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [FooterCopyComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterCopyComponent);

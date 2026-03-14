@@ -17,6 +17,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorMessageComponent } from '@atoms/error-message/error-message.component';
+import { SuccessIconComponent } from '@app/components/icons/success/success-icon.component';
 
 const VALIDATORS: Record<string, ValidatorFn[]> = {
   name: [
@@ -38,7 +39,7 @@ type FunctionVoid = (e?: unknown) => void;
   templateUrl: './input-field.component.html',
   styleUrl: './input-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ErrorMessageComponent, ReactiveFormsModule],
+  imports: [ErrorMessageComponent, ReactiveFormsModule, SuccessIconComponent],
 })
 export class InputFieldComponent
   implements ControlValueAccessor, AfterViewInit
@@ -103,5 +104,9 @@ export class InputFieldComponent
       (this.fieldControl.hasError('required') ||
         this.fieldControl.hasError('pattern'))
     );
+  }
+
+  protected get showSuccess() {
+    return this.fieldControl.touched && this.fieldControl.valid && this.fieldControl.value;
   }
 }

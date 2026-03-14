@@ -2,24 +2,20 @@
 <experiency-layout />
 <about-me-layout />
 
-<!-- Projects section - defer until visible -->
-@defer (on viewport) {
-  <projects-layout />
-} @placeholder {
-  <div class="min-h-[600px] flex items-center justify-center">
-    <div class="text-center">
-      <div class="animate-pulse text-white/30">Cargando proyectos...</div>
-    </div>
-  </div>
-}
+<!-- Projects section - defer until idle, prefetch immediately -->
+<div id="projects" class="no-outline ring-0">
+  @defer (on idle; prefetch on immediate) {
+    <projects-layout />
+  } @placeholder {
+    <project-skeleton />
+  }
+</div>
 
-<!-- Contact section - defer until visible -->
-@defer (on viewport) {
-  <contact-layout />
-} @placeholder {
-  <div class="min-h-[500px] flex items-center justify-center">
-    <div class="text-center">
-      <div class="animate-pulse text-white/30">Cargando contacto...</div>
-    </div>
-  </div>
-}
+<!-- Contact section - defer until idle, prefetch immediately -->
+<div id="contact" class="no-outline ring-0">
+  @defer (on idle; prefetch on immediate) {
+    <contact-layout />
+  } @placeholder {
+    <contact-skeleton />
+  }
+</div>

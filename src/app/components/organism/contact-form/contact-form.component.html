@@ -1,5 +1,7 @@
 <form
   class="form"
+  [class.shake]="shakeForm()"
+  (animationend)="onShakeEnd()"
   [formGroup]="contactForm"
   (submit)="onSubmit()"
   role="form"
@@ -40,9 +42,9 @@
 
   <button
     class="button-form"
+    [class.button-disabled]="contactForm.invalid"
     type="submit"
     role="button"
-    [disabled]="contactForm.invalid"
     [attr.aria-disabled]="contactForm.invalid"
   >
     {{ CONTACT_FORM().BUTTON.TEXT }}

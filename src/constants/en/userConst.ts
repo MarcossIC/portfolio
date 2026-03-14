@@ -17,7 +17,11 @@ export const USER: User = {
     'https://drive.usercontent.google.com/u/2/uc?id=1fxazKwrFJ91R2-3bIAKGsu4gkfaXB-iJ&export=download',
   viewResume: 'View resume',
   shortResume: 'Resume',
-  photo: '../../../../assets/utils/FOTO_CV.webp'
+  photo: '../../../../assets/utils/FOTO_CV.webp',
+  heroCTA: {
+    talk: "Let's Talk",
+    downloadCV: 'Download CV',
+  }
 };
 
 //User data to complete the about bento
@@ -34,7 +38,7 @@ export const ABOUT_USER: BentoUser = {
     {
       ID: '0-exp',
       COMPANY: 'Boutique Software',
-      ROLE: 'Full stack developer',
+      ROLE: 'Software Develpment',
       TIME: 'December 2024 - Present',
       DESCRIPTION: '',
       STACK: ['Angular', 'Spring Boot', 'Docker'],
@@ -42,7 +46,7 @@ export const ABOUT_USER: BentoUser = {
     {
       ID: '1-exp',
       COMPANY: 'Codefend',
-      ROLE: 'Front end developer',
+      ROLE: 'Software Develpment',
       TIME: 'December 2023 - April 2025',
       DESCRIPTION:
         'At Codefend, I led the frontend development of a SaaS platform connecting companies with cybersecurity providers, migrating from SolidJS to React, optimizing the architecture, reducing dependencies, and collaborating on the implementation of security intelligence APIs.',

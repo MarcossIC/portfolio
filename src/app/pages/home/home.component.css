@@ -1,0 +1,20 @@
+/* Section spacing rhythm — consistent vertical whitespace between all sections */
+:host {
+  --section-gap: clamp(4rem, 8vh, 7rem);
+}
+
+/* Experiency/Career section: increase bottom breathing room */
+experiency-layout {
+  display: block;
+  padding-block-end: var(--section-gap);
+}
+
+/* About-me → Projects gap via the wrapper div */
+#projects {
+  padding-block-start: var(--section-gap);
+}
+
+/* Projects → Contact gap via the wrapper div */
+#contact {
+  padding-block-start: var(--section-gap);
+}

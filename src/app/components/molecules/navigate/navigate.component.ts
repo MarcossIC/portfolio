@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLinkComponent } from '@atoms/router-link/router-link.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterLinkComponent],
+  imports: [RouterLinkComponent],
   selector: 'navigate',
   templateUrl: './navigate.component.html',
   styleUrl: './navigate.component.css',

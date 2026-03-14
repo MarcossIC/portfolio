@@ -27,6 +27,10 @@ export interface User {
   viewResume: string;
   shortResume: string;
   photo: string;
+  heroCTA: {
+    talk: string;
+    downloadCV: string;
+  };
 }
 
 export interface UserExperience {

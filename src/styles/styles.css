@@ -1,6 +1,32 @@
 @import "tailwindcss";
 @config "../../tailwind.config.mjs";
 
+/* Scroll Animation States */
+[data-scroll-animate] {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition:
+    opacity var(--scroll-dur, 0.7s) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform var(--scroll-dur, 0.7s) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter var(--scroll-dur, 0.7s) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition-delay: var(--scroll-delay, 0s);
+}
+[data-scroll-animate="fade-up"] { transform: translateY(30px); }
+[data-scroll-animate="fade-left"] { transform: translateX(-40px); }
+[data-scroll-animate="fade-right"] { transform: translateX(40px); }
+[data-scroll-animate="scale-up"] { transform: scale(0.9); }
+[data-scroll-animate="blur-to-sharp"] { filter: blur(8px); transform: translateY(20px); }
+[data-scroll-animate].scroll-visible { opacity: 1; transform: none; filter: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-animate] {
+    transform: none;
+    filter: none;
+    transition: opacity 0.4s ease;
+    transition-delay: var(--scroll-delay, 0s);
+  }
+}
+
 @utility clip-path-circle {
   --tw-circle-path: 50% at 50% 50%;
   clip-path: circle(var(--tw-circle-path));

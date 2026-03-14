@@ -1,29 +1,59 @@
+/* ===========================
+   Timeline Element — Scroll-reveal animations
+   Single animation system: CSS transitions, triggered by .is-visible on host
+   backdrop-filter isolated per-card to prevent Chrome compositing flicker
+   =========================== */
+
+/* Host element: isolation boundary prevents backdrop-filter cross-talk */
+:host {
+  display: block;
+  isolation: isolate;
+  contain: layout style;
+}
+
 /* Timeline Item Container */
 .timeline-item {
   --item-offset: 33px;
   --item-offset-right: calc(var(--item-offset) * -1);
   --item-offset-position: 0%;
+  --slide-origin: -40px;
   position: relative;
   display: flex;
   align-items: flex-start;
   gap: 2rem;
   margin-bottom: 4rem;
   list-style: none;
-  opacity: 0;
-  animation: slideInLeft 0.8s ease-out forwards;
   left: var(--item-offset-position);
+
+  /* Hidden state before scroll reveal */
+  opacity: 0;
+  transform: translateX(var(--slide-origin)) translateY(12px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .timeline-item--right {
-  transform: translateX(-10px);
-  animation: slideInRight 0.8s ease-out forwards;
+  --slide-origin: 40px;
+}
+
+/* Visible state — triggered by IntersectionObserver on host */
+:host(.is-visible) .timeline-item {
+  opacity: 1;
+  transform: translateX(var(--item-offset)) translateY(0);
+}
+
+:host(.is-visible) .timeline-item--right {
+  transform: translateX(var(--item-offset-right)) translateY(0);
 }
 
 .timeline-item:last-child {
   margin-bottom: 0;
 }
 
-/* Timeline Node */
+/* ===========================
+   Timeline Node
+   =========================== */
 .timeline-node {
   position: relative;
   display: flex;
@@ -37,29 +67,45 @@
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
-  backdrop-filter: blur(20px);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* Use solid semi-transparent bg instead of backdrop-filter to avoid flicker */
+  background: linear-gradient(135deg, rgba(40, 30, 60, 0.85), rgba(25, 20, 45, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  animation: nodeAppear 0.6s ease-out 0.2s forwards;
-  transform: scale(0) rotate(-180deg);
+
+  /* Entrance: scale up with slight delay */
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+}
+
+:host(.is-visible) .timeline-node__circle {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .timeline-node__circle:hover {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.08);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .timeline-node__glow {
   position: absolute;
-  inset: 0;
+  inset: -6px;
   border-radius: 50%;
   background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3));
   filter: blur(20px);
   z-index: -1;
+  opacity: 0;
+  transition: opacity 0.6s ease 0.2s;
+}
+
+:host(.is-visible) .timeline-node__glow {
+  opacity: 1;
 }
 
 .timeline-node__icon {
@@ -70,12 +116,24 @@
   z-index: 10;
 }
 
-/* Timeline Content */
+/* ===========================
+   Timeline Content
+   =========================== */
 .timeline-content {
   flex: 1;
   max-width: 32rem;
-  transform: translateY(30px);
-  animation: slideInUp 0.8s ease-out 0.3s forwards;
+
+  /* Staggered entrance */
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+}
+
+:host(.is-visible) .timeline-content {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .timeline-item--left .timeline-content {
@@ -86,42 +144,60 @@
   order: 1;
 }
 
-/* Timeline Card */
+/* ===========================
+   Timeline Card
+   Isolated GPU layer to prevent backdrop-filter flicker on siblings
+   =========================== */
 .timeline-card {
   position: relative;
-  /* Angular animation will handle the hover transform */
+  /* Force own compositing layer so hover doesn't affect siblings */
+  transform: translateZ(0);
+  transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.timeline-card.is-hovered {
+  transform: translateY(-6px) scale(1.015) translateZ(0);
 }
 
 .timeline-card__background {
   position: absolute;
   inset: 0;
   border-radius: 1.5rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Solid semi-transparent bg replaces backdrop-filter to eliminate flicker */
+  background: linear-gradient(
+    135deg,
+    rgba(30, 25, 50, 0.88),
+    rgba(20, 18, 40, 0.92)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.timeline-card.is-hovered .timeline-card__background {
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.35),
+    0 0 30px rgba(139, 92, 246, 0.08);
 }
 
 .timeline-card__hover-effect {
   position: absolute;
   inset: 0;
   border-radius: 1.5rem;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), transparent, rgba(59, 130, 246, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.1),
+    transparent 50%,
+    rgba(59, 130, 246, 0.1)
+  );
   opacity: 0;
-  transform: scale(0.95);
-  /* Remove CSS transition - Angular animation will handle this */
+  transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: none;
 }
 
-.timeline-card__blob {
-  position: absolute;
-  inset: -4px;
-  border-radius: 1.5rem;
-  background: linear-gradient(45deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
-  filter: blur(24px);
-  opacity: 0;
-  transform: scale(0.95);
-  animation: blobAnimation 3s ease-in-out infinite;
-  /* Remove CSS transition - Angular animation will handle this */
+.timeline-card.is-hovered .timeline-card__hover-effect {
+  opacity: 1;
 }
 
 .timeline-card__content {
@@ -130,7 +206,9 @@
   z-index: 1;
 }
 
-/* Card Header */
+/* ===========================
+   Card Header
+   =========================== */
 .timeline-card__header {
   display: flex;
   align-items: flex-start;
@@ -151,7 +229,7 @@
   text-align: left;
 }
 
-.timeline-card:hover .timeline-card__title {
+.timeline-card.is-hovered .timeline-card__title {
   color: rgb(196, 181, 253);
 }
 
@@ -161,11 +239,6 @@
   gap: 0.5rem;
   color: rgb(196, 181, 253);
   margin-bottom: 0.5rem;
-}
-
-.timeline-card__company-icon {
-  width: 1rem;
-  height: 1rem;
 }
 
 .timeline-card__company-name {
@@ -186,33 +259,9 @@
   gap: 0.25rem;
 }
 
-.timeline-card__time-icon {
-  width: 0.75rem;
-  height: 0.75rem;
-}
-
-/* Link Button */
-.timeline-card__link-btn {
-  padding: 0.5rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.timeline-card__link-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1) rotate(15deg);
-}
-
-.timeline-card__link-icon {
-  width: 1rem;
-  height: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* Description */
+/* ===========================
+   Description
+   =========================== */
 .timeline-card__description {
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.6;
@@ -221,7 +270,9 @@
   text-align: left;
 }
 
-/* Technologies */
+/* ===========================
+   Tech Tags — staggered reveal, no backdrop-filter
+   =========================== */
 .timeline-card__technologies {
   display: flex;
   flex-wrap: wrap;
@@ -229,38 +280,58 @@
 }
 
 .timeline-card__tech-tag {
+  --delay: calc(0.35s + var(--tag-index, 0) * 0.06s);
   padding: 0.375rem 0.75rem;
   font-size: 0.75rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  /* Hidden until host is visible */
   opacity: 0;
-  transform: scale(0.8);
-  animation: tagAppear 0.4s ease-out forwards;
+  transform: translateY(8px);
+  transition:
+    opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1) var(--delay),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) var(--delay),
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+:host(.is-visible) .timeline-card__tech-tag {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .timeline-card__tech-tag:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.05) translateY(-2px);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
 }
 
-
-
-
-/* Responsive Design */
+/* ===========================
+   Responsive
+   =========================== */
 @media only screen and (max-width: 979.9px) {
   .timeline-item {
     --item-offset-position: 0%;
     --item-offset: 24px;
     --item-offset-right: var(--item-offset);
+    --slide-origin: 0px;
     gap: 1rem;
     margin-bottom: 3rem;
     width: 90%;
     justify-content: flex-end;
+  }
+
+  .timeline-item--right {
+    --slide-origin: 0px;
+  }
+
+  :host(.is-visible) .timeline-item,
+  :host(.is-visible) .timeline-item--right {
+    transform: translateX(var(--item-offset)) translateY(0);
   }
 
   .timeline-node__circle {
@@ -296,6 +367,7 @@
     width: 98%;
   }
 }
+
 @media only screen and (max-width: 480px) {
   .timeline-item {
     --item-offset-position: -7%;
@@ -303,12 +375,13 @@
     --item-offset-right: var(--item-offset);
     gap: 0.75rem;
   }
-  .timeline-node {
-    scale: .9;
 
-    svg {
-      scale: .85;
-    }
+  .timeline-node {
+    scale: 0.9;
+  }
+
+  .timeline-node svg {
+    scale: 0.85;
   }
 
   .timeline-node__circle {
@@ -367,45 +440,28 @@
   }
 }
 
-/* Animations */
-@keyframes slideInLeft {
-  to {
+/* ===========================
+   Reduced motion
+   =========================== */
+@media (prefers-reduced-motion: reduce) {
+  .timeline-item,
+  .timeline-node__circle,
+  .timeline-content,
+  .timeline-card__tech-tag,
+  .timeline-card,
+  .timeline-card__background,
+  .timeline-card__hover-effect,
+  .timeline-node__glow {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  .timeline-item {
     opacity: 1;
-    transform: translateX(var(--item-offset)) translateX(0);
+    transform: translateX(var(--item-offset)) translateY(0);
   }
-}
 
-@keyframes slideInRight {
-  to {
-    opacity: 1;
-    transform: translateX(var(--item-offset-right));
-  }
-}
-
-@keyframes slideInUp {
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes nodeAppear {
-  to {
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes tagAppear {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes blobAnimation {
-  0%, 100% {
-    background: linear-gradient(45deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
-  }
-  50% {
-    background: linear-gradient(45deg, rgba(59, 130, 246, 0.2), rgba(236, 72, 153, 0.2), rgba(59, 130, 246, 0.2));
+  .timeline-item--right {
+    transform: translateX(var(--item-offset-right)) translateY(0);
   }
 }

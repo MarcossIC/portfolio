@@ -1,5 +1,4 @@
 import {
-  waitForAsync,
   type ComponentFixture,
   TestBed,
 } from '@angular/core/testing';
@@ -10,11 +9,11 @@ describe('ProjectsLayoutComponent', () => {
   let component: ProjectsLayout;
   let fixture: ComponentFixture<ProjectsLayout>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProjectsLayout],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ProjectsLayout],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProjectsLayout);

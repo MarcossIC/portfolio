@@ -4,7 +4,6 @@
     target="_blank"
     [title]="TITLE()"
     class="link-to-repo cursor-pointer z-20 outline-none focus:outline-none"
-    (mousemove)="onMouseMove($event)"
     #projectImg
   >
     <!-- Container for atropos -->
@@ -21,7 +20,6 @@
       </div>
     </div>
   </a>
-  <app-tool-tip [x]="tooltipX" [y]="tooltipY">{{ TOOLTIP() }}</app-tool-tip>
 
   <!-- TAGS for project -->
   <div class="flex flex-nowrap gap-x-4 absolute left-[5%] bottom-[1.75%]">

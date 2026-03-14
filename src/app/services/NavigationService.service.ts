@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { inject, Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { ScrollProgressService } from './ScrollProgressService.service';
 
 /**
@@ -42,10 +42,11 @@ export interface SectionInfo {
 export class NavigationService {
   private readonly document = inject(DOCUMENT);
   private readonly scrollService = inject(ScrollProgressService);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   private readonly defaultConfig: Required<NavigationConfig> = {
     duration: 800,
-    offset: 0,
+    offset: 100,
     fallbackBehavior: 'fallback'
   };
 
@@ -93,6 +94,7 @@ export class NavigationService {
    * @returns Información de la sección o null si no se encuentra
    */
   getSectionInfo(sectionId: string): SectionInfo | null {
+    if (!this.isBrowser) return null;
     const element = this.document.getElementById(sectionId);
 
     if (!element) {
@@ -161,7 +163,7 @@ export class NavigationService {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         // Si no existe el elemento, intentar con hash navigation
-        window.location.hash = sectionId;
+        if (this.isBrowser) window.location.hash = sectionId;
       }
     }
   }

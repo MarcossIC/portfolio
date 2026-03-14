@@ -7,6 +7,17 @@
   padding: 20px;
 }
 
+.form.shake {
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+
 app-textarea-field,
 app-input-field {
   width: 100%;
@@ -32,20 +43,20 @@ app-input-field {
   -webkit-backdrop-filter: blur(10px);
 }
 
-.button-form:disabled {
-  background: linear-gradient(135deg, rgba(120, 120, 120, 0.6) 0%, rgba(100, 100, 100, 0.6) 100%);
+.button-disabled {
+  background: linear-gradient(135deg, rgba(120, 120, 120, 0.6) 0%, rgba(100, 100, 100, 0.6) 100%) !important;
   cursor: not-allowed;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transform: none;
 }
 
-.button-form:not(:disabled):hover {
+.button-form:not(.button-disabled):hover {
   background: linear-gradient(135deg, rgba(153, 27, 27, 1) 0%, rgba(127, 29, 29, 1) 100%);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(185, 28, 28, 0.4);
 }
 
-.button-form:not(:disabled):active {
+.button-form:not(.button-disabled):active {
   transform: translateY(0);
   box-shadow: 0 2px 8px rgba(185, 28, 28, 0.3);
 }

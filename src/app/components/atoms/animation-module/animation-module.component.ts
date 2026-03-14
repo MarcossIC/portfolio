@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   type AfterViewInit,
   Component,
@@ -32,7 +32,7 @@ import * as AOS from 'aos';
   standalone: true,
   templateUrl: './animation-module.component.html',
   styleUrl: './animation-module.component.css',
-  imports: [CommonModule],
+  imports: [],
   animations: [
     trigger('backgroundAnimation', [
       state(

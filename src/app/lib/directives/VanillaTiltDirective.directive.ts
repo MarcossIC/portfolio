@@ -1,34 +1,37 @@
 import {
-  type AfterViewInit,
   Directive,
   ElementRef,
   inject,
+  afterNextRender,
+  DestroyRef,
 } from '@angular/core';
 import VanillaTilt from 'vanilla-tilt';
 
 @Directive({
   selector: '[useVanillaTilt]',
-  standalone: true,
 })
-export class VanillaTiltDirective implements AfterViewInit {
+export class VanillaTiltDirective {
   private el = inject(ElementRef);
+  private destroyRef = inject(DestroyRef);
 
-  ngAfterViewInit() {
-    const tiltContainer = this.el.nativeElement;
-    if (!this.isMobile) {
-      VanillaTilt.init(tiltContainer, {
-        max: 20,
-        scale: 1.1,
-        speed: 250,
-        perspective: 1000,
-        transition: true,
-        reset: true,
-        gyroscope: true,
-      });
-    }
-  }
+  constructor() {
+    afterNextRender(() => {
+      if (window.innerWidth >= 768) {
+        const tiltContainer = this.el.nativeElement;
+        VanillaTilt.init(tiltContainer, {
+          max: 20,
+          scale: 1.1,
+          speed: 250,
+          perspective: 1000,
+          transition: true,
+          reset: true,
+          gyroscope: true,
+        });
 
-  private get isMobile(): boolean {
-    return window.innerWidth < 768;
+        this.destroyRef.onDestroy(() => {
+          tiltContainer?.vanillaTilt?.destroy();
+        });
+      }
+    });
   }
 }

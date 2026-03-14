@@ -45,7 +45,7 @@
           <div class="p-1.5 lg:p-2 xl:p-2.5 pr-3 lg:pr-3 xl:pr-5">
             @for (language of supportedLanguages; track language.code) {
             <button (click)="handleLanguageChange(language)"
-              class="relative w-full px-3 py-2 lg:px-4 lg:py-2.5 xl:px-5 xl:py-3 2xl:px-6 2xl:py-3.5 text-left text-sm lg:text-base xl:text-lg transition-all duration-300 flex items-center gap-2.5 lg:gap-3 xl:gap-3.5 group rounded-xl lg:rounded-2xl btn-menu-option cursor-pointer"
+              class="relative w-full min-h-11 px-3 py-2 lg:px-4 lg:py-2.5 xl:px-5 xl:py-3 2xl:px-6 2xl:py-3.5 text-left text-sm lg:text-base xl:text-lg transition-all duration-300 flex items-center gap-2.5 lg:gap-3 xl:gap-3.5 group rounded-xl lg:rounded-2xl btn-menu-option cursor-pointer"
               [ngClass]="{ 'text-white bg-white/20 backdrop-blur-md shadow-lg scale-[0.98]': isSelectedLang(language), 'text-white/90 hover:text-white hover:bg-white/15 hover:backdrop-blur-md hover:scale-[0.99]': !isSelectedLang(language) }"
               [disabled]="isLoadingLanguage()">
 

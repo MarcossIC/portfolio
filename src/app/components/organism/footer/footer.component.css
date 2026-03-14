@@ -20,7 +20,6 @@ router-link::ng-deep .foot-navigation {
   position: relative;
   margin-right: 1rem;
   font-weight: 500;
-
   font-size: 1.2rem;
   color: #e7e7e7;
   opacity: 0.75;

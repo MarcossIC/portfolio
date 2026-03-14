@@ -40,6 +40,9 @@
   gap: 8px;
   cursor: pointer;
   padding: 6px 8px;
+  min-height: 44px;
+  min-width: 44px;
+  justify-content: center;
   border-radius: 8px;
   transition: background 0.2s ease;
 }
@@ -128,7 +131,6 @@
   }
 
   .language-selector {
-    padding: 5px 7px;
     gap: 7px;
   }
 }
@@ -141,7 +143,6 @@
   }
 
   .language-selector {
-    padding: 4px 6px;
     gap: 6px;
   }
 
@@ -175,10 +176,6 @@
   .language-resume-container {
     padding: 6px 10px;
     gap: 6px;
-  }
-
-  .language-selector {
-    padding: 3px 5px;
   }
 
   .lucide-globe {
@@ -219,7 +216,6 @@
   }
 
   .language-selector {
-    padding: 4px 6px;
     gap: 4px;
   }
 

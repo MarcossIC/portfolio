@@ -48,7 +48,25 @@ export class I18nService {
   public readonly hasConstants = computed(() => this._constants() !== null);
 
   /**
-   * Inicializa el servicio con el idioma por defecto o el guardado en localStorage
+   * Carga las constantes del idioma por defecto (español) sin detección geolocalizada.
+   * Seguro para SSR y browser. Debe llamarse antes de initializeLanguage().
+   */
+  public loadDefaultLanguage(): void {
+    if (this._constants()) return;
+
+    const savedLanguage = this.getSavedLanguage();
+    const language = (savedLanguage && this.isValidLanguage(savedLanguage)) ? savedLanguage : 'es';
+
+    const constants = this.loadLanguageConstantsSync(language);
+    if (constants) {
+      this._currentLanguage.set(language);
+      this._constants.set(constants);
+    }
+  }
+
+  /**
+   * Inicializa el idioma basándose en la preferencia guardada o detección geolocalizada.
+   * Debe ejecutarse solo en el browser (dentro de afterNextRender).
    */
   public async initializeLanguage(): Promise<void> {
     const savedLanguage = this.getSavedLanguage();
@@ -58,7 +76,7 @@ export class I18nService {
       return;
     }
 
-    // Si no hay idioma guardado, detectar basado en la ubicación
+    // Detectar basado en la ubicación (solo browser)
     const detectedLanguage = await this.detectLanguageByLocation();
     await this.setLanguage(detectedLanguage);
   }
@@ -157,6 +175,20 @@ export class I18nService {
     } catch (error) {
       console.warn('Error al procesar código de país:', error);
       return 'en';
+    }
+  }
+
+  /**
+   * Carga las constantes de forma síncrona (sin fetch externo)
+   */
+  private loadLanguageConstantsSync(language: SupportedLanguage): LocalizedConstants | null {
+    try {
+      const userConst = this.importConstant(language, 'userConst');
+      const appConst = this.importConstant(language, 'appConst');
+      const technologiesConst = this.importConstant(language, 'technologiesConst');
+      return { userConst, appConst, technologiesConst };
+    } catch {
+      return null;
     }
   }
 

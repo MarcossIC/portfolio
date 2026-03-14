@@ -3,6 +3,7 @@ import { TitleComponent } from "@app/components/atoms/title/title.component";
 import { TimelineExperiencyComponent } from "@app/components/organism/timeline-experiency/timeline-experiency.component";
 import { I18nService } from "@app/services/i18n.service";
 import { ABOUT_USER } from "@constants/userConst";
+import { ScrollAnimationDirective } from "@lib/directives/ScrollAnimation.directive";
 
 @Component({
   standalone: true,
@@ -13,6 +14,7 @@ import { ABOUT_USER } from "@constants/userConst";
   imports: [
     TitleComponent,
     TimelineExperiencyComponent,
+    ScrollAnimationDirective,
   ],
 })
 export class ExperiencyComponent {

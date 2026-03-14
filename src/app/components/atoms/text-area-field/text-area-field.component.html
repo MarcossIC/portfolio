@@ -7,14 +7,24 @@
     [formControl]="fieldControl"
     role="textbox"
     [attr.aria-label]="aria()"
+    [attr.aria-describedby]="id() + '-feedback'"
     autocapitalize="none"
     placeholder=" "
     [cols]="cols()"
     [rows]="rows()"
   ></textarea>
   <label [for]="id()">{{ label() }}</label>
+  <span class="char-counter" [class.char-warning]="charCount > 270">
+    {{ charCount }}/{{ maxLength }}
+  </span>
+  @if (showSuccess) {
+    <span [id]="id() + '-feedback'" class="success-indicator">
+      <SuccessIcon />
+    </span>
+  }
   @if(showError){
   <error-message
+    [id]="id() + '-feedback'"
     errorClass="text-[#e12a2a] items-center font-semibold text-center"
     [errorMessage]="errorMessage()"
   ></error-message>

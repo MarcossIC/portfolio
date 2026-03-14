@@ -26,10 +26,45 @@ textarea:focus {
   transform: translateY(-1px);
 }
 
-/* textarea:hover:not(:focus) {
-  border-color: rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.07);
-} */
+/* Estado válido con valor */
+textarea.ng-valid.ng-touched:not(:placeholder-shown) {
+  border-color: rgba(34, 197, 94, 0.6);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+textarea.ng-valid.ng-touched:not(:placeholder-shown) + label {
+  color: rgba(34, 197, 94, 0.9);
+}
+
+.success-indicator {
+  position: absolute;
+  right: 14px;
+  top: 16px;
+  color: rgba(34, 197, 94, 0.9);
+  display: flex;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.char-counter {
+  position: absolute;
+  right: 14px;
+  bottom: 30px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: inherit;
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+.char-warning {
+  color: rgba(239, 68, 68, 0.8);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
 
 /* Estado inválido - borde rojo (aplica siempre que sea inválido) */
 textarea.ng-invalid {

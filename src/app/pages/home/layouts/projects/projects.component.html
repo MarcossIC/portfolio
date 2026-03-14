@@ -1,5 +1,5 @@
-<section id="projects">
-  <div data-aos="fade-up" data-aos-duration="75">
+<section>
+  <div scrollAnimate="fade-up">
     <app-title className="text-center" [titleID]="titleID" [name]="PROJECTS_TITLE().TITLE_COMPLETE">
       {{ PROJECTS_TITLE().TITLE[0] }}
       <span class="bg-ml-text-red bg-clip-text text-transparent">{{ PROJECTS_TITLE().TITLE[1] }}</span>
@@ -8,11 +8,14 @@
 
   <div class="projects">
     @for(PROJECT of PROJECTS(); track PROJECT.ID){
-    <article class="project-grid" [ngClass]="'grid-el-' + ($index + 1)">
+    <article
+      class="project-grid"
+      [ngClass]="'grid-el-' + ($index + 1)"
+      scrollAnimate="blur-to-sharp"
+      [scrollDelay]="($index * 150) + 'ms'"
+    >
       <project-article
         [PROJECT]="PROJECT"
-        data-aos="fade-up"
-        data-aos-duration="50"
         >@for(ICON of PROJECT.ICONS; track $index){ @if(getIconComponent(ICON);
         as iconComponent){
         <ng-container *ngComponentOutlet="iconComponent"></ng-container>

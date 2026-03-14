@@ -2,8 +2,7 @@ section {
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding-block-end: 2.5rem;
-  padding-block-start: 19dvh;
+  padding-block-end: clamp(3rem, 6vh, 6rem);
 }
 
 .contact {
@@ -63,8 +62,4 @@ contact-form {
   }
 }
 
-@media only screen and (min-height: 500px) {
-  section {
-    padding-block-start: 13dvh;
-  }
-}
+/* Section padding-top handled by #contact wrapper in home.component.css */

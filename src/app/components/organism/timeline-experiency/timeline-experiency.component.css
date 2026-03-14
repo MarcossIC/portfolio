@@ -12,9 +12,27 @@
   align-items: center;
 }
 
-/* Timeline Central Line */
+/* Timeline Central Line - static background */
 .timeline::after {
   content: "";
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(139, 92, 246, 0.15) 10%,
+    rgba(59, 130, 246, 0.1) 50%,
+    rgba(139, 92, 246, 0.15) 90%,
+    transparent 100%
+  );
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+}
+
+/* Timeline Progress Line - animated fill */
+.timeline-progress {
   position: absolute;
   width: 1px;
   height: 100%;
@@ -27,9 +45,10 @@
   );
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform-origin: top;
   z-index: -1;
-  filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.4));
+  pointer-events: none;
+  margin-left: -0.5px;
 }
 
 /* Responsive Design */
@@ -42,20 +61,25 @@
     left: 2.9rem;
     transform: translateX(0);
   }
+
+  .timeline-progress {
+    left: 2.9rem;
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 480px) {
   .timeline::after {
     left: calc(calc(2.5rem * 0.675) / 2.2);
   }
+  .timeline-progress {
+    left: calc(calc(2.5rem * 0.675) / 2.2);
+  }
 }
 
 /* Enhanced Glow Effects */
-.timeline::after {
-  box-shadow:
-    0 0 20px rgba(139, 92, 246, 0.3),
-    0 0 40px rgba(59, 130, 246, 0.2),
-    0 0 60px rgba(139, 92, 246, 0.1);
+.timeline-progress {
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
 }
 
 /* Animations */
@@ -113,6 +137,9 @@
 
 @media (min-width: 1580px) {
   .timeline::after {
+    width: 2px;
+  }
+  .timeline-progress {
     width: 2px;
     filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
   }

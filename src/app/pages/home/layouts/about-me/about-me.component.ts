@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, OnDestroy, signal, ElementRef, ViewChild, AfterViewInit, PLATFORM_ID, afterNextRender, DestroyRef } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { TitleComponent } from '@atoms/title/title.component';
 import { I18nService } from '@app/services/i18n.service';
 import { ABOUT_TITLE } from '@constants/appConst';
@@ -51,7 +51,7 @@ const ICONS: Record<string, string> = {
   templateUrl: './about-me.component.html',
   styleUrl: './about-me.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TitleComponent, CommonModule],
+  imports: [TitleComponent],
   animations: [
     trigger('fadeInUp', [
       transition(':enter', [
@@ -85,7 +85,7 @@ const ICONS: Record<string, string> = {
     ])
   ]
 })
-export class AboutMeLayout implements OnDestroy, AfterViewInit {
+export class AboutMeLayout implements OnDestroy {
   protected readonly i18nService = inject(I18nService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
@@ -113,17 +113,11 @@ export class AboutMeLayout implements OnDestroy, AfterViewInit {
   constructor() {
     afterNextRender(() => {
       this.isBrowser = isPlatformBrowser(this.platformId);
-      if (this.isBrowser) {
+      if (this.isBrowser && this.sectionRef) {
         this.setupIntersectionObserver();
+        this.intersectionObserver!.observe(this.sectionRef.nativeElement);
       }
     });
-  }
-
-  ngAfterViewInit() {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-    if (this.isBrowser && this.intersectionObserver && this.sectionRef) {
-      this.intersectionObserver.observe(this.sectionRef.nativeElement);
-    }
   }
 
   ngOnDestroy() {
@@ -150,7 +144,7 @@ export class AboutMeLayout implements OnDestroy, AfterViewInit {
           }
         });
       },
-      { threshold: 0.3, rootMargin: '-100px' }
+      { threshold: 0.05, rootMargin: '0px' }
     );
   }
 

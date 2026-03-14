@@ -36,8 +36,11 @@
   box-shadow: 19px 8px 10px 5px rgba(0, 0, 0, 0.2), inset 0 -12px 40px #3800bd26;
 }
 
-::ng-deep a.social-link {
-  scale: 0.865;
+::ng-deep a.social-link .social-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 @media only screen and (min-width: 490px) {
@@ -46,8 +49,9 @@
     padding-block: 0.5rem;
   }
 
-  ::ng-deep a.social-link {
-    scale: 0.9;
+  ::ng-deep a.social-link .social-icon {
+    width: 52px;
+    height: 52px;
   }
 }
 
@@ -57,7 +61,8 @@
     padding-block: 1rem;
   }
 
-  ::ng-deep a.social-link {
-    scale: 1;
+  ::ng-deep a.social-link .social-icon {
+    width: 56px;
+    height: 56px;
   }
 }

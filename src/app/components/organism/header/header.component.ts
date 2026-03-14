@@ -1,4 +1,4 @@
-import { CommonModule, ViewportScroller } from '@angular/common';
+import { ViewportScroller } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { HEADER } from '@constants/appConst';
 import { NavigateComponent } from '../../molecules/navigate/navigate.component';
@@ -40,11 +40,10 @@ import { ScrollProgressService } from '@app/services/ScrollProgressService.servi
   styleUrls: ['./header.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     NavigateComponent,
     LogoIconComponent,
-    HeaderMenuOptionsComponent,
-  ],
+    HeaderMenuOptionsComponent
+],
 })
 export class HeaderComponent {
   private readonly scrollService = inject(ScrollProgressService);

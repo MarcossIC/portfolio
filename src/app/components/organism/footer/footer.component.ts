@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { LogoIconComponent } from '@icons/logo-icon.component';
 import { CoffeeIconComponent } from '@app/components/icons/coffee/coffee-icon.component';
@@ -15,12 +15,11 @@ import { SocialButtonComponent } from '@app/components/core/social-button/social
   styleUrls: ['./footer.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     LogoIconComponent,
     RouterLinkComponent,
     CoffeeIconComponent,
-    SocialButtonComponent,
-  ],
+    SocialButtonComponent
+],
 })
 export class FooterComponent {
   protected readonly i18nService = inject(I18nService);

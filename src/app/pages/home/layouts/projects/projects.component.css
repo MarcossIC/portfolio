@@ -26,7 +26,8 @@
 section {
   margin-block-start: 1rem;
   border-radius: 10px;
-  padding-block-start: 19dvh;
+  padding-block-start: 0;
+  padding-block-end: clamp(2rem, 4vh, 4rem);
 }
 
 .projects {
@@ -97,8 +98,4 @@ section {
   }
 }
 
-@media only screen and (min-height: 500px) {
-  section {
-    padding-block-start: 13dvh;
-  }
-}
+/* Section padding-top handled by #projects wrapper in home.component.css */

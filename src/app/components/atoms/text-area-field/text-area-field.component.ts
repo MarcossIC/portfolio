@@ -17,6 +17,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorMessageComponent } from '@atoms/error-message/error-message.component';
+import { SuccessIconComponent } from '@app/components/icons/success/success-icon.component';
 
 const VALIDATORS: Record<string, ValidatorFn[]> = {
   message: [Validators.required, Validators.maxLength(300)],
@@ -30,7 +31,7 @@ type FunctionVoid = (e?: unknown) => void;
   templateUrl: './text-area-field.component.html',
   styleUrl: './text-area-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ErrorMessageComponent, ReactiveFormsModule],
+  imports: [ErrorMessageComponent, ReactiveFormsModule, SuccessIconComponent],
 })
 export class TextAreaFieldComponent
   implements ControlValueAccessor, AfterViewInit
@@ -95,4 +96,14 @@ export class TextAreaFieldComponent
         this.fieldControl.hasError('maxLength'))
     );
   }
+
+  protected get showSuccess() {
+    return this.fieldControl.touched && this.fieldControl.valid && this.fieldControl.value;
+  }
+
+  protected get charCount(): number {
+    return this.fieldControl.value?.length || 0;
+  }
+
+  protected readonly maxLength = 300;
 }
