@@ -1,4 +1,3 @@
-
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,8 +15,6 @@ import {
 } from '@angular/forms';
 import type { ContactState } from '@app/models/contactState.model';
 import { I18nService } from '@app/services/i18n.service';
-import { InputFieldComponent } from '@atoms/input-field/input-field.component';
-import { TextAreaFieldComponent } from '@atoms/text-area-field/text-area-field.component';
 import { CONTACT_FORM } from '@constants/appConst';
 
 @Component({
@@ -26,11 +23,7 @@ import { CONTACT_FORM } from '@constants/appConst';
   templateUrl: './contact-form.component.html',
   styleUrl: './contact-form.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    ReactiveFormsModule,
-    InputFieldComponent,
-    TextAreaFieldComponent
-],
+  imports: [ReactiveFormsModule],
 })
 export class ContactFormComponent implements OnDestroy {
   private formBuilder = inject(FormBuilder);
@@ -40,6 +33,7 @@ export class ContactFormComponent implements OnDestroy {
   @Output() public contactState = new EventEmitter<ContactState>();
   protected contactForm = this.createContactForm();
   protected readonly shakeForm = signal(false);
+  protected readonly focused = signal<string | null>(null);
 
   ngOnDestroy(): void {
     this.contactForm.reset();
@@ -78,5 +72,9 @@ export class ContactFormComponent implements OnDestroy {
 
   protected onShakeEnd() {
     this.shakeForm.set(false);
+  }
+
+  protected setFocus(field: string | null) {
+    this.focused.set(field);
   }
 }

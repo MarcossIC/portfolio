@@ -19,5 +19,6 @@ import { ScrollAnimationDirective } from "@lib/directives/ScrollAnimation.direct
 })
 export class ExperiencyComponent {
  public readonly i18n = inject(I18nService);
- public readonly EXPERIENCIES = computed(() => this.i18n.getConstant('userConst')?.ABOUT_USER?.experiencies || ABOUT_USER.experiences);
+ public readonly ABOUT_USER = computed(() => this.i18n.getConstant('userConst')?.ABOUT_USER || ABOUT_USER);
+ public readonly EXPERIENCIES = computed(() => this.ABOUT_USER().experiences);
 }

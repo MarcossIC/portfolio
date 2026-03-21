@@ -1,178 +1,172 @@
-<footer class="flex flex-col mt-4 pt-8 pb-0 overflow-wrap break-all">
-  <div class="footer-bg -mt-[1px]">
-    <svg data-name="Layer 1" viewBox="0 0 1200 120" preserveAspectRatio="none">
-      <path
-        d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-        class="shape-fill"
-      ></path>
+<footer>
+  <!-- Animated wave separator (transparent bg, sits above content) -->
+  <div class="wave-separator">
+    <svg
+      class="wave-svg"
+      viewBox="0 0 1440 160"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="waveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="hsl(270 95% 83% / 0.12)" />
+          <stop offset="50%" stop-color="hsl(16 100% 50% / 0.08)" />
+          <stop offset="100%" stop-color="hsl(270 95% 83% / 0.12)" />
+        </linearGradient>
+        <linearGradient id="waveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="hsl(270 95% 83% / 0.06)" />
+          <stop offset="100%" stop-color="hsl(16 100% 50% / 0.04)" />
+        </linearGradient>
+      </defs>
+      <!-- Back wave -->
+      <path class="wave-back" d="M0,80 C240,140 480,20 720,80 C960,140 1200,20 1440,80 L1440,160 L0,160 Z" fill="url(#waveGrad2)" />
+      <!-- Front wave -->
+      <path class="wave-front" d="M0,100 C360,140 720,60 1080,100 C1260,120 1380,90 1440,100 L1440,160 L0,160 Z" fill="url(#waveGrad1)" />
+      <!-- Solid base wave -->
+      <path class="wave-base" d="M0,120 C480,150 960,100 1440,130 L1440,160 L0,160 Z" fill="hsl(263 87% 6%)" />
     </svg>
   </div>
 
-  <div
-    class="flex flex-col pb-4 min-[1080px]:flex-row pt-4 min-[1080px]:pt-[100px]"
-  >
-    <div
-      class="flex flex-col gap-x-4 mb-6 flex-[.75] items-center justify-center min-[1080px]:mb-0 min-[1080px]:flex-row"
-    >
-      <LogoIcon />
-      <h2
-        class="bg-ml-text-white bg-clip-text !text-transparent fill-transparent text-[2rem] font-semibold -mt-[10px] min-[1080px]:mt-0"
-      >
-        {{ FOOTER().BRAND.NAME }}
-      </h2>
-    </div>
+  <!-- Footer content with solid background -->
+  <div class="footer-body">
+    <!-- Top glow line -->
+    <div class="footer-glow-line"></div>
 
     <div
-      class="flex flex-col flex-[.4] justify-start items-center mb-7 min-[1080px]:my-0"
+      class="flex flex-col pb-4 min-[1080px]:flex-row pt-4 min-[1080px]:pt-[100px]"
     >
-      <div>
-        <h3 class="font-bold text-[1.45rem]">{{ FOOTER().NAVIGATION.TITLE }}</h3>
-        <ul class="flex flex-col gap-y-1 mt-2" role="list">
-          @for (link of FOOTER().NAVIGATION.LINKS; track link.ID) {
-            <li role="listitem" [attr.aria-label]="link.ARIA_LABEL">
-              <router-link
-                [fragment]="link.FRAGMENT"
-                classNames="foot-navigation"
-                [navigationConfig]="footerNavigationConfig">
-                {{ link.LABEL }}
-              </router-link>
-            </li>
-          }
-        </ul>
-      </div>
-    </div>
-
-    <div
-      class="flex-1 flex flex-col-reverse justify-center items-center gap-y-6 text-[1rem]"
-    >
-      <div class="flex w-full justify-center pb-4">
-        <ul
-          class="flex flex-col gap-y-4"
-          role="list"
-          aria-label="Contact information"
-        >
-          <li
-            class="flex relative gap-x-4"
-            role="listitem"
-            [attr.aria-label]="FOOTER().CONTACT.LOCATION.ARIA_LABEL"
-          >
-            <svg
-              class="w-6 h-6 min-[1500px]:w-8 min-[1500px]:h-8"
-              role="complementary"
-              aria-disabled="true"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-              ></path>
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-              ></path>
-            </svg>
-            {{ FOOTER().CONTACT.LOCATION.TEXT }}
-          </li>
-          <li class="flex relative gap-x-4" role="listitem" aria-label="Email">
-            <svg
-              class="w-6 h-6 min-[1500px]:w-7 min-[1500px]:h-7"
-              role="complementary"
-              aria-disabled="true"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-              ></path>
-            </svg>
-            <img
-              src="../../../../assets/email.svg"
-              role="img"
-              [attr.aria-describedby]="'email'"
-              [attr.aria-label]="FOOTER().CONTACT.EMAIL.ARIA_LABEL"
-              class="min-[1500px]:w-[18]"
-              [alt]="FOOTER().CONTACT.EMAIL.ALT"
-            />
-          </li>
-        </ul>
-      </div>
       <div
-        class="flex flex-row gap-x-5 justify-center items-center relative mx-auto"
+        class="flex flex-col gap-x-4 mb-6 flex-[.75] items-center justify-center min-[1080px]:mb-0 min-[1080px]:flex-row"
       >
-        <!-- <social-button
-          [socialUri]="FOOTER().SOCIAL.LINKEDIN.URL"
-          [title]="FOOTER().SOCIAL.LINKEDIN.TITLE"
-          [className]="FOOTER().SOCIAL.LINKEDIN.CLASS"
+        <LogoIcon />
+        <h2
+          class="bg-ml-text-white bg-clip-text !text-transparent fill-transparent text-[2rem] font-semibold -mt-[10px] min-[1080px]:mt-0"
         >
-          <LinkedinIcon />
-        </social-button>
+          {{ FOOTER().BRAND.NAME }}
+        </h2>
+      </div>
 
-        <social-button
-          [socialUri]="FOOTER().SOCIAL.GITHUB.URL"
-          [title]="FOOTER().SOCIAL.GITHUB.TITLE"
-          [className]="FOOTER().SOCIAL.GITHUB.CLASS"
+      <div
+        class="flex flex-col flex-[.4] justify-start items-center mb-7 min-[1080px]:my-0"
+      >
+        <div>
+          <h3 class="font-bold text-[1.45rem]">{{ FOOTER().NAVIGATION.TITLE }}</h3>
+          <ul class="flex flex-col gap-y-1 mt-2" role="list">
+            @for (link of FOOTER().NAVIGATION.LINKS; track link.ID) {
+              <li role="listitem" [attr.aria-label]="link.ARIA_LABEL">
+                <router-link
+                  [fragment]="link.FRAGMENT"
+                  classNames="foot-navigation"
+                  [navigationConfig]="footerNavigationConfig">
+                  {{ link.LABEL }}
+                </router-link>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="flex-1 flex flex-col-reverse justify-center items-center gap-y-6 text-[1rem]"
+      >
+        <div class="flex w-full justify-center pb-4">
+          <ul
+            class="flex flex-col gap-y-4"
+            role="list"
+            aria-label="Contact information"
+          >
+            <li
+              class="flex relative gap-x-4"
+              role="listitem"
+              [attr.aria-label]="FOOTER().CONTACT.LOCATION.ARIA_LABEL"
+            >
+              <svg
+                class="w-6 h-6 min-[1500px]:w-8 min-[1500px]:h-8"
+                role="complementary"
+                aria-disabled="true"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                ></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                ></path>
+              </svg>
+              {{ FOOTER().CONTACT.LOCATION.TEXT }}
+            </li>
+            <li class="flex relative gap-x-4" role="listitem" aria-label="Email">
+              <svg
+                class="w-6 h-6 min-[1500px]:w-7 min-[1500px]:h-7"
+                role="complementary"
+                aria-disabled="true"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+                ></path>
+              </svg>
+              <img
+                src="../../../../assets/email.svg"
+                role="img"
+                [attr.aria-describedby]="'email'"
+                [attr.aria-label]="FOOTER().CONTACT.EMAIL.ARIA_LABEL"
+                class="min-[1500px]:w-[18]"
+                [alt]="FOOTER().CONTACT.EMAIL.ALT"
+              />
+            </li>
+          </ul>
+        </div>
+        <div
+          class="flex flex-row gap-x-5 justify-center items-center relative mx-auto"
         >
-          <GithubIcon />
-        </social-button>
+          <social-button
+            [to]="FOOTER().SOCIAL.LINKEDIN.URL"
+            [rel]="true"
+            icon="linkedin"
+            title="Visit LinkedIn profile"
+          ></social-button>
 
-        <social-button
-          [socialUri]="FOOTER().SOCIAL.GMAIL.URL"
-          [title]="FOOTER().SOCIAL.GMAIL.TITLE"
-          [className]="FOOTER().SOCIAL.GMAIL.CLASS"
-        >
-          <GmailIcon />
-        </social-button>
+          <social-button
+            [to]="FOOTER().SOCIAL.GITHUB.URL"
+            [rel]="true"
+            icon="github"
+            title="Visit Github profile"
+          ></social-button>
 
-        <social-button
-          [socialUri]="FOOTER().SOCIAL.CV.URL"
-          [className]="FOOTER().SOCIAL.CV.CLASS"
-          [title]="FOOTER().SOCIAL.CV.TITLE"
-        >
-          <CvIcon />
-        </social-button> -->
-        <social-button
-          [to]="FOOTER().SOCIAL.LINKEDIN.URL"
-          [rel]="true"
-          icon="linkedin"
-          title="Visit Github profile"
-        ></social-button>
+          <social-button
+            [to]="FOOTER().SOCIAL.GMAIL.URL"
+            [rel]="true"
+            icon="gmail"
+            title="Send mail"
+          ></social-button>
 
-        <social-button
-          [to]="FOOTER().SOCIAL.GITHUB.URL"
-          [rel]="true"
-          icon="github"
-          title="Visit Github profile"
-        ></social-button>
-
-        <social-button
-          [to]="FOOTER().SOCIAL.GMAIL.URL"
-          [rel]="true"
-          icon="gmail"
-          title="Send mail"
-        ></social-button>
-
-        <social-button
-          [to]="FOOTER().SOCIAL.CV.URL"
-          [rel]="true"
-          icon="cv"
-          title="Download CV"
-        ></social-button>
+          <social-button
+            [to]="FOOTER().SOCIAL.CV.URL"
+            [rel]="true"
+            icon="cv"
+            title="Download CV"
+          ></social-button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div
-    class="w-full mt-auto flex mx-auto justify-center items-center gap-x-2 pt-[1.5rem] pb-3 text-[0.875rem]"
-  >
-    <CoffeeIcon class="coffee-icon" /><small>{{ FOOTER().COPYRIGHT.TEXT }}</small>
+    <div
+      class="w-full mt-auto flex mx-auto justify-center items-center gap-x-2 pt-[1.5rem] pb-3 text-[0.875rem]"
+    >
+      <CoffeeIcon class="coffee-icon" /><small>{{ FOOTER().COPYRIGHT.TEXT }}</small>
+    </div>
   </div>
 </footer>

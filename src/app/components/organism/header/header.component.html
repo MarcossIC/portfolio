@@ -1,0 +1,63 @@
+<header
+  class="header animate-slide-down"
+  [class.glass-strong]="scrolled()"
+  [class.glass]="!scrolled()"
+>
+  <div class="header-container">
+    <!-- Logo -->
+    <button class="logo-btn" (click)="scrollToTop()">
+      M
+    </button>
+
+    <!-- Center nav (desktop) -->
+    <nav class="nav-desktop">
+      <div class="nav-pill glass-card">
+        @for (NAVIGATION of NAVIGATIONS(); track NAVIGATION.ID) {
+          <navigate
+            [path]="NAVIGATION.PATH"
+            [fragment]="NAVIGATION.FRAGMENT"
+            class="nav-link"
+          >{{ NAVIGATION.LABEL }}</navigate>
+        }
+      </div>
+    </nav>
+
+    <!-- Right options (desktop) -->
+    <div class="header-right">
+      <header-menu-options></header-menu-options>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button class="mobile-toggle glass-card" (click)="toggleMobile()">
+      @if (mobileOpen()) {
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      } @else {
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      }
+    </button>
+  </div>
+
+  <!-- Mobile dropdown -->
+  @if (mobileOpen()) {
+    <nav class="mobile-nav">
+      @for (NAVIGATION of NAVIGATIONS(); track NAVIGATION.ID) {
+        <navigate
+          [path]="NAVIGATION.PATH"
+          [fragment]="NAVIGATION.FRAGMENT"
+          class="mobile-link"
+          (click)="closeMobile()"
+        >{{ NAVIGATION.LABEL }}</navigate>
+      }
+      <div class="mobile-options">
+        <header-menu-options></header-menu-options>
+      </div>
+    </nav>
+  }
+</header>

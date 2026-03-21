@@ -51,6 +51,21 @@
   --shadow-social: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000,
     0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
+  /* Cosmic palette */
+  --cosmic-red: oklch(0.58 0.23 28.18);
+  --cosmic-purple: #d8b4fe;
+  --cosmic-violet: #d8b4fe;
+  --cosmic-blue: oklch(0.55 0.15 260);
+
+  /* Cosmic gradients */
+  --gradient-cosmic: linear-gradient(135deg, var(--cosmic-red), var(--cosmic-purple), var(--cosmic-blue));
+  --gradient-glass: linear-gradient(135deg, hsla(263, 50%, 20%, 0.4), hsla(263, 50%, 10%, 0.2));
+
+  /* Cosmic shadows */
+  --shadow-cosmic: 0 0 60px -12px hsla(270, 95%, 83%, 0.4);
+  --shadow-red-glow: 0 0 40px -8px hsla(16, 100%, 50%, 0.5);
+  --shadow-glass: 0 8px 32px hsla(0, 0%, 0%, 0.3);
+
   /* Layout Variables */
   --ml-container-margin-mobile: 10px;
   --ml-container-margin-desktop: 6dvw;

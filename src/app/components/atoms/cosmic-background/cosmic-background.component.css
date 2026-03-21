@@ -1,0 +1,74 @@
+.cosmic-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.parallax-layer {
+  position: absolute;
+  inset: -40px;
+  transition: transform 1.2s ease-out;
+}
+
+.nebula-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+  filter: brightness(0.7) saturate(1.3);
+}
+
+.overlay-depth {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, transparent 20%, #0f0227cc 60%, #0f0227e6 100%);
+}
+
+.star {
+  position: absolute;
+  border-radius: 9999px;
+  background: hsla(0, 0%, 100%, 0.9);
+}
+
+.star--bright {
+  background: radial-gradient(circle, hsla(270, 80%, 90%, 1) 0%, hsla(270, 80%, 70%, 0) 70%);
+}
+
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+}
+
+.orb--purple {
+  top: 15%;
+  right: 20%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, hsla(270, 95%, 83%, 0.1) 0%, transparent 70%);
+}
+
+.orb--red {
+  bottom: 20%;
+  left: 15%;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, hsla(16, 100%, 50%, 0.08) 0%, transparent 70%);
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.015;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, hsla(0, 0%, 100%, 0.1) 2px, hsla(0, 0%, 100%, 0.1) 4px);
+}
+
+.bottom-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 10rem;
+  background: linear-gradient(to top, #0f0227, transparent);
+}

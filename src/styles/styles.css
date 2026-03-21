@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @config "../../tailwind.config.mjs";
+@import "./_cosmic.css";
 
 /* Scroll Animation States */
 [data-scroll-animate] {

@@ -44,9 +44,11 @@ export const STUDIES_TITLE = {
 };
 
 export const CONTACT_TITLE = {
-  TITLE_COMPLETE: 'Ponte en contacto',
-  TITLE: ['Ponte en', 'contacto'],
-  SUB: 'No dudes en enviarme un mensaje para cualquier consulta o proyecto'
+  TITLE_COMPLETE: 'Hablemos de tu pr\u00F3ximo proyecto',
+  TITLE: ['Hablemos de tu', 'pr\u00F3ximo proyecto'],
+  SUB: 'Estoy abierto a nuevas oportunidades y colaboraciones. Cu\u00E9ntame tu idea y construyamos algo incre\u00EDble juntos.',
+  BADGE: 'Contacto',
+  EMAIL_LABEL: 'Email',
 };
 
 export const ABOUT_TITLE = {
@@ -103,23 +105,28 @@ export const CONTACT_FORM = {
   },
   FIELDS: {
     NAME: {
-      LABEL: 'Nombre',
+      LABEL: '01 \u2014 Nombre',
+      PLACEHOLDER: 'Tu nombre completo',
       ARIA: 'Escribe tu nombre.',
-      ERROR_MESSAGE: 'Por favor ingresa un nombre válido.'
+      ERROR_MESSAGE: 'Por favor ingresa un nombre v\u00E1lido.'
     },
     EMAIL: {
-      LABEL: 'Email',
+      LABEL: '02 \u2014 Email',
+      PLACEHOLDER: 'tu@email.com',
       ARIA: 'Escribe tu email.',
-      ERROR_MESSAGE: 'Por favor ingresa un email válido.'
+      ERROR_MESSAGE: 'Por favor ingresa un email v\u00E1lido.'
     },
     MESSAGE: {
-      LABEL: 'Escribe tu mensaje...',
+      LABEL: '03 \u2014 Mensaje',
+      PLACEHOLDER: 'Cu\u00E9ntame sobre tu proyecto o idea...',
       ARIA: 'Escribe tu mensaje.',
-      ERROR_MESSAGE: 'Por favor ingresa un mensaje válido (hay un límite de 300 caracteres).'
+      ERROR_MESSAGE: 'Por favor ingresa un mensaje v\u00E1lido (hay un l\u00EDmite de 300 caracteres).'
     }
   },
   BUTTON: {
-    TEXT: 'Enviar'
+    TEXT: 'Enviar mensaje',
+    SENDING: 'Enviando...',
+    SENT: '\u00A1Mensaje enviado!'
   }
 };
 
@@ -205,6 +212,6 @@ export const FOOTER = {
     }
   },
   COPYRIGHT: {
-    TEXT: 'Desarrollado por Marcos Lopez - Última actualización 2025'
+    TEXT: 'Desarrollado por Marcos Lopez - Última actualización 2026'
   }
 };

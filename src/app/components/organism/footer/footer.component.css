@@ -1,8 +1,13 @@
 footer {
   width: 100%;
   position: relative;
-  background: #1b004e;
+  background: transparent;
   z-index: 100;
+}
+
+.footer-body {
+  position: relative;
+  background: hsl(263 87% 6%);
 }
 
 footer ::ng-deep .logo {
@@ -33,17 +38,72 @@ router-link::ng-deep .foot-navigation:hover {
   color: #fff;
 }
 
-.footer-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
+/* Wave separator */
+.wave-separator {
+  position: relative;
   width: 100%;
   overflow: hidden;
   line-height: 0;
+  margin-bottom: -1px;
 }
 
-.footer-bg .shape-fill {
-  fill: #0f0227;
+.wave-svg {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 120px;
+}
+
+/* Wave animations */
+.wave-back {
+  animation: waveBack 8s ease-in-out infinite;
+}
+
+.wave-front {
+  animation: waveFront 6s ease-in-out infinite;
+}
+
+.wave-base {
+  animation: waveBase 7s ease-in-out infinite;
+}
+
+@keyframes waveBack {
+  0%, 100% {
+    d: path("M0,80 C240,140 480,20 720,80 C960,140 1200,20 1440,80 L1440,160 L0,160 Z");
+  }
+  50% {
+    d: path("M0,90 C240,30 480,130 720,70 C960,30 1200,130 1440,90 L1440,160 L0,160 Z");
+  }
+}
+
+@keyframes waveFront {
+  0%, 100% {
+    d: path("M0,100 C360,140 720,60 1080,100 C1260,120 1380,90 1440,100 L1440,160 L0,160 Z");
+  }
+  50% {
+    d: path("M0,110 C360,60 720,130 1080,90 C1260,70 1380,110 1440,105 L1440,160 L0,160 Z");
+  }
+}
+
+@keyframes waveBase {
+  0%, 100% {
+    d: path("M0,120 C480,150 960,100 1440,130 L1440,160 L0,160 Z");
+  }
+  50% {
+    d: path("M0,130 C480,100 960,145 1440,120 L1440,160 L0,160 Z");
+  }
+}
+
+/* Top glow line */
+.footer-glow-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(216, 180, 254, 0.2), transparent);
+  z-index: 1;
 }
 
 .footer-content {
@@ -60,7 +120,7 @@ router-link::ng-deep .foot-navigation:hover {
   margin-block-end: 2rem;
 }
 
-/* Estilos para el ícono de café */
+/* Estilos para el icono de cafe */
 ::ng-deep .coffee-icon {
   width: 16px;
   height: 16px;
@@ -72,32 +132,27 @@ router-link::ng-deep .foot-navigation:hover {
   height: 100%;
 }
 
+@media screen and (min-width: 768px) {
+  .wave-svg {
+    height: 160px;
+  }
+}
+
 @media screen and (min-width: 1580px) {
   .footer-content span {
     font-size: 2.5rem;
   }
 
-  /* Ícono de café más grande en pantallas grandes */
   ::ng-deep .coffee-icon {
     width: 18px;
     height: 18px;
   }
 }
 
-@media only screen and (min-width: 1500px) {
-  footer {
-    padding-block-start: 2rem;
-  }
-}
-
-@media only screen and (min-width: 1750px) {
-  footer {
-    padding-block-start: 6rem;
-  }
-}
-
-@media only screen and (min-width: 2500px) {
-  footer {
-    padding-block-start: 8.5rem;
+@media (prefers-reduced-motion: reduce) {
+  .wave-back,
+  .wave-front,
+  .wave-base {
+    animation: none;
   }
 }

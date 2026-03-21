@@ -44,9 +44,11 @@ export const STUDIES_TITLE = {
 };
 
 export const CONTACT_TITLE = {
-  TITLE_COMPLETE: 'Get in touch',
-  TITLE: ['Get', 'in touch'],
-  SUB: 'Don\'t hesitate to send me a message for any inquiry or project'
+  TITLE_COMPLETE: "Let's talk about your next project",
+  TITLE: ["Let's talk about your", 'next project'],
+  SUB: "I'm open to new opportunities and collaborations. Tell me your idea and let's build something amazing together.",
+  BADGE: 'Contact',
+  EMAIL_LABEL: 'Email',
 };
 
 export const ABOUT_TITLE = {
@@ -102,23 +104,28 @@ export const CONTACT_FORM = {
   },
   FIELDS: {
     NAME: {
-      LABEL: 'Name',
+      LABEL: '01 — Name',
+      PLACEHOLDER: 'Your full name',
       ARIA: 'Write your name.',
       ERROR_MESSAGE: 'Please enter a valid name.'
     },
     EMAIL: {
-      LABEL: 'Email',
+      LABEL: '02 — Email',
+      PLACEHOLDER: 'your@email.com',
       ARIA: 'Write your email.',
       ERROR_MESSAGE: 'Please enter a valid email.'
     },
     MESSAGE: {
-      LABEL: 'Write your message...',
+      LABEL: '03 — Message',
+      PLACEHOLDER: 'Tell me about your project or idea...',
       ARIA: 'Write your message.',
       ERROR_MESSAGE: 'Please enter a valid message (there is a 300 character limit).'
     }
   },
   BUTTON: {
-    TEXT: 'Send'
+    TEXT: 'Send message',
+    SENDING: 'Sending...',
+    SENT: 'Message sent!'
   }
 };
 
@@ -203,6 +210,6 @@ export const FOOTER = {
     }
   },
   COPYRIGHT: {
-    TEXT: 'Developed by Marcos Lopez - Last update 2025'
+    TEXT: 'Developed by Marcos Lopez - Last update 2026'
   }
 };

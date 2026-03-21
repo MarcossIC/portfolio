@@ -111,7 +111,12 @@ export class CustomCursorComponent {
       if (window.matchMedia('(pointer: coarse)').matches) return;
 
       this.visible.set(true);
-      document.documentElement.style.cursor = 'none';
+
+      // Global style to hide native cursor on all elements
+      const cursorStyle = document.createElement('style');
+      cursorStyle.id = 'custom-cursor-hide';
+      cursorStyle.textContent = '*, *::before, *::after { cursor: none !important; }';
+      document.head.appendChild(cursorStyle);
 
       let rafId = 0;
       const onMove = (e: PointerEvent) => {
@@ -141,7 +146,7 @@ export class CustomCursorComponent {
         document.removeEventListener('pointermove', onMove);
         document.removeEventListener('pointerleave', onLeave);
         document.removeEventListener('pointerenter', onEnter);
-        document.documentElement.style.cursor = '';
+        cursorStyle.remove();
       });
     });
   }

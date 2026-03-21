@@ -31,6 +31,8 @@ export interface User {
     talk: string;
     downloadCV: string;
   };
+  statusBadge: string;
+  scrollHint: string;
 }
 
 export interface UserExperience {
@@ -78,6 +80,7 @@ export interface BentoUser {
   yearsExpertice: string;
   experticeTitle: string;
   experienceTitle: string;
+  experienceSubtitle: string;
   githubBento: GithubBento;
   experiences: UserExperience[];
   profile: UserProfile;
