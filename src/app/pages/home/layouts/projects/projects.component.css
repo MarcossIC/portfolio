@@ -64,23 +64,29 @@ section {
   margin-block-end: 4rem;
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 768px) {
   .projects {
     display: grid;
-    width: 1128px;
-    grid-auto-columns: 1fr;
-    grid-column-gap: 40px;
-    grid-row-gap: 16px;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto;
+    grid-column-gap: 32px;
+    grid-row-gap: 32px;
   }
 
   .project-grid {
     display: block;
-    grid-column-end: span 1;
-    grid-row-start: span 1;
-    grid-row-end: span 1;
+    margin-block-start: 0;
+    margin-block-end: 0;
   }
+}
+
+@media only screen and (min-width: 1200px) {
+  .projects {
+    width: 1128px;
+    grid-column-gap: 40px;
+    grid-row-gap: 16px;
+    grid-template-rows: auto auto auto;
+  }
+
   .grid-el-2 {
     margin-block-start: 14rem;
   }
