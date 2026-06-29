@@ -3,58 +3,42 @@
   [class.timeline-item--left]="cardDirection() === DIRECTION.LEFT"
   [class.timeline-item--right]="cardDirection() === DIRECTION.RIGHT"
 >
-  <!-- Timeline node -->
+  <!-- Center node — circular glass badge with briefcase icon -->
   <div class="timeline-node">
-    <div class="timeline-node__circle">
-      <div class="timeline-node__glow"></div>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="timeline-node__icon"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+    <div class="timeline-node__badge">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
     </div>
   </div>
 
   <!-- Content card -->
   <div class="timeline-content">
-    <div
-      class="timeline-card"
-      [class.is-hovered]="isHovered()"
-      (mouseenter)="onCardMouseEnter()"
-      (mouseleave)="onCardMouseLeave()"
-    >
-      <!-- Background layer -->
-      <div class="timeline-card__background"></div>
-      <div class="timeline-card__hover-effect"></div>
+    <!-- The card IS the tilt surface. FLAT tilt only (perspective+rotate via JS) —
+         no preserve-3d / translateZ here or backdrop-filter glass breaks. -->
+    <div class="timeline-card" #tiltCard>
+      <!-- Diagonal gradient sweep on hover -->
+      <div class="timeline-card__hover-effect" aria-hidden="true"></div>
 
-      <!-- Content -->
       <div class="timeline-card__content">
-        <!-- Header -->
-        <div class="timeline-card__header">
-          <div class="timeline-card__title-section">
-            <h3 class="timeline-card__title">{{ title() }}</h3>
-            <div class="timeline-card__company">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-              <span class="timeline-card__company-name">{{ state() }}</span>
-            </div>
-            @if (time()) {
-              <div class="timeline-card__meta">
-                <div class="timeline-card__time">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg>
-                  <span>{{ time() }}</span>
-                </div>
-              </div>
-            }
-          </div>
+        <h3 class="timeline-card__title">{{ title() }}</h3>
+
+        <div class="timeline-card__company">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          <span class="timeline-card__company-name">{{ state() }}</span>
         </div>
 
-        <!-- Description -->
+        @if (time()) {
+          <div class="timeline-card__time">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg>
+            <span>{{ time() }}</span>
+          </div>
+        }
+
         <p class="timeline-card__description">{{ description() }}</p>
 
-        <!-- Technologies -->
         @if (tags().length) {
           <div class="timeline-card__technologies">
-            @for(tag of tags(); track tag; let i = $index) {
-              <span
-                class="timeline-card__tech-tag"
-                [style.--tag-index]="i"
-              >
+            @for (tag of tags(); track tag; let i = $index) {
+              <span class="timeline-card__tech-tag" [style.--tag-index]="i">
                 {{ tag }}
               </span>
             }

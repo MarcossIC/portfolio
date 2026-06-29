@@ -206,6 +206,12 @@
   min-height: 44px;
 }
 
+.hero-cta-secondary-container {
+  display: inline-flex;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate(0px, 0px);
+}
+
 .hero-cta--primary {
   background: linear-gradient(135deg, oklch(0.51 0.19 27.52), var(--cosmic-purple, #d8b4fe));
   color: white;
@@ -222,12 +228,14 @@
 
 .hero-cta--secondary {
   color: rgba(255, 255, 255, 0.8);
+  background: var(--ml-glass-tint);
 }
 
 .hero-cta--secondary:hover {
   transform: scale(1.05);
-  color: white;
-  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.82);
+  border-color: color-mix(in oklab, var(--ml-violet-400) 60%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 12px 32px -12px var(--btn-glow);
 }
 
 .hero-cta--secondary:active {

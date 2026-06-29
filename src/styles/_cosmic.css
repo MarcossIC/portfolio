@@ -15,10 +15,11 @@
 
 @utility glass-card {
   background: hsla(263, 50%, 14%, 0.35);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  border: 1px solid hsla(270, 95%, 83%, 0.06);
-  box-shadow: var(--shadow-glass);
+    backdrop-filter: blur(1px) saturate(1.2);
+    -webkit-backdrop-filter: blur(1px) saturate(1.2);
+    border: 1px solid var(--ml-glass-border-strong);
+    box-shadow: var(--shadow-glass);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.45s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.45s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Text gradient utilities */

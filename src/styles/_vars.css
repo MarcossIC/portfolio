@@ -7,7 +7,28 @@
   --ml-white-100: oklch(96.27% 0.0126 69.29909856448074);
   --ml-white-200: oklch(93.62% 0.0214 88.13);
   --ml-white-300: oklch(90.95% 0.0214 88.13);
-  --ml-violet-100: #d8b4fe;
+
+  --ml-violet-100: oklch(0.83 0.11 306.4);
+  --ml-violet-400: oklch(0.67 0.22 305.45);
+  --ml-violet-600: oklch(0.54 0.25 293.02);
+
+  --ml-void-900: oklch(0.15 0.07 293.95);
+  --ml-void-800: oklch(0.17 0.09 295.75);
+  --ml-void-700: oklch(0.21 0.09 293.55);
+  --ml-void-600: oklch(0.26 0.11 295.75);
+
+  --btn-glow: hsla(282, 90%, 68%, 0.6);
+
+  --ml-glass-tint: hsla(263, 50%, 12%, 0.4);
+  --ml-glass-border: hsla(270, 95%, 83%, 0.08);
+  --ml-glass-border-strong: hsla(270, 95%, 83%, 0.12);
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --dur-fast: 0.2s;
+  --dur-base: 0.3s;
+  --dur-slow: 0.7s;
+  --dur-reveal: 0.8s;
 
   --ml-text-white: linear-gradient(
     180deg,

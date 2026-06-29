@@ -21,7 +21,7 @@ import { ReducedMotionService } from '@app/services/ReducedMotion.service';
       <div class="timeline" #timelineContainer>
         <div
           class="timeline-progress"
-          [style.transform]="'scaleY(' + timelineFill() + ')'"
+          [style.--timeline-scale]="timelineFill()"
         ></div>
         @for (ITEM of ITEMS(); track ITEM.ID) {
           <timeline-element
