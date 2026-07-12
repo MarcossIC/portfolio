@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, computed } from '@angular/c
 import { I18nService } from '@app/services/i18n.service';
 import type { Language } from '@app/models/i18n.model';
 import { USER } from '@constants/userConst';
+import { ButtonPrimaryComponent } from '@atoms/button-primary/button-primary.component';
 
 @Component({
   standalone: true,
@@ -9,6 +10,7 @@ import { USER } from '@constants/userConst';
   templateUrl: './header-menu-options.component.html',
   styleUrls: ['./header-menu-options.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ButtonPrimaryComponent],
 })
 export class HeaderMenuOptionsComponent {
   private readonly i18nService = inject(I18nService);

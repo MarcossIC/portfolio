@@ -8,6 +8,7 @@ import { HeroSocialBarComponent } from '@organism/hero-social-bar/hero-social-ba
 import { USER } from '@constants/userConst';
 import { I18nService } from '@app/services/i18n.service';
 import { NavigationService } from '@app/services/NavigationService.service';
+import { ButtonPrimaryComponent } from '@app/components/atoms/button-primary/button-primary.component';
 
 @Component({
   standalone: true,
@@ -15,7 +16,7 @@ import { NavigationService } from '@app/services/NavigationService.service';
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [HeroSocialBarComponent],
+  imports: [HeroSocialBarComponent, ButtonPrimaryComponent],
 })
 export class HeroLayout {
   protected readonly i18nService = inject(I18nService);

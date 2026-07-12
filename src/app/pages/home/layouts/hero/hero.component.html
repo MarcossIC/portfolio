@@ -48,12 +48,12 @@
 
         <!-- CTAs -->
         <div class="hero-cta-group animate-fade-up" style="animation-delay: 0.4s">
-          <button class="hero-cta hero-cta--primary border-glow" (click)="scrollToContact()">
+          <button-primary (clicked)="scrollToContact()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
             {{ USER().heroCTA.talk }}
-          </button>
+          </button-primary>
           <div class="hero-cta-secondary-container">
             <a class="hero-cta hero-cta--secondary glass-card" [href]="USER().downloadCv" target="_blank" rel="noopener noreferrer">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

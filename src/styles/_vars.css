@@ -55,6 +55,8 @@
     rgba(50, 17, 106, 0.5) 66.15%
   );
 
+  --gradient-cta: linear-gradient(180deg, oklch(0.62 0.17 296) 0%, oklch(0.54 0.18 298) 100%);
+
   --shadow-contact: 0px 0px 30px rgba(0, 0, 0, 0.03);
   --shadow-liquid: inset 20px 20px 20px rgb(157 0 255 / 5%),
     25px 35px 20px rgba(0, 0, 0, 0.05), 25px 30px 30px rgba(0, 0, 0, 0.05),

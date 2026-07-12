@@ -16,11 +16,11 @@
   </button>
 
   <!-- CV button -->
-  <a
+  <button-primary
     class="cv-btn"
+    size="sm"
     [href]="USER().cv"
     target="_blank"
-    rel="noopener noreferrer"
   >
     <span class="cv-text">{{ USER().shortResume }}</span>
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -28,5 +28,5 @@
       <line x1="7" y1="17" x2="17" y2="7"></line>
       <polyline points="7,7 17,7 17,17"></polyline>
     </svg>
-  </a>
+  </button-primary>
 </div>

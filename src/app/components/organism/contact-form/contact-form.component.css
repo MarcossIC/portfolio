@@ -102,102 +102,21 @@
   height: 2.5rem;
 }
 
-/* Submit button */
-.submit-btn {
-  position: relative;
+/* Submit button — visuals live in the button-primary atom */
+.submit-content {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 2rem;
-  border-radius: 1rem;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.5s;
-  border: none;
-}
-
-.submit-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, oklch(0.51 0.19 27.52), rgba(216, 180, 254, 0.8), var(--cosmic-purple, #d8b4fe));
-  opacity: 0.9;
-  transition: opacity 0.5s;
-}
-
-.submit-btn:hover .submit-bg {
-  opacity: 1;
-}
-
-.submit-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
-}
-
-.submit-shimmer {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.7s;
-}
-
-.submit-btn:hover .submit-shimmer {
-  opacity: 1;
-}
-
-.shimmer-inner {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.08), transparent);
-  transform: translateX(-100%);
-  transition: transform 1s;
-}
-
-.submit-btn:hover .shimmer-inner {
-  transform: translateX(100%);
-}
-
-.submit-text {
-  position: relative;
-  z-index: 1;
-  font-weight: 600;
-  font-size: 0.875rem;
-  color: white;
 }
 
 .submit-icon {
-  position: relative;
-  z-index: 1;
-  color: white;
+  display: inline-flex;
   transition: transform 0.3s;
 }
 
-.submit-btn:hover .submit-icon {
+button-primary.submit-btn:hover .submit-icon {
   transform: translate(4px, -2px);
-}
-
-.submit-btn:hover {
-  transform: scale(1.01);
-  box-shadow: 0 0 60px -10px rgba(216, 180, 254, 0.3);
-}
-
-.submit-btn:active {
-  transform: scale(0.98);
-}
-
-.submit-disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.submit-disabled:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-.submit-disabled .submit-bg {
-  background: linear-gradient(to right, rgba(120, 120, 120, 0.6), rgba(100, 100, 100, 0.6));
 }
 
 @media only screen and (min-width: 768px) {

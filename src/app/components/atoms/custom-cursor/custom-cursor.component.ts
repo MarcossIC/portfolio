@@ -129,7 +129,9 @@ export class CustomCursorComponent {
         rafId = requestAnimationFrame(() => {
           const target = e.target as HTMLElement;
           const isProject = target.closest('.project-img, project-article, .project-card-container');
-          const isLink = !isProject && target.closest('a, button, [role="button"]');
+          const isLink =
+            !isProject &&
+            target.closest('a, button, [role="button"], [data-cursor-interactive]');
 
           this.isOnProject.set(!!isProject);
           this.isHovering.set(!!isLink);

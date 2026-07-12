@@ -1,0 +1,38 @@
+<ng-template #content><ng-content></ng-content></ng-template>
+
+<span class="ml-btn-wrapper" [class.is-block]="block()">
+  @if (href()) {
+    <a
+      class="ml-btn-primary"
+      [class.mode-nebula]="mode() === 'nebula'"
+      [class.mode-ember]="mode() === 'ember'"
+      [class.size-sm]="size() === 'sm'"
+      [class.is-block]="block()"
+      [class.is-soft-disabled]="ariaDisabled()"
+      [href]="href()"
+      [attr.target]="target() || null"
+      [attr.rel]="target() === '_blank' ? 'noopener noreferrer' : null"
+      [attr.aria-label]="ariaLabel() || null"
+      [attr.aria-disabled]="ariaDisabled() || null"
+      (click)="onClick($event)"
+    >
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </a>
+  } @else {
+    <button
+      class="ml-btn-primary"
+      [class.mode-nebula]="mode() === 'nebula'"
+      [class.mode-ember]="mode() === 'ember'"
+      [class.size-sm]="size() === 'sm'"
+      [class.is-block]="block()"
+      [class.is-soft-disabled]="ariaDisabled()"
+      [attr.type]="type()"
+      [disabled]="disabled()"
+      [attr.aria-label]="ariaLabel() || null"
+      [attr.aria-disabled]="ariaDisabled() || null"
+      (click)="onClick($event)"
+    >
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </button>
+  }
+</span>

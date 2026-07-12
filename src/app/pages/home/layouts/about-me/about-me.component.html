@@ -88,17 +88,10 @@
 
         <!-- Download CV button -->
         <div class="cv-button-container" @scaleUp>
-          <button class="cv-button" (click)="downloadCV()">
-            <!-- Button background effects -->
-            <div class="cv-button-bg"></div>
-            <div class="cv-button-shine"></div>
-
-            <!-- Button content -->
-            <div class="cv-button-content">
-              <div [innerHTML]="getIconSvg('download')" class="cv-icon"></div>
-              <span>{{ ABOUT_TITLE().BUTTON.TEXT }}</span>
-            </div>
-          </button>
+          <button-primary [href]="DOWNLOAD_LINK" target="_blank">
+            <div [innerHTML]="getIconSvg('download')" class="cv-icon"></div>
+            <span>{{ ABOUT_TITLE().BUTTON.TEXT }}</span>
+          </button-primary>
         </div>
       </div>
       </div>

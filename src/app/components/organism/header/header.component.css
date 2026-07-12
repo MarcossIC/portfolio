@@ -1,9 +1,11 @@
 .header {
   position: fixed;
   top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 2rem);
+  /* Centered via insets, not transform: the slideDown animation
+     (fill-mode both) overwrites transform and would break centering */
+  left: 1rem;
+  right: 1rem;
+  margin-inline: auto;
   max-width: 80rem;
   z-index: 50;
   border-radius: 1rem;

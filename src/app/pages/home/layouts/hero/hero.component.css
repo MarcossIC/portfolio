@@ -231,6 +231,12 @@
   background: var(--ml-glass-tint);
 }
 
+.hero-cta--secondary {
+  &:focus, &:focus-visible {
+    border-color: color-mix(in oklab, var(--ml-violet-600) 60%, var(--ml-violet-600));
+  }
+}
+
 .hero-cta--secondary:hover {
   transform: scale(1.05);
   color: rgba(255, 255, 255, 0.82);

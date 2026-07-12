@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, OnDestroy, signal, ElementRef, ViewChild, AfterViewInit, PLATFORM_ID, afterNextRender, DestroyRef } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TitleComponent } from '@atoms/title/title.component';
+import { ButtonPrimaryComponent } from '@atoms/button-primary/button-primary.component';
 import { I18nService } from '@app/services/i18n.service';
 import { ABOUT_TITLE } from '@constants/appConst';
 import { trigger, state, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
@@ -51,7 +52,7 @@ const ICONS: Record<string, string> = {
   templateUrl: './about-me.component.html',
   styleUrl: './about-me.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TitleComponent],
+  imports: [TitleComponent, ButtonPrimaryComponent],
   animations: [
     trigger('fadeInUp', [
       transition(':enter', [
@@ -128,10 +129,6 @@ export class AboutMeLayout implements OnDestroy {
     if (this.isBrowser) {
       this.animationFrames.forEach(frame => cancelAnimationFrame(frame));
     }
-  }
-
-  downloadCV() {
-    window.open(this.DOWNLOAD_LINK, '_blank');
   }
 
   private setupIntersectionObserver() {

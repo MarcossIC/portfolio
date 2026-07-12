@@ -1,3 +1,7 @@
+:host {
+  cursor: pointer;
+}
+
 ::ng-deep a:hover {
   color: var(--ml-violet-100);
 

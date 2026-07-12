@@ -270,12 +270,13 @@
 
 .profile-image-wrapper {
   position: relative;
-  backdrop-filter: blur(16px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  background: hsl(270deg 95% 83% / 17%);
+  border: 1px solid hsla(270, 95%, 83%, 0.12);
   border-radius: 24px;
   padding: 8px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 60px -12px hsla(270, 95%, 83%, 0.4);
+  /* box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); */
 }
 
 .profile-image-container {
@@ -294,7 +295,7 @@
 .profile-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(88, 28, 135, 0.2), transparent, transparent);
+  background: linear-gradient(to top, rgba(15, 2, 39, 0.6), transparent 50%)
 }
 
 .status-indicator {
@@ -395,72 +396,13 @@
   margin-top: 16px;
 }
 
-.cv-button {
-  position: relative;
-  padding: 16px 32px;
-  background: linear-gradient(45deg, #9333ea, #2563eb);
-  border-radius: 16px;
-  color: white;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 25px 50px -12px rgba(147, 51, 234, 0.25);
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.cv-button:hover {
-  transform: scale(1.05) translateY(-2px);
-  box-shadow: 0 25px 50px -12px rgba(147, 51, 234, 0.4);
-}
-
-.cv-button:active {
-  transform: scale(0.98);
-}
-
-.cv-button-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(45deg, #9333ea, #2563eb, #9333ea);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.cv-button:hover .cv-button-bg {
-  opacity: 1;
-}
-
-.cv-button-shine {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.1);
-  opacity: 0;
-  transform: translateX(-100%);
-  transition: all 0.5s ease;
-}
-
-.cv-button:hover .cv-button-shine {
-  opacity: 1;
-  animation: shine 1.5s ease-in-out infinite 3s;
-}
-
-@keyframes shine {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.cv-button-content {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
+/* Visuals live in the button-primary atom */
 .cv-icon {
+  display: inline-flex;
   transition: transform 0.3s ease;
 }
 
-.cv-button:hover .cv-icon {
+button-primary:hover .cv-icon {
   transform: scale(1.1);
 }
 

@@ -16,6 +16,7 @@ import {
 import type { ContactState } from '@app/models/contactState.model';
 import { I18nService } from '@app/services/i18n.service';
 import { CONTACT_FORM } from '@constants/appConst';
+import { ButtonPrimaryComponent } from '@atoms/button-primary/button-primary.component';
 
 @Component({
   standalone: true,
@@ -23,7 +24,7 @@ import { CONTACT_FORM } from '@constants/appConst';
   templateUrl: './contact-form.component.html',
   styleUrl: './contact-form.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ButtonPrimaryComponent],
 })
 export class ContactFormComponent implements OnDestroy {
   private formBuilder = inject(FormBuilder);
