@@ -79,8 +79,6 @@ export interface GithubBento extends BentoCTA {
 export interface BentoUser {
   yearsExpertice: string;
   experticeTitle: string;
-  experienceTitle: string;
-  experienceSubtitle: string;
   githubBento: GithubBento;
   experiences: UserExperience[];
   profile: UserProfile;

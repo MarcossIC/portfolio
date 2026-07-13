@@ -30,8 +30,6 @@ export const USER: User = {
 export const ABOUT_USER: BentoUser = {
   yearsExpertice: '02',
   experticeTitle: 'Años de experiencia',
-  experienceTitle: 'Experiencia',
-  experienceSubtitle: 'Profesional',
   githubBento: {
     TITLE: 'Más proyectos',
     SUB: 'Puedes encontrar más de mis proyectos en github',

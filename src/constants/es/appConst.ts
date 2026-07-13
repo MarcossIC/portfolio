@@ -43,6 +43,11 @@ export const STUDIES_TITLE = {
   TITLE: ['Mis', 'Estudios']
 };
 
+export const EXPERIENCE_TITLE = {
+  TITLE_COMPLETE: 'Experiencia Profesional',
+  TITLE: ['Experiencia', 'Profesional']
+};
+
 export const CONTACT_TITLE = {
   TITLE_COMPLETE: 'Hablemos de tu pr\u00F3ximo proyecto',
   TITLE: ['Hablemos de tu', 'pr\u00F3ximo proyecto'],

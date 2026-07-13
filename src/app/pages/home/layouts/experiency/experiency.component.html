@@ -3,10 +3,10 @@
     <app-title
     className="text-center"
     titleID="experiencyTitle"
-    [name]="ABOUT_USER().experienceTitle"
+    [name]="EXPERIENCE_TITLE().TITLE_COMPLETE"
   >
-    {{ ABOUT_USER().experienceTitle }}
-    <span class="bg-ml-text-red bg-clip-text text-transparent">{{ ABOUT_USER().experienceSubtitle }}</span>
+    {{ EXPERIENCE_TITLE().TITLE[0] }}
+    <span class="bg-ml-text-red bg-clip-text text-transparent">{{ EXPERIENCE_TITLE().TITLE[1] }}</span>
   </app-title>
   </div>
 <timeline-experiency [ITEMS]="EXPERIENCIES()"></timeline-experiency>
