@@ -35,11 +35,22 @@ export class ScrollAnimationDirective {
   private readonly motionService = inject(ReducedMotionService);
 
   constructor() {
+    let observer: IntersectionObserver | undefined;
+    let rafId: number | undefined;
+
+    // Register cleanup synchronously while the DestroyRef is still alive.
+    // Doing it inside the deferred rAF would risk NG0911 if the view is
+    // destroyed before the callback runs.
+    this.destroyRef.onDestroy(() => {
+      if (rafId !== undefined) cancelAnimationFrame(rafId);
+      observer?.disconnect();
+    });
+
     afterNextRender(() => {
       const element = this.el.nativeElement as HTMLElement;
 
       // Wait for layout to settle before setting up observer
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         const rect = element.getBoundingClientRect();
 
         // Already scrolled past → show without animation
@@ -48,12 +59,12 @@ export class ScrollAnimationDirective {
           return;
         }
 
-        const observer = new IntersectionObserver(
+        observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
               if (entry.isIntersecting) {
                 element.classList.add('scroll-visible');
-                observer.disconnect();
+                observer?.disconnect();
               }
             }
           },
@@ -64,7 +75,6 @@ export class ScrollAnimationDirective {
         );
 
         observer.observe(element);
-        this.destroyRef.onDestroy(() => observer.disconnect());
       });
     });
   }
