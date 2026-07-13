@@ -11,6 +11,21 @@
   transition: transform 1.2s ease-out;
 }
 
+.parallax-img-container {
+  position: absolute;
+  inset: 0px;
+  will-change: transform;
+}
+
+.parallax-img-overlay {
+  position: absolute;
+  inset: 0px;
+  pointer-events: none;
+  mix-blend-mode: color;
+  background: hsla(264, 80%, 42%, var(--atmos-cool-veil, 0));
+  transition: background 0.7s;
+}
+
 .nebula-img {
   width: 100%;
   height: 100%;
@@ -32,6 +47,8 @@
 .overlay-depth {
   position: absolute;
   inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
   background: radial-gradient(
     ellipse at 50% 30%,
     transparent 20%,

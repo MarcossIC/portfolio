@@ -1,158 +1,20 @@
 footer {
   width: 100%;
-  position: relative;
-  background: transparent;
-  z-index: 100;
-}
-
-.footer-body {
-  position: relative;
-  background: hsl(263 87% 6%);
-}
-
-footer ::ng-deep .logo {
-  flex: 0.5;
-  justify-content: center;
-  display: flex !important;
-}
-
-footer ::ng-deep .logo ::ng-deep img {
-  width: 120px;
-  min-width: 120px;
-}
-
-router-link::ng-deep .foot-navigation {
-  position: relative;
-  margin-right: 1rem;
-  font-weight: 500;
-  font-size: 1.2rem;
-  color: #e7e7e7;
-  opacity: 0.75;
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-  transition-duration: 150ms;
-  transition-property: all;
-}
-
-router-link::ng-deep .foot-navigation:hover {
-  opacity: 1;
-  color: #fff;
-}
-
-/* Wave separator */
-.wave-separator {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-  margin-bottom: -1px;
-}
-
-.wave-svg {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 120px;
-}
-
-/* Wave animations */
-.wave-back {
-  animation: waveBack 8s ease-in-out infinite;
-}
-
-.wave-front {
-  animation: waveFront 6s ease-in-out infinite;
-}
-
-.wave-base {
-  animation: waveBase 7s ease-in-out infinite;
-}
-
-@keyframes waveBack {
-  0%, 100% {
-    d: path("M0,80 C240,140 480,20 720,80 C960,140 1200,20 1440,80 L1440,160 L0,160 Z");
-  }
-  50% {
-    d: path("M0,90 C240,30 480,130 720,70 C960,30 1200,130 1440,90 L1440,160 L0,160 Z");
-  }
-}
-
-@keyframes waveFront {
-  0%, 100% {
-    d: path("M0,100 C360,140 720,60 1080,100 C1260,120 1380,90 1440,100 L1440,160 L0,160 Z");
-  }
-  50% {
-    d: path("M0,110 C360,60 720,130 1080,90 C1260,70 1380,110 1440,105 L1440,160 L0,160 Z");
-  }
-}
-
-@keyframes waveBase {
-  0%, 100% {
-    d: path("M0,120 C480,150 960,100 1440,130 L1440,160 L0,160 Z");
-  }
-  50% {
-    d: path("M0,130 C480,100 960,145 1440,120 L1440,160 L0,160 Z");
-  }
-}
-
-/* Top glow line */
-.footer-glow-line {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(216, 180, 254, 0.2), transparent);
+  position: relative; /* sin esto, cosmic-background (.bottom-fade) pinta ENCIMA del texto */
   z-index: 1;
-}
-
-.footer-content {
+  padding-bottom: 3rem; /* aire extra: saca el copy del corazon del bottom-fade */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-}
-
-.footer-content span {
+  align-items: center;
   text-align: center;
-  margin-block: 1.25rem;
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-  margin-block-end: 2rem;
+  gap: 1rem;
+  background: transparent;
 }
-
-/* Estilos para el icono de cafe */
-::ng-deep .coffee-icon {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-
-::ng-deep .coffee-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-@media screen and (min-width: 768px) {
-  .wave-svg {
-    height: 160px;
-  }
-}
-
-@media screen and (min-width: 1580px) {
-  .footer-content span {
-    font-size: 2.5rem;
-  }
-
-  ::ng-deep .coffee-icon {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .wave-back,
-  .wave-front,
-  .wave-base {
-    animation: none;
-  }
-}
+footer ::ng-deep .logo img { height: 56px; width: auto; opacity: 0.9; }
+.footer-location { margin: 0; color: var(--text-muted, hsl(270 10% 72%)); font-size: 0.8125rem; }
+.footer-email { display: inline-flex; opacity: 0.85; transition: opacity 150ms ease; }
+.footer-email:hover { opacity: 1; }
+.footer-email img { height: 19px; width: auto; }
+.footer-copy { margin: 0; display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-faint, hsl(270 8% 52%)); font-size: 0.75rem; }
+::ng-deep .coffee-icon { width: 14px; height: 14px; flex-shrink: 0; }
+::ng-deep .coffee-icon svg { width: 100%; height: 100%; }

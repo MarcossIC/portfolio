@@ -120,7 +120,7 @@
 .animate-slide-down { animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
 /* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
+/* @media (prefers-reduced-motion: reduce) {
   .animate-twinkle,
   .animate-orbit,
   .animate-pulse-glow,
@@ -134,4 +134,4 @@
     transform: none;
     filter: none;
   }
-}
+} */

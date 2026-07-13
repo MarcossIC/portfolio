@@ -342,7 +342,7 @@
 /* ===========================
    Reduced motion
    =========================== */
-@media (prefers-reduced-motion: reduce) {
+/* @media (prefers-reduced-motion: reduce) {
   .timeline-item,
   .timeline-node__badge,
   .timeline-content,
@@ -366,4 +366,4 @@
   .timeline-card {
     transform: none;
   }
-}
+} */

@@ -75,9 +75,19 @@ export class NavigationService {
         return;
       }
 
-      const targetPosition = Math.max(0, sectionInfo.offsetTop - finalConfig.offset);
-
-      await this.scrollService.scrollTo(targetPosition, finalConfig.duration);
+      if(sectionInfo.element){
+      // Seguimos al elemento VIVO durante toda la animación: si projects (defer)
+      // o las imágenes de arriba reflowan mientras scrolleamos, el target se
+      // recalcula frame a frame y converge a la posición real de la sección.
+      await this.scrollService.scrollToElement(
+        sectionInfo.element,
+        finalConfig.offset,
+        finalConfig.duration
+      );
+      } else {
+        const targetPosition = Math.max(0, sectionInfo.offsetTop - finalConfig.offset);
+        await this.scrollService.scrollTo(targetPosition, finalConfig.duration);
+      }
 
       // Actualizar el focus para accesibilidad
       this.setFocusToSection(sectionInfo.element);

@@ -285,6 +285,38 @@ export class ScrollProgressService implements OnDestroy {
   }
 
   /**
+   * Scroll programático con animación suave a un elemento específico, no target fijo
+   */
+  scrollToElement(element: HTMLElement, offset = 0, duration = 800): Promise<void> {
+    if (!this.isBrowser) return Promise.resolve();
+    return new Promise((resolve) => {
+      const start = window.scrollY;
+      const startTime = performance.now();
+
+      const animateScroll = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+
+        const currentTop = element.getBoundingClientRect().top + window.scrollY;
+        const target = Math.max(0, currentTop - offset);
+
+        window.scrollTo(0, start + (target - start) * easeOut);
+
+        if (progress < 1) requestAnimationFrame(animateScroll);
+        else {
+          // snap final por si algo reflowó en el último frame
+          const finalTop = element.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo(0, Math.max(0, finalTop - offset));
+          resolve();
+        }
+      };
+
+      requestAnimationFrame(animateScroll);
+    });
+  }
+
+  /**
    * Scroll programático con animación suave
    */
   scrollTo(target: number, duration: number = 800): Promise<void> {

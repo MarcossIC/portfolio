@@ -84,10 +84,6 @@ import { I18nService } from '@app/services/i18n.service';
     @media (pointer: coarse) {
       :host { display: none; }
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      .cursor-dot { transition: none; }
-    }
   `,
 })
 export class CustomCursorComponent {

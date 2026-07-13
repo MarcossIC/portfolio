@@ -38,11 +38,11 @@
 }
 
 /* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
+/* @media (prefers-reduced-motion: reduce) {
   [data-scroll-animate] {
     transition: none;
     opacity: 1;
     transform: none;
     filter: none;
   }
-}
+} */

@@ -19,14 +19,14 @@
 [data-scroll-animate="blur-to-sharp"] { filter: blur(8px); transform: translateY(20px); }
 [data-scroll-animate].scroll-visible { opacity: 1; transform: none; filter: none; }
 
-@media (prefers-reduced-motion: reduce) {
+/* @media (prefers-reduced-motion: reduce) {
   [data-scroll-animate] {
     transform: none;
     filter: none;
     transition: opacity 0.4s ease;
     transition-delay: var(--scroll-delay, 0s);
   }
-}
+} */
 
 @utility clip-path-circle {
   --tw-circle-path: 50% at 50% 50%;

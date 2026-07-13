@@ -46,46 +46,47 @@
  * Accessibility: Comprehensive support for prefers-reduced-motion
  * These CSS rules complement the Angular MediaMatcher logic for better fallback support
  */
-@media (prefers-reduced-motion: reduce) {
+/* @media (prefers-reduced-motion: reduce) { */
   /* Disable all CSS animations and transitions */
-  .liquid-blob,
+  /* .liquid-blob,
   .central-blob,
   .floating-orb {
     animation: none !important;
     transition: none !important;
-    /* Disable transform animations but keep static positioning */
     transform: translateZ(0) !important;
-  }
+  } */
 
   /* Reduce will-change to prevent unnecessary GPU layers for reduced motion */
-  .liquid-blob,
+  /* .liquid-blob,
   .central-blob,
   .floating-orb {
     will-change: auto !important;
-  }
+  } */
 
   /* Remove blur effects which can be motion-inducing */
-  .liquid-blob {
-    filter: blur(20px) !important; /* Reduced from 40px */
-  }
+  /* Reduced from 40px */
+  /* .liquid-blob {
+    filter: blur(20px) !important;
+  } */
 
-  .central-blob {
-    filter: blur(30px) !important; /* Reduced from 60px */
-  }
+  /* Reduced from 60px */
+  /* .central-blob {
+    filter: blur(30px) !important;
+  } */
 
   /* Disable any parallax or scroll-triggered animations */
-  * {
+  /* * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
+  } */
 
   /* Remove any potential motion from background gradients */
-  [style*="background"] {
+  /* [style*="background"] {
     background-attachment: scroll !important;
-  }
-}
+  } */
+/* } */
 
 /* Optimización para pantallas de alta densidad */
 @media (min-resolution: 2dppx), (min-resolution: 192dpi) {

@@ -54,12 +54,12 @@ export class TimelineElementComponent {
   constructor() {
     afterNextRender(() => {
       const host = this.hostEl.nativeElement as HTMLElement;
-      const prefersReducedMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-      ).matches;
+      // const prefersReducedMotion = window.matchMedia(
+      //   '(prefers-reduced-motion: reduce)'
+      // ).matches;
 
-      this.setupRevealObserver(host, prefersReducedMotion);
-      this.setupTilt(prefersReducedMotion);
+      this.setupRevealObserver(host, false);
+      this.setupTilt(false);
     });
   }
 
