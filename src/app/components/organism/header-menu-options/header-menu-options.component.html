@@ -1,4 +1,9 @@
 <div class="options-row">
+  @if (context() === 'desktop') {
+    <!-- Atmosphere toggle (Nebula ⇄ Ember) — first, before language & CV -->
+    <atmosphere-toggle />
+  }
+
   <!-- Language toggle (direct switch, no dropdown) -->
   <button
     class="lang-toggle"

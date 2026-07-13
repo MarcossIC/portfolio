@@ -146,3 +146,23 @@
     transform: translateY(0) scale(1);
   }
 }
+
+/* Atmosphere View Transition: while <html> carries .vt-live, the circular reveal
+   IS the animation. Kill the atmos elements' own 0.7s CSS transitions so the wave
+   edge shows the FINAL destination theme, not a half-interpolated wash.
+   NOTE: --star-boost's own `transition: filter 0.15s` is intentionally left alone —
+   it's part of the flare. The fallback route never sets .vt-live, so it keeps 0.7s. */
+.vt-live body,
+.vt-live .nebula-img,
+.vt-live .cool-veil,
+.vt-live .overlay-depth,
+.vt-live .warm-veil,
+.vt-live .orb--purple,
+.vt-live .orb--red,
+.vt-live .bottom-fade,
+.vt-live .atmos-orb,
+.vt-live .atmos-btn,
+.vt-live .atmos-row,
+.vt-live .nav-link {
+  transition-duration: 0s !important;
+}

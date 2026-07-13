@@ -40,6 +40,10 @@ import {
       transform-origin: left;
       z-index: 60;
       pointer-events: none;
+      /* Interpola los pasos discretos de la rueda del ratón → deslizamiento
+         continuo. linear (no ease) para que siga al scroll sin sensación de goma;
+         0.12s queda justo por encima de la cadencia de ticks (~80-100ms). */
+      transition: transform 0.12s linear;
     }
   `,
 })

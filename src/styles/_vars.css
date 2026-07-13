@@ -93,4 +93,56 @@
   --ml-container-margin-mobile: 10px;
   --ml-container-margin-desktop: 6dvw;
   --ml-container-max-width: calc(100% - calc(var(--ml-container-margin-desktop) * 2));
+
+  /* ---- Atmosphere system (Nebula defaults) ----
+     A single attribute pivots the whole climate: <html data-atmos="ember">.
+     No attribute → these values; the [data-atmos="ember"] block overrides them. */
+  --atmos-void-rgb: 15, 2, 39; /* RGB of the void for overlays/fades */
+  --atmos-nebula-filter: brightness(0.64) saturate(1.05) hue-rotate(16deg);
+  --atmos-orb-purple: 0.1; /* purple orb opacity (top-right) */
+  --atmos-orb-red: 0.05; /* red orb opacity (bottom-left) */
+  --atmos-orb-red-scale: 1; /* ember grows the red orb */
+  --atmos-star-tint: 270; /* hue of the bright stars */
+  --atmos-veil: 0; /* warm full-page veil (0 in nebula) */
+  --atmos-cool-veil: 0.32; /* unifying violet veil (nebula only) */
+  --star-boost: 1; /* GSAP pulses this during the shockwave */
+
+  /* Active nav link (atmosphere-aware) — Nebula: warm→violet translucent */
+  --nav-active-bg: linear-gradient(135deg, hsla(16, 90%, 55%, 0.22), hsla(270, 95%, 83%, 0.22));
+  --nav-active-glow: hsla(270, 95%, 83%, 0.5);
+}
+
+/* 🔥 Ember — warm "supernova" climate. Still dark; nothing breaks. */
+[data-atmos='ember'] {
+  /* Backgrounds: the violet void turns wine/garnet */
+  --ml-bg-color: #1a0414;
+  --ml-void-900: oklch(0.15 0.06 356);
+  --ml-void-800: oklch(0.17 0.07 353);
+  --atmos-void-rgb: 26, 4, 20;
+
+  /* The SAME nebula image, recolored with a CSS filter only */
+  --atmos-nebula-filter: brightness(0.86) saturate(1.7) hue-rotate(-46deg);
+
+  /* The red orb takes over, the purple one recedes */
+  --atmos-orb-purple: 0.04;
+  --atmos-orb-red: 0.2;
+  --atmos-orb-red-scale: 1.3;
+  --atmos-star-tint: 8;
+  --atmos-veil: 0.16;
+  --atmos-cool-veil: 0;
+
+  /* Red leads; violet accents shift to warm pink */
+  --ml-violet-100: oklch(0.86 0.06 25);
+  --ml-violet-400: oklch(0.62 0.2 18);
+  --gradient-cta: linear-gradient(135deg, oklch(0.58 0.23 28.18), oklch(0.7 0.17 35));
+  --ml-text-red: linear-gradient(
+    180deg,
+    oklch(0.68 0.24 35) 10%,
+    oklch(0.56 0.21 30 / 0.82) 100%
+  );
+  --btn-glow: oklch(0.62 0.22 30 / 0.7);
+
+  /* Ember: the active pill turns molten orange→red */
+  --nav-active-bg: linear-gradient(135deg, hsla(22, 95%, 55%, 0.3), hsla(8, 90%, 50%, 0.2));
+  --nav-active-glow: oklch(0.62 0.22 30 / 0.55);
 }

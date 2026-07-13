@@ -17,6 +17,7 @@
             [path]="NAVIGATION.PATH"
             [fragment]="NAVIGATION.FRAGMENT"
             class="nav-link cursor-pointer outline-none focus:outline-none focus-within:outline-none"
+            [class.is-active]="activeSection.active() === NAVIGATION.FRAGMENT"
             role="link"
           >{{ NAVIGATION.LABEL }}</navigate>
         }
@@ -57,7 +58,8 @@
         >{{ NAVIGATION.LABEL }}</navigate>
       }
       <div class="mobile-options">
-        <header-menu-options></header-menu-options>
+        <header-menu-options context="mobile"></header-menu-options>
+        <atmosphere-toggle variant="compact" class="mobile-atmos"></atmosphere-toggle>
       </div>
     </nav>
   }

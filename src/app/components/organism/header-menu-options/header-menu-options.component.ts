@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, computed, input } from '@angular/core';
 import { I18nService } from '@app/services/i18n.service';
 import type { Language } from '@app/models/i18n.model';
 import { USER } from '@constants/userConst';
 import { ButtonPrimaryComponent } from '@atoms/button-primary/button-primary.component';
+import { AtmosphereToggleComponent } from '@atoms/atmosphere-toggle/atmosphere-toggle.component';
 
 @Component({
   standalone: true,
@@ -10,9 +11,12 @@ import { ButtonPrimaryComponent } from '@atoms/button-primary/button-primary.com
   templateUrl: './header-menu-options.component.html',
   styleUrls: ['./header-menu-options.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonPrimaryComponent],
+  imports: [ButtonPrimaryComponent, AtmosphereToggleComponent],
 })
 export class HeaderMenuOptionsComponent {
+  /** 'desktop' shows the atmosphere icon inline; 'mobile' omits it (the dropdown renders the compact row). */
+  public readonly context = input<'desktop' | 'mobile'>('desktop');
+
   private readonly i18nService = inject(I18nService);
 
   protected readonly isLoadingLanguage = computed(() => this.i18nService.isLoading());

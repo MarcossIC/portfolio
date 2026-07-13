@@ -9,22 +9,30 @@
     />
   </div>
 
+  <!-- Cool violet veil (Nebula only) -->
+  <div class="cool-veil"></div>
+
   <!-- Dark overlay for depth -->
   <div class="overlay-depth"></div>
 
+  <!-- Warm supernova veil (Ember only) -->
+  <div class="warm-veil"></div>
+
   <!-- Star field -->
-  @for (star of stars; track $index) {
-    <div
-      class="star animate-twinkle"
-      [class.star--bright]="star.isBright"
-      [style.left.%]="star.x"
-      [style.top.%]="star.y"
-      [style.width.px]="star.size"
-      [style.height.px]="star.size"
-      [style.--duration]="star.duration + 's'"
-      [style.--delay]="star.delay + 's'"
-    ></div>
-  }
+  <div class="star-field">
+    @for (star of stars; track $index) {
+      <div
+        class="star animate-twinkle"
+        [class.star--bright]="star.isBright"
+        [style.left.%]="star.x"
+        [style.top.%]="star.y"
+        [style.width.px]="star.size"
+        [style.height.px]="star.size"
+        [style.--duration]="star.duration + 's'"
+        [style.--delay]="star.delay + 's'"
+      ></div>
+    }
+  </div>
 
   <!-- Orb accents -->
   <div class="orb orb--purple animate-pulse-glow"></div>

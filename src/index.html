@@ -12,6 +12,15 @@
       Lopez
     </title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!-- Atmosphere restore: must run before any CSS/bundle to avoid a flash -->
+    <script>
+      (function () {
+        try {
+          var a = localStorage.getItem('ml-atmos');
+          if (a === 'ember') document.documentElement.dataset.atmos = 'ember';
+        } catch (e) {}
+      })();
+    </script>
     <meta
       name="description"
       content="Portfolio, where projects and experiences are shown web portfolio."

@@ -219,7 +219,7 @@
    =========================== */
 .timeline-card__description {
   margin: 0.85rem 0 1rem;
-  color: rgba(255, 255, 255, 0.7); /* --text-body */
+  color: rgba(255, 255, 255, 0.85); /* --text-body */
   font-size: 0.9rem;
   line-height: 1.55;
   font-weight: 300;

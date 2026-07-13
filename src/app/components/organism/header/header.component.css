@@ -71,13 +71,21 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.5);
-  transition: all 0.2s;
   white-space: nowrap;
+  /* Transición asimétrica: el color cambia rápido, el fondo/glow se funden
+     lento → el link se "va pintando" en vez de parpadear al cruzar el umbral. */
+  transition: color 0.25s, background 0.6s, box-shadow 0.6s;
 }
 
-.nav-link:hover {
+.nav-link:hover:not(.is-active) {
   color: white;
   background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-link.is-active {
+  color: white;
+  background: var(--nav-active-bg);
+  box-shadow: 0 0 18px -6px var(--nav-active-glow);
 }
 
 /* Right section */
@@ -128,6 +136,9 @@
   padding-top: 0.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   margin-top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 /* Desktop breakpoint */
