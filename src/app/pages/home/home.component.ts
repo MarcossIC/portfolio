@@ -4,6 +4,8 @@ import { ProjectsLayout } from './layouts/projects/projects.component';
 import { ContactLayout } from '@app/pages/home/layouts/contact/contact.component';
 import { ExperiencyComponent } from '@app/pages/home/layouts/experiency/experiency.component';
 import { AboutMeLayout } from '@app/pages/home/layouts/about-me/about-me.component';
+import { ProjectSkeletonComponent } from '@app/components/atoms/skeleton/project-skeleton.component';
+import { ContactSkeletonComponent } from '@app/components/atoms/skeleton/contact-skeleton.component';
 
 @Component({
   selector: 'home-page',
@@ -17,6 +19,8 @@ import { AboutMeLayout } from '@app/pages/home/layouts/about-me/about-me.compone
     ContactLayout,
     ExperiencyComponent,
     AboutMeLayout,
+    ProjectSkeletonComponent,
+    ContactSkeletonComponent,
   ],
 })
 export class HomePage {}

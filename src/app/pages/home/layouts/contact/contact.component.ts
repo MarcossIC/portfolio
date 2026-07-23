@@ -9,13 +9,12 @@ import {
 import { type Observable, catchError } from 'rxjs';
 import type { ContactState } from '@app/models/contactState.model';
 import { ToastService } from '@app/lib/toast/Toast.service';
-import { CommonModule } from '@angular/common';
-import { TitleComponent } from '@app/components/atoms/title/title.component';
-import { LiquidBannerComponent } from '@app/components/atoms/liquid-banner/liquid-banner.component';
 import { ContactFormComponent } from '@app/components/organism/contact-form/contact-form.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CONTACT_TITLE } from '@constants/appConst';
 import { I18nService } from '@app/services/i18n.service';
+import { USER } from '@constants/userConst';
+import { ScrollAnimationDirective } from '@lib/directives/ScrollAnimation.directive';
 
 @Component({
   standalone: true,
@@ -24,19 +23,17 @@ import { I18nService } from '@app/services/i18n.service';
   styleUrls: ['./contact.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
-    TitleComponent,
-    LiquidBannerComponent,
     ContactFormComponent,
+    ScrollAnimationDirective,
   ],
 })
 export class ContactLayout {
   protected readonly i18nService = inject(I18nService);
   protected readonly CONTACT_TITLE = computed(() => this.i18nService.getConstant('appConst')?.CONTACT_TITLE || CONTACT_TITLE);
+  protected readonly USER = computed(() => this.i18nService.getConstant('userConst')?.USER || USER);
   private readonly toast = inject(ToastService);
   private http = inject(HttpClient);
   private destroy = inject(DestroyRef);
-  protected readonly titleID: string = 'e913163167c3';
 
   protected handleFormSubmit(event: ContactState) {
     this.toast.info('Sending...', 'We are processing your request');

@@ -46,7 +46,7 @@ export class RouterLinkComponent {
   private readonly viewportScroller = inject(ViewportScroller);
   private readonly navigationService = inject(NavigationService);
 
-  protected async navigate(): Promise<void> {
+  public async navigate(): Promise<void> {
     const fragment = this.fragment();
 
     if (!fragment) {

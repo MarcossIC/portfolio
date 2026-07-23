@@ -1,14 +1,14 @@
 <section
   #sectionRef
   id="about-me"
-  class="max-w-[100vw] flex flex-col w-[99%] flex-1 justify-center items-center py-20 px-6 relative overflow-hidden"
+  class="flex flex-col w-full flex-1 justify-center items-center py-20 px-6 relative overflow-hidden"
 >
   <div class="absolute inset-0">
     <div class="decorative-element"></div>
   </div>
 
   <div class="max-w-7xl mx-auto relative z-10 w-full">
-    @if (isInView() || isBrowser) {
+    @if (isInView()) {
       <div class="text-center mb-16" @fadeInUp>
       <app-title
         className="text-center"
@@ -21,11 +21,11 @@
 
         <!-- Decorative line with name -->
         <div class="flex items-center justify-center gap-4 mb-8 mt-4">
-          @if (isInView() || isBrowser) {
+          @if (isInView()) {
             <div class="decorative-line left" @slideScale></div>
           }
           <span class="text-white/70 font-light tracking-wider">Marcos Lopez</span>
-          @if (isInView() || isBrowser) {
+          @if (isInView()) {
             <div class="decorative-line right" @slideScale></div>
           }
         </div>
@@ -36,7 +36,7 @@
 
 
     <!-- Main content -->
-    @if (isInView() || isBrowser) {
+    @if (isInView()) {
       <div class="grid lg:grid-cols-2 gap-16 items-center">
       <!-- Left side - Profile image -->
       <div class="profile-section" @fadeInLeft>
@@ -88,17 +88,10 @@
 
         <!-- Download CV button -->
         <div class="cv-button-container" @scaleUp>
-          <button class="cv-button" (click)="downloadCV()">
-            <!-- Button background effects -->
-            <div class="cv-button-bg"></div>
-            <div class="cv-button-shine"></div>
-
-            <!-- Button content -->
-            <div class="cv-button-content">
-              <div [innerHTML]="getIconSvg('download')" class="cv-icon"></div>
-              <span>{{ ABOUT_TITLE().BUTTON.TEXT }}</span>
-            </div>
-          </button>
+          <button-primary [href]="DOWNLOAD_LINK" target="_blank">
+            <div [innerHTML]="getIconSvg('download')" class="cv-icon"></div>
+            <span>{{ ABOUT_TITLE().BUTTON.TEXT }}</span>
+          </button-primary>
         </div>
       </div>
       </div>

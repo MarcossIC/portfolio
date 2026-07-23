@@ -1,5 +1,4 @@
 import {
-  waitForAsync,
   type ComponentFixture,
   TestBed,
 } from '@angular/core/testing';
@@ -10,11 +9,11 @@ describe('TagComponent', () => {
   let component: TagComponent;
   let fixture: ComponentFixture<TagComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [TagComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TagComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TagComponent);

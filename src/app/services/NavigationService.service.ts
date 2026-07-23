@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { inject, Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { ScrollProgressService } from './ScrollProgressService.service';
 
 /**
@@ -42,10 +42,11 @@ export interface SectionInfo {
 export class NavigationService {
   private readonly document = inject(DOCUMENT);
   private readonly scrollService = inject(ScrollProgressService);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   private readonly defaultConfig: Required<NavigationConfig> = {
     duration: 800,
-    offset: 0,
+    offset: 100,
     fallbackBehavior: 'fallback'
   };
 
@@ -74,9 +75,19 @@ export class NavigationService {
         return;
       }
 
-      const targetPosition = Math.max(0, sectionInfo.offsetTop - finalConfig.offset);
-
-      await this.scrollService.scrollTo(targetPosition, finalConfig.duration);
+      if(sectionInfo.element){
+      // Seguimos al elemento VIVO durante toda la animación: si projects (defer)
+      // o las imágenes de arriba reflowan mientras scrolleamos, el target se
+      // recalcula frame a frame y converge a la posición real de la sección.
+      await this.scrollService.scrollToElement(
+        sectionInfo.element,
+        finalConfig.offset,
+        finalConfig.duration
+      );
+      } else {
+        const targetPosition = Math.max(0, sectionInfo.offsetTop - finalConfig.offset);
+        await this.scrollService.scrollTo(targetPosition, finalConfig.duration);
+      }
 
       // Actualizar el focus para accesibilidad
       this.setFocusToSection(sectionInfo.element);
@@ -93,6 +104,7 @@ export class NavigationService {
    * @returns Información de la sección o null si no se encuentra
    */
   getSectionInfo(sectionId: string): SectionInfo | null {
+    if (!this.isBrowser) return null;
     const element = this.document.getElementById(sectionId);
 
     if (!element) {
@@ -161,7 +173,7 @@ export class NavigationService {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         // Si no existe el elemento, intentar con hash navigation
-        window.location.hash = sectionId;
+        if (this.isBrowser) window.location.hash = sectionId;
       }
     }
   }

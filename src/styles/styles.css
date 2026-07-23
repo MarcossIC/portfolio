@@ -1,5 +1,32 @@
 @import "tailwindcss";
 @config "../../tailwind.config.mjs";
+@import "./_cosmic.css";
+
+/* Scroll Animation States */
+[data-scroll-animate] {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition:
+    opacity var(--scroll-dur, 0.7s) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform var(--scroll-dur, 0.7s) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter var(--scroll-dur, 0.7s) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition-delay: var(--scroll-delay, 0s);
+}
+[data-scroll-animate="fade-up"] { transform: translateY(30px); }
+[data-scroll-animate="fade-left"] { transform: translateX(-40px); }
+[data-scroll-animate="fade-right"] { transform: translateX(40px); }
+[data-scroll-animate="scale-up"] { transform: scale(0.9); }
+[data-scroll-animate="blur-to-sharp"] { filter: blur(8px); transform: translateY(20px); }
+[data-scroll-animate].scroll-visible { opacity: 1; transform: none; filter: none; }
+
+/* @media (prefers-reduced-motion: reduce) {
+  [data-scroll-animate] {
+    transform: none;
+    filter: none;
+    transition: opacity 0.4s ease;
+    transition-delay: var(--scroll-delay, 0s);
+  }
+} */
 
 @utility clip-path-circle {
   --tw-circle-path: 50% at 50% 50%;
@@ -118,4 +145,24 @@
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
+/* Atmosphere View Transition: while <html> carries .vt-live, the circular reveal
+   IS the animation. Kill the atmos elements' own 0.7s CSS transitions so the wave
+   edge shows the FINAL destination theme, not a half-interpolated wash.
+   NOTE: --star-boost's own `transition: filter 0.15s` is intentionally left alone —
+   it's part of the flare. The fallback route never sets .vt-live, so it keeps 0.7s. */
+.vt-live body,
+.vt-live .nebula-img,
+.vt-live .cool-veil,
+.vt-live .overlay-depth,
+.vt-live .warm-veil,
+.vt-live .orb--purple,
+.vt-live .orb--red,
+.vt-live .bottom-fade,
+.vt-live .atmos-orb,
+.vt-live .atmos-btn,
+.vt-live .atmos-row,
+.vt-live .nav-link {
+  transition-duration: 0s !important;
 }

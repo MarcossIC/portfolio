@@ -1,5 +1,4 @@
 import {
-  waitForAsync,
   type ComponentFixture,
   TestBed,
 } from '@angular/core/testing';
@@ -10,11 +9,11 @@ describe('SpaceSvgComponent', () => {
   let component: SpaceSvgComponent;
   let fixture: ComponentFixture<SpaceSvgComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [SpaceSvgComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [SpaceSvgComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SpaceSvgComponent);

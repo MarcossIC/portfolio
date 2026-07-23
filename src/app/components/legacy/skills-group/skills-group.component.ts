@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkillComponent } from '@app/components/legacy/skill/skill.component';
 import { TECHNOLOGIES } from 'src/constants/technologiesConst';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, SkillComponent],
+  imports: [SkillComponent],
   selector: 'skills-group',
   templateUrl: './skills-group.component.html',
   styleUrls: ['./skills-group.component.css'],

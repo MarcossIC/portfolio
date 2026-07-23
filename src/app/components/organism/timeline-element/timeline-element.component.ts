@@ -1,7 +1,21 @@
-import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { Directions } from '@app/models/types';
+
+/** Max tilt rotation (deg) on each axis — mirrors the reference TiltCard max={7}. */
+const TILT_MAX_DEG = 7;
+/** Hover lift (px) folded into the tilt transform. */
+const TILT_LIFT = 4;
 
 @Component({
   standalone: true,
@@ -10,103 +24,9 @@ import { Directions } from '@app/models/types';
   templateUrl: './timeline-element.component.html',
   styleUrls: ['./timeline-element.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('fadeIn', [
-      state('active', style({
-        opacity: 1,
-        transform: 'translateX(-25px) translateY(0) scale(1)'
-      })),
-      transition('* => active', [
-        animate('0.8s cubic-bezier(0.25, 0.8, 0.25, 1)', keyframes([
-          style({
-            opacity: 0,
-            transform: 'translateX(-250px) translateY(30px) scale(0.95)',
-            offset: 0
-          }),
-          style({
-            opacity: 0.7,
-            transform: 'translateX(-250px) translateY(10px) scale(0.98)',
-            offset: 0.6
-          }),
-          style({
-            opacity: 1,
-            transform: 'translateX(-25px) translateY(0) scale(1)',
-            offset: 1
-          })
-        ]))
-      ])
-    ]),
-    trigger('nodeAnimation', [
-      state('active', style({
-        transform: 'scale(1) rotate(0deg)',
-        opacity: 1
-      })),
-      transition('* => active', [
-        animate('0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)', keyframes([
-          style({
-            transform: 'scale(0) rotate(-180deg)',
-            opacity: 0,
-            offset: 0
-          }),
-          style({
-            transform: 'scale(1.1) rotate(-90deg)',
-            opacity: 0.8,
-            offset: 0.7
-          }),
-          style({
-            transform: 'scale(1) rotate(0deg)',
-            opacity: 1,
-            offset: 1
-          })
-        ]))
-      ])
-    ]),
-    trigger('cardHover', [
-      state('default', style({
-        transform: 'translateY(0) scale(1)'
-      })),
-      state('hovered', style({
-        transform: 'translateY(-8px) scale(1.02)'
-      })),
-      transition('default <=> hovered', [
-        animate('0.4s cubic-bezier(0.23, 1, 0.32, 1)')
-      ])
-    ]),
-    trigger('backgroundHover', [
-      state('default', style({
-        opacity: 0,
-        transform: 'scale(0.95)'
-      })),
-      state('hovered', style({
-        opacity: 1,
-        transform: 'scale(1)'
-      })),
-      transition('default <=> hovered', [
-        animate('0.6s cubic-bezier(0.23, 1, 0.32, 1)')
-      ])
-    ]),
-    trigger('tagStagger', [
-      transition('* => *', [
-        animate('0.4s ease-out', keyframes([
-          style({
-            opacity: 0,
-            transform: 'scale(0.8) translateY(10px)',
-            offset: 0
-          }),
-          style({
-            opacity: 1,
-            transform: 'scale(1.05) translateY(-2px)',
-            offset: 0.8
-          }),
-          style({
-            opacity: 1,
-            transform: 'scale(1) translateY(0)',
-            offset: 1
-          })
-        ]))
-      ])
-    ])
-  ]
+  host: {
+    '[class.is-visible]': 'isVisible()',
+  },
 })
 export class TimelineElementComponent {
   protected readonly DIRECTION = {
@@ -119,21 +39,109 @@ export class TimelineElementComponent {
   public title = input.required<string>();
   public cardDirection = input.required<string>();
   public tags = input<string[]>([]);
-  public time = input<string>("");
+  public time = input<string>('');
 
-  // State for animations and interactions
-  public isHovered = false;
-  public animationState = 'active';
+  public isVisible = signal(false);
 
-  onCardMouseEnter() {
-    this.isHovered = true;
+  private tiltCard = viewChild<ElementRef<HTMLElement>>('tiltCard');
+  private hostEl = inject(ElementRef);
+  private destroyRef = inject(DestroyRef);
+
+  /** Pending rAF id + the transform to flush on the next frame (avoids per-event writes). */
+  private rafId = 0;
+  private pendingTransform = '';
+
+  constructor() {
+    afterNextRender(() => {
+      const host = this.hostEl.nativeElement as HTMLElement;
+      // const prefersReducedMotion = window.matchMedia(
+      //   '(prefers-reduced-motion: reduce)'
+      // ).matches;
+
+      this.setupRevealObserver(host, false);
+      this.setupTilt(false);
+    });
   }
 
-  onCardMouseLeave() {
-    this.isHovered = false;
+  /** Slide/fade the item in once it scrolls into view. */
+  private setupRevealObserver(host: HTMLElement, prefersReducedMotion: boolean) {
+    if (prefersReducedMotion) {
+      this.isVisible.set(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            this.isVisible.set(true);
+            observer.disconnect();
+          }
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
+    );
+
+    observer.observe(host);
+    this.destroyRef.onDestroy(() => observer.disconnect());
   }
 
-  getHoverState() {
-    return this.isHovered ? 'hovered' : 'default';
+  /**
+   * Pointer-driven FLAT tilt, written straight to the card's `transform`.
+   *
+   * Critical: this is a *flat* tilt — `perspective() rotateX rotateY` only, NO
+   * `transform-style: preserve-3d` and NO `translateZ`. A 3D rendering context
+   * disables `backdrop-filter` in Chrome (kills the glass). A flat 2D transform
+   * on the glass element itself does NOT — verified empirically.
+   *
+   * Rotation is flushed in a rAF (never a signal) so per-frame pointermove
+   * doesn't trigger change detection in this zoneless app. The hover glow +
+   * border are pure CSS :hover.
+   */
+  private setupTilt(prefersReducedMotion: boolean) {
+    const card = this.tiltCard()?.nativeElement;
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+
+    // No tilt on touch devices or when motion is reduced — the card keeps its
+    // glass + CSS hover, just without the rotation.
+    if (!card || prefersReducedMotion || coarsePointer) return;
+
+    const onLeave = () => {
+      if (this.rafId) {
+        cancelAnimationFrame(this.rafId);
+        this.rafId = 0;
+      }
+      // Clear the inline transform → back to the stylesheet (none); CSS eases it.
+      card.style.transform = '';
+    };
+
+    const onMove = (event: PointerEvent) => {
+      const rect = card.getBoundingClientRect();
+      const px = (event.clientX - rect.left) / rect.width; // 0..1
+      const py = (event.clientY - rect.top) / rect.height; // 0..1
+      const rotateY = (px - 0.5) * 2 * TILT_MAX_DEG;
+      const rotateX = -(py - 0.5) * 2 * TILT_MAX_DEG;
+
+      // Flat tilt + the hover lift, all in one transform on the glass element.
+      this.pendingTransform = `perspective(1000px) rotateX(${rotateX.toFixed(
+        2
+      )}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-${TILT_LIFT}px)`;
+
+      if (!this.rafId) {
+        this.rafId = requestAnimationFrame(() => {
+          card.style.transform = this.pendingTransform;
+          this.rafId = 0;
+        });
+      }
+    };
+
+    card.addEventListener('pointermove', onMove);
+    card.addEventListener('pointerleave', onLeave);
+
+    this.destroyRef.onDestroy(() => {
+      card.removeEventListener('pointermove', onMove);
+      card.removeEventListener('pointerleave', onLeave);
+      if (this.rafId) cancelAnimationFrame(this.rafId);
+    });
   }
 }

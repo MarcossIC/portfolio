@@ -1,5 +1,4 @@
 import {
-  waitForAsync,
   type ComponentFixture,
   TestBed,
 } from '@angular/core/testing';
@@ -10,11 +9,11 @@ describe('ContactFormComponent', () => {
   let component: ContactFormComponent;
   let fixture: ComponentFixture<ContactFormComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ContactFormComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ContactFormComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ContactFormComponent);

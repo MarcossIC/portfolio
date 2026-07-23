@@ -3,11 +3,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   type ElementRef,
+  inject,
   Input,
-  type OnInit,
+  PLATFORM_ID,
   ViewChild,
   afterNextRender,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import VanillaTilt from 'vanilla-tilt';
 
 @Component({
@@ -18,13 +20,15 @@ import VanillaTilt from 'vanilla-tilt';
   styleUrls: ['./service-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ServiceCardComponent implements OnInit {
+export class ServiceCardComponent {
   @ViewChild('serviceCard', { static: true }) serviceCardRef!: ElementRef;
   @Input({ required: true }) public icon = '';
   @Input({ required: true }) public title = '';
   @Input({ required: true }) public index = 0;
 
-  ngOnInit(): void {
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
+  constructor() {
     afterNextRender(() => {
       const tiltContainer = this.serviceCardRef.nativeElement;
 
@@ -43,6 +47,6 @@ export class ServiceCardComponent implements OnInit {
   }
 
   protected get isMobile(): boolean {
-    return window.innerWidth < 768;
+    return this.isBrowser ? window.innerWidth < 768 : false;
   }
 }

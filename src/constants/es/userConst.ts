@@ -1,30 +1,43 @@
 import type { BentoUser, User } from '@app/models/types';
+import { YEARS_OF_EXPERIENCE, YEARS_OF_EXPERIENCE_PADDED } from '@constants/experience';
+import {
+  CONTACT_EMAIL,
+  CV_DOWNLOAD_URL_ES,
+  CV_VIEW_URL_ES,
+  GITHUB_URL,
+  LINKEDIN_URL,
+  STACKOVERFLOW_URL,
+} from '@constants/links';
 
 //General user data
 export const USER: User = {
   name: 'Marcos',
   lastname: 'Lopez',
   fullName: 'Marcos Lopez',
-  email: 'marcoslopezdev18@gmail.com',
+  email: CONTACT_EMAIL,
   motto:
     'Espero compartir mi trayectoria por el mundo de TI y que podamos trabajar juntos',
   role: 'Desarrollador de software',
-  cv: 'https://drive.google.com/file/d/1fxazKwrFJ91R2-3bIAKGsu4gkfaXB-iJ/view?usp=sharing',
-  linkedIn: 'https://www.linkedin.com/in/marcos-lopez-dev',
-  gitHub: 'https://github.com/MarcossIC',
-  stackOverflow: 'https://es.stackoverflow.com/users/301174/marcos-lopez',
-  downloadCv:
-    'https://drive.usercontent.google.com/u/2/uc?id=1fxazKwrFJ91R2-3bIAKGsu4gkfaXB-iJ&export=download',
+  cv: CV_VIEW_URL_ES,
+  linkedIn: LINKEDIN_URL,
+  gitHub: GITHUB_URL,
+  stackOverflow: STACKOVERFLOW_URL,
+  downloadCv: CV_DOWNLOAD_URL_ES,
   viewResume: 'Ver currículum',
   shortResume: 'Currículum',
-  photo: '../../../../assets/utils/FOTO_CV.webp'
+  photo: '../../../../assets/utils/FOTO_CV.webp',
+  heroCTA: {
+    talk: 'Hablemos',
+    downloadCV: 'Descargar CV',
+  },
+  statusBadge: 'Disponible para proyectos',
+  scrollHint: 'Explorar',
 };
 
 //User data to complete the about bento
 export const ABOUT_USER: BentoUser = {
-  yearsExpertice: '02',
+  yearsExpertice: YEARS_OF_EXPERIENCE_PADDED,
   experticeTitle: 'Años de experiencia',
-  experienceTitle: 'Experiencia',
   githubBento: {
     TITLE: 'Más proyectos',
     SUB: 'Puedes encontrar más de mis proyectos en github',
@@ -34,27 +47,28 @@ export const ABOUT_USER: BentoUser = {
     {
       ID: '0-exp',
       COMPANY: 'Boutique Software',
-      ROLE: 'Full stack developer',
+      ROLE: 'Desarrollador de Software',
       TIME: 'Diciembre 2024 - Presente',
-      DESCRIPTION: '',
+      DESCRIPTION:
+        'En Boutique Software construyo plataformas web de extremo a extremo para servicios financieros e importación con Angular y Spring Boot. Desarrollé un onboarding digital de clientes, un motor de amortización basado en el sistema francés e introduje testing con Vitest y Playwright.',
       STACK: ['Angular', 'Spring Boot', 'Docker'],
     },
     {
       ID: '1-exp',
       COMPANY: 'Codefend',
-      ROLE: 'Desarrollador Front end',
-      TIME: 'Diciembre 2023 - Abril 2025',
+      ROLE: 'Desarrollador de Software',
+      TIME: 'Diciembre 2023 - Noviembre 2025',
       DESCRIPTION:
-        'En Codefend, lideré el desarrollo frontend de una plataforma SaaS que conecta empresas con proveedores de ciberseguridad, migrando de SolidJS a React, optimizando la arquitectura, reduciendo dependencias y colaborando en la implementación de APIs de inteligencia de seguridad.',
+        'En Codefend lideré el frontend de un SaaS híbrido (web y escritorio con Tauri/Rust) que conecta empresas con proveedores de ciberseguridad. Migré la app completa de SolidJS a React 18 en 3 meses sin cortar la operación, reduje un 45% las dependencias y automaticé el CI/CD.',
       STACK: ['React', 'Tauri', 'Rust'],
     },
     {
       ID: '2-exp',
       COMPANY: 'No country',
       ROLE: 'Desarrollador Full stack',
-      TIME: 'Junio 2023 - Diciembre 2023',
+      TIME: 'Junio 2023 - Marzo 2024',
       DESCRIPTION:
-        'Trabajé como desarrollador frontend en equipos multidisciplinarios durante hackathons, colaborando en diseño, definición de requerimientos, arquitectura, testing e implementaciones avanzadas como animaciones con Framer Motion y entornos 2D con Phaser.',
+        'En No Country construí 5 aplicaciones web con clientes reales en equipos multidisciplinarios de 5 a 10 personas, usando React, Next.js, Angular, NestJS y Spring Boot. Diseñé la seguridad de video HLS de KlowHub, desarrollé un espacio 2D en tiempo real con Phaser y sumé testing.',
       STACK: ['Angular', 'React', 'Spring Boot', 'GCP'],
     },
     {
@@ -84,7 +98,7 @@ export const ABOUT_USER: BentoUser = {
   },
   whoIamTitle: '¿Quién soy?',
   whoIam:
-    'Desarrollador con más de 2 años de experiencia. Habilidades en desarrollo backend con Spring Boot y desarrollo frontend con React y Angular. Capacidad para optimizar procesos de desarrollo, crear soluciones escalables. Experiencia trabajando con metodologías ágiles, con un enfoque constante en la mejora continua.',
+    `Desarrollador con más de ${YEARS_OF_EXPERIENCE} años de experiencia. Habilidades en desarrollo backend con Spring Boot y NestJS, y frontend con React, Angular y Next.js. Capacidad para optimizar procesos de desarrollo y crear soluciones escalables. Experiencia trabajando con metodologías ágiles, con un enfoque constante en la mejora continua.`,
   studies: [
     {
       ID: 'b00fb15c9503',

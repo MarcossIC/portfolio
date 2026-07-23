@@ -87,34 +87,10 @@
           "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/google70369a649c023c51.html",
-              "src/favicon.ico",
-              "src/apple-touch-icon.png",
-              "src/favicon-32x32.png",
-              "src/favicon-16x16.png",
-              "src/site.webmanifest",
-              "src/safari-pinned-tab.svg",
-              "src/sitemap.xml",
-              "src/robots.txt",
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "src/assets",
-                "output": "assets"
-              }
-            ],
-            "styles": [
-              "src/styles/_vars.css",
-              "src/styles/normalize.css",
-              "src/styles/styles.css",
-              "node_modules/aos/dist/aos.css",
-              "node_modules/atropos/atropos.min.css"
-            ],
-            "scripts": []
+            "buildTarget": "portfolio:build:development"
           }
         },
         "storybook": {

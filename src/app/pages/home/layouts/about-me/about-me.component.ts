@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, OnDestroy, signal, ElementRef, ViewChild, AfterViewInit, PLATFORM_ID, afterNextRender, DestroyRef } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { TitleComponent } from '@atoms/title/title.component';
+import { ButtonPrimaryComponent } from '@atoms/button-primary/button-primary.component';
 import { I18nService } from '@app/services/i18n.service';
 import { ABOUT_TITLE } from '@constants/appConst';
 import { trigger, state, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
@@ -8,6 +9,7 @@ import { take, timer } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { USER } from '@constants/userConst';
+import { YEARS_OF_EXPERIENCE } from '@constants/experience';
 
 interface StatCardData {
   icon: string;
@@ -51,7 +53,7 @@ const ICONS: Record<string, string> = {
   templateUrl: './about-me.component.html',
   styleUrl: './about-me.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TitleComponent, CommonModule],
+  imports: [TitleComponent, ButtonPrimaryComponent],
   animations: [
     trigger('fadeInUp', [
       transition(':enter', [
@@ -85,7 +87,7 @@ const ICONS: Record<string, string> = {
     ])
   ]
 })
-export class AboutMeLayout implements OnDestroy, AfterViewInit {
+export class AboutMeLayout implements OnDestroy {
   protected readonly i18nService = inject(I18nService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
@@ -113,17 +115,11 @@ export class AboutMeLayout implements OnDestroy, AfterViewInit {
   constructor() {
     afterNextRender(() => {
       this.isBrowser = isPlatformBrowser(this.platformId);
-      if (this.isBrowser) {
+      if (this.isBrowser && this.sectionRef) {
         this.setupIntersectionObserver();
+        this.intersectionObserver!.observe(this.sectionRef.nativeElement);
       }
     });
-  }
-
-  ngAfterViewInit() {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-    if (this.isBrowser && this.intersectionObserver && this.sectionRef) {
-      this.intersectionObserver.observe(this.sectionRef.nativeElement);
-    }
   }
 
   ngOnDestroy() {
@@ -136,10 +132,6 @@ export class AboutMeLayout implements OnDestroy, AfterViewInit {
     }
   }
 
-  downloadCV() {
-    window.open(this.DOWNLOAD_LINK, '_blank');
-  }
-
   private setupIntersectionObserver() {
     this.intersectionObserver = new IntersectionObserver(
       (entries) => {
@@ -150,13 +142,13 @@ export class AboutMeLayout implements OnDestroy, AfterViewInit {
           }
         });
       },
-      { threshold: 0.3, rootMargin: '-100px' }
+      { threshold: 0.05, rootMargin: '0px' }
     );
   }
 
   private startCounters() {
-    // Experience counter (5 years)
-    this.animateCounter(0, 5, 2000, 1000, (value) => this.experienceCount.set(value));
+    // Experience counter (auto-calculated years)
+    this.animateCounter(0, YEARS_OF_EXPERIENCE, 2000, 1000, (value) => this.experienceCount.set(value));
 
     // Projects counter (50 projects)
     this.animateCounter(0, 50, 2500, 1200, (value) => this.projectsCount.set(value));

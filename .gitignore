@@ -1,7 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # Compiled output
-/dist
+dist
 /tmp
 /out-tsc
 /bazel-out
@@ -45,3 +45,9 @@ Thumbs.db
 .netlify
 
 *storybook.log
+playwright-report/**
+test-results
+.claude/**
+.playwright-mcp/**
+improv-suggested.md
+screen/**

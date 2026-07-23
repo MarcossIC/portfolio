@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AboutIntroLayoutComponent } from '@app/components/legacy/introduction/introduction.component';
 import { StudiesLayout } from '@app/components/legacy/studies/studies.component';
@@ -9,6 +9,6 @@ import { StudiesLayout } from '@app/components/legacy/studies/studies.component'
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, AboutIntroLayoutComponent, StudiesLayout],
+  imports: [AboutIntroLayoutComponent, StudiesLayout],
 })
 export class AboutPageComponent {}

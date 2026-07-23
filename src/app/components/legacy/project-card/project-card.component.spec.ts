@@ -1,24 +1,24 @@
-import {
-  waitForAsync,
-  type ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
-
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProjectCardComponent } from './project-card.component';
 
 describe('ProjectCardComponent', () => {
   let component: ProjectCardComponent;
   let fixture: ComponentFixture<ProjectCardComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProjectCardComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ProjectCardComponent],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ProjectCardComponent);
     component = fixture.componentInstance;
+    component.PROJECT = {
+      NAME: 'Test Project',
+      DEPLOY: 'https://example.com',
+      DESCRIPTION: 'Test description',
+      TAGS: [],
+      IMG: 'assets/test.webp',
+    };
     fixture.detectChanges();
   });
 

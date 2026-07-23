@@ -1,227 +1,233 @@
-/* Timeline Item Container */
+/* ===========================
+   Timeline Element — zig-zag glass design with 3D tilt
+   Layout: 1fr | 64px node | 1fr  (card on one side, node centered on spine)
+   Flat tilt is driven by JS (pointermove → inline transform on .timeline-card).
+   FLAT only (no preserve-3d/translateZ) so the glass backdrop-filter survives.
+   =========================== */
+
+:host {
+  display: block;
+  isolation: isolate;
+  contain: layout style;
+}
+
+/* ===========================
+   Item — desktop zig-zag grid
+   =========================== */
 .timeline-item {
-  --item-offset: 33px;
-  --item-offset-right: calc(var(--item-offset) * -1);
-  --item-offset-position: 0%;
+  --slide-origin: -40px;
   position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-  margin-bottom: 4rem;
-  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 64px 1fr;
+  align-items: center;
+  margin-bottom: 3rem;
+
+  /* Hidden state before scroll reveal */
   opacity: 0;
-  animation: slideInLeft 0.8s ease-out forwards;
-  left: var(--item-offset-position);
+  transform: translateX(var(--slide-origin)) translateY(12px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .timeline-item--right {
-  transform: translateX(-10px);
-  animation: slideInRight 0.8s ease-out forwards;
+  --slide-origin: 40px;
 }
 
 .timeline-item:last-child {
   margin-bottom: 0;
 }
 
-/* Timeline Node */
+/* Visible state — triggered by IntersectionObserver on host */
+:host(.is-visible) .timeline-item {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+}
+
+/* ===========================
+   Center node — circular glass badge
+   =========================== */
 .timeline-node {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  grid-column: 2;
+  justify-self: center;
   z-index: 10;
 }
 
-.timeline-node__circle {
-  position: relative;
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  backdrop-filter: blur(20px);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
-  border: 1px solid rgba(255, 255, 255, 0.3);
+.timeline-node__badge {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  animation: nodeAppear 0.6s ease-out 0.2s forwards;
-  transform: scale(0) rotate(-180deg);
-}
-
-.timeline-node__circle:hover {
-  transform: scale(1.1) rotate(5deg);
-}
-
-.timeline-node__glow {
-  position: absolute;
-  inset: 0;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3));
-  filter: blur(20px);
-  z-index: -1;
+  color: var(--ml-violet-100);
+  /* glass-card utility + glow-purple (matches reference node) */
+  background: hsla(263, 50%, 14%, 0.35);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid hsla(270, 95%, 83%, 0.06);
+  box-shadow:
+    var(--shadow-glass),
+    0 0 30px -5px hsla(270, 80%, 55%, 0.35),
+    inset 0 0 30px -10px hsla(270, 80%, 55%, 0.1);
+
+  /* Entrance: scale up with slight delay */
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
-.timeline-node__icon {
-  width: 1.75rem;
-  height: 1.75rem;
-  color: white;
-  position: relative;
-  z-index: 10;
+:host(.is-visible) .timeline-node__badge {
+  opacity: 1;
+  transform: scale(1);
 }
 
-/* Timeline Content */
+.timeline-item:hover .timeline-node__badge {
+  border-color: hsla(270, 95%, 83%, 0.3);
+  box-shadow:
+    var(--shadow-glass),
+    var(--shadow-cosmic),
+    inset 0 0 30px -10px hsla(270, 80%, 55%, 0.2);
+}
+
+/* ===========================
+   Content — staggered entrance
+   =========================== */
 .timeline-content {
-  flex: 1;
-  max-width: 32rem;
-  transform: translateY(30px);
-  animation: slideInUp 0.8s ease-out 0.3s forwards;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+}
+
+:host(.is-visible) .timeline-content {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .timeline-item--left .timeline-content {
-  order: -1;
+  grid-column: 1;
 }
 
 .timeline-item--right .timeline-content {
-  order: 1;
+  grid-column: 3;
 }
 
-/* Timeline Card */
+/* ===========================
+   Card — frosted glass surface AND the flat tilt element.
+   The tilt transform (perspective+rotate+lift) is written inline by JS.
+   IMPORTANT: keep this a FLAT transform — never add transform-style:
+   preserve-3d or translateZ. A 3D context disables backdrop-filter in
+   Chrome, which kills the glass. A flat 2D transform here is safe.
+   =========================== */
 .timeline-card {
   position: relative;
-  /* Angular animation will handle the hover transform */
+  border-radius: 1.5rem;
+  /* glass-card surface — light blur keeps it crisp "crystal", not foggy */
+  background: hsla(263, 50%, 14%, 0.35);
+  backdrop-filter: blur(1px) saturate(1.2);
+  -webkit-backdrop-filter: blur(1px) saturate(1.2);
+  border: 1px solid hsla(270, 95%, 83%, 0.06);
+  box-shadow: var(--shadow-glass);
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.45s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+
+  transition: transform var(--dur-base) var(--ease-out-soft), box-shadow var(--dur-base) var(--ease-out-soft);
 }
 
-.timeline-card__background {
-  position: absolute;
-  inset: 0;
-  border-radius: 1.5rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+/* Hover — cosmic lilac glow + brighter border (mirrors the reference card).
+   The lift comes from the JS tilt transform; here we only touch glow/border. */
+.timeline-card:hover {
+  border-color: hsla(270, 95%, 83%, 0.18);
+  box-shadow:
+    var(--shadow-glass),
+    var(--shadow-cosmic);
 }
 
 .timeline-card__hover-effect {
   position: absolute;
   inset: 0;
   border-radius: 1.5rem;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), transparent, rgba(59, 130, 246, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.12),
+    transparent 50%,
+    rgba(59, 130, 246, 0.12)
+  );
   opacity: 0;
-  transform: scale(0.95);
-  /* Remove CSS transition - Angular animation will handle this */
+  transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: none;
 }
 
-.timeline-card__blob {
-  position: absolute;
-  inset: -4px;
-  border-radius: 1.5rem;
-  background: linear-gradient(45deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
-  filter: blur(24px);
-  opacity: 0;
-  transform: scale(0.95);
-  animation: blobAnimation 3s ease-in-out infinite;
-  /* Remove CSS transition - Angular animation will handle this */
+.timeline-card:hover .timeline-card__hover-effect {
+  opacity: 1;
 }
 
 .timeline-card__content {
   position: relative;
-  padding: 2rem;
+  padding: 1.5rem;
   z-index: 1;
-}
-
-/* Card Header */
-.timeline-card__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-
-.timeline-card__title-section {
-  flex: 1;
-}
-
-.timeline-card__title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 0.5rem;
-  transition: color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   text-align: left;
 }
 
+/* ===========================
+   Header
+   =========================== */
+.timeline-card__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92); /* --text-primary */
+  margin: 0 0 0.5rem;
+  transition: color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
 .timeline-card:hover .timeline-card__title {
-  color: rgb(196, 181, 253);
+  color: var(--ml-violet-100);
 }
 
 .timeline-card__company {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: rgb(196, 181, 253);
-  margin-bottom: 0.5rem;
-}
-
-.timeline-card__company-icon {
-  width: 1rem;
-  height: 1rem;
+  gap: 0.4rem;
+  color: var(--ml-violet-100);
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .timeline-card__company-name {
   font-weight: 600;
 }
 
-.timeline-card__meta {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.875rem;
-}
-
 .timeline-card__time {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  color: rgba(255, 255, 255, 0.65); /* --text-muted */
+  font-size: 0.8125rem;
 }
 
-.timeline-card__time-icon {
-  width: 0.75rem;
-  height: 0.75rem;
-}
-
-/* Link Button */
-.timeline-card__link-btn {
-  padding: 0.5rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.timeline-card__link-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1) rotate(15deg);
-}
-
-.timeline-card__link-icon {
-  width: 1rem;
-  height: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* Description */
+/* ===========================
+   Description
+   =========================== */
 .timeline-card__description {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+  margin: 0.85rem 0 1rem;
+  color: rgba(255, 255, 255, 0.875); /* --text-body */
+  font-size: 0.9rem;
+  line-height: 1.55;
   font-weight: 300;
-  text-align: left;
 }
 
-/* Technologies */
+/* ===========================
+   Tech tags — staggered reveal, rounded-rectangle chips
+   =========================== */
 .timeline-card__technologies {
   display: flex;
   flex-wrap: wrap;
@@ -229,96 +235,99 @@
 }
 
 .timeline-card__tech-tag {
-  padding: 0.375rem 0.75rem;
-  font-size: 0.75rem;
+  --delay: calc(0.35s + var(--tag-index, 0) * 0.06s);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8125rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+  color: #dedede;
+  /* Chip "fixed" treatment — mirrors the reference Chip (rounded rectangle) */
+  background: linear-gradient(
+    299.25deg,
+    rgba(20, 0, 48, 0.21) 27.3%,
+    rgba(50, 17, 106, 0.3) 66.15%
+  );
+  border: 1px solid rgba(33, 0, 87, 0.7);
+  box-shadow:
+    inset -1px -6px 16px rgb(35 0 70 / 10%),
+    inset 6px 8px 24px rgb(30 0 60 / 40%);
+  border-radius: 0.625rem;
+
   opacity: 0;
-  transform: scale(0.8);
-  animation: tagAppear 0.4s ease-out forwards;
+  transform: translateY(8px);
+  transition:
+    opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1) var(--delay),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) var(--delay),
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+:host(.is-visible) .timeline-card__tech-tag {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .timeline-card__tech-tag:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.05) translateY(-2px);
+  color: #fff;
+  border-color: hsla(270, 95%, 83%, 0.45);
 }
 
-
-
-
-/* Responsive Design */
+/* ===========================
+   Mobile — single column, node left / card right
+   =========================== */
 @media only screen and (max-width: 979.9px) {
   .timeline-item {
-    --item-offset-position: 0%;
-    --item-offset: 24px;
-    --item-offset-right: var(--item-offset);
-    gap: 1rem;
-    margin-bottom: 3rem;
-    width: 90%;
-    justify-content: flex-end;
+    grid-template-columns: 48px 1fr;
+    column-gap: 1rem;
+    align-items: start;
+    margin-bottom: 2.5rem;
+    --slide-origin: 0px;
   }
 
-  .timeline-node__circle {
-    width: 3rem;
-    height: 3rem;
+  .timeline-item--right {
+    --slide-origin: 0px;
   }
 
-  .timeline-node__icon {
-    width: 1.25rem;
-    height: 1.25rem;
+  .timeline-node {
+    grid-column: 1;
+    align-self: start;
+  }
+
+  .timeline-node__badge {
+    width: 44px;
+    height: 44px;
+  }
+
+  .timeline-item--left .timeline-content,
+  .timeline-item--right .timeline-content {
+    grid-column: 2;
   }
 
   .timeline-card__content {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 
   .timeline-card__title {
     font-size: 1.25rem;
   }
-
-  .timeline-content {
-    max-width: none;
-  }
-
-  .timeline-item--left .timeline-content,
-  .timeline-item--right .timeline-content {
-    order: 1;
-  }
 }
 
-@media only screen and (max-width: 490px) {
-  .timeline-item {
-    width: 98%;
-  }
-}
 @media only screen and (max-width: 480px) {
   .timeline-item {
-    --item-offset-position: -7%;
-    --item-offset: 24px;
-    --item-offset-right: var(--item-offset);
-    gap: 0.75rem;
-  }
-  .timeline-node {
-    scale: .9;
-
-    svg {
-      scale: .85;
-    }
+    grid-template-columns: 40px 1fr;
+    column-gap: 0.75rem;
   }
 
-  .timeline-node__circle {
-    width: 2.5rem;
-    height: 2.5rem;
+  .timeline-node__badge {
+    width: 38px;
+    height: 38px;
   }
 
-  .timeline-node__icon {
-    width: 1rem;
-    height: 1rem;
+  .timeline-node__badge svg {
+    width: 18px;
+    height: 18px;
   }
 
   .timeline-card__content {
@@ -328,84 +337,33 @@
   .timeline-card__title {
     font-size: 1.125rem;
   }
-
-  .timeline-card__header {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .timeline-card__meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
 }
 
-/* Desktop Layout - Two columns */
-@media only screen and (min-width: 980px) {
+/* ===========================
+   Reduced motion
+   =========================== */
+/* @media (prefers-reduced-motion: reduce) {
+  .timeline-item,
+  .timeline-node__badge,
+  .timeline-content,
+  .timeline-card,
+  .timeline-card__hover-effect,
+  .timeline-card__tech-tag {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
   .timeline-item {
-    width: 50%;
-    margin-bottom: 4rem;
-    align-self: center;
-  }
-
-  .timeline-item--left {
-    justify-content: flex-end;
-  }
-
-  .timeline-item--right {
-    --item-offset-position: 50%;
-    justify-content: flex-start;
-  }
-
-  .timeline-item--left .timeline-content {
-    order: -1;
-  }
-
-  .timeline-item--right .timeline-content {
-    order: 1;
-  }
-}
-
-/* Animations */
-@keyframes slideInLeft {
-  to {
     opacity: 1;
-    transform: translateX(var(--item-offset)) translateX(0);
+    transform: none;
   }
-}
 
-@keyframes slideInRight {
-  to {
-    opacity: 1;
-    transform: translateX(var(--item-offset-right));
-  }
-}
-
-@keyframes slideInUp {
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes nodeAppear {
-  to {
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes tagAppear {
-  to {
+  .timeline-node__badge {
     opacity: 1;
     transform: scale(1);
   }
-}
 
-@keyframes blobAnimation {
-  0%, 100% {
-    background: linear-gradient(45deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+  .timeline-card {
+    transform: none;
   }
-  50% {
-    background: linear-gradient(45deg, rgba(59, 130, 246, 0.2), rgba(236, 72, 153, 0.2), rgba(59, 130, 246, 0.2));
-  }
-}
+} */

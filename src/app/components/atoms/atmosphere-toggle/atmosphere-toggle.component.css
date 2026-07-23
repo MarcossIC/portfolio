@@ -1,0 +1,122 @@
+/* Desktop glass icon button */
+.atmos-btn {
+  width: 2.05rem;
+  height: 2.05rem;
+  flex-shrink: 0;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsla(263, 50%, 14%, 0.35);
+  border: 1px solid hsla(270, 95%, 83%, 0.06);
+  cursor: pointer;
+  transition: background 0.6s ease, border-color 0.6s ease, box-shadow 0.3s;
+}
+
+/* Ember: the glass container warms to garnet so the button reads "ember" too.
+   :host-context crosses Angular's emulated encapsulation; :root[...] does not. */
+:host-context([data-atmos='ember']) .atmos-btn {
+  background: hsla(346, 55%, 15%, 0.4);
+  border-color: hsla(20, 90%, 70%, 0.12);
+}
+
+/* Hover glow previews the DESTINATION atmosphere */
+.atmos-btn:hover {
+  border-color: hsla(270, 95%, 83%, 0.2);
+  box-shadow: 0 0 18px -4px oklch(0.65 0.23 30); /* → Ember */
+}
+
+:host-context([data-atmos='ember']) .atmos-btn:hover {
+  border-color: hsla(20, 90%, 70%, 0.28);
+  box-shadow: 0 0 18px -4px hsla(270, 95%, 80%, 1); /* → Nebula */
+}
+
+/* The inner orb: violet star ⇄ glowing ember */
+.atmos-orb {
+  width: 1.05rem;
+  height: 1.05rem;
+  display: block;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #f0dcff 0%, #c79bff 42%, #8b5cf6 100%);
+  box-shadow: 0 0 14px 1px hsla(270, 90%, 75%, 0.7), inset 0 0 4px rgba(255, 255, 255, 0.5);
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+}
+
+:host-context([data-atmos='ember']) .atmos-orb {
+  background: radial-gradient(circle at 34% 30%, #ffb38a 0%, #ff6a3d 42%, oklch(0.5 0.21 28) 100%);
+  box-shadow: 0 0 14px 1px oklch(0.62 0.22 30 / 0.75), inset 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+/* Compact full-width row (mobile dropdown) */
+.atmos-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: hsla(263, 50%, 14%, 0.35);
+  border: 1px solid hsla(270, 95%, 83%, 0.06);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.6s ease, border-color 0.6s ease, color 0.3s;
+}
+
+:host-context([data-atmos='ember']) .atmos-row {
+  background: hsla(346, 55%, 15%, 0.4);
+  border-color: hsla(20, 90%, 70%, 0.12);
+}
+
+.atmos-row:hover {
+  color: white;
+  border-color: hsla(270, 95%, 83%, 0.2);
+}
+
+:host-context([data-atmos='ember']) .atmos-row:hover {
+  border-color: hsla(20, 90%, 70%, 0.28);
+}
+
+.atmos-row-value {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Shockwave overlays — GSAP toggles display and animates size/opacity.
+   Stack (bottom→top): bloom 90 · plasma 91 · ring 92 · sparks 93. */
+.shock-ring,
+.shock-plasma,
+.shock-bloom {
+  position: fixed;
+  display: none;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.shock-ring {
+  z-index: 92;
+  border-style: solid;
+}
+
+/* Plasma trail: a conic-gradient GSAP rotates during the wave for inner texture. */
+.shock-plasma {
+  z-index: 91;
+}
+
+.shock-bloom {
+  z-index: 90;
+  filter: blur(8px);
+}
+
+/* Orb-hatch host. The spark spans are created at runtime (position:fixed,
+   inline-styled) so Angular's emulated encapsulation never reaches them —
+   this container only owns stacking + cleanup. */
+.atmos-sparks {
+  position: fixed;
+  inset: 0;
+  z-index: 93;
+  pointer-events: none;
+}

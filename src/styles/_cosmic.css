@@ -1,0 +1,137 @@
+/* Glass morphism utilities */
+@utility glass {
+  background: hsla(263, 50%, 12%, 0.4);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  border: 1px solid hsla(270, 95%, 83%, 0.08);
+}
+
+@utility glass-strong {
+  background: hsla(263, 50%, 10%, 0.6);
+  backdrop-filter: blur(40px) saturate(1.8);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8);
+  border: 1px solid hsla(270, 95%, 83%, 0.12);
+}
+
+@utility glass-card {
+  background: hsla(263, 50%, 14%, 0.35);
+    backdrop-filter: blur(1px) saturate(1.2);
+    -webkit-backdrop-filter: blur(1px) saturate(1.2);
+    border: 1px solid var(--ml-glass-border-strong);
+    box-shadow: var(--shadow-glass);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.45s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Text gradient utilities */
+@utility text-gradient-cosmic {
+  background: linear-gradient(180deg, oklch(0.58 0.23 28.18) 10%, oklch(0.43 0.17 28.14 / 0.76) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility text-gradient-white {
+  background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.6) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow effects */
+@utility glow-purple {
+  box-shadow: 0 0 30px -5px hsla(270, 80%, 55%, 0.35), inset 0 0 30px -10px hsla(270, 80%, 55%, 0.1);
+}
+
+@utility glow-red {
+  box-shadow: 0 0 30px -5px hsla(350, 85%, 55%, 0.35), inset 0 0 30px -10px hsla(350, 85%, 55%, 0.1);
+}
+
+/* Border glow pseudo-element */
+.border-glow {
+  position: relative;
+}
+.border-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, hsla(350, 85%, 55%, 0.4), hsla(270, 65%, 55%, 0.4), hsla(230, 70%, 55%, 0.2));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Cosmic keyframes */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(var(--orbit-radius, 120px)) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(var(--orbit-radius, 120px)) rotate(-360deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+@keyframes scroll-hint {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(12px); opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); filter: blur(10px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes fadeRight {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleReveal {
+  from { opacity: 0; transform: scale(0.6) rotate(-5deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Animation utility classes */
+.animate-twinkle { animation: twinkle var(--duration, 3s) ease-in-out infinite; animation-delay: var(--delay, 0s); }
+.animate-orbit { animation: orbit var(--duration, 20s) linear infinite; }
+.animate-pulse-glow { animation: pulse-glow 4s ease-in-out infinite; }
+.animate-scroll-hint { animation: scroll-hint 2s ease-in-out infinite; }
+.animate-fade-up { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-fade-right { animation: fadeRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-scale-reveal { animation: scaleReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-slide-down { animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Reduced motion */
+/* @media (prefers-reduced-motion: reduce) {
+  .animate-twinkle,
+  .animate-orbit,
+  .animate-pulse-glow,
+  .animate-scroll-hint,
+  .animate-fade-up,
+  .animate-fade-right,
+  .animate-scale-reveal,
+  .animate-slide-down {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+} */

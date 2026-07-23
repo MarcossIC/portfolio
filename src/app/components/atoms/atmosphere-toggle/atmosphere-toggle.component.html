@@ -1,0 +1,32 @@
+@if (variant() === 'compact') {
+  <button
+    type="button"
+    class="atmos-row"
+    (click)="toggle($event)"
+    [attr.aria-label]="'Switch atmosphere, current mode: ' + modeName()"
+    [title]="'Atmosphere: ' + modeName()"
+  >
+    <span>Atmosphere</span>
+    <span class="atmos-row-value">
+      <span class="atmos-orb" aria-hidden="true"></span>
+      {{ modeName() }}
+    </span>
+  </button>
+} @else {
+  <button
+    type="button"
+    class="atmos-btn"
+    (click)="toggle($event)"
+    [attr.aria-label]="'Switch atmosphere, current mode: ' + modeName()"
+    [title]="'Atmosphere: ' + modeName()"
+  >
+    <span class="atmos-orb" aria-hidden="true"></span>
+  </button>
+}
+
+<!-- Supernova shockwave overlays (GSAP drives them, hidden at rest) -->
+<div #ring class="shock-ring" aria-hidden="true"></div>
+<div #plasma class="shock-plasma" aria-hidden="true"></div>
+<div #bloom class="shock-bloom" aria-hidden="true"></div>
+<!-- Orb-hatch particle host: GSAP appends/animates/removes spans on the punch -->
+<div #sparks class="atmos-sparks" aria-hidden="true"></div>

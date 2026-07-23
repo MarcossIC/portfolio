@@ -1,33 +1,46 @@
 import type { BentoUser, User } from '@app/models/types';
+import { YEARS_OF_EXPERIENCE, YEARS_OF_EXPERIENCE_PADDED } from '@constants/experience';
+import {
+  CONTACT_EMAIL,
+  CV_DOWNLOAD_URL_EN,
+  CV_VIEW_URL_EN,
+  GITHUB_URL,
+  LINKEDIN_URL,
+  STACKOVERFLOW_URL,
+} from '@constants/links';
 
 //General user data
 export const USER: User = {
   name: 'Marcos',
   lastname: 'Lopez',
   fullName: 'Marcos Lopez',
-  email: 'marcoslopezdev18@gmail.com',
+  email: CONTACT_EMAIL,
 
   motto:
     'I hope to share my journey through the world of IT and that we can work together',
   role: 'Software developer',
-  cv: 'https://drive.google.com/file/d/1fxazKwrFJ91R2-3bIAKGsu4gkfaXB-iJ/view?usp=sharing',
-  linkedIn: 'https://www.linkedin.com/in/marcos-lopez-dev',
-  gitHub: 'https://github.com/MarcossIC',
-  stackOverflow: 'https://es.stackoverflow.com/users/301174/marcos-lopez',
-  downloadCv:
-    'https://drive.usercontent.google.com/u/2/uc?id=1fxazKwrFJ91R2-3bIAKGsu4gkfaXB-iJ&export=download',
+  cv: CV_VIEW_URL_EN,
+  linkedIn: LINKEDIN_URL,
+  gitHub: GITHUB_URL,
+  stackOverflow: STACKOVERFLOW_URL,
+  downloadCv: CV_DOWNLOAD_URL_EN,
   viewResume: 'View resume',
   shortResume: 'Resume',
-  photo: 'assets/utils/FOTO_CV.webp'
+  photo: 'assets/utils/FOTO_CV.webp',
+  heroCTA: {
+    talk: "Let's Talk",
+    downloadCV: 'Download CV',
+  },
+  statusBadge: 'Available for projects',
+  scrollHint: 'Explore',
 };
 
 
 
 //User data to complete the about bento
 export const ABOUT_USER: BentoUser = {
-  yearsExpertice: '02',
+  yearsExpertice: YEARS_OF_EXPERIENCE_PADDED,
   experticeTitle: 'Years of experience',
-  experienceTitle: 'Experience',
   githubBento: {
     TITLE: 'More projects',
     SUB: "You can find more of my projects on github",
@@ -37,7 +50,7 @@ export const ABOUT_USER: BentoUser = {
     {
       ID: '0-exp',
       COMPANY: 'Boutique Software',
-      ROLE: 'Full stack developer',
+      ROLE: 'Software Develpment',
       TIME: 'December 2024 - Present',
       DESCRIPTION: '',
       STACK: ['Angular', 'Spring Boot', 'Docker'],
@@ -45,7 +58,7 @@ export const ABOUT_USER: BentoUser = {
     {
       ID: '1-exp',
       COMPANY: 'Codefend',
-      ROLE: 'Front end developer',
+      ROLE: 'Software Develpment',
       TIME: 'December 2023 - April 2025',
       DESCRIPTION:
         'At Codefend, I led the frontend development of a SaaS platform connecting companies with cybersecurity providers, migrating from SolidJS to React, optimizing the architecture, reducing dependencies, and collaborating on the implementation of security intelligence APIs.',
@@ -87,7 +100,7 @@ export const ABOUT_USER: BentoUser = {
   },
   whoIamTitle: 'Who I am?',
   whoIam:
-    'Developer with over 2 years of experience. Skill in backend development with Spring Boot and frontend development with React and Angular. Ability to optimize development processes, create scalable solutions. Experience working with agile methodologies, with a constant focus on continuous improvement.',
+    `Developer with over ${YEARS_OF_EXPERIENCE} years of experience. Skill in backend development with Spring Boot and NestJS, and frontend development with React, Angular and Next.js. Ability to optimize development processes and create scalable solutions. Experience working with agile methodologies, with a constant focus on continuous improvement.`,
   studies: [
     {
       ID: 'b00fb15c9503',

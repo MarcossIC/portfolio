@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   type AfterViewInit,
   Component,
@@ -32,7 +32,7 @@ import * as AOS from 'aos';
   standalone: true,
   templateUrl: './animation-module.component.html',
   styleUrl: './animation-module.component.css',
-  imports: [CommonModule],
+  imports: [],
   animations: [
     trigger('backgroundAnimation', [
       state(
@@ -642,24 +642,24 @@ export class AnimationModuleComponent implements AfterViewInit {
     }
 
     // Use native browser API instead of Angular CDK
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    // if (typeof window !== 'undefined' && window.matchMedia) {
+    //   const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-      // Set initial value
-      this.prefersReducedMotion.set(mediaQuery.matches);
+    //   // Set initial value
+    //   this.prefersReducedMotion.set(mediaQuery.matches);
 
-      // Listen for changes
-      const listener = (event: MediaQueryListEvent) => {
-        this.prefersReducedMotion.set(event.matches);
-      };
+    //   // Listen for changes
+    //   const listener = (event: MediaQueryListEvent) => {
+    //     this.prefersReducedMotion.set(event.matches);
+    //   };
 
-      mediaQuery.addEventListener('change', listener);
+    //   mediaQuery.addEventListener('change', listener);
 
-      // Cleanup listener on destroy
-      this.destroyRef.onDestroy(() => {
-        mediaQuery.removeEventListener('change', listener);
-      });
-    }
+    //   // Cleanup listener on destroy
+    //   this.destroyRef.onDestroy(() => {
+    //     mediaQuery.removeEventListener('change', listener);
+    //   });
+    // }
   }
 
   private initializeScrollObservables() {

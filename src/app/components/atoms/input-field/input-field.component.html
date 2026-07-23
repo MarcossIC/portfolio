@@ -7,13 +7,20 @@
     [formControl]="fieldControl"
     [id]="id()"
     [attr.aria-label]="aria()"
+    [attr.aria-describedby]="id() + '-feedback'"
     [autocomplete]="autocomplete()"
     placeholder=" "
     autocapitalize="none"
   />
   <label [for]="id()">{{ label() }}</label>
+  @if (showSuccess) {
+    <span [id]="id() + '-feedback'" class="success-indicator">
+      <SuccessIcon />
+    </span>
+  }
   @if(showError){
   <error-message
+    [id]="id() + '-feedback'"
     errorClass="text-[#e12a2a] items-center font-semibold text-center"
     [errorMessage]="errorMessage()"
   ></error-message>

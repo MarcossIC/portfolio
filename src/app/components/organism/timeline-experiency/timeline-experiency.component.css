@@ -1,119 +1,79 @@
-/* Timeline Container with Elegant Background */
+/* ===========================
+   Timeline container — center spine + zig-zag stack
+   =========================== */
 .timeline {
   position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 72rem;
+  margin: 4rem auto 0;
   padding: 0;
   list-style: none;
   z-index: 1;
-  margin-block-start: 4rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-/* Timeline Central Line */
+/* Spine track — static faint line */
 .timeline::after {
   content: "";
   position: absolute;
-  width: 1px;
+  width: 2px;
   height: 100%;
-  background: linear-gradient(to bottom,
-    transparent 0%,
-    rgba(139, 92, 246, 0.6) 10%,
-    rgba(59, 130, 246, 0.4) 50%,
-    rgba(139, 92, 246, 0.6) 90%,
-    transparent 100%
-  );
   top: 0;
   left: 50%;
   transform: translateX(-50%);
+  background: rgba(216, 180, 254, 0.08);
   z-index: -1;
-  filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.4));
 }
 
-/* Responsive Design */
+/* Spine fill — progressive, driven by scroll (scaleY set inline) */
+.timeline-progress {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  top: 0;
+  left: 50%;
+  margin-left: -1px;
+  transform-origin: top;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(216, 180, 254, 0.5),
+    rgba(100, 140, 230, 0.4),
+    transparent
+  );
+  box-shadow: 0 0 12px rgba(216, 180, 254, 0.4);
+  transform: translateX(-50%) scaleY(var(--timeline-scale));
+  transform-origin: center top;
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ===========================
+   Mobile — spine moves to the left rail (node column center)
+   =========================== */
 @media (max-width: 979.9px) {
   .timeline {
-    gap: 2rem;
+    margin-top: 2.5rem;
   }
 
   .timeline::after {
-    left: 2.9rem;
-    transform: translateX(0);
+    left: 24px;
+    transform: translateX(-50%);
+  }
+
+  .timeline-progress {
+    left: 24px;
+    margin-left: -1px;
   }
 }
 
 @media (max-width: 480px) {
   .timeline::after {
-    left: calc(calc(2.5rem * 0.675) / 2.2);
+    left: 20px;
   }
-}
 
-/* Enhanced Glow Effects */
-.timeline::after {
-  box-shadow:
-    0 0 20px rgba(139, 92, 246, 0.3),
-    0 0 40px rgba(59, 130, 246, 0.2),
-    0 0 60px rgba(139, 92, 246, 0.1);
-}
-
-/* Animations */
-@keyframes particleFloat {
-  0%, 100% {
-    background-position: 0% 0%, 100% 100%, 0% 100%, 100% 0%, 50% 50%, 25% 75%, center;
-  }
-  25% {
-    background-position: 100% 50%, 0% 50%, 50% 0%, 50% 100%, 0% 25%, 75% 25%, center;
-  }
-  50% {
-    background-position: 50% 100%, 50% 0%, 100% 50%, 0% 50%, 75% 75%, 25% 25%, center;
-  }
-  75% {
-    background-position: 0% 50%, 100% 50%, 50% 100%, 50% 0%, 25% 0%, 75% 100%, center;
-  }
-}
-
-@keyframes backgroundShift {
-  0%, 100% {
-    background-position: 0% 0%, 100% 100%, 0% 0%;
-  }
-  33% {
-    background-position: 100% 50%, 0% 50%, 50% 25%;
-  }
-  66% {
-    background-position: 50% 100%, 50% 0%, 100% 75%;
-  }
-}
-
-/* Additional Glow for Modern Look */
-.timeline {
-  position: relative;
-}
-
-.timeline::before {
-  filter: blur(40px);
-  opacity: 0.7;
-}
-
-/* Subtle Grid Pattern */
-.timeline {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 50px 50px;
-}
-
-/* Large Screen Optimizations */
-@media (min-width: 1200px) {
-  .timeline {
-    max-width: 1400px;
-  }
-}
-
-@media (min-width: 1580px) {
-  .timeline::after {
-    width: 2px;
-    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+  .timeline-progress {
+    left: 20px;
   }
 }

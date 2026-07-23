@@ -27,6 +27,12 @@ export interface User {
   viewResume: string;
   shortResume: string;
   photo: string;
+  heroCTA: {
+    talk: string;
+    downloadCV: string;
+  };
+  statusBadge: string;
+  scrollHint: string;
 }
 
 export interface UserExperience {
@@ -73,7 +79,6 @@ export interface GithubBento extends BentoCTA {
 export interface BentoUser {
   yearsExpertice: string;
   experticeTitle: string;
-  experienceTitle: string;
   githubBento: GithubBento;
   experiences: UserExperience[];
   profile: UserProfile;

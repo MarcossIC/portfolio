@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +6,7 @@ import {
   Output,
   computed,
   inject,
+  signal,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -15,9 +15,8 @@ import {
 } from '@angular/forms';
 import type { ContactState } from '@app/models/contactState.model';
 import { I18nService } from '@app/services/i18n.service';
-import { InputFieldComponent } from '@atoms/input-field/input-field.component';
-import { TextAreaFieldComponent } from '@atoms/text-area-field/text-area-field.component';
 import { CONTACT_FORM } from '@constants/appConst';
+import { ButtonPrimaryComponent } from '@atoms/button-primary/button-primary.component';
 
 @Component({
   standalone: true,
@@ -25,12 +24,7 @@ import { CONTACT_FORM } from '@constants/appConst';
   templateUrl: './contact-form.component.html',
   styleUrl: './contact-form.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    InputFieldComponent,
-    TextAreaFieldComponent,
-  ],
+  imports: [ReactiveFormsModule, ButtonPrimaryComponent],
 })
 export class ContactFormComponent implements OnDestroy {
   private formBuilder = inject(FormBuilder);
@@ -39,6 +33,8 @@ export class ContactFormComponent implements OnDestroy {
 
   @Output() public contactState = new EventEmitter<ContactState>();
   protected contactForm = this.createContactForm();
+  protected readonly shakeForm = signal(false);
+  protected readonly focused = signal<string | null>(null);
 
   ngOnDestroy(): void {
     this.contactForm.reset();
@@ -57,6 +53,12 @@ export class ContactFormComponent implements OnDestroy {
   }
 
   protected onSubmit() {
+    if (this.contactForm.invalid) {
+      this.contactForm.markAllAsTouched();
+      this.shakeForm.set(true);
+      return;
+    }
+
     const fullname = this.controls['name'].value;
     const email = this.controls['email'].value;
     const message = this.controls['message'].value;
@@ -67,5 +69,13 @@ export class ContactFormComponent implements OnDestroy {
     } as ContactState);
 
     this.contactForm.reset();
+  }
+
+  protected onShakeEnd() {
+    this.shakeForm.set(false);
+  }
+
+  protected setFocus(field: string | null) {
+    this.focused.set(field);
   }
 }

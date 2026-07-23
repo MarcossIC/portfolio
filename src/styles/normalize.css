@@ -136,7 +136,7 @@
 body,
 html {
   scrollbar-width: thin;
-  scrollbar-color: #b9b9b9 #1b004e;
+  scrollbar-color: #b9b9b9 #0f0227;
 }
 body::-webkit-scrollbar-button,
 html::-webkit-scrollbar-button {
@@ -144,12 +144,12 @@ html::-webkit-scrollbar-button {
 }
 body::-webkit-scrollbar-track,
 html::-webkit-scrollbar-track {
-  background-color: #1b004e;
+  background-color: #0f0227;
 }
 body::-webkit-scrollbar,
 html::-webkit-scrollbar {
   width: 12px;
-  background-color: #1b004e;
+  background-color: #0f0227;
 }
 body::-webkit-scrollbar-corner,
 html::-webkit-scrollbar-corner {
@@ -160,6 +160,7 @@ html::-webkit-scrollbar-corner {
 html,
 :host {
   height: 100%;
+  overflow-x: hidden;
 
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
@@ -178,6 +179,7 @@ html,
 
 body {
   background: var(--ml-bg-color);
+  transition: background-color 0.7s ease;
   color: #f5f5f5;
   font-family:
     "Montserrat",
@@ -228,7 +230,7 @@ strong {
 }
 
 img {
-  max-width: none;
+  max-width: 100%;
   border: 0;
   overflow-clip-margin: content-box;
   overflow: clip;

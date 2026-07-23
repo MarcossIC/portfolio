@@ -1,14 +1,86 @@
-<section id="hero">
-  <div class="flex flex-col text-center justify-center items-center max-w-[100cqw]">
-    <h1 class="bg-ml-text-red title-base">{{ USER().fullName }}</h1>
-    <h2 class="bg-ml-text-white title-base">{{ USER().role }}</h2>
+<section id="hero" class="hero-section">
+  <!-- Decorative orbit rings -->
+  <div class="orbit-container">
+    <div class="orbit-ring orbit-ring--outer"></div>
+    <div class="orbit-ring orbit-ring--middle"></div>
+    <div class="orbit-ring orbit-ring--inner"></div>
+    <!-- Orbiting dots -->
+    <div class="orbit-dot" style="--orbit-radius: 350px; --duration: 25s">
+      <div class="orbit-dot-inner orbit-dot-inner--violet"></div>
+    </div>
+    <div class="orbit-dot" style="--orbit-radius: 290px; --duration: 18s">
+      <div class="orbit-dot-inner orbit-dot-inner--red"></div>
+    </div>
+  </div>
 
-    <p class="mt-2 font-manrope font-medium">
-      {{ USER().motto }}
-    </p>
-    <div class="mt-9 flex flex-col relative">
-      <hero-social-bar />
-      <arrow-down></arrow-down>
+  <div class="hero-content">
+    <div class="hero-layout">
+      <!-- Left: Main content -->
+      <div class="hero-main">
+        <!-- Status badge -->
+        <!-- <div class="animate-fade-up">
+          <span class="status-badge glass-card">
+            <span class="ping-container">
+              <span class="ping-ring"></span>
+              <span class="ping-dot"></span>
+            </span>
+            {{ USER().statusBadge }}
+          </span>
+        </div> -->
+
+        <!-- Name -->
+        <h1 class="hero-name animate-fade-right" style="animation-delay: 0.1s">
+          <span class="text-gradient-cosmic">{{ USER().name }}</span>
+          <br />
+          <span class="text-gradient-white">{{ USER().lastname }}</span>
+        </h1>
+
+        <!-- Title with divider -->
+        <div class="hero-role animate-fade-up" style="animation-delay: 0.2s">
+          <!-- <div class="role-divider"></div> -->
+          <h2 class="role-text">{{ USER().role }}</h2>
+        </div>
+
+        <!-- Description -->
+        <p class="hero-motto animate-fade-up" style="animation-delay: 0.3s">
+          {{ USER().motto }}
+        </p>
+
+        <!-- CTAs -->
+        <div class="hero-cta-group animate-fade-up" style="animation-delay: 0.4s">
+          <button-primary (clicked)="scrollToContact()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            {{ USER().heroCTA.talk }}
+          </button-primary>
+          <div class="hero-cta-secondary-container">
+            <a class="hero-cta hero-cta--secondary glass-card" [href]="USER().downloadCv" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              {{ USER().heroCTA.downloadCV }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Social links -->
+      <div class="hero-social animate-fade-up" style="animation-delay: 0.5s">
+        <hero-social-bar />
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint animate-fade-up" style="animation-delay: 0.8s">
+      <span class="scroll-hint-text">{{ USER().scrollHint }}</span>
+      <div class="scroll-bounce">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="scroll-chevron">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
     </div>
   </div>
 </section>

@@ -1,70 +1,202 @@
-section {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-block-end: 2.5rem;
-  padding-block-start: 19dvh;
+.contact-section {
+  position: relative;
+  z-index: 10;
+  padding-block: 6rem;
 }
 
-.contact {
+/* Ambient glow */
+.ambient-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.glow {
+  position: absolute;
+  border-radius: 9999px;
+}
+
+.glow--purple {
+  bottom: 0;
+  left: 25%;
+  width: 600px;
+  height: 600px;
+  background: rgba(216, 180, 254, 0.04);
+  filter: blur(150px);
+}
+
+.glow--red {
+  top: 25%;
+  right: 16%;
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 80, 50, 0.03);
+  filter: blur(120px);
+}
+
+/* Container */
+.contact-container {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+/* Section header */
+.section-header {
+  margin-bottom: 4rem;
+}
+
+.contact-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cosmic-violet, #d8b4fe);
+}
+
+.contact-title {
+  margin-top: 1.5rem;
+  font-family: Montserrat, sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+}
+
+/* Grid */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+/* Info col */
+.contact-info {
   display: flex;
-  justify-content: space-evenly;
-  column-gap: 25px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.contact-description {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.6;
+  max-width: 24rem;
+  font-family: 'Manrope', sans-serif;
+}
+
+.contact-email-link {
+  margin-top: 2.5rem;
+}
+
+.email-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.3s;
+  text-decoration: none;
+}
+
+.email-link:hover {
+  color: var(--cosmic-violet, #d8b4fe);
+}
+
+.email-icon-wrap {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.email-link:hover .email-icon-wrap {
+  border-color: rgba(216, 180, 254, 0.2);
+  box-shadow: 0 0 20px -4px rgba(216, 180, 254, 0.3);
+}
+
+.email-link:hover svg {
+  transform: translate(1px, -1px);
+}
+
+.email-link svg {
+  transition: transform 0.3s;
+}
+
+.email-label {
+  display: block;
+  font-size: 0.625rem;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.125rem;
+}
+
+/* Decorative */
+.contact-deco {
+  display: none;
+}
+
+/* Form col */
+.contact-form-col {
+  width: 100%;
 }
 
 contact-form {
   width: 100%;
 }
 
-.left-content {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  flex-shrink: 999;
-  width: 100%;
-}
-
-.right-content {
-  display: none;
-}
-
 @media only screen and (min-width: 768px) {
-  .left-content {
-    justify-content: center;
-    align-items: center;
+  .contact-container {
+    padding-inline: 3rem;
+  }
+
+  .section-header {
+    margin-bottom: 5rem;
   }
 }
 
-@media only screen and (min-width: 1080px) {
-  .contact {
-    flex-direction: row;
+@media only screen and (min-width: 1024px) {
+  .contact-grid {
+    grid-template-columns: 2fr 3fr;
+    gap: 5rem;
   }
-  .right-content {
+
+  .contact-deco {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    align-items: flex-end;
+    margin-top: 4rem;
+    position: relative;
   }
-}
 
-@media only screen and (min-width: 1580px) {
-  .right-content {
-    width: 50%;
+  .deco-symbol {
+    font-size: 7.5rem;
+    font-family: Montserrat, sans-serif;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.02);
+    line-height: 1;
+    user-select: none;
   }
-}
 
-@media only screen and (min-width: 1840px) {
-  .contact {
-    margin-inline: 5%;
-  }
-}
-@media only screen and (min-width: 2300px) {
-  .contact {
-    margin-inline: 12%;
-  }
-}
-
-@media only screen and (min-height: 500px) {
-  section {
-    padding-block-start: 13dvh;
+  .deco-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: rgba(216, 180, 254, 0.4);
   }
 }

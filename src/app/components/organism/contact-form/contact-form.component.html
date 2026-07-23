@@ -1,50 +1,98 @@
 <form
-  class="form"
+  class="form-wrapper"
+  [class.shake]="shakeForm()"
+  (animationend)="onShakeEnd()"
   [formGroup]="contactForm"
   (submit)="onSubmit()"
   role="form"
   [attr.aria-label]="CONTACT_FORM().FORM.ARIA_LABEL"
 >
-  <app-input-field
-    type="text"
-    name="name"
-    formControlName="name"
-    id="contact-name"
-    autocomplete="name"
-    [label]="CONTACT_FORM().FIELDS.NAME.LABEL"
-    [aria]="CONTACT_FORM().FIELDS.NAME.ARIA"
-    [errorMessage]="CONTACT_FORM().FIELDS.NAME.ERROR_MESSAGE"
-  ></app-input-field>
+  <!-- Decorative border -->
+  <div class="form-border-deco"></div>
+  <div class="form-glass-bg glass-card"></div>
 
-  <app-input-field
-    type="email"
-    name="email"
-    formControlName="email"
-    id="contact-email"
-    autocomplete="email"
-    [label]="CONTACT_FORM().FIELDS.EMAIL.LABEL"
-    [aria]="CONTACT_FORM().FIELDS.EMAIL.ARIA"
-    [errorMessage]="CONTACT_FORM().FIELDS.EMAIL.ERROR_MESSAGE"
-  ></app-input-field>
+  <div class="form-inner">
+    <!-- Name field -->
+    <div class="field-group" [class.field-focused]="focused() === 'name'">
+      <label class="field-label">
+        {{ CONTACT_FORM().FIELDS.NAME.LABEL }}
+      </label>
+      <input
+        type="text"
+        name="name"
+        formControlName="name"
+        id="contact-name"
+        autocomplete="name"
+        class="field-input"
+        [placeholder]="CONTACT_FORM().FIELDS.NAME.PLACEHOLDER"
+        [attr.aria-label]="CONTACT_FORM().FIELDS.NAME.ARIA"
+        (focus)="setFocus('name')"
+        (blur)="setFocus(null)"
+      />
+      <div class="field-line" [class.field-line--active]="focused() === 'name'"></div>
+    </div>
 
-  <app-textarea-field
-    name="message"
-    formControlName="message"
-    id="contact-message"
-    [label]="CONTACT_FORM().FIELDS.MESSAGE.LABEL"
-    [aria]="CONTACT_FORM().FIELDS.MESSAGE.ARIA"
-    [errorMessage]="CONTACT_FORM().FIELDS.MESSAGE.ERROR_MESSAGE"
-    cols="20"
-    rows="7"
-  ></app-textarea-field>
+    <div class="field-spacer"></div>
 
-  <button
-    class="button-form"
-    type="submit"
-    role="button"
-    [disabled]="contactForm.invalid"
-    [attr.aria-disabled]="contactForm.invalid"
-  >
-    {{ CONTACT_FORM().BUTTON.TEXT }}
-  </button>
+    <!-- Email field -->
+    <div class="field-group" [class.field-focused]="focused() === 'email'">
+      <label class="field-label">
+        {{ CONTACT_FORM().FIELDS.EMAIL.LABEL }}
+      </label>
+      <input
+        type="email"
+        name="email"
+        formControlName="email"
+        id="contact-email"
+        autocomplete="email"
+        class="field-input"
+        [placeholder]="CONTACT_FORM().FIELDS.EMAIL.PLACEHOLDER"
+        [attr.aria-label]="CONTACT_FORM().FIELDS.EMAIL.ARIA"
+        (focus)="setFocus('email')"
+        (blur)="setFocus(null)"
+      />
+      <div class="field-line" [class.field-line--active]="focused() === 'email'"></div>
+    </div>
+
+    <div class="field-spacer"></div>
+
+    <!-- Message field -->
+    <div class="field-group" [class.field-focused]="focused() === 'message'">
+      <label class="field-label">
+        {{ CONTACT_FORM().FIELDS.MESSAGE.LABEL }}
+      </label>
+      <textarea
+        name="message"
+        formControlName="message"
+        id="contact-message"
+        rows="4"
+        class="field-input field-textarea"
+        [placeholder]="CONTACT_FORM().FIELDS.MESSAGE.PLACEHOLDER"
+        [attr.aria-label]="CONTACT_FORM().FIELDS.MESSAGE.ARIA"
+        (focus)="setFocus('message')"
+        (blur)="setFocus(null)"
+      ></textarea>
+      <div class="field-line" [class.field-line--active]="focused() === 'message'"></div>
+    </div>
+
+    <div class="field-spacer-lg"></div>
+
+    <!-- Submit button -->
+    <button-primary
+      class="submit-btn"
+      type="submit"
+      [block]="true"
+      [ariaDisabled]="contactForm.invalid"
+    >
+      <span class="submit-content">
+        <span>{{ CONTACT_FORM().BUTTON.TEXT }}</span>
+        <span class="submit-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </span>
+      </span>
+    </button-primary>
+  </div>
 </form>

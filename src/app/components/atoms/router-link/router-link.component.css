@@ -1,5 +1,6 @@
 a {
   display: inline-block;
+  position: relative;
   width: auto;
   min-width: auto;
   max-width: none;
@@ -13,6 +14,20 @@ a {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
   animation-duration: 300ms;
+}
+
+/* Invisible touch target expansion: ensures 44x44px minimum
+   without affecting visual layout */
+a::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 44px;
+  min-height: 44px;
+  width: 100%;
+  height: 100%;
 }
 
 /* a ::ng-deep span {

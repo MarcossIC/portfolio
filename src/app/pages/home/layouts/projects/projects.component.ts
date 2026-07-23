@@ -13,6 +13,7 @@ import { I18nService } from '@app/services/i18n.service';
 import { TitleComponent } from '@atoms/title/title.component';
 import { PROJECTS_TITLE, PROJECTS_V2 } from '@constants/appConst';
 import { ProjectArticleComponent } from '@organism/project-article/project-article.component';
+import { ScrollAnimationDirective } from '@lib/directives/ScrollAnimation.directive';
 
 @Component({
   standalone: true,
@@ -24,6 +25,7 @@ import { ProjectArticleComponent } from '@organism/project-article/project-artic
     CommonModule,
     TitleComponent,
     ProjectArticleComponent,
+    ScrollAnimationDirective,
   ],
 })
 export class ProjectsLayout {

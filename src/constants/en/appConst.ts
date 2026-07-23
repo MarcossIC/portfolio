@@ -1,4 +1,6 @@
 import type { Projects } from '@app/models/projects';
+import { YEARS_OF_EXPERIENCE, YEARS_CODING } from '@constants/experience';
+import { CONTACT_MAILTO, CV_VIEW_URL_EN, GITHUB_URL, LINKEDIN_URL } from '@constants/links';
 import type { ServicesType } from '@app/models/servicesTypes';
 import type { LinksHeaderArray } from '@app/models/types';
 import { combineProjectsWithTranslations, type ProjectTranslation } from '../projectBase';
@@ -22,7 +24,7 @@ const PROJECTS_TRANSLATIONS: ProjectTranslation[] = [
   },
   {
     ID: '5-project',
-    DESC: 'Invoicer++ is an open source application to generate commercial documents. It is an educational web platform created for students who are learning to create and manage business documents.',
+    DESC: 'Facturador++ is an open source application to generate commercial documents. It is an educational web platform created for students who are learning to create and manage business documents.',
   },
   {
     ID: '6-project',
@@ -43,10 +45,17 @@ export const STUDIES_TITLE = {
   TITLE: ['My', 'Studies']
 };
 
+export const EXPERIENCE_TITLE = {
+  TITLE_COMPLETE: 'My Career',
+  TITLE: ['My', 'Career']
+};
+
 export const CONTACT_TITLE = {
-  TITLE_COMPLETE: 'Get in touch',
-  TITLE: ['Get', 'in touch'],
-  SUB: 'Don\'t hesitate to send me a message for any inquiry or project'
+  TITLE_COMPLETE: "Let's talk about your next project",
+  TITLE: ["Let's talk about your", 'next project'],
+  SUB: "I'm open to new opportunities and collaborations. Tell me your idea and let's build something amazing together.",
+  BADGE: 'Contact',
+  EMAIL_LABEL: 'Email',
 };
 
 export const ABOUT_TITLE = {
@@ -57,12 +66,12 @@ export const ABOUT_TITLE = {
     {
       ID: '1-description',
       MAIN: true,
-      TEXT: "I’m a <span class='highlight-text-description'>Full Stack Developer</span> with over 3 years of professional experience building modern, scalable, and user-centered applications. I’ve worked across both frontend and backend, using technologies like Angular, React, Next.js, Spring Boot, and NestJS. I’m currently part of the Boutique Software team, where I develop end-to-end solutions using Angular and Spring Boot.",
+      TEXT: `I’m a <span class='highlight-text-description'>Full Stack Developer</span> with over ${YEARS_OF_EXPERIENCE} years of professional experience (and ${YEARS_CODING} years coding) building modern, scalable, and user-centered applications. I specialize in JavaScript and TypeScript with Angular, React, and Next.js on the frontend, and NestJS and Java/Spring Boot on the backend. I’m currently part of the Boutique Software team, developing end-to-end financial and enterprise platforms with Angular and Spring Boot.`,
     },
     {
       ID: '2-description',
       MAIN: false,
-      TEXT: "Throughout my career, I’ve led tech migrations, optimized frontend architectures, collaborated with multidisciplinary teams, and actively participated in hackathons and collaborative projects. I’m passionate about continuous improvement, clean and sustainable code, and creating robust digital experiences. I’m always looking for new challenges where I can deliver real value—technically and humanly."
+      TEXT: "Throughout my career I’ve migrated a full SolidJS application to React 18 in just 3 months with zero downtime, and at Boutique Software I built the digital client onboarding, with a credit request module that digitized a previously manual process, and developed an amortization engine based on the French system. I’m passionate about continuous improvement, clean and sustainable code, and building robust digital experiences. I’m always looking for new challenges where I can deliver real value—technically and humanly."
     }
   ],
   TAGS: [
@@ -102,23 +111,28 @@ export const CONTACT_FORM = {
   },
   FIELDS: {
     NAME: {
-      LABEL: 'Name',
+      LABEL: '01 — Name',
+      PLACEHOLDER: 'Your full name',
       ARIA: 'Write your name.',
       ERROR_MESSAGE: 'Please enter a valid name.'
     },
     EMAIL: {
-      LABEL: 'Email',
+      LABEL: '02 — Email',
+      PLACEHOLDER: 'your@email.com',
       ARIA: 'Write your email.',
       ERROR_MESSAGE: 'Please enter a valid email.'
     },
     MESSAGE: {
-      LABEL: 'Write your message...',
+      LABEL: '03 — Message',
+      PLACEHOLDER: 'Tell me about your project or idea...',
       ARIA: 'Write your message.',
       ERROR_MESSAGE: 'Please enter a valid message (there is a 300 character limit).'
     }
   },
   BUTTON: {
-    TEXT: 'Send'
+    TEXT: 'Send message',
+    SENDING: 'Sending...',
+    SENT: 'Message sent!'
   }
 };
 
@@ -182,27 +196,27 @@ export const FOOTER = {
   },
   SOCIAL: {
     LINKEDIN: {
-      URL: 'https://www.linkedin.com/in/marcos-lopez-dev',
+      URL: LINKEDIN_URL,
       TITLE: 'Button to linkedIn profile',
       CLASS: 'bg-[#0A66C2] fill-white p-[8px]'
     },
     GITHUB: {
-      URL: 'https://github.com/MarcossIC',
+      URL: GITHUB_URL,
       TITLE: 'Button to github profile',
       CLASS: 'bg-[#00000085] fill-white p-[4px]'
     },
     GMAIL: {
-      URL: 'mailto:marcoslopezdev18@gmail.com?subject=Hey%20Marcos%20how%20are%20you',
+      URL: CONTACT_MAILTO,
       TITLE: 'Button for send email',
       CLASS: 'bg-[#fff] p-[4px]'
     },
     CV: {
-      URL: 'https://drive.google.com/file/d/1znfQJffUhuawHnsKnSUGa6aGtnA9q1OY/view?usp=sharing',
+      URL: CV_VIEW_URL_EN,
       TITLE: 'Button to CV',
       CLASS: 'cv p-[4px] font-bold bg-[var(--ml-red-100)]'
     }
   },
   COPYRIGHT: {
-    TEXT: 'Developed by Marcos Lopez - Last update 2025'
+    TEXT: 'Developed by Marcos Lopez - Last update 2026'
   }
 };

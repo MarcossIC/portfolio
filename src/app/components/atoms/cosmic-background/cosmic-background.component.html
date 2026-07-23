@@ -1,0 +1,49 @@
+<div class="cosmic-bg">
+  <!-- Base nebula image with parallax -->
+  <div #parallaxLayer class="parallax-layer">
+    <div class="parallax-img-container">
+      <img
+      src="assets/cosmic-bg.jpg"
+      alt=""
+      class="nebula-img"
+      loading="eager"
+    />
+    <div class="parallax-img-overlay"></div>
+    </div>
+  </div>
+
+  <!-- Cool violet veil (Nebula only) -->
+  <div class="cool-veil"></div>
+
+  <!-- Dark overlay for depth -->
+  <div class="overlay-depth"></div>
+
+  <!-- Warm supernova veil (Ember only) -->
+  <!-- <div class="warm-veil"></div> -->
+
+  <!-- Star field -->
+  <div class="star-field">
+    @for (star of stars; track $index) {
+      <div
+        class="star animate-twinkle"
+        [class.star--bright]="star.isBright"
+        [style.left.%]="star.x"
+        [style.top.%]="star.y"
+        [style.width.px]="star.size"
+        [style.height.px]="star.size"
+        [style.--duration]="star.duration + 's'"
+        [style.--delay]="star.delay + 's'"
+      ></div>
+    }
+  </div>
+
+  <!-- Orb accents -->
+  <div class="orb orb--purple animate-pulse-glow"></div>
+  <div class="orb orb--red animate-pulse-glow" style="animation-delay: 2s"></div>
+
+  <!-- Scanlines -->
+  <div class="scanlines"></div>
+
+  <!-- Bottom fade -->
+  <div class="bottom-fade"></div>
+</div>

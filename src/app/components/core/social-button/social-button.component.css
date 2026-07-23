@@ -14,6 +14,8 @@
     .social-icon {
       width: 11cqw;
       height: 11cqw;
+      min-width: 44px;
+      min-height: 44px;
       border-radius: 4cqw;
     }
   }

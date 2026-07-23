@@ -1,21 +1,66 @@
-<section #contact id="contact">
-  <app-title
-    class="w-fit mx-auto pb-6"
-    className="text-center"
-    [titleID]="titleID"
-    name="Contact me"
-    sub="{{ CONTACT_TITLE().SUB }}"
-  >
-    {{ CONTACT_TITLE().TITLE[0] }}
-    <span class="bg-ml-text-red bg-clip-text text-transparent">{{ CONTACT_TITLE().TITLE[1] }}</span>
-  </app-title>
-  <div class="contact relative">
-    <div class="left-content" data-aos="fade-right" data-aos-duration="400">
-      <contact-form (contactState)="handleFormSubmit($event)" />
-    </div>
+<section id="contact" class="contact-section">
+  <!-- Ambient glow -->
+  <div class="ambient-glow">
+    <div class="glow glow--purple"></div>
+    <div class="glow glow--red"></div>
+  </div>
 
-    <div class="right-content">
-      <liquid-banner />
+  <div class="contact-container">
+    <div scrollAnimate="fade-up">
+      <!-- Section header -->
+      <div class="section-header">
+        <!-- <span class="contact-badge glass-card">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
+          </svg>
+          {{ CONTACT_TITLE().BADGE }}
+        </span> -->
+
+        <h2 class="contact-title">
+          <span class="text-gradient-white">{{ CONTACT_TITLE().TITLE[0] }}</span>
+          <br />
+          <span class="text-gradient-cosmic">{{ CONTACT_TITLE().TITLE[1] }}</span>
+        </h2>
+      </div>
+
+      <!-- Form grid -->
+      <div class="contact-grid">
+        <!-- Left info col -->
+        <div class="contact-info">
+          <p class="contact-description">
+            {{ CONTACT_TITLE().SUB }}
+          </p>
+
+          <div class="contact-email-link">
+            <a
+              [href]="'mailto:' + USER().email"
+              class="email-link"
+            >
+              <div class="email-icon-wrap glass">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+              <div>
+                <span class="email-label">{{ CONTACT_TITLE().EMAIL_LABEL }}</span>
+                {{ USER().email }}
+              </div>
+            </a>
+          </div>
+
+          <!-- Decorative element -->
+          <div class="contact-deco">
+            <div class="deco-symbol"></div>
+            <div class="deco-dot animate-pulse-glow"></div>
+          </div>
+        </div>
+
+        <!-- Right form col -->
+        <div class="contact-form-col">
+          <contact-form (contactState)="handleFormSubmit($event)" />
+        </div>
+      </div>
     </div>
   </div>
 </section>

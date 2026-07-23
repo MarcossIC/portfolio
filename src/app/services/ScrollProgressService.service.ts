@@ -4,7 +4,9 @@ import {
   inject,
   Injectable,
   OnDestroy,
+  PLATFORM_ID,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   animationFrameScheduler,
@@ -15,6 +17,7 @@ import {
   map,
   Observable,
   observeOn,
+  of,
   shareReplay,
   startWith,
   Subscription,
@@ -65,6 +68,8 @@ export class ScrollProgressService implements OnDestroy {
   private animationFrame: number | null = null;
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly isBrowser = isPlatformBrowser(this.platformId);
   private springAnimationSubscription: Subscription | null = null;
 
   // Configuración del spring (similar a Framer Motion)
@@ -89,6 +94,7 @@ export class ScrollProgressService implements OnDestroy {
    * Obtiene la posición Y del scroll en píxeles
    */
   getScrollY(): Observable<number> {
+    if (!this.isBrowser) return of(0);
     return fromEvent(window, 'scroll').pipe(
       takeUntilDestroyed(this.destroyRef),
       startWith(0),
@@ -107,6 +113,7 @@ export class ScrollProgressService implements OnDestroy {
     viewportHeight: number;
     maxScroll: number;
   } {
+    if (!this.isBrowser) return { height: 0, viewportHeight: 0, maxScroll: 0 };
     const html = this.document.documentElement;
     const body = this.document.body;
 
@@ -152,7 +159,11 @@ export class ScrollProgressService implements OnDestroy {
     return this.smoothScrollYProgress$.asObservable();
   }
 
+  private scrollListenerActive = false;
+
   startScrollListener() {
+    if (!this.isBrowser || this.scrollListenerActive) return;
+    this.scrollListenerActive = true;
     fromEvent(window, 'scroll')
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -274,9 +285,42 @@ export class ScrollProgressService implements OnDestroy {
   }
 
   /**
+   * Scroll programático con animación suave a un elemento específico, no target fijo
+   */
+  scrollToElement(element: HTMLElement, offset = 0, duration = 800): Promise<void> {
+    if (!this.isBrowser) return Promise.resolve();
+    return new Promise((resolve) => {
+      const start = window.scrollY;
+      const startTime = performance.now();
+
+      const animateScroll = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+
+        const currentTop = element.getBoundingClientRect().top + window.scrollY;
+        const target = Math.max(0, currentTop - offset);
+
+        window.scrollTo(0, start + (target - start) * easeOut);
+
+        if (progress < 1) requestAnimationFrame(animateScroll);
+        else {
+          // snap final por si algo reflowó en el último frame
+          const finalTop = element.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo(0, Math.max(0, finalTop - offset));
+          resolve();
+        }
+      };
+
+      requestAnimationFrame(animateScroll);
+    });
+  }
+
+  /**
    * Scroll programático con animación suave
    */
   scrollTo(target: number, duration: number = 800): Promise<void> {
+    if (!this.isBrowser) return Promise.resolve();
     return new Promise((resolve) => {
       const start = window.scrollY;
       const distance = target - start;
