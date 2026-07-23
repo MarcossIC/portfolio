@@ -2,7 +2,7 @@
 
 ## :rocket: Demo
 
-You can visit the site at: [view website](https://marcosic.netlify.app/home/)
+You can visit the site at: [view website](marcosic.com)
 
 ## :sparkles: Introduction
 
@@ -70,4 +70,4 @@ Run `bun run build` to build the project. The build artifacts will be stored in 
 
 ## 💪 Project status
 
-The project is currently in its fourth version (v4.0.0). This version features a complete redesign built on Angular 21 with SSR, zoneless change detection, and i18n support (Spanish/English). The architecture follows Atomic Design principles with standalone components, signal-based state management, and lazy-loaded content. The site is deployed on Netlify with server-side rendering for optimal performance.
+The project is currently in its fifth version (v5.0.0). This version features a complete redesign built on Angular 21 with SSR, zoneless change detection, and i18n support (Spanish/English). The architecture follows Atomic Design principles with standalone components, signal-based state management, and lazy-loaded content. The site is deployed on Netlify with server-side rendering for optimal performance.

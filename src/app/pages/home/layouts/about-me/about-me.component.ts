@@ -9,6 +9,7 @@ import { take, timer } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { USER } from '@constants/userConst';
+import { YEARS_OF_EXPERIENCE } from '@constants/experience';
 
 interface StatCardData {
   icon: string;
@@ -146,8 +147,8 @@ export class AboutMeLayout implements OnDestroy {
   }
 
   private startCounters() {
-    // Experience counter (5 years)
-    this.animateCounter(0, 5, 2000, 1000, (value) => this.experienceCount.set(value));
+    // Experience counter (auto-calculated years)
+    this.animateCounter(0, YEARS_OF_EXPERIENCE, 2000, 1000, (value) => this.experienceCount.set(value));
 
     // Projects counter (50 projects)
     this.animateCounter(0, 50, 2500, 1200, (value) => this.projectsCount.set(value));

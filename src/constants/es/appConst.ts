@@ -1,4 +1,6 @@
 import type { Projects } from '@app/models/projects';
+import { YEARS_OF_EXPERIENCE, YEARS_CODING } from '@constants/experience';
+import { CONTACT_MAILTO, CV_VIEW_URL_ES, GITHUB_URL, LINKEDIN_URL } from '@constants/links';
 import type { ServicesType } from '@app/models/servicesTypes';
 import type { LinksHeaderArray } from '@app/models/types';
 import { combineProjectsWithTranslations, type ProjectTranslation } from '../projectBase';
@@ -64,12 +66,12 @@ export const ABOUT_TITLE = {
     {
       ID: '1-description',
       MAIN: true,
-      TEXT: "Soy un <span class='highlight-text-description'>Desarrollador Full Stack</span> con más de 3 años de experiencia profesional construyendo aplicaciones modernas, escalables y centradas en el usuario. He trabajado tanto en frontend como en backend, utilizando tecnologías como Angular, React, Next.js, Spring Boot y NestJS. Actualmente formo parte del equipo de Boutique Software, donde desarrollo soluciones de extremo a extremo con Angular y Spring Boot.",
+      TEXT: `Soy un <span class='highlight-text-description'>Desarrollador Full Stack</span> con más de ${YEARS_OF_EXPERIENCE} años de experiencia profesional (y ${YEARS_CODING} años programando) construyendo aplicaciones modernas, escalables y centradas en el usuario. Me especializo en JavaScript y TypeScript con Angular, React y Next.js en el frontend, y NestJS y Java/Spring Boot en el backend. Actualmente formo parte del equipo de Boutique Software, donde desarrollo plataformas financieras y empresariales de extremo a extremo con Angular y Spring Boot.`,
     },
     {
       ID: '2-description',
       MAIN: false,
-      TEXT: "A lo largo de mi carrera, he liderado migraciones tecnológicas, optimizado arquitecturas frontend, colaborado con equipos multidisciplinarios y participado activamente en hackatones y proyectos colaborativos. Me apasiona la mejora continua, el código limpio y sostenible, y el desarrollo de experiencias digitales robustas. Siempre estoy en búsqueda de nuevos desafíos donde pueda aportar valor real, tanto técnico como humano."
+      TEXT: "A lo largo de mi carrera migré una aplicación completa de SolidJS a React 18 en solo 3 meses sin interrumpir la operación, y en Boutique Software construí el onboarding digital de clientes, con el módulo de solicitudes de crédito que digitalizó un proceso antes manual, y desarrollé un motor de cálculo de amortizaciones basado en el sistema francés. Me apasiona la mejora continua, el código limpio y sostenible, y el desarrollo de experiencias digitales robustas. Siempre estoy en búsqueda de nuevos desafíos donde pueda aportar valor real, tanto técnico como humano."
     }
   ],
   TAGS: [
@@ -196,22 +198,22 @@ export const FOOTER = {
   },
   SOCIAL: {
     LINKEDIN: {
-      URL: 'https://www.linkedin.com/in/marcos-lopez-dev',
+      URL: LINKEDIN_URL,
       TITLE: 'Botón al perfil de LinkedIn',
       CLASS: 'bg-[#0A66C2] fill-white p-[8px]'
     },
     GITHUB: {
-      URL: 'https://github.com/MarcossIC',
+      URL: GITHUB_URL,
       TITLE: 'Botón al perfil de Github',
       CLASS: 'bg-[#00000085] fill-white p-[4px]'
     },
     GMAIL: {
-      URL: 'mailto:marcoslopezdev18@gmail.com?subject=Hey%20Marcos%20how%20are%20you',
+      URL: CONTACT_MAILTO,
       TITLE: 'Botón para enviar email',
       CLASS: 'bg-[#fff] p-[4px]'
     },
     CV: {
-      URL: 'https://drive.google.com/file/d/1znfQJffUhuawHnsKnSUGa6aGtnA9q1OY/view?usp=sharing',
+      URL: CV_VIEW_URL_ES,
       TITLE: 'Botón al CV',
       CLASS: 'cv p-[4px] font-bold bg-[var(--ml-red-100)]'
     }
