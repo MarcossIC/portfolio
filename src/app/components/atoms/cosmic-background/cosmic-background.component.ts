@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   PLATFORM_ID,
   afterNextRender,
@@ -28,6 +29,7 @@ interface Star {
 })
 export class CosmicBackgroundComponent {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly parallaxLayer = viewChild<ElementRef<HTMLDivElement>>('parallaxLayer');
 
   protected readonly stars: Star[] = Array.from({ length: 80 }, () => ({
@@ -57,6 +59,7 @@ export class CosmicBackgroundComponent {
       };
 
       window.addEventListener('mousemove', handleMouse, { passive: true });
+      this.destroyRef.onDestroy(() => window.removeEventListener('mousemove', handleMouse));
     });
   }
 }
