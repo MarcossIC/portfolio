@@ -59,7 +59,7 @@ describe('AtmosphereToggleComponent', () => {
   });
 
   it('renders an accessible button announcing the current atmosphere', () => {
-    expect(button().getAttribute('aria-label')).toBe('Switch atmosphere');
+    expect(button().getAttribute('aria-label')).toBe('Switch atmosphere, current mode: Nebula');
     expect(button().getAttribute('title')).toBe('Atmosphere: Nebula');
   });
 
@@ -183,6 +183,27 @@ describe('AtmosphereToggleComponent (animated path)', () => {
     expect(commitSpy).toHaveBeenCalledWith('ember');
     expect(service.atmos()).toBe('ember');
     expect(html().dataset['atmos']).toBe('ember');
+  });
+
+  // Regression (check-then-act race): `busy` must lock BEFORE the awaited GSAP
+  // import — otherwise a second click landing while the module is still loading
+  // (first-ever click: network/parse time) slips past the guard and starts a
+  // concurrent transition. The lock must engage in the synchronous prefix.
+  it('locks busy synchronously, before the GSAP import is awaited', async () => {
+    const cmp = fixture.componentInstance as unknown as {
+      toggle: (e: MouseEvent) => Promise<void>;
+      busy: boolean;
+    };
+    const event = { currentTarget: button() } as unknown as MouseEvent;
+
+    const pending = cmp.toggle(event);
+    // Still inside the import window: the guard must already be engaged.
+    expect(cmp.busy).toBe(true);
+
+    await pending;
+    await fixture.whenStable();
+    expect(service.atmos()).toBe('ember');
+    expect(cmp.busy).toBe(false); // and released once the transition settles
   });
 
   // Fase 0: if GSAP throws while building the timeline, `busy` must be released

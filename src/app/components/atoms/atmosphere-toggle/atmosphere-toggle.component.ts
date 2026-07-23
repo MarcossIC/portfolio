@@ -101,15 +101,20 @@ export class AtmosphereToggleComponent {
       return;
     }
 
+    // Lock BEFORE the awaited import: on the first-ever click the GSAP chunk may
+    // still be downloading, and a rapid second click during that window would
+    // slip past the guard above and start a concurrent transition.
+    this.busy = true;
+
     let gsap: GsapApi;
     try {
       gsap = (await import('gsap')).gsap;
     } catch {
+      this.busy = false;
       this.atmosphere.commit(next);
       return;
     }
 
-    this.busy = true;
     // MUST happen before startViewTransition: an element with a view-transition-name
     // (our header) lifts its whole subtree out of ::view-transition(root). If the
     // overlays stayed inside the header they'd animate in the header's group, not

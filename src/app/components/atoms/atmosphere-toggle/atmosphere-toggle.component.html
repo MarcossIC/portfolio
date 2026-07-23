@@ -3,7 +3,7 @@
     type="button"
     class="atmos-row"
     (click)="toggle($event)"
-    aria-label="Switch atmosphere"
+    [attr.aria-label]="'Switch atmosphere, current mode: ' + modeName()"
     [title]="'Atmosphere: ' + modeName()"
   >
     <span>Atmosphere</span>
@@ -17,7 +17,7 @@
     type="button"
     class="atmos-btn"
     (click)="toggle($event)"
-    aria-label="Switch atmosphere"
+    [attr.aria-label]="'Switch atmosphere, current mode: ' + modeName()"
     [title]="'Atmosphere: ' + modeName()"
   >
     <span class="atmos-orb" aria-hidden="true"></span>
