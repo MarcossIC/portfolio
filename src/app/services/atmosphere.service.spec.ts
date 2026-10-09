@@ -1,3 +1,5 @@
+import { DOCUMENT } from '@angular/common';
+import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { AtmosphereService, ATMOS_STORAGE_KEY } from './atmosphere.service';
 
@@ -68,6 +70,66 @@ describe('AtmosphereService', () => {
 
     expect(() => service.commit('ember')).not.toThrow();
     expect(service.atmos()).toBe('ember');
+
+    setItem.mockRestore();
+  });
+});
+
+// Regression (NG0751 report / SSR crash): Angular's server DOM implements
+// get/set/removeAttribute but NOT `Element.dataset` — there is not a single
+// reference to it in @angular/platform-server. Touching `dataset` while building
+// the service threw `Cannot read properties of undefined (reading 'atmos')` and
+// took the whole server render down.
+describe('AtmosphereService (server DOM, no Element.dataset)', () => {
+  const serverHtml = () => {
+    const attrs = new Map<string, string>();
+    return {
+      attrs,
+      getAttribute: (name: string) => attrs.get(name) ?? null,
+      setAttribute: (name: string, value: string) => {
+        attrs.set(name, value);
+      },
+      removeAttribute: (name: string) => {
+        attrs.delete(name);
+      },
+    };
+  };
+
+  const mount = (documentElement: ReturnType<typeof serverHtml>) => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: DOCUMENT, useValue: { documentElement } },
+        { provide: PLATFORM_ID, useValue: 'server' },
+      ],
+    });
+    return TestBed.inject(AtmosphereService);
+  };
+
+  it('constructs on the server without reading dataset', () => {
+    const html = serverHtml();
+
+    expect(() => mount(html)).not.toThrow();
+    expect(TestBed.inject(AtmosphereService).atmos()).toBe('nebula');
+  });
+
+  it('reads the atmosphere the pre-paint script left on <html>', () => {
+    const html = serverHtml();
+    html.setAttribute('data-atmos', 'ember');
+
+    expect(mount(html).atmos()).toBe('ember');
+  });
+
+  it('commits through attributes, and skips localStorage off the browser', () => {
+    const html = serverHtml();
+    const setItem = vi.spyOn(Storage.prototype, 'setItem');
+    const service = mount(html);
+
+    service.commit('ember');
+    expect(html.getAttribute('data-atmos')).toBe('ember');
+
+    service.commit('nebula');
+    expect(html.getAttribute('data-atmos')).toBeNull();
+    expect(setItem).not.toHaveBeenCalled();
 
     setItem.mockRestore();
   });

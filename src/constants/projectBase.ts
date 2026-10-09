@@ -2,7 +2,8 @@ export interface ProjectBase {
   ID: string;
   NAME: string;
   IMG: string;
-  REPOSITORY: string;
+  /** Omit for private/client projects without a public repo. */
+  REPOSITORY?: string;
   ICONS: string[];
 }
 
@@ -13,25 +14,32 @@ export interface ProjectTranslation {
 
 export const PROJECTS_BASE: ProjectBase[] = [
   {
+    // Private client project (Boutique Software): no public repository
+    ID: '7-project',
+    NAME: 'Daimler Truck Financial Services',
+    IMG: '../../../../assets/projects/DTFS.png',
+    ICONS: ['angular', 'nestjs', 'spring', 'sqlserver', 'playwright', 'docker'],
+  },
+  {
     ID: '1-project',
     NAME: 'Codefend',
     IMG: '../../../../assets/projects/CODEFEND-PROJECT.webp',
     REPOSITORY: 'https://github.com/codefen/codefend-user',
-    ICONS: ['react', 'sass'],
+    ICONS: ['react', 'sass', 'tauri', 'rust'],
+  },
+  {
+    // Private client project (Boutique Software): no public repository
+    ID: '8-project',
+    NAME: 'IMPortas',
+    IMG: '../../../../assets/projects/importas.png',
+    ICONS: ['nuxt', 'nestjs'],
   },
   {
     ID: '2-project',
     NAME: 'Game Galaxy',
     IMG: '../../../../assets/projects/GAME-GALAXY-PROJECT.png',
     REPOSITORY: 'https://github.com/MarcossIC/Web-Games',
-    ICONS: ['angular', 'css', 'tailwind'],
-  },
-  {
-    ID: '3-project',
-    NAME: 'Books Leaks',
-    IMG: '../../../../assets/projects/BOOKS-LEAKS-PROJECT.png',
-    REPOSITORY: 'https://github.com/MarcossIC/Books-Leaks',
-    ICONS: ['angular', 'css', 'tailwind', 'spring'],
+    ICONS: ['angular', 'css3', 'tailwind'],
   },
   {
     ID: '4-project',
@@ -42,17 +50,10 @@ export const PROJECTS_BASE: ProjectBase[] = [
   },
   {
     ID: '5-project',
-    NAME: 'Invoicer++',
+    NAME: 'Facturador++',
     IMG: '../../../../assets/projects/FACTURADOR-MASMAS-PROJECT.webp',
     REPOSITORY: 'https://github.com/conjunto-solucion/facturador',
-    ICONS: ['react', 'sass', 'spring'],
-  },
-  {
-    ID: '6-project',
-    NAME: 'Cash now',
-    IMG: '../../../../assets/projects/CASH_NOW_PROJECT.webp',
-    REPOSITORY: 'https://github.com/MarcossIC/Cash-now.git',
-    ICONS: ['angular', 'css', 'tailwind', 'spring'],
+    ICONS: ['react', 'sass', 'spring', 'docker'],
   },
 ];
 
