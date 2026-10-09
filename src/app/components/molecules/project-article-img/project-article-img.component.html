@@ -1,9 +1,10 @@
 <div class="project-img relative">
   <a
-    [href]="REPO()"
-    target="_blank"
+    [attr.href]="REPO() || null"
+    [attr.target]="REPO() ? '_blank' : null"
     [title]="TITLE()"
-    class="link-to-repo cursor-pointer z-20 outline-none focus:outline-none"
+    [class.cursor-pointer]="!!REPO()"
+    class="link-to-repo z-20 outline-none focus:outline-none"
     #projectImg
   >
     <!-- Container for atropos -->

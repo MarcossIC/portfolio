@@ -16,8 +16,8 @@ export const USER: User = {
   fullName: 'Marcos Lopez',
   email: CONTACT_EMAIL,
   motto:
-    'I hope to share my journey through the world of IT and that we can work together',
-  role: 'Software developer',
+    'I build production-ready products for financial services, foreign trade, and cybersecurity.',
+  role: 'Full Stack Developer',
   cv: CV_VIEW_URL_EN,
   linkedIn: LINKEDIN_URL,
   gitHub: GITHUB_URL,
@@ -47,38 +47,47 @@ export const ABOUT_USER: BentoUser = {
     {
       ID: '0-exp',
       COMPANY: 'Boutique Software',
-      ROLE: 'Software Develpment',
+      ROLE: 'Full Stack Developer',
       TIME: 'December 2024 - Present',
       DESCRIPTION:
-        'At Boutique Software I build end-to-end web platforms for financial services and imports with Angular and Spring Boot. I developed a digital client onboarding, an amortization engine based on the French system, and introduced automated testing with Vitest and Playwright.',
-      STACK: ['Angular', 'Spring Boot', 'Docker'],
+        'Remote software consultancy. For Daimler Truck Financial Services Mexico I took part in the digital credit application onboarding, developed the amortization engine as a NestJS microservice, and introduced testing with Vitest and Playwright. For IMPortas I built the system end to end with Nuxt and NestJS, and on a social network platform I migrated features from Ruby on Rails to NestJS.',
+      STACK: ['Angular', 'NestJS', 'Spring Boot', 'Nuxt'],
     },
     {
       ID: '1-exp',
       COMPANY: 'Codefend',
-      ROLE: 'Software Develpment',
-      TIME: 'December 2023 - November 2025',
+      ROLE: 'Frontend & Desktop Developer (Freelance)',
+      TIME: 'January 2025 - November 2025',
       DESCRIPTION:
-        'At Codefend I led the frontend of a hybrid SaaS (web and Tauri/Rust desktop) connecting companies with cybersecurity providers. I migrated the full app from SolidJS to React 18 in 3 months with zero downtime, cut dependencies by 45%, and automated CI/CD releases.',
-      STACK: ['React', 'Tauri', 'Rust'],
+        'Specific projects alongside my main role: I built the scaffolding of the intelligence module sub-app, fixed issues in an AI chat app, and created the GitHub Actions pipelines that produce the signed installers, upgrading certificate signing from OV to EV.',
+      STACK: ['React', 'Tauri', 'GitHub Actions'],
     },
     {
       ID: '2-exp',
-      COMPANY: 'No country',
-      ROLE: 'Full stack developer',
-      TIME: 'June 2023 - March 2024',
+      COMPANY: 'Codefend',
+      ROLE: 'Frontend & Desktop Developer',
+      TIME: 'December 2023 - December 2024',
       DESCRIPTION:
-        "At No Country I built 5 web apps with real clients in multidisciplinary teams of 5 to 10, using React, Next.js, Angular, NestJS and Spring Boot. I designed KlowHub's HLS video security, developed a 2D realtime space with Phaser, and added functional testing.",
-      STACK: ['Angular', 'React', 'Spring Boot', 'GCP'],
+        'Hybrid SaaS (web and Tauri/Rust desktop) connecting companies with cybersecurity providers. I migrated the full app (~17 views) from SolidJS to React 18 in 3 months with zero downtime, built desktop features with Tauri and Rust, cut dependencies by 45%, and automated deployments with GitHub Actions.',
+      STACK: ['React', 'Tauri', 'Rust'],
     },
     {
       ID: '3-exp',
-      COMPANY: 'Practices',
-      ROLE: 'Back-end developer',
+      COMPANY: 'No country',
+      ROLE: 'Full Stack Developer (Job simulation)',
+      TIME: 'June 2023 - December 2023',
+      DESCRIPTION:
+        "I built 3 web apps (KlowHub, CollabZone and an online bookstore) in teams of 5 to 10, using React, Next.js, Angular, NestJS and Spring Boot. I designed KlowHub's HLS video protection, built a realtime 2D space with Phaser and WebSockets, and reached 60% test coverage on critical modules.",
+      STACK: ['Angular', 'React', 'NestJS', 'Spring Boot'],
+    },
+    {
+      ID: '4-exp',
+      COMPANY: 'Facturador++ (E.P.E.T. N°4)',
+      ROLE: 'Backend Developer (Internship)',
       TIME: 'January 2022 - November 2022',
       DESCRIPTION:
-        'I developed Facturador++, an application for the EPET school to enhance the learning experience of economics students, working on the API, security, MySQL database design, functional testing, and deployment with Docker on Google Cloud.',
-      STACK: ['Spring Boot'],
+        'I developed the REST API of Facturador++, an educational business-documents system for EPET N°4 used by over 40 students, with Java, Spring Boot, Spring Security and clean architecture. I designed the MySQL database (~20 tables) and deployed it with Docker on the institution’s own server.',
+      STACK: ['Spring Boot', 'MySQL', 'Docker'],
     },
   ],
   profile: {
@@ -91,20 +100,28 @@ export const ABOUT_USER: BentoUser = {
     doYouLikeCoffee: true,
     country: 'Argentina',
     qualification: 'IT technician',
-    idioms: 'Spanish & English',
+    idioms: 'Spanish (native) & English (technical)',
     complement: 'A good boy',
     resume: 'Resume',
     motto: "I love a coffee"
   },
   whoIamTitle: 'Who I am?',
   whoIam:
-    `Developer with over ${YEARS_OF_EXPERIENCE} years of experience. Skill in backend development with Spring Boot and NestJS, and frontend development with React, Angular and Next.js. Ability to optimize development processes and create scalable solutions. Experience working with agile methodologies, with a constant focus on continuous improvement.`,
+    `Full Stack Developer with over ${YEARS_OF_EXPERIENCE} years of experience building production products for financial services, foreign trade and cybersecurity. I work with TypeScript on the frontend (Angular, React, Next.js, Nuxt) and on the backend with NestJS and Java/Spring Boot, in microservices and monoliths on SQL Server and MySQL. Experienced in legacy code migration, CI/CD with GitHub Actions and automated testing.`,
   studies: [
+    {
+      ID: 'c4a7e2d91b3f',
+      DEGREE: 'Computer Engineering',
+      STRONG: 'Engineering',
+      STATE: 'Gastón Dachary University - 1 year completed (2023)',
+      DESCRIPTION:
+        'I completed the first year of the Computer Engineering degree',
+    },
     {
       ID: 'b00fb15c9503',
       DEGREE: 'IT technician',
       STRONG: 'IT',
-      STATE: "E.P.E.T N4 'O.E.A' - Finalized",
+      STATE: "E.P.E.T N°4 'O.E.A' - Finalized (2017 - 2022)",
       DESCRIPTION:
         'I learned the basics of programming, robotics, entrepreneurship concepts, design and software',
     },
@@ -112,7 +129,7 @@ export const ABOUT_USER: BentoUser = {
       ID: 'bf39334cc71f',
       DEGREE: 'Oracle One Next',
       STRONG: 'Oracle',
-      STATE: 'Alura Latam - Finalized',
+      STATE: 'Alura Latam - Finalized (2023)',
       DESCRIPTION:
         'In this program I learned essential concepts of front end architecture, mobile first and react',
     },

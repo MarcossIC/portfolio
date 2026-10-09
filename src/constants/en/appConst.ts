@@ -7,16 +7,20 @@ import { combineProjectsWithTranslations, type ProjectTranslation } from '../pro
 
 const PROJECTS_TRANSLATIONS: ProjectTranslation[] = [
   {
+    ID: '7-project',
+    DESC: 'Quoting and credit platform for Daimler Truck Financial Services Mexico, with 600+ users and ~1,200 quotes per month. I took part in the digital credit application onboarding that replaced the paper-based process, developed the amortization engine as a NestJS microservice, and introduced automated testing with Vitest and Playwright.',
+  },
+  {
     ID: '1-project',
-    DESC: 'Codefend is a webapp where I was working on the frontend, it allows companies to upload their resources, applications and request a pentest, codefend will provide a provider that scans these. It also offers intelligence services',
+    DESC: 'Hybrid SaaS (web and Tauri/Rust desktop) connecting companies with cybersecurity providers. I migrated the full app (~17 views) from SolidJS to React 18 in 3 months with zero downtime, built the automated domain scanner and AI-generated PDF reports with the team, and cut project dependencies by 45%.',
+  },
+  {
+    ID: '8-project',
+    DESC: 'Import and certification management system for Importadora Portas, with ~40 active users and ~37 certifications per month. I built it end to end (Nuxt frontend with ~18 views and a NestJS API on MySQL), replacing the legacy system the client was using: product catalog, import file review, step-by-step IRAM and INAL certifications, and a status dashboard with Excel reports and automated emails.',
   },
   {
     ID: '2-project',
     DESC: 'Game Galaxy is a platform for classic games. This website, featuring popular games like Tetris, Snake and Tic-Tac-Toe, is built with Angular, CSS, canvas and RxJS. Game Galaxy offers users a modern twist on beloved retro games.',
-  },
-  {
-    ID: '3-project',
-    DESC: 'Book leaks. Explore the online bookstore, discover literary treasures in this incredible E-commerce of books, with a shopping cart, search engine, filters and login function, with an intuitive and interactive design.',
   },
   {
     ID: '4-project',
@@ -24,11 +28,7 @@ const PROJECTS_TRANSLATIONS: ProjectTranslation[] = [
   },
   {
     ID: '5-project',
-    DESC: 'Facturador++ is an open source application to generate commercial documents. It is an educational web platform created for students who are learning to create and manage business documents.',
-  },
-  {
-    ID: '6-project',
-    DESC: 'At Cash Now I was working on the backend, this webapp was created to allow people to request a loan from a financial institution, be able to manage the installments and have an interest calculator on the loans.',
+    DESC: 'Educational system for generating and recording business documents at E.P.E.T. N°4, used by over 40 students. I built the REST API with Java, Spring Boot and Spring Security following clean architecture, modeled the MySQL database (~20 tables), and fixed more than 10 issues during end-to-end testing with teachers and students.',
   },
 ];
 
@@ -66,12 +66,12 @@ export const ABOUT_TITLE = {
     {
       ID: '1-description',
       MAIN: true,
-      TEXT: `I’m a <span class='highlight-text-description'>Full Stack Developer</span> with over ${YEARS_OF_EXPERIENCE} years of professional experience (and ${YEARS_CODING} years coding) building modern, scalable, and user-centered applications. I specialize in JavaScript and TypeScript with Angular, React, and Next.js on the frontend, and NestJS and Java/Spring Boot on the backend. I’m currently part of the Boutique Software team, developing end-to-end financial and enterprise platforms with Angular and Spring Boot.`,
+      TEXT: `I’m a <span class='highlight-text-description'>Full Stack Developer</span> with over ${YEARS_OF_EXPERIENCE} years of professional experience (and ${YEARS_CODING} years coding) building production products for financial services, foreign trade, and cybersecurity. I work with TypeScript on the frontend with Angular, React, Next.js, and Nuxt, and on the backend with NestJS and Java/Spring Boot, in microservices and monoliths on SQL Server and MySQL. I’m currently part of the Boutique Software team, building web platforms for financial services and imports.`,
     },
     {
       ID: '2-description',
       MAIN: false,
-      TEXT: "Throughout my career I’ve migrated a full SolidJS application to React 18 in just 3 months with zero downtime, and at Boutique Software I built the digital client onboarding, with a credit request module that digitized a previously manual process, and developed an amortization engine based on the French system. I’m passionate about continuous improvement, clean and sustainable code, and building robust digital experiences. I’m always looking for new challenges where I can deliver real value—technically and humanly."
+      TEXT: "Throughout my career I’ve migrated a full SolidJS application to React 18 in just 3 months with zero downtime. At Boutique Software I took part in the digital credit application onboarding for Daimler Truck Financial Services, which replaced a paper-based process, developed an amortization engine based on the French system as a NestJS microservice, and built an import management system end to end with Nuxt and NestJS. I’m passionate about continuous improvement, clean and sustainable code, and building robust digital experiences. I’m always looking for new challenges where I can deliver real value—technically and humanly."
     }
   ],
   TAGS: [
@@ -79,7 +79,7 @@ export const ABOUT_TITLE = {
       ID: '1-tag',
       ICON: 'code2',
       COLOR: 'text-purple-400',
-      TEXT: "Frontend Specialist"
+      TEXT: "Full Stack Developer"
     },
     {
       ID: '2-tag',
@@ -91,13 +91,13 @@ export const ABOUT_TITLE = {
       ID: '3-tag',
       ICON: 'zap',
       COLOR: 'text-green-400',
-      TEXT: "Fast Learner"
+      TEXT: "Legacy Code Migration"
     },
     {
       ID: '4-tag',
       ICON: 'zap',
       COLOR: 'text-blue-400',
-      TEXT: "Team Player"
+      TEXT: "Automated Testing"
     }
   ],
   BUTTON: {

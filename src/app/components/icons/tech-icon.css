@@ -1,0 +1,19 @@
+/*
+ * Shared styles for icons whose template is a colored Devicon SVG from
+ * src/assets/tech/. Forces them to the same white 20px monochrome look as
+ * the hand-made icons (react, spring, angular...). CSS `fill` wins over the
+ * SVG's `fill="..."` presentation attributes and gradients.
+ */
+:host {
+  display: inline-flex;
+}
+
+svg {
+  width: 20px;
+  height: 20px;
+}
+
+svg,
+svg * {
+  fill: #fff;
+}

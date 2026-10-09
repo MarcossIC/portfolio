@@ -17,7 +17,8 @@ import { AtroposDirective } from '@lib/directives/AtroposDirective.directive';
 })
 export class ProjectArticleImgComponent {
   public containerRef = viewChild.required<ElementRef>('projectImg');
-  public REPO = input.required<string>();
+  /** Omitted for private/client projects: the card then renders without a link target. */
+  public REPO = input<string>();
   public SRC = input.required<string>();
 
   public TITLE = input.required<string>();

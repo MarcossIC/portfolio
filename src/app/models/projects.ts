@@ -2,7 +2,7 @@ export interface Project {
   ID: string;
   NAME: string;
   IMG: string;
-  REPOSITORY: string;
+  REPOSITORY?: string;
   DESC: string;
   ICONS: string[];
 }

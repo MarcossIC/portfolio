@@ -5,8 +5,11 @@
  * NEVER hardcode a "years of experience" number anywhere else — import from here.
  */
 
-/** When Marcos started working professionally. */
-export const PROFESSIONAL_START = new Date(2022, 0, 1); // January 2022
+/**
+ * When Marcos started working professionally, matching the CV's
+ * "más de 3 años" (counts from No Country, not the 2022 internship).
+ */
+export const PROFESSIONAL_START = new Date(2023, 5, 1); // June 2023
 
 /** When Marcos started coding. Adjust if the real year is different. */
 export const CODING_START = new Date(2018, 0, 1); // January 2018
@@ -25,11 +28,11 @@ function fullYearsSince(start: Date): number {
   return years;
 }
 
-/** Whole years of professional experience (e.g. 4). */
+/** Whole years of professional experience (e.g. 3). */
 export const YEARS_OF_EXPERIENCE = fullYearsSince(PROFESSIONAL_START);
 
 /** Whole years since he started coding (e.g. 8). */
 export const YEARS_CODING = fullYearsSince(CODING_START);
 
-/** Zero-padded 2-digit string of the professional years, e.g. '04'. */
+/** Zero-padded 2-digit string of the professional years, e.g. '03'. */
 export const YEARS_OF_EXPERIENCE_PADDED = String(YEARS_OF_EXPERIENCE).padStart(2, '0');

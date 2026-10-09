@@ -16,8 +16,8 @@ export const USER: User = {
   fullName: 'Marcos Lopez',
   email: CONTACT_EMAIL,
   motto:
-    'Espero compartir mi trayectoria por el mundo de TI y que podamos trabajar juntos',
-  role: 'Desarrollador de software',
+    'Construyo productos en producción para servicios financieros, comercio exterior y ciberseguridad.',
+  role: 'Desarrollador Full Stack',
   cv: CV_VIEW_URL_ES,
   linkedIn: LINKEDIN_URL,
   gitHub: GITHUB_URL,
@@ -47,38 +47,47 @@ export const ABOUT_USER: BentoUser = {
     {
       ID: '0-exp',
       COMPANY: 'Boutique Software',
-      ROLE: 'Desarrollador de Software',
+      ROLE: 'Desarrollador Full Stack',
       TIME: 'Diciembre 2024 - Presente',
       DESCRIPTION:
-        'En Boutique Software construyo plataformas web de extremo a extremo para servicios financieros e importación con Angular y Spring Boot. Desarrollé un onboarding digital de clientes, un motor de amortización basado en el sistema francés e introduje testing con Vitest y Playwright.',
-      STACK: ['Angular', 'Spring Boot', 'Docker'],
+        'Consultora de software, en remoto. Para Daimler Truck Financial Services México participé en el onboarding digital de solicitudes de crédito, desarrollé el motor de amortizaciones como microservicio en NestJS e introduje testing con Vitest y Playwright. Para IMPortas construí el sistema de punta a punta con Nuxt y NestJS, y en una plataforma tipo red social migré funcionalidades de Ruby on Rails a NestJS.',
+      STACK: ['Angular', 'NestJS', 'Spring Boot', 'Nuxt'],
     },
     {
       ID: '1-exp',
       COMPANY: 'Codefend',
-      ROLE: 'Desarrollador de Software',
-      TIME: 'Diciembre 2023 - Noviembre 2025',
+      ROLE: 'Desarrollador Frontend & Desktop (Freelance)',
+      TIME: 'Enero 2025 - Noviembre 2025',
       DESCRIPTION:
-        'En Codefend lideré el frontend de un SaaS híbrido (web y escritorio con Tauri/Rust) que conecta empresas con proveedores de ciberseguridad. Migré la app completa de SolidJS a React 18 en 3 meses sin cortar la operación, reduje un 45% las dependencias y automaticé el CI/CD.',
-      STACK: ['React', 'Tauri', 'Rust'],
+        'Proyectos puntuales en paralelo a mi rol principal: construí el scaffolding de la subaplicación del módulo de inteligencia, resolví fallas de una aplicación de chat con IA y creé los pipelines de GitHub Actions que generan los instalables firmados, actualizando la firma de certificado OV a EV.',
+      STACK: ['React', 'Tauri', 'GitHub Actions'],
     },
     {
       ID: '2-exp',
-      COMPANY: 'No country',
-      ROLE: 'Desarrollador Full stack',
-      TIME: 'Junio 2023 - Marzo 2024',
+      COMPANY: 'Codefend',
+      ROLE: 'Desarrollador Frontend & Desktop',
+      TIME: 'Diciembre 2023 - Diciembre 2024',
       DESCRIPTION:
-        'En No Country construí 5 aplicaciones web con clientes reales en equipos multidisciplinarios de 5 a 10 personas, usando React, Next.js, Angular, NestJS y Spring Boot. Diseñé la seguridad de video HLS de KlowHub, desarrollé un espacio 2D en tiempo real con Phaser y sumé testing.',
-      STACK: ['Angular', 'React', 'Spring Boot', 'GCP'],
+        'SaaS híbrido (web y escritorio con Tauri/Rust) que conecta empresas con proveedores de ciberseguridad. Migré la app completa (~17 vistas) de SolidJS a React 18 en 3 meses sin interrumpir la operación, desarrollé funcionalidades de escritorio con Tauri y Rust, reduje un 45% las dependencias y automaticé los despliegues con GitHub Actions.',
+      STACK: ['React', 'Tauri', 'Rust'],
     },
     {
       ID: '3-exp',
-      COMPANY: 'Facturador++',
-      ROLE: 'Desarrollador Back-end',
+      COMPANY: 'No country',
+      ROLE: 'Desarrollador Full Stack (Simulación laboral)',
+      TIME: 'Junio 2023 - Diciembre 2023',
+      DESCRIPTION:
+        'Desarrollé 3 aplicaciones web (KlowHub, CollabZone y una librería online) en equipos de 5 a 10 personas, usando React, Next.js, Angular, NestJS y Spring Boot. Diseñé la protección de video HLS de KlowHub, construí un espacio 2D en tiempo real con Phaser y WebSockets, y alcancé 60% de cobertura de tests en módulos críticos.',
+      STACK: ['Angular', 'React', 'NestJS', 'Spring Boot'],
+    },
+    {
+      ID: '4-exp',
+      COMPANY: 'Facturador++ (E.P.E.T. N°4)',
+      ROLE: 'Desarrollador Backend (Pasantía)',
       TIME: 'Enero 2022 - Noviembre 2022',
       DESCRIPTION:
-        'Desarrollé Facturador++, una aplicación para la escuela EPET para mejorar la experiencia de aprendizaje de los estudiantes de economía, trabajando en la API, seguridad, diseño de base de datos MySQL, testing funcional y despliegue con Docker en Google Cloud.',
-      STACK: ['Spring Boot'],
+        'Desarrollé la API REST de Facturador++, un sistema educativo de documentos comerciales de la EPET N°4 usado por más de 40 alumnos, con Java, Spring Boot, Spring Security y arquitectura limpia. Diseñé la base de datos MySQL (~20 tablas) y desplegué con Docker en el servidor de la institución.',
+      STACK: ['Spring Boot', 'MySQL', 'Docker'],
     },
   ],
   profile: {
@@ -91,20 +100,28 @@ export const ABOUT_USER: BentoUser = {
     doYouLikeCoffee: true,
     country: 'Argentina',
     qualification: 'Técnico en informática',
-    idioms: 'Español e Inglés',
+    idioms: 'Español (nativo) e Inglés (técnico)',
     complement: 'Un buen chico',
     resume: 'Currículum',
     motto: 'Me encanta un café',
   },
   whoIamTitle: '¿Quién soy?',
   whoIam:
-    `Desarrollador con más de ${YEARS_OF_EXPERIENCE} años de experiencia. Habilidades en desarrollo backend con Spring Boot y NestJS, y frontend con React, Angular y Next.js. Capacidad para optimizar procesos de desarrollo y crear soluciones escalables. Experiencia trabajando con metodologías ágiles, con un enfoque constante en la mejora continua.`,
+    `Desarrollador Full Stack con más de ${YEARS_OF_EXPERIENCE} años de experiencia construyendo productos en producción para servicios financieros, comercio exterior y ciberseguridad. Trabajo con TypeScript en el frontend (Angular, React, Next.js, Nuxt) y en el backend con NestJS y Java/Spring Boot, en microservicios y monolitos sobre SQL Server y MySQL. Experiencia en migración de código legacy, CI/CD con GitHub Actions y testing automatizado.`,
   studies: [
     {
+      ID: 'c4a7e2d91b3f',
+      DEGREE: 'Ingeniería en Informática',
+      STRONG: 'Ingeniería',
+      STATE: 'Universidad Gastón Dachary - 1 año cursado (2023)',
+      DESCRIPTION:
+        'Cursé el primer año de la carrera de Ingeniería en Informática',
+    },
+    {
       ID: 'b00fb15c9503',
-      DEGREE: 'Técnico en informática',
+      DEGREE: 'Técnico en Informática Profesional y Personal',
       STRONG: 'Informática',
-      STATE: "EPET N4 'O.E.A' - Finalizado",
+      STATE: "EPET N°4 'O.E.A' - Finalizado (2017 - 2022)",
       DESCRIPTION:
         'Aprendí los fundamentos de programación, robótica, conceptos de emprendimiento, diseño y software',
     },
@@ -112,7 +129,7 @@ export const ABOUT_USER: BentoUser = {
       ID: 'bf39334cc71f',
       DEGREE: 'Oracle One Next',
       STRONG: 'Oracle',
-      STATE: 'Alura Latam - Finalizado',
+      STATE: 'Alura Latam - Finalizado (2023)',
       DESCRIPTION:
         'En este programa aprendí conceptos esenciales de arquitectura frontend, mobile first y React',
     },
