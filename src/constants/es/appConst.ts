@@ -188,7 +188,7 @@ export const FOOTER = {
   },
   CONTACT: {
     LOCATION: {
-      TEXT: 'Argentina, Misiones, Puerto Iguazú',
+      TEXT: 'Argentina, Córdoba',
       ARIA_LABEL: 'Dirección'
     },
     EMAIL: {

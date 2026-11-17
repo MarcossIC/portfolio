@@ -9,8 +9,8 @@
 
 /** Google Drive file IDs for each CV (one PDF per language). */
 const CV_DRIVE_ID = {
-  es: '1OHz0gYChE0sFDzdX1XqlYAuDBphUUQcl',
-  en: '1OHz0gYChE0sFDzdX1XqlYAuDBphUUQcl',
+  es: '13yu6ZPwtP386ErC7UORzphK2QKyURX1G',
+  en: '1Ki-QJhSse_RlLCZ3vdRwjBP1rbEz4eeJ',
 } as const;
 
 const driveViewUrl = (id: string) =>
