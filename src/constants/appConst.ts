@@ -114,25 +114,48 @@ export const CONTACT_FORM = {
       LABEL: '01 — Name',
       PLACEHOLDER: 'Your full name',
       ARIA: 'Write your name.',
-      ERROR_MESSAGE: 'Please enter a valid name.'
+      ERROR_MESSAGE: 'Please enter a valid name.',
+      ERRORS: {
+        REQUIRED: 'Please enter your name.',
+        MIN_LENGTH: 'Your name must be at least 2 characters.',
+        MAX_LENGTH: 'Your name is too long (max. 80 characters).'
+      }
     },
     EMAIL: {
       LABEL: '02 — Email',
       PLACEHOLDER: 'your@email.com',
       ARIA: 'Write your email.',
-      ERROR_MESSAGE: 'Please enter a valid email.'
+      ERROR_MESSAGE: 'Please enter a valid email.',
+      ERRORS: {
+        REQUIRED: 'Please enter your email.',
+        INVALID: 'Enter a valid email, e.g. you@email.com.',
+        MAX_LENGTH: 'Your email is too long.'
+      }
     },
     MESSAGE: {
       LABEL: '03 — Message',
       PLACEHOLDER: 'Tell me about your project or idea...',
       ARIA: 'Write your message.',
-      ERROR_MESSAGE: 'Please enter a valid message (there is a 300 character limit).'
+      ERROR_MESSAGE: 'Please enter a valid message (there is a 300 character limit).',
+      ERRORS: {
+        REQUIRED: 'Please write a message.',
+        MIN_LENGTH: 'Your message must be at least 10 characters.',
+        MAX_LENGTH: 'Your message is too long (max. 1000 characters).'
+      }
     }
   },
   BUTTON: {
     TEXT: 'Send message',
     SENDING: 'Sending...',
     SENT: 'Message sent!'
+  },
+  TOAST: {
+    SENDING_TITLE: 'Sending...',
+    SENDING_MESSAGE: 'We are processing your message',
+    SUCCESS_TITLE: 'Done!',
+    SUCCESS_MESSAGE: 'Your message has been sent successfully',
+    ERROR_TITLE: 'Error',
+    ERROR_MESSAGE: "We couldn't send your message. Please try again in a few minutes."
   }
 };
 
@@ -219,4 +242,16 @@ export const FOOTER = {
   COPYRIGHT: {
     TEXT: 'Developed by Marcos Lopez - Last update 2026'
   }
+};
+
+// Nebula / Ember are proper names of the visual atmospheres: kept untranslated.
+export const ATMOSPHERE = {
+  LABEL: 'Atmosphere',
+  SWITCH_ARIA: 'Switch atmosphere, current mode:',
+  NAMES: { nebula: 'Nebula', ember: 'Ember' }
+};
+
+export const TOAST_UI = {
+  REGION_LABEL: 'Notifications',
+  CLOSE: 'Close notification'
 };

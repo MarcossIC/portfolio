@@ -3,10 +3,10 @@
     type="button"
     class="atmos-row"
     (click)="toggle($event)"
-    [attr.aria-label]="'Switch atmosphere, current mode: ' + modeName()"
-    [title]="'Atmosphere: ' + modeName()"
+    [attr.aria-label]="switchLabel()"
+    [title]="titleText()"
   >
-    <span>Atmosphere</span>
+    <span>{{ TEXT().LABEL }}</span>
     <span class="atmos-row-value">
       <span class="atmos-orb" aria-hidden="true"></span>
       {{ modeName() }}
@@ -17,8 +17,8 @@
     type="button"
     class="atmos-btn"
     (click)="toggle($event)"
-    [attr.aria-label]="'Switch atmosphere, current mode: ' + modeName()"
-    [title]="'Atmosphere: ' + modeName()"
+    [attr.aria-label]="switchLabel()"
+    [title]="titleText()"
   >
     <span class="atmos-orb" aria-hidden="true"></span>
   </button>

@@ -157,3 +157,50 @@ button-primary.submit-btn:active .submit-icon {
     padding: 3rem;
   }
 }
+
+/* Inline validation */
+.field-error-text {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: oklch(0.8 0.12 25);
+  overflow-wrap: normal;
+  word-break: normal;
+  animation: field-error-in 0.25s var(--ease-out-soft, ease-out) both;
+}
+
+.field-error-icon {
+  flex: none;
+  margin-top: 0.1rem;
+}
+
+.field-input[aria-invalid='true'] {
+  border-bottom-color: oklch(0.68 0.19 25 / 0.85);
+}
+
+@keyframes field-error-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sending state: a transform-only spinner in place of the arrow */
+.submit-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: submit-spin 0.8s linear infinite;
+}
+
+@keyframes submit-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field-error-text { animation: none; }
+  .submit-spinner { animation-duration: 2.4s; }
+}

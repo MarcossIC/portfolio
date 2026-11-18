@@ -58,7 +58,7 @@
 
         <!-- Right form col -->
         <div class="contact-form-col">
-          <contact-form (contactState)="handleFormSubmit($event)" />
+          <contact-form [sending]="sending()" (contactState)="handleFormSubmit($event)" />
         </div>
       </div>
     </div>

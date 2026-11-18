@@ -13,6 +13,8 @@ import {
 } from '@angular/core';
 import { AtmosphereService, type Atmos } from '@app/services/atmosphere.service';
 import { ReducedMotionService } from '@app/services/ReducedMotion.service';
+import { I18nService } from '@app/services/i18n.service';
+import { ATMOSPHERE } from '@constants/appConst';
 import { isLiteViewport } from '@atoms/cosmic-background/cosmic-background.utils';
 
 type GsapApi = typeof import('gsap').gsap;
@@ -75,6 +77,7 @@ export class AtmosphereToggleComponent {
 
   private readonly atmosphere = inject(AtmosphereService);
   private readonly reducedMotion = inject(ReducedMotionService);
+  private readonly i18n = inject(I18nService);
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
   private readonly appRef = inject(ApplicationRef);
@@ -97,8 +100,16 @@ export class AtmosphereToggleComponent {
   private readonly sparks = viewChild.required<ElementRef<HTMLDivElement>>('sparks');
 
   protected readonly atmos = this.atmosphere.atmos;
-  protected readonly modeName = computed(() =>
-    this.atmos() === 'ember' ? 'Ember' : 'Nebula'
+  protected readonly TEXT = computed(
+    () => this.i18n.getConstant('appConst')?.ATMOSPHERE || ATMOSPHERE
+  );
+  // Nebula / Ember are proper names of the atmospheres, so they stay untranslated.
+  protected readonly modeName = computed(() => this.TEXT().NAMES[this.atmos()]);
+  protected readonly switchLabel = computed(
+    () => `${this.TEXT().SWITCH_ARIA} ${this.modeName()}`
+  );
+  protected readonly titleText = computed(
+    () => `${this.TEXT().LABEL}: ${this.modeName()}`
   );
 
   private busy = false;

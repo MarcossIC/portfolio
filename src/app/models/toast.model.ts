@@ -1,28 +1,29 @@
-export interface ToastProps{
-    toasts: ToastModel[],
-    position: ToastPosition;
+export interface ToastProps {
+  toasts: ToastModel[];
+  position: ToastPosition;
 }
 
-
-export interface ToastModel{
-    ID: string,
-    visible: boolean;
-    message: string;
-    title: string;
-    seconds: number;
-    type: ToastType;
+export interface ToastModel {
+  ID: string;
+  visible: boolean;
+  message: string;
+  title: string;
+  seconds: number;
+  type: ToastType;
+  /** True while the exit animation plays, right before the toast is purged. */
+  leaving?: boolean;
 }
 
-export enum ToastPosition{
-    TOP_RIGHT = 'top-right',
-    TOP_LEFT = 'top-left',
-    BOTTOM_RIGHT = 'bottom-right',
-    BOTTOM_LEFT = 'bottom-left',
-    CENTER = 'center',
+export enum ToastPosition {
+  TOP_RIGHT = 'top-right',
+  TOP_LEFT = 'top-left',
+  BOTTOM_RIGHT = 'bottom-right',
+  BOTTOM_LEFT = 'bottom-left',
+  CENTER = 'center',
 }
 export enum ToastType {
-    SUCCESS = 'success',
-    INFO = 'info',
-    WARNING = 'warning',
-    ERROR = 'error'
+  SUCCESS = 'success',
+  INFO = 'info',
+  WARNING = 'warning',
+  ERROR = 'error',
 }

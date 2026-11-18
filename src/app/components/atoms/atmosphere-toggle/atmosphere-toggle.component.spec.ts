@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { AtmosphereToggleComponent } from './atmosphere-toggle.component';
 import { AtmosphereService, ATMOS_STORAGE_KEY } from '@app/services/atmosphere.service';
 import { ReducedMotionService } from '@app/services/ReducedMotion.service';
+import { I18nService } from '@app/services/i18n.service';
 
 // A chainable GSAP timeline stub. Functions added via .add() (where commit()
 // lives) run immediately; onComplete fires when the timeline is created.
@@ -92,6 +93,33 @@ describe('AtmosphereToggleComponent', () => {
     const text = (fixture.nativeElement as HTMLElement).textContent ?? '';
     expect(text).toContain('Atmosphere');
     expect(text).toContain('Nebula');
+  });
+});
+
+describe('AtmosphereToggleComponent (i18n)', () => {
+  it('renders Spanish labels while keeping the atmosphere proper names', async () => {
+    delete document.documentElement.dataset['atmos'];
+    localStorage.removeItem(ATMOS_STORAGE_KEY);
+    await TestBed.configureTestingModule({
+      imports: [AtmosphereToggleComponent],
+      providers: [
+        { provide: ReducedMotionService, useValue: { prefersReducedMotion: signal(true).asReadonly() } },
+      ],
+    }).compileComponents();
+    const i18n = TestBed.inject(I18nService);
+    i18n.loadDefaultLanguage();
+    // loadDefaultLanguage honours a saved preference; force Spanish for determinism.
+    await i18n.setLanguage('es');
+
+    const fixture = TestBed.createComponent(AtmosphereToggleComponent);
+    fixture.componentRef.setInput('variant', 'compact');
+    fixture.detectChanges();
+
+    const btn = (fixture.nativeElement as HTMLElement).querySelector('button')!;
+    expect(btn.getAttribute('aria-label')).toBe('Cambiar atmósfera, modo actual: Nebula');
+    expect(btn.getAttribute('title')).toBe('Atmósfera: Nebula');
+    expect(btn.textContent).toContain('Atmósfera');
+    expect(btn.textContent).not.toContain('Atmosphere');
   });
 });
 
