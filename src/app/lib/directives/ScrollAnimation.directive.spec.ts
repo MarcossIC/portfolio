@@ -60,6 +60,9 @@ describe('ScrollAnimationDirective', () => {
   async function render() {
     const fixture = TestBed.createComponent(HostComponent);
     fixture.detectChanges();
+    // Zoneless: whenStable() alone can resolve before afterNextRender hooks run
+    // (the scheduler's tick races under load). TestBed.tick() runs them deterministically.
+    TestBed.tick();
     await fixture.whenStable();
     const els = Array.from(
       fixture.nativeElement.querySelectorAll('.item')
