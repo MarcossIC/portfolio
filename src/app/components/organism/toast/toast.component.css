@@ -132,7 +132,3 @@
   to { opacity: 0; transform: translate3d(24px, 0, 0); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .toast { animation: none; }
-  .toast.leaving { animation: none; opacity: 0; }
-}

@@ -3,7 +3,6 @@ import { CustomCursorComponent } from './custom-cursor.component';
 
 interface SetupOptions {
   coarse?: boolean;
-  reduced?: boolean;
 }
 
 describe('CustomCursorComponent', () => {
@@ -13,7 +12,7 @@ describe('CustomCursorComponent', () => {
   let coarseState = false;
   const coarseListeners = new Set<() => void>();
 
-  async function setup({ coarse = false, reduced = false }: SetupOptions = {}): Promise<void> {
+  async function setup({ coarse = false }: SetupOptions = {}): Promise<void> {
     // jsdom does not implement matchMedia
     coarseState = coarse;
     coarseListeners.clear();
@@ -23,7 +22,7 @@ describe('CustomCursorComponent', () => {
         const isCoarse = query.includes('pointer: coarse');
         return {
           get matches() {
-            return (isCoarse && coarseState) || (query.includes('prefers-reduced-motion') && reduced);
+            return isCoarse && coarseState;
           },
           addEventListener: (_: string, cb: () => void) => isCoarse && coarseListeners.add(cb),
           removeEventListener: (_: string, cb: () => void) => isCoarse && coarseListeners.delete(cb),
@@ -116,15 +115,6 @@ describe('CustomCursorComponent', () => {
     vi.stubGlobal('requestAnimationFrame', raf);
     await wait(50);
     expect(raf).not.toHaveBeenCalled();
-  });
-
-  it('should snap the ring with reduced motion', async () => {
-    await setup({ reduced: true });
-    const el = make('div');
-    await moveOver(el, 0, 0);
-    await moveOver(el, 300, 200);
-
-    expect(ring().style.transform).toBe('translate3d(300px, 200px, 0)');
   });
 
   it('should activate hover state over anchors', async () => {

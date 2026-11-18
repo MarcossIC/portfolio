@@ -11,7 +11,6 @@ import {
   viewChild,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 import { I18nService } from '@app/services/i18n.service';
 
 const PROJECT_SELECTOR = '.project-img, project-article, .project-card-container';
@@ -148,19 +147,10 @@ const EPSILON = 0.1;
         display: none;
       }
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      .cursor-dot-core,
-      .cursor-ring-core,
-      :host {
-        transition: none;
-      }
-    }
   `,
 })
 export class CustomCursorComponent {
   private readonly platform = inject(PLATFORM_ID);
-  private readonly motionService = inject(ReducedMotionService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly i18nService = inject(I18nService);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
@@ -218,17 +208,12 @@ export class CustomCursorComponent {
 
         write(dotEl, tx, ty);
 
-        if (this.motionService.prefersReducedMotion()) {
+        const a = 1 - Math.exp(-dt * RING_SMOOTHING);
+        rx += (tx - rx) * a;
+        ry += (ty - ry) * a;
+        if (Math.abs(tx - rx) < EPSILON && Math.abs(ty - ry) < EPSILON) {
           rx = tx;
           ry = ty;
-        } else {
-          const a = 1 - Math.exp(-dt * RING_SMOOTHING);
-          rx += (tx - rx) * a;
-          ry += (ty - ry) * a;
-          if (Math.abs(tx - rx) < EPSILON && Math.abs(ty - ry) < EPSILON) {
-            rx = tx;
-            ry = ty;
-          }
         }
         write(ringEl, rx, ry);
 

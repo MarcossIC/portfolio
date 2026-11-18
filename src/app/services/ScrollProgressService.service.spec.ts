@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { ScrollProgressService } from './ScrollProgressService.service';
-import { ReducedMotionService } from './ReducedMotion.service';
 
 describe('ScrollProgressService scroll animation', () => {
   let service: ScrollProgressService;
   let scrollSpy: ReturnType<typeof vi.fn>;
-  let reduced = false;
   let y = 0;
 
   const lastTop = () => scrollSpy.mock.calls.at(-1)?.[0]?.top as number;
@@ -13,15 +11,11 @@ describe('ScrollProgressService scroll animation', () => {
   beforeEach(() => {
     vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame', 'performance'] });
     y = 0;
-    reduced = false;
     scrollSpy = vi.fn((opts: ScrollToOptions) => {
       y = opts.top ?? 0;
     });
     Object.defineProperty(window, 'scrollY', { configurable: true, get: () => y });
     window.scrollTo = scrollSpy as unknown as typeof window.scrollTo;
-    TestBed.configureTestingModule({
-      providers: [{ provide: ReducedMotionService, useValue: { prefersReducedMotion: () => reduced } }],
-    });
     service = TestBed.inject(ScrollProgressService);
   });
 
@@ -87,13 +81,6 @@ describe('ScrollProgressService scroll animation', () => {
       window.dispatchEvent(new Event(type));
       await p;
     }
-  });
-
-  it('jumps instantly under reduced motion', async () => {
-    reduced = true;
-    await service.scrollTo(800);
-    expect(scrollSpy).toHaveBeenCalledTimes(1);
-    expect(lastTop()).toBe(800);
   });
 
   it('scrollToElement follows the live element position and snaps at the end', async () => {

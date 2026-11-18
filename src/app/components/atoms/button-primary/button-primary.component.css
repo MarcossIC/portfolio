@@ -166,10 +166,3 @@
   height: 16px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ml-btn-wrapper,
-  .ml-btn-primary,
-  .ml-btn-primary::before {
-    transition: none;
-  }
-}

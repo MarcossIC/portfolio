@@ -237,13 +237,6 @@
   transition-delay: 0s;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .mobile-nav,
-  .burger-bar {
-    transition-duration: 0.01ms;
-  }
-}
-
 .mobile-link {
   display: flex;
   align-items: center;
@@ -311,12 +304,6 @@
   visibility: visible;
   pointer-events: auto;
   transition-delay: 0s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mobile-scrim {
-    transition-duration: 0.01ms;
-  }
 }
 
 /* Desktop breakpoint */

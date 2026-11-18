@@ -1,9 +1,8 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { ApplicationRef, signal } from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 import { gsap } from 'gsap';
 import { AtmosphereToggleComponent } from './atmosphere-toggle.component';
 import { AtmosphereService, ATMOS_STORAGE_KEY } from '@app/services/atmosphere.service';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 import { I18nService } from '@app/services/i18n.service';
 
 // A chainable GSAP timeline stub. Functions added via .add() (where commit()
@@ -41,13 +40,6 @@ describe('AtmosphereToggleComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [AtmosphereToggleComponent],
-      providers: [
-        {
-          // reduced motion ON → the toggle must commit instantly, no GSAP
-          provide: ReducedMotionService,
-          useValue: { prefersReducedMotion: signal(true).asReadonly() },
-        },
-      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AtmosphereToggleComponent);
@@ -64,23 +56,8 @@ describe('AtmosphereToggleComponent', () => {
     expect(button().getAttribute('title')).toBe('Atmosphere: Nebula');
   });
 
-  it('commits the atmosphere instantly on click when reduced motion is preferred', () => {
-    button().click();
-
-    expect(service.atmos()).toBe('ember');
-    expect(html().dataset['atmos']).toBe('ember');
-  });
-
-  it('flips back to nebula on a second click', () => {
-    button().click();
-    button().click();
-
-    expect(service.atmos()).toBe('nebula');
-    expect(html().dataset['atmos']).toBeUndefined();
-  });
-
   it('updates the title after switching', () => {
-    button().click();
+    service.commit('ember');
     fixture.detectChanges();
 
     expect(button().getAttribute('title')).toBe('Atmosphere: Ember');
@@ -102,9 +79,6 @@ describe('AtmosphereToggleComponent (i18n)', () => {
     localStorage.removeItem(ATMOS_STORAGE_KEY);
     await TestBed.configureTestingModule({
       imports: [AtmosphereToggleComponent],
-      providers: [
-        { provide: ReducedMotionService, useValue: { prefersReducedMotion: signal(true).asReadonly() } },
-      ],
     }).compileComponents();
     const i18n = TestBed.inject(I18nService);
     i18n.loadDefaultLanguage();
@@ -137,13 +111,6 @@ describe('AtmosphereToggleComponent (animated path)', () => {
 
     await TestBed.configureTestingModule({
       imports: [AtmosphereToggleComponent],
-      providers: [
-        {
-          // reduced motion OFF → the GSAP shockwave path runs
-          provide: ReducedMotionService,
-          useValue: { prefersReducedMotion: signal(false).asReadonly() },
-        },
-      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AtmosphereToggleComponent);
@@ -289,12 +256,6 @@ describe('AtmosphereToggleComponent (view transition path)', () => {
 
     await TestBed.configureTestingModule({
       imports: [AtmosphereToggleComponent],
-      providers: [
-        {
-          provide: ReducedMotionService,
-          useValue: { prefersReducedMotion: signal(false).asReadonly() },
-        },
-      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AtmosphereToggleComponent);
@@ -426,12 +387,6 @@ describe('AtmosphereToggleComponent (compositor-only FX)', () => {
 
     await TestBed.configureTestingModule({
       imports: [AtmosphereToggleComponent],
-      providers: [
-        {
-          provide: ReducedMotionService,
-          useValue: { prefersReducedMotion: signal(false).asReadonly() },
-        },
-      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AtmosphereToggleComponent);

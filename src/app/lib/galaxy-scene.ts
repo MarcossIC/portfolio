@@ -377,7 +377,6 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
   // Outside the try: a failure after the context exists must still release it.
   let renderer: THREE.WebGLRenderer | undefined;
   try {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
     const isMobile = coarsePointer || window.innerWidth < DEVICE.mobileBreakpointPx;
     const forDevice = <T>(value: { readonly mobile: T; readonly desktop: T }): T =>
@@ -743,7 +742,7 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
 
       const glow = CORE_GLOW.core;
       const ig = CORE_GLOW.ignition;
-      const flare = reduce ? 0 : ignition(clock, ig.durationMs / MS_PER_SECOND);
+      const flare = ignition(clock, ig.durationMs / MS_PER_SECOND);
       core.scale.setScalar(glow.scale * (1 + glow.pulse * Math.sin(clock * glow.pulseSpeed)) * (1 + ig.scale * flare));
       // The flare is added on top of the intro fade, not scaled by it: the core
       // lights up first and the arms fade in around it.
@@ -808,22 +807,6 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
       hooks.onFailure?.(reason);
     }
 
-    const paintStaticFrame = () => {
-      uniforms.uTime.value = MOTION.stillTime;
-      uniforms.uWarm.value = warm;
-      uniforms.uOpacity.value = brightness;
-      galaxy.scale.setScalar(1);
-      core.material.opacity = CORE_GLOW.core.opacity * brightness;
-      halo.material.opacity = CORE_GLOW.halo.opacity * brightness;
-      tintGlow();
-      gl.render(scene, camera);
-      reportPresented();
-    };
-    // Reduced motion: repaint the still frame when something it depends on changes.
-    const repaintStill = () => {
-      if (reduce && ready && !broken) paintStaticFrame();
-    };
-
     // ---- Shader precompile ----
     // The first render would otherwise compile and link the programs inside the
     // first animation frame — a visible hitch right as the intro starts. With
@@ -846,14 +829,6 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
       settled = true;
       if (disposed || broken) return;
       ready = true;
-      if (reduce) {
-        // Reduced motion: the still frame first, no scroll/mouse listeners. The
-        // loop still starts below, exactly as the IntersectionObserver's first
-        // callback started it before the precompile gate existed (kept on purpose).
-        intro = 1;
-        fade = 1;
-        paintStaticFrame();
-      }
       syncRunning();
     });
 
@@ -892,7 +867,6 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
 
     const ro = new ResizeObserver(() => {
       fit();
-      repaintStill();
     });
     ro.observe(container);
 
@@ -909,7 +883,6 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
       // New screen, new budget: the governor starts over from the new cap.
       governor.setCap(pixelRatio());
       applyPixelRatio();
-      repaintStill();
       watchPixelRatio();
     };
     watchPixelRatio();
@@ -918,24 +891,18 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
     // keeps the palette in sync with the CSS tokens without coupling the scene to Angular.
     const mo = new MutationObserver(() => {
       warmTarget = isWarm() ? 1 : 0;
-      if (reduce) {
-        warm = warmTarget;
-        repaintStill();
-      }
     });
     mo.observe(document.documentElement, { attributes: true, attributeFilter: [ATMOS_ATTRIBUTE] });
 
-    if (!reduce) {
-      // Touch-first devices get no parallax listener at all: taps would only fire
-      // compatibility mousemoves that nudge the camera for no reason.
-      if (!coarsePointer) window.addEventListener('mousemove', onMove, { passive: true });
-      window.addEventListener('scroll', onScroll, { passive: true });
-      document.addEventListener('visibilitychange', onVis);
-      onScroll(); // seeds `fade` for a page loaded mid-scroll; the gate starts the loop
-      // ...and the depth, so a reload mid-page doesn't glide in from the top.
-      depth = scrollTarget;
-      applyView();
-    }
+    // Touch-first devices get no parallax listener at all: taps would only fire
+    // compatibility mousemoves that nudge the camera for no reason.
+    if (!coarsePointer) window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('visibilitychange', onVis);
+    onScroll(); // seeds `fade` for a page loaded mid-scroll; the gate starts the loop
+    // ...and the depth, so a reload mid-page doesn't glide in from the top.
+    depth = scrollTarget;
+    applyView();
     syncRunning(); // reports the initial activity; the loop itself waits for the gate
 
     const releaseGpu = () => {

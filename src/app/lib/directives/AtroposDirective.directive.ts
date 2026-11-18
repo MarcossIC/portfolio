@@ -20,7 +20,7 @@ export const ATROPOS_FACTORY = new InjectionToken<(options: AtroposOptions) => A
 );
 
 /**
- * 3D tilt effect. Only runs on fine-pointer hover devices without reduced motion,
+ * 3D tilt effect. Only runs on fine-pointer hover devices,
  * and only while the element is near the viewport (instance is destroyed when away).
  * Atropos attaches native listeners; zoneless, so no change detection per pointer event.
  */
@@ -42,9 +42,7 @@ export class AtroposDirective {
 
     afterNextRender(() => {
       // Optional call: jsdom (unit tests of host components) has no matchMedia.
-      const canTilt =
-        !!window.matchMedia?.('(hover: hover) and (pointer: fine)').matches &&
-        !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const canTilt = !!window.matchMedia?.('(hover: hover) and (pointer: fine)').matches;
       if (!canTilt || typeof IntersectionObserver === 'undefined') return;
 
       this.observer = new IntersectionObserver(

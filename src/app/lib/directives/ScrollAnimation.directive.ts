@@ -6,7 +6,6 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 
 export type ScrollAnimationType =
   | 'fade-up'
@@ -67,7 +66,6 @@ export class ScrollAnimationDirective {
 
   private readonly el = inject(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly motionService = inject(ReducedMotionService);
 
   constructor() {
     const element = this.el.nativeElement as HTMLElement;

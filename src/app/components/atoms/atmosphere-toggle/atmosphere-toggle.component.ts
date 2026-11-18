@@ -12,7 +12,6 @@ import {
   viewChild,
 } from '@angular/core';
 import { AtmosphereService, type Atmos } from '@app/services/atmosphere.service';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 import { I18nService } from '@app/services/i18n.service';
 import { ATMOSPHERE } from '@constants/appConst';
 import { isLiteViewport } from '@atoms/cosmic-background/cosmic-background.utils';
@@ -76,7 +75,6 @@ export class AtmosphereToggleComponent {
   public readonly variant = input<'icon' | 'compact'>('icon');
 
   private readonly atmosphere = inject(AtmosphereService);
-  private readonly reducedMotion = inject(ReducedMotionService);
   private readonly i18n = inject(I18nService);
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
@@ -126,9 +124,8 @@ export class AtmosphereToggleComponent {
     // the browser once the handler yields at the first `await` below.
     const btn = event.currentTarget as HTMLElement | null;
 
-    // Reduced-motion (or no DOM) → instant swap, no wavefront. This guard is the
-    // accessibility net: a full-viewport wave is the textbook vestibular trigger.
-    if (!this.isBrowser || !btn || this.reducedMotion.prefersReducedMotion()) {
+    // No DOM → instant swap, no wavefront.
+    if (!this.isBrowser || !btn) {
       this.atmosphere.commit(next);
       return;
     }

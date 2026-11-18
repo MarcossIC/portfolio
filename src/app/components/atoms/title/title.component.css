@@ -18,13 +18,13 @@ h2.title-section {
    The accent <span> is projected content, hence ::ng-deep. Compositor-friendly:
    only opacity + translate (no clip-path). It animates a different element than the
    wrapping [scrollAnimate] fade-up and keeps a 0.35 opacity floor, so the two don't
-   compound into a double fade. Unsupported browsers / reduced motion: unchanged. */
+   compound into a double fade. Unsupported browsers: unchanged. */
 @supports (animation-timeline: view()) {
   /* Fine pointers only: on phones the gradient-text span stayed on the main thread
      and added ~1100 style recalcs + repaints per scroll (bisected in cb77bcc). The
      wrapping [scrollAnimate] reveal is enough there. will-change gives the span its
      own layer so the scroll timeline can run on the compositor. */
-  @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  @media (hover: hover) and (pointer: fine) {
     :host ::ng-deep h2.title-section > span {
       display: inline-block;
       will-change: transform, opacity;

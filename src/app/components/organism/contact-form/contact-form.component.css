@@ -146,12 +146,6 @@ button-primary.submit-btn:active .submit-icon {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .form-wrapper.shake {
-    animation: none;
-  }
-}
-
 @media only screen and (min-width: 768px) {
   .form-inner {
     padding: 3rem;
@@ -200,7 +194,3 @@ button-primary.submit-btn:active .submit-icon {
   to { transform: rotate(360deg); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .field-error-text { animation: none; }
-  .submit-spinner { animation-duration: 2.4s; }
-}

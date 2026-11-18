@@ -396,36 +396,3 @@
     font-size: 1.125rem;
   }
 }
-
-/* ===========================
-   Reduced motion — everything visible, no animation
-   (the client also never adds .is-armed in this case)
-   =========================== */
-@media (prefers-reduced-motion: reduce) {
-  .timeline-item,
-  .timeline-node__badge,
-  .timeline-content,
-  .timeline-card,
-  .timeline-card__hover-effect,
-  .timeline-card__tech-tag {
-    transition-duration: 0.01ms !important;
-    transition-delay: 0s !important;
-    animation-duration: 0.01ms !important;
-  }
-
-  :host(.is-armed:not(.is-visible)) .timeline-item,
-  :host(.is-armed:not(.is-visible)) .timeline-content,
-  :host(.is-armed:not(.is-visible)) .timeline-card__tech-tag {
-    opacity: 1;
-    transform: none;
-  }
-
-  :host(.is-armed:not(.is-visible)) .timeline-node__badge {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  .timeline-card {
-    transform: none !important;
-  }
-}

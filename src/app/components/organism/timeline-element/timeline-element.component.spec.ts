@@ -1,18 +1,15 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { TimelineElementComponent } from './timeline-element.component';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 
 describe('TimelineElementComponent', () => {
   let component: TimelineElementComponent;
   let fixture: ComponentFixture<TimelineElementComponent>;
-  let reduced = false;
   let finePointer = true;
   let ioCallback: IntersectionObserverCallback | null = null;
   const host = () => fixture.nativeElement as HTMLElement;
   const card = () => host().querySelector('.timeline-card') as HTMLElement;
 
   beforeEach(async () => {
-    reduced = false;
     finePointer = true;
     ioCallback = null;
     vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] });
@@ -32,7 +29,6 @@ describe('TimelineElementComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [TimelineElementComponent],
-      providers: [{ provide: ReducedMotionService, useValue: { prefersReducedMotion: () => reduced } }],
     }).compileComponents();
   });
 
@@ -58,12 +54,6 @@ describe('TimelineElementComponent', () => {
     await create();
     expect(host().classList.contains('is-armed')).toBe(true);
     expect(host().classList.contains('is-visible')).toBe(false);
-  });
-
-  it('is never armed under reduced motion', async () => {
-    reduced = true;
-    await create();
-    expect(host().classList.contains('is-armed')).toBe(false);
   });
 
   it('reveals once intersecting', async () => {

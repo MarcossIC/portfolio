@@ -5,7 +5,6 @@ import { I18nService } from '@app/services/i18n.service';
 import { ABOUT_TITLE } from '@constants/appConst';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { USER } from '@constants/userConst';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 
 const ICONS: Record<string, string> = {
   'calendar': `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,7 +45,6 @@ export class AboutMeLayout {
   protected readonly i18nService = inject(I18nService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly sanitizer = inject(DomSanitizer);
-  private readonly motion = inject(ReducedMotionService);
 
   private readonly sectionRef = viewChild.required<ElementRef<HTMLElement>>('sectionRef');
 
@@ -60,7 +58,7 @@ export class AboutMeLayout {
     // Reveal and pause states are plain classes toggled outside change detection.
     afterNextRender(() => {
       const el = this.sectionRef().nativeElement;
-      if (typeof IntersectionObserver === 'undefined' || this.motion.prefersReducedMotion()) return;
+      if (typeof IntersectionObserver === 'undefined') return;
 
       // Hidden state only exists once JS runs, so no-JS users still see content.
       el.classList.add('anim-ready');

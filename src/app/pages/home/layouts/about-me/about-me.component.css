@@ -250,11 +250,3 @@
   .skill-item span { font-size: 13px; line-height: 1.3; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .decorative-element,
-  .profile-glow,
-  .status-indicator {
-    animation: none;
-  }
-  .anim { transition: none; }
-}

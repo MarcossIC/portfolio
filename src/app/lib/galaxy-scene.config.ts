@@ -301,7 +301,7 @@ export const CORE_GLOW = {
    * rather than just fading in. `scale` is the extra core size at the peak, as a
    * fraction. `opacity` is extra core opacity at the peak, as a multiple of
    * `core.opacity`, added on top of the intro fade (not scaled by it): the core
-   * lights up while the arms are still faint. Skipped under reduced motion; 0 and 0 turn it off.
+   * lights up while the arms are still faint. 0 and 0 turn it off.
    */
   ignition: { durationMs: 600, scale: 0.5, opacity: 1.5 },
   /** Wide, faint glow around the core. */
@@ -324,8 +324,6 @@ export const MOTION = {
   introStartScale: 0.78,
   /** Shader clock on the first frame. Starting mid-spin means the arms already show differential winding. */
   startTime: 6,
-  /** Shader clock for the still frame painted under reduced motion. */
-  stillTime: 9,
   /** Nebula ⇄ Ember blend rate: ~95% of the way in ~0.6s. */
   paletteRate: 5,
   /** The blend snaps onto its target this close to it (invisible), so the glow tint stops being recomputed. */
@@ -344,8 +342,7 @@ export const MOTION = {
    * page like a distant plane. It is smoothed per frame (dt-based, like the
    * parallax), so it glides even when scroll events arrive in bursts, and it
    * reverses the same way on the way back up. At the top of the page all three
-   * are exactly 0: the framing is untouched. Not applied under reduced motion
-   * (that path has no scroll listener at all).
+   * are exactly 0: the framing is untouched.
    */
   scrollDepth: {
     /** Extra camera distance at full progress, as a fraction of the framed distance (eased). */

@@ -1,18 +1,14 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { TimelineExperiencyComponent } from './timeline-experiency.component';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 
 describe('TimelineExperiencyComponent', () => {
   let component: TimelineExperiencyComponent;
   let fixture: ComponentFixture<TimelineExperiencyComponent>;
-  let reduced = false;
 
   beforeEach(async () => {
-    reduced = false;
     vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] });
     await TestBed.configureTestingModule({
       imports: [TimelineExperiencyComponent],
-      providers: [{ provide: ReducedMotionService, useValue: { prefersReducedMotion: () => reduced } }],
     }).compileComponents();
   });
 
@@ -42,12 +38,6 @@ describe('TimelineExperiencyComponent', () => {
     window.dispatchEvent(new Event('scroll'));
     vi.advanceTimersByTime(20);
     expect(progress().style.getPropertyValue('--timeline-scale')).toBe('0.5');
-  });
-
-  it('fills completely under reduced motion', async () => {
-    reduced = true;
-    await create();
-    expect(progress().style.getPropertyValue('--timeline-scale')).toBe('1');
   });
 
   describe('node ignition', () => {
@@ -100,12 +90,6 @@ describe('TimelineExperiencyComponent', () => {
       expect(lit()).toEqual([true, true, true]);
       scrollTo(600); // fill 0.2
       expect(lit()).toEqual([true, false, false]);
-    });
-
-    it('lights every node under reduced motion', async () => {
-      reduced = true;
-      await createWithItems();
-      expect(lit()).toEqual([true, true, true]);
     });
   });
 });

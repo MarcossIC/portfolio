@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ATMOS_ATTRIBUTE, AtmosphereService, type Atmos } from '@app/services/atmosphere.service';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 import {
   PARALLAX_EPSILON_PX,
   PARALLAX_TAU_MS,
@@ -58,7 +57,6 @@ export class CosmicBackgroundComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly atmosphere = inject(AtmosphereService);
-  private readonly reducedMotion = inject(ReducedMotionService);
 
   protected readonly parallaxLayer = viewChild.required<ElementRef<HTMLDivElement>>('parallaxLayer');
   private readonly nebulaImg = viewChild.required<ElementRef<HTMLImageElement>>('nebulaImg');
@@ -106,7 +104,7 @@ export class CosmicBackgroundComponent {
   /**
    * Mouse parallax as a rAF loop with dt-based exponential smoothing: frame-rate
    * independent, writes the transform directly (no change detection) and goes
-   * idle once converged. Fine pointers only; reduced motion is honored live.
+   * idle once converged. Fine pointers only.
    */
   private setupParallax(): void {
     const win = this.document.defaultView;
@@ -138,7 +136,6 @@ export class CosmicBackgroundComponent {
     };
 
     const onMove = (e: MouseEvent) => {
-      if (this.reducedMotion.prefersReducedMotion()) return;
       const t = parallaxTarget(e.clientX, e.clientY, win.innerWidth, win.innerHeight);
       tx = t.x;
       ty = t.y;

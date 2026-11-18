@@ -22,15 +22,6 @@
 /* Identity, not `none`: going none -> non-none flips HasTransform and forces a layout per reveal. */
 [data-scroll-animate].scroll-visible { opacity: 1; transform: translate(0); will-change: auto; }
 
-@media (prefers-reduced-motion: reduce) {
-  [data-scroll-animate] {
-    opacity: 1;
-    transform: none;
-    transition: none;
-    will-change: auto;
-  }
-}
-
 @utility clip-path-circle {
   --tw-circle-path: 50% at 50% 50%;
   clip-path: circle(var(--tw-circle-path));

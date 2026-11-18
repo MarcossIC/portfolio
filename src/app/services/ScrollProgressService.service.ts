@@ -1,12 +1,10 @@
 import { inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { ReducedMotionService } from './ReducedMotion.service';
 
 @Injectable({ providedIn: 'root' })
 export class ScrollProgressService implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
-  private readonly reducedMotion = inject(ReducedMotionService);
 
   ngOnDestroy(): void {
     this.destroy();
@@ -41,11 +39,6 @@ export class ScrollProgressService implements OnDestroy {
     this.cancelScroll?.();
 
     const jump = (top: number) => window.scrollTo({ top, left: 0, behavior: 'instant' });
-
-    if (this.reducedMotion.prefersReducedMotion()) {
-      jump(getTarget());
-      return Promise.resolve();
-    }
 
     return new Promise((resolve) => {
       const start = window.scrollY;

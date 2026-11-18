@@ -11,7 +11,6 @@ import {
   viewChild,
 } from '@angular/core';
 import { Directions } from '@app/models/types';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 
 /** Max tilt rotation (deg) on each axis — mirrors the reference TiltCard max={7}. */
 const TILT_MAX_DEG = 7;
@@ -48,8 +47,6 @@ export class TimelineElementComponent {
   private hostEl = inject(ElementRef);
   private destroyRef = inject(DestroyRef);
 
-  private readonly motion = inject(ReducedMotionService);
-
   /** Pending rAF id + the latest pointer position to flush on the next frame. */
   private rafId = 0;
   private pointerX = 0;
@@ -60,10 +57,9 @@ export class TimelineElementComponent {
   constructor() {
     afterNextRender(() => {
       const host = this.hostEl.nativeElement as HTMLElement;
-      const reduced = this.motion.prefersReducedMotion();
 
-      this.setupRevealObserver(host, reduced);
-      this.setupTilt(reduced);
+      this.setupRevealObserver(host);
+      this.setupTilt();
     });
   }
 
@@ -71,12 +67,9 @@ export class TimelineElementComponent {
    * Slide/fade the item in once it scrolls into view.
    *
    * Content is visible by default (SSR / no JS). The hidden "pre-reveal" state
-   * only applies once the client adds `is-armed` right before observing; under
-   * reduced motion it is never armed, so nothing animates.
+   * only applies once the client adds `is-armed` right before observing.
    */
-  private setupRevealObserver(host: HTMLElement, prefersReducedMotion: boolean) {
-    if (prefersReducedMotion) return;
-
+  private setupRevealObserver(host: HTMLElement) {
     host.classList.add('is-armed');
     const observer = new IntersectionObserver(
       (entries) => {
@@ -101,11 +94,11 @@ export class TimelineElementComponent {
    * The card rect is read once on pointerenter and again only after a
    * scroll/resize invalidated it, and always inside the rAF right before the
    * write, so there is no forced layout per pointermove. Only enabled for
-   * `(hover: hover) and (pointer: fine)` devices without reduced motion.
+   * `(hover: hover) and (pointer: fine)` devices.
    */
-  private setupTilt(prefersReducedMotion: boolean) {
+  private setupTilt() {
     const card = this.tiltCard()?.nativeElement;
-    if (!card || prefersReducedMotion) return;
+    if (!card) return;
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
     const invalidate = () => {

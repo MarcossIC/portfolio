@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { TimelineElementComponent } from '../timeline-element/timeline-element.component';
 import { Directions, UserExperience, type UserStudies } from '@app/models/types';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 import { litFlags, nodeThresholds } from './timeline-ignite';
 
 @Component({
@@ -43,7 +42,6 @@ export class TimelineExperiencyComponent {
     RIGHT: Directions.RIGHT,
   };
 
-  private readonly motionService = inject(ReducedMotionService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly timelineContainer = viewChild<ElementRef>('timelineContainer');
 
@@ -56,13 +54,6 @@ export class TimelineExperiencyComponent {
 
       const badges = (): HTMLElement[] =>
         Array.from(this.timelineContainer()?.nativeElement.querySelectorAll('.timeline-node__badge') ?? []);
-
-      if (this.motionService.prefersReducedMotion()) {
-        bar.style.setProperty('--timeline-scale', '1');
-        // Final state, no motion: every node is lit.
-        badges().forEach((b) => b.classList.add('is-lit'));
-        return;
-      }
 
       // Node "ignition": thresholds (fraction of the rail height) are measured once
       // and again only when the container resizes; offsetTop ignores the reveal transforms.
