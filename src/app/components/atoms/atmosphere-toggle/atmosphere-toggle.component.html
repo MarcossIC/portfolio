@@ -24,8 +24,9 @@
   </button>
 }
 
-<!-- Supernova shockwave overlays (GSAP drives them, hidden at rest) -->
+<!-- Supernova shockwave overlays (hidden at rest; transform/opacity only via WAAPI) -->
 <div #ring class="shock-ring" aria-hidden="true"></div>
+<div #punch class="shock-punch" aria-hidden="true"></div>
 <div #plasma class="shock-plasma" aria-hidden="true"></div>
 <div #bloom class="shock-bloom" aria-hidden="true"></div>
 <!-- Orb-hatch particle host: GSAP appends/animates/removes spans on the punch -->

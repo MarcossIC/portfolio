@@ -5,12 +5,18 @@
   overflow: hidden;
 }
 
+/* Driven by a rAF loop (exponential smoothing) — no CSS transition here:
+   a transition restarted on every mousemove never settles and re-plans per event. */
 .parallax-layer {
   position: absolute;
   inset: -40px;
-  transition: transform 1.2s ease-out;
+  will-change: transform;
 }
 
+/* ---------- Live CSS stack (SSR / first paint / no-canvas fallback) ----------
+   Several full-viewport mix-blend layers + a filter: the browser re-blends them
+   on EVERY composited frame (scroll, WebGL galaxy, glass). Only on screen until
+   the bake below is ready. */
 .parallax-img-container {
   position: absolute;
   inset: 0px;
@@ -58,24 +64,51 @@
   transition: background 0.7s ease;
 }
 
-/* Warm supernova veil — appears in Ember */
-.warm-veil {
+/* ---------- Baked stack ----------
+   Opaque bitmaps of image + filter + veils + depth, one per atmosphere.
+   object-fit keeps the aspect if the viewport height changes (mobile URL bar)
+   until the next (width-only, on touch) re-bake. */
+.bake {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at 50% 62%,
-    hsla(10, 92%, 46%, var(--atmos-veil, 0)) 0%,
-    transparent 68%
-  );
-  mix-blend-mode: screen;
-  transition: background 0.7s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  pointer-events: none;
 }
 
+:host(.is-baked) .bake {
+  display: block;
+}
+
+:host(.is-baked) .live-only {
+  display: none;
+}
+
+/* Nebula stays opaque underneath; Ember fades over it (same 0.7s as the old
+   filter/veil transitions). A single opacity animation — compositor only. */
+.bake--ember {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+:host-context([data-atmos='ember']) .bake--ember {
+  opacity: 1;
+}
+
+/* During the View Transition the circular reveal IS the animation: show the
+   final theme instantly inside the circle (mirrors the global .vt-live rule). */
+:host-context(.vt-live) .bake--ember {
+  transition-duration: 0s;
+}
+
+/* ---------- Stars ---------- */
+/* No `filter` here: a filter on the container of 80 animated children forced
+   the whole field to re-raster every frame. */
 .star-field {
   position: absolute;
   inset: 0;
-  filter: brightness(var(--star-boost, 1));
-  transition: filter 0.15s ease-out;
 }
 
 .star {
@@ -90,6 +123,35 @@
     hsla(var(--atmos-star-tint), 85%, 90%, 1) 0%,
     hsla(var(--atmos-star-tint), 85%, 70%, 0) 70%
   );
+}
+
+/* Shockwave flare: static texture, opacity animated by the atmosphere toggle. */
+.star-flare {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.star-flare-layer {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+}
+
+/* Lite viewports: smaller star budget (the extra stars and their flare halos
+   are display:none → no layer, no animation). */
+@media (max-width: 767px), (pointer: coarse) {
+  .star--extra,
+  .star-flare-layer--extra {
+    display: none;
+  }
+}
+
+/* Tab hidden → freeze the infinite animations. */
+:host(.is-paused) .animate-twinkle,
+:host(.is-paused) .animate-pulse-glow {
+  animation-play-state: paused;
 }
 
 .orb {

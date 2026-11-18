@@ -105,7 +105,6 @@
   --atmos-star-tint: 270; /* hue of the bright stars */
   --atmos-veil: 0; /* warm full-page veil (0 in nebula) */
   --atmos-cool-veil: 0.32; /* unifying violet veil (nebula only) */
-  --star-boost: 1; /* GSAP pulses this during the shockwave */
 
   /* Active nav link (atmosphere-aware) — Nebula: warm→violet translucent */
   --nav-active-bg: linear-gradient(135deg, hsla(16, 90%, 55%, 0.22), hsla(270, 95%, 83%, 0.22));

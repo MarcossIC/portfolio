@@ -349,3 +349,136 @@ describe('AtmosphereToggleComponent (view transition path)', () => {
     expect(tickSpy).toHaveBeenCalled();
   });
 });
+
+// Perf (P0-2): the FX must only animate compositor-friendly properties
+// (transform/opacity), never tween a custom property on <html> (document-wide
+// style invalidation), and go lighter on small / touch viewports.
+describe('AtmosphereToggleComponent (compositor-only FX)', () => {
+  let fixture: ComponentFixture<AtmosphereToggleComponent>;
+  let flare: HTMLDivElement;
+  let animateSpy: ReturnType<typeof vi.fn>;
+  let originalAnimate: typeof Element.prototype.animate | undefined;
+  const originalWidth = window.innerWidth;
+
+  const button = (): HTMLButtonElement =>
+    (fixture.nativeElement as HTMLElement).querySelector('button')!;
+
+  const click = async () => {
+    button().dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 10));
+    await fixture.whenStable();
+  };
+
+  /** Every target GSAP tweened through the (stubbed) timeline. */
+  const tweenCalls = () => {
+    const tl = vi.mocked(gsap.timeline).mock.results.at(-1)?.value as
+      | { to: ReturnType<typeof vi.fn>; fromTo: ReturnType<typeof vi.fn> }
+      | undefined;
+    return [...(tl?.to.mock.calls ?? []), ...(tl?.fromTo.mock.calls ?? [])];
+  };
+
+  const setWidth = (w: number) =>
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: w });
+
+  beforeEach(async () => {
+    delete document.documentElement.dataset['atmos'];
+    localStorage.removeItem(ATMOS_STORAGE_KEY);
+    vi.mocked(gsap.set).mockClear();
+    vi.mocked(gsap.timeline).mockClear();
+
+    // jsdom has no WAAPI: stub it so we can inspect the keyframes.
+    originalAnimate = Element.prototype.animate;
+    animateSpy = vi.fn(() => ({ cancel: vi.fn(), finished: Promise.resolve() }));
+    Element.prototype.animate = animateSpy as unknown as typeof Element.prototype.animate;
+
+    // The cosmic background exposes this hook; the toggle animates its opacity.
+    flare = document.createElement('div');
+    flare.setAttribute('data-star-flare', '');
+    document.body.appendChild(flare);
+
+    await TestBed.configureTestingModule({
+      imports: [AtmosphereToggleComponent],
+      providers: [
+        {
+          provide: ReducedMotionService,
+          useValue: { prefersReducedMotion: signal(false).asReadonly() },
+        },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(AtmosphereToggleComponent);
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+    flare.remove();
+    if (originalAnimate) Element.prototype.animate = originalAnimate;
+    else delete (Element.prototype as Partial<Element>).animate;
+    setWidth(originalWidth);
+  });
+
+  it('never tweens a custom property on <html> (no document-wide style recalc per frame)', async () => {
+    await click();
+
+    const touchesHtml = tweenCalls().some(([target]) => target === document.documentElement);
+    expect(touchesHtml).toBe(false);
+    const tweensStarBoost = tweenCalls().some((args) =>
+      args.slice(1).some((v) => v && typeof v === 'object' && '--star-boost' in v)
+    );
+    expect(tweensStarBoost).toBe(false);
+  });
+
+  it('never animates layout/paint properties of the overlays', async () => {
+    await click();
+
+    const forbidden = ['width', 'height', 'borderWidth', 'boxShadow', 'filter'];
+    // per-frame tweens (GSAP)
+    for (const args of tweenCalls()) {
+      for (const vars of args.slice(1)) {
+        if (!vars || typeof vars !== 'object') continue;
+        for (const key of forbidden) expect(vars).not.toHaveProperty(key);
+      }
+    }
+    // WAAPI keyframes: transform / opacity only
+    expect(animateSpy).toHaveBeenCalled();
+    for (const [keyframes] of animateSpy.mock.calls as [Keyframe[] | PropertyIndexedKeyframes][]) {
+      const frames = Array.isArray(keyframes) ? keyframes : [keyframes];
+      for (const frame of frames) {
+        for (const key of Object.keys(frame)) {
+          expect(['transform', 'opacity', 'offset', 'easing']).toContain(key);
+        }
+      }
+    }
+  });
+
+  it('flares the star field by animating the opacity of [data-star-flare]', async () => {
+    await click();
+
+    const flareCalls = animateSpy.mock.contexts
+      .map((ctx, i) => ({ ctx, keyframes: animateSpy.mock.calls[i][0] as Keyframe[] }))
+      .filter(({ ctx }) => ctx === flare);
+    expect(flareCalls.length).toBe(1);
+    expect(flareCalls[0].keyframes.every((k) => Object.keys(k).every((p) => p !== 'filter'))).toBe(
+      true
+    );
+    expect(flareCalls[0].keyframes.some((k) => k['opacity'] === 1)).toBe(true);
+  });
+
+  it('uses the lighter FX on small viewports: no plasma layer at all', async () => {
+    setWidth(390);
+    const plasma = (fixture.nativeElement as HTMLElement).querySelector('.shock-plasma');
+
+    await click();
+
+    const plasmaSet = vi.mocked(gsap.set).mock.calls.some(
+      ([target]) => target === plasma || (Array.isArray(target) && target.includes(plasma))
+    );
+    expect(plasmaSet).toBe(false);
+    expect(animateSpy.mock.contexts).not.toContain(plasma);
+    // still a delightful feedback: the ring and the flare run
+    const ring = document.querySelector('.shock-ring');
+    expect(animateSpy.mock.contexts).toContain(ring);
+    expect(animateSpy.mock.contexts).toContain(flare);
+  });
+});
