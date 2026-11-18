@@ -12,6 +12,7 @@ import {
   isShortLandscape,
   needsResize,
   scrollProgress,
+  shouldRedrawOnResize,
   settleWithin,
   smoothstep,
   zoomOutFor,
@@ -1105,5 +1106,34 @@ describe('probe hysteresis (no blink every few seconds)', () => {
       if (heavy === false && gov.ratio === 2) climbed = true;
     }
     expect(climbed).toBe(true);
+  });
+});
+
+// ---- INC-07: a resize redraws the current state in the same callback ----
+
+describe('shouldRedrawOnResize', () => {
+  const base = { resized: true, running: true, presented: true, disposed: false, broken: false };
+
+  // gl.setSize clears the buffer and the ResizeObserver runs after the rAF draw and
+  // before paint: without a redraw right here the cleared buffer is what gets presented.
+  it('redraws when the buffer was reallocated and the scene is drawing', () => {
+    expect(shouldRedrawOnResize(base)).toBe(true);
+  });
+
+  it('does nothing when fit() absorbed the change (the buffer was not touched)', () => {
+    expect(shouldRedrawOnResize({ ...base, resized: false })).toBe(false);
+  });
+
+  it('does not draw while the loop is paused (hidden, off-screen, faded out)', () => {
+    expect(shouldRedrawOnResize({ ...base, running: false })).toBe(false);
+  });
+
+  it('does not draw before the first frame (that one reports the presentation)', () => {
+    expect(shouldRedrawOnResize({ ...base, presented: false })).toBe(false);
+  });
+
+  it('does not draw after a failure or a dispose', () => {
+    expect(shouldRedrawOnResize({ ...base, broken: true })).toBe(false);
+    expect(shouldRedrawOnResize({ ...base, disposed: true })).toBe(false);
   });
 });

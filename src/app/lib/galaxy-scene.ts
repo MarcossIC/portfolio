@@ -188,6 +188,28 @@ export function createFrameStep(deps: FrameStepDeps) {
   };
 }
 
+export interface ResizeRedrawState {
+  /** `fit()` reallocated the drawing buffer (an absorbed change leaves it alone). */
+  readonly resized: boolean;
+  /** The draw loop is on (visible, in view, shaders ready). */
+  readonly running: boolean;
+  /** The first frame was already drawn and reported. */
+  readonly presented: boolean;
+  readonly disposed: boolean;
+  readonly broken: boolean;
+}
+
+/**
+ * Whether to redraw the CURRENT state right after a resize. `setSize` clears the
+ * drawing buffer, and the ResizeObserver runs after the rAF draw and before paint,
+ * so without a redraw in that same callback the cleared buffer is what gets presented.
+ * Paused scenes don't draw (the loop draws first thing on resume); before the first
+ * frame the loop's own draw has to be the one that reports the presentation.
+ */
+export function shouldRedrawOnResize(s: ResizeRedrawState): boolean {
+  return s.resized && s.running && s.presented && !s.disposed && !s.broken;
+}
+
 /**
  * Width changes and height growth always resize; a height-only shrink within
  * `slack` is absorbed — the canvas overflows the host and gets clipped instead.
@@ -879,9 +901,10 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
     // ---- Sizing / framing ----
     const buffer: Size = { w: 0, h: 0 };
     const heightSlack = isMobile ? FRAMING.touchHeightSlackPx : 0;
-    const fit = () => {
+    /** Returns true when the drawing buffer was reallocated (and so cleared). */
+    const fit = (): boolean => {
       const next = { w: width(), h: height() };
-      if (!needsResize(buffer, next, heightSlack)) return;
+      if (!needsResize(buffer, next, heightSlack)) return false;
       buffer.w = next.w;
       buffer.h = next.h;
       gl.setSize(buffer.w, buffer.h, false);
@@ -899,6 +922,7 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
       applyView();
       // The reallocation hitch is not GPU load.
       governor.rewarm(QUALITY.settleFrames);
+      return true;
     };
 
     // Framing plus scroll depth: camera distance, disc tilt and lens shift. Runs
@@ -928,7 +952,9 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
       uniforms.uSize.value = pointSize();
     };
 
-    const render = (now: number) => {
+    // advance(): moves time and every animated value forward. draw(): paints the state as it is.
+    // The loop does both; a resize only draws (the galaxy must look exactly as it did).
+    const advance = (now: number) => {
       const dt = frameDelta(now, last);
       last = now;
       clock += dt;
@@ -963,9 +989,14 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
         glow.opacity * ig.opacity * flare * fade * brightness;
       halo.material.opacity = CORE_GLOW.halo.opacity * uniforms.uOpacity.value;
       tintGlow();
-
+    };
+    const draw = () => {
       gl.render(scene, camera);
       reportPresented();
+    };
+    const render = (now: number) => {
+      advance(now);
+      draw();
     };
 
     // Every vsync draws (the cursor does too); only the governor's half-rate fallback
@@ -1107,8 +1138,11 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
     });
     io.observe(container);
 
+    // Runs after the rAF draw and before paint: the reallocation cleared the buffer, so
+    // redraw the unchanged state right here. No clock, intro, parallax or governor step.
     const ro = new ResizeObserver(() => {
-      fit();
+      const resized = fit();
+      if (shouldRedrawOnResize({ resized, running, presented, disposed, broken })) draw();
     });
     ro.observe(container);
 
