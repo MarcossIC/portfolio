@@ -151,6 +151,43 @@ export function vsyncProbeWanted(
   return due && !running && !vsyncKnown && probeCallbacks < maxProbeCallbacks;
 }
 
+export interface FrameStepDeps {
+  readonly governor: Pick<QualityGovernor, 'halfRate' | 'sample'>;
+  /** Reallocates the drawing buffer at the governor's ratio (clears it!). */
+  applyPixelRatio(): void;
+  render(now: number): void;
+}
+
+/**
+ * One rAF callback of the draw loop, with the order that matters: a pending buffer
+ * reallocation is applied at the START of a frame that is about to draw, never after
+ * the draw. `setPixelRatio` reassigns `canvas.width`, which clears the drawing buffer;
+ * done after `render` the browser would present that empty buffer (the galaxy blinks).
+ * `sample()` only DECIDES; the change waits for the next frame that actually draws
+ * (a skipped half-rate vsync keeps it pending). Allocation-free.
+ */
+export function createFrameStep(deps: FrameStepDeps) {
+  let dirty = false;
+  return {
+    /** Something outside the loop changed the ratio (devicePixelRatio): apply before the next draw. */
+    markDirty(): void {
+      dirty = true;
+    },
+    /** Returns true when this callback drew. `last` is the previous drawn frame's timestamp. */
+    run(vsyncIndex: number, now: number, last: number): boolean {
+      if (!isFrameDue(vsyncIndex, deps.governor.halfRate)) return false;
+      const gap = now - last;
+      if (dirty) {
+        dirty = false;
+        deps.applyPixelRatio();
+      }
+      deps.render(now);
+      if (deps.governor.sample(gap)) dirty = true;
+      return true;
+    },
+  };
+}
+
 /**
  * Width changes and height growth always resize; a height-only shrink within
  * `slack` is absorbed — the canvas overflows the host and gets clipped instead.
@@ -199,8 +236,9 @@ export interface QualityConfig {
   readonly vsyncEvery: number;
   readonly vsyncPercentile: number;
   readonly vsyncTolerance: number;
-  readonly vsyncRiseEvals: number;
-  readonly windowFrames: number;
+  readonly vsyncRiseMs: number;
+  readonly windowMs: number;
+  readonly minWindowFrames: number;
   readonly warmupFrames: number;
   readonly settleFrames: number;
   readonly overShare: number;
@@ -208,6 +246,8 @@ export interface QualityConfig {
   readonly downWindows: number;
   readonly upWindows: number;
   readonly probeBackoff: { readonly initial: number; readonly max: number };
+  readonly recentFailWindows: number;
+  readonly minProbeGain: number;
   readonly minGain: number;
   readonly maxIneffectiveSteps: number;
   readonly hold: { readonly initial: number; readonly max: number };
@@ -227,7 +267,7 @@ export interface VsyncEstimator {
  * Measures the display's vsync interval from rAF gaps: a low percentile of the last
  * `vsyncWindow` valid gaps. Late frames are longer gaps, so they don't inflate it.
  * Gaps outside [`vsyncMinMs`, `stallMs`] are not vsyncs and are dropped. It follows a
- * faster display at once and a slower one only after `vsyncRiseEvals` consistent
+ * faster display at once and a slower one only after `vsyncRiseMs` of consistent
  * evaluations (so GPU load can't retune it before the governor reacts); the result
  * is clamped to `vsyncMaxMs`. Preallocated buffers, no allocation per call.
  */
@@ -238,7 +278,8 @@ export function createVsyncEstimator(cfg: QualityConfig): VsyncEstimator {
   let count = 0;
   let since = 0;
   let estimate = 0;
-  let rise = 0;
+  let rise = 0; // ms the evaluations have consistently read a longer vsync
+  let span = 0; // ms of valid gaps since the last evaluation
 
   const evaluate = () => {
     // Insertion sort of a copy: at most vsyncWindow items, once every `vsyncEvery` gaps.
@@ -261,7 +302,8 @@ export function createVsyncEstimator(cfg: QualityConfig): VsyncEstimator {
       estimate = next;
       rise = 0;
     } else if (next > estimate * (1 + cfg.vsyncTolerance)) {
-      if (++rise >= cfg.vsyncRiseEvals) {
+      rise += span;
+      if (rise >= cfg.vsyncRiseMs) {
         estimate = next;
         rise = 0;
       }
@@ -282,13 +324,15 @@ export function createVsyncEstimator(cfg: QualityConfig): VsyncEstimator {
       ring[head] = gapMs;
       head = (head + 1) % ring.length;
       if (count < ring.length) count++;
+      span += gapMs;
       if (++since >= cfg.vsyncEvery && count >= cfg.vsyncMinSamples) {
         since = 0;
         evaluate();
+        span = 0;
       }
     },
     reset() {
-      head = count = since = rise = 0;
+      head = count = since = rise = span = 0;
       estimate = 0;
     },
   };
@@ -345,8 +389,11 @@ export function createQualityGovernor(cap: number, floor: number, cfg: QualityCo
   // Probing up.
   let probing = false;
   let probeOk = 0;
-  let upBlock = 0;
-  let backoff = cfg.probeBackoff.initial;
+  // Per notch (index = the level that was probed): windows left before it may be probed
+  // again, and how many times in a row that probe failed. Sized with the ladder.
+  let blockLeft = new Int32Array(0);
+  let fails = new Uint8Array(0);
+  let sinceFail = cfg.recentFailWindows; // windows since any probe failed: none recent
   // Giving up when stepping down does not help.
   let lastDownShare = -1;
   let ineffective = 0;
@@ -357,7 +404,13 @@ export function createQualityGovernor(cap: number, floor: number, cfg: QualityCo
     // Epsilon: a floor sitting exactly on a notch must not add an empty one.
     ladder = maxRatio > minRatio ? Math.ceil(Math.log(minRatio / maxRatio) / Math.log(cfg.step) - 1e-9) : 0;
     maxLevel = ladder + 1;
+    blockLeft = new Int32Array(maxLevel + 1);
+    fails = new Uint8Array(maxLevel + 1);
+    sinceFail = cfg.recentFailWindows;
   };
+  const ratioAt = (l: number) => Math.max(minRatio, maxRatio * Math.pow(cfg.step, Math.min(l, ladder)));
+  const backoffFor = (l: number) =>
+    Math.min(cfg.probeBackoff.initial * Math.pow(2, fails[l]), cfg.probeBackoff.max);
   buildLadder();
 
   const resetStreaks = () => {
@@ -397,7 +450,8 @@ export function createQualityGovernor(cap: number, floor: number, cfg: QualityCo
   };
 
   const evaluate = (share: number): boolean => {
-    if (upBlock > 0) upBlock--;
+    for (let i = 0; i < blockLeft.length; i++) if (blockLeft[i] > 0) blockLeft[i]--;
+    if (sinceFail < cfg.recentFailWindows) sinceFail++;
     if (holdLeft > 0) holdLeft--;
     const isOver = share > cfg.overShare;
     if (!isOver) {
@@ -407,15 +461,17 @@ export function createQualityGovernor(cap: number, floor: number, cfg: QualityCo
 
     if (probing) {
       if (isOver) {
-        // The notch above is too much: back down, and wait longer before the next try.
+        // The notch above is too much: back down, and wait longer before probing THIS
+        // notch again (doubling per failure of this notch).
         probing = false;
-        upBlock = backoff;
-        backoff = Math.min(backoff * 2, cfg.probeBackoff.max);
+        blockLeft[level] = backoffFor(level);
+        if (fails[level] < 255) fails[level]++;
+        sinceFail = 0;
         return setLevel(level + 1);
       }
       if (++probeOk >= cfg.downWindows) {
         probing = false;
-        backoff = cfg.probeBackoff.initial;
+        fails[level] = 0; // this notch holds: its history is forgiven, the others' is not
       }
     }
 
@@ -433,7 +489,11 @@ export function createQualityGovernor(cap: number, floor: number, cfg: QualityCo
       calm = 0;
       return false;
     }
-    if (++calm < cfg.upWindows || upBlock > 0 || level === 0 || probing) return false;
+    if (++calm < cfg.upWindows || level === 0 || probing || blockLeft[level - 1] > 0) return false;
+    // Right after a failed probe only a step that is worth the risk is tried; going
+    // from half rate back to full always is (it doubles the cadence).
+    const worth = level > ladder || sinceFail >= cfg.recentFailWindows || ratioAt(level - 1) - ratio >= cfg.minProbeGain;
+    if (!worth) return false;
     probing = true;
     probeOk = 0;
     return setLevel(level - 1);
@@ -464,7 +524,9 @@ export function createQualityGovernor(cap: number, floor: number, cfg: QualityCo
       frames++;
       // At half rate a frame is on time 2 vsyncs after the previous one.
       if (gapMs > cfg.lateVsyncs * (level > ladder ? 2 : 1) * vsync.ms) late++;
-      if (frames < cfg.windowFrames) return false;
+      // The window is a length of time: how many frames that is depends on the display.
+      const period = level > ladder ? 2 : 1;
+      if (frames < Math.max(cfg.minWindowFrames, Math.round(cfg.windowMs / (period * vsync.ms)))) return false;
       const share = late / frames;
       frames = late = 0;
       return evaluate(share);
@@ -480,8 +542,6 @@ export function createQualityGovernor(cap: number, floor: number, cfg: QualityCo
       level = 0;
       vsync.reset(); // another monitor can have another refresh rate
       probing = false;
-      upBlock = 0;
-      backoff = cfg.probeBackoff.initial;
       lastDownShare = -1;
       ineffective = 0;
       holdLeft = 0;
@@ -913,16 +973,13 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
     // so skipping doesn't distort the estimate.
     let vsyncStamp = 0;
     let vsyncIndex = 0;
+    // A new resolution is applied before the next draw, never after one (see createFrameStep).
+    const frameStep = createFrameStep({ governor, applyPixelRatio, render });
     const loop = (now: number) => {
       if (disposed || broken) return;
       if (vsyncStamp > 0) governor.observeVsync(now - vsyncStamp);
       vsyncStamp = now;
-      if (isFrameDue(vsyncIndex++, governor.halfRate)) {
-        const gap = now - last;
-        render(now);
-        // Applied after the frame: the next one draws at the new resolution.
-        if (governor.sample(gap)) applyPixelRatio();
-      }
+      frameStep.run(vsyncIndex++, now, last);
       raf = requestAnimationFrame(loop);
     };
 
@@ -1067,9 +1124,9 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
     const onPixelRatioChange = () => {
       // New screen, new budget: the governor starts over from the new cap.
       governor.setCap(pixelRatio());
+      frameStep.markDirty(); // reallocate right before the next draw, not now: a cleared buffer would show empty
       probeCount = 0; // the new display is measured again (probe, if the loop is not running)
       syncRunning();
-      applyPixelRatio();
       watchPixelRatio();
     };
     watchPixelRatio();

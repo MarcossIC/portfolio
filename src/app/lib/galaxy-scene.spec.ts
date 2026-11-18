@@ -1,6 +1,7 @@
 import {
   approach,
   createQualityGovernor,
+  createFrameStep,
   createVsyncEstimator,
   frameDelta,
   framingFor,
@@ -406,8 +407,11 @@ const Q: QualityConfig = {
   vsyncEvery: 2,
   vsyncPercentile: 0.1,
   vsyncTolerance: 0.1,
-  vsyncRiseEvals: 4,
-  windowFrames: 10,
+  vsyncRiseMs: 130,
+  windowMs: 10 * (1000 / 60),
+  minWindowFrames: 4,
+  recentFailWindows: 6,
+  minProbeGain: 0.25,
   warmupFrames: 5,
   settleFrames: 2,
   overShare: 0.2,
@@ -419,6 +423,9 @@ const Q: QualityConfig = {
   maxIneffectiveSteps: 2,
   hold: { initial: 6, max: 48 },
 };
+
+/** Rendered frames per evaluation window on the 60Hz test display (windowMs / vsync). */
+const WINDOW = 10;
 
 const FAST = 1000 / 60;
 const SLOW = 2000 / 60; // a dropped vsync on a 60Hz screen
@@ -434,7 +441,7 @@ function feed(gov: QualityGovernor, n: number, ms: number | ((ratio: number) => 
 }
 
 /** Frames a fresh (or resumed) governor needs before its first decision can fire. */
-const FIRST_DECISION = Q.warmupFrames + Q.downWindows * Q.windowFrames;
+const FIRST_DECISION = Q.warmupFrames + Q.downWindows * WINDOW;
 
 describe('createQualityGovernor', () => {
   it('starts at the device cap', () => {
@@ -449,7 +456,7 @@ describe('createQualityGovernor', () => {
   it('ignores slow frames during the warm-up', () => {
     const gov = createQualityGovernor(2, 1, Q);
     feed(gov, Q.warmupFrames, 500 / 3);
-    feed(gov, Q.downWindows * Q.windowFrames, FAST);
+    feed(gov, Q.downWindows * WINDOW, FAST);
     expect(gov.ratio).toBe(2);
   });
 
@@ -466,7 +473,7 @@ describe('createQualityGovernor', () => {
     feed(gov, Q.warmupFrames, FAST);
     for (let w = 0; w < 6; w++) {
       feed(gov, 1, 45);
-      feed(gov, Q.windowFrames - 1, FAST);
+      feed(gov, WINDOW - 1, FAST);
     }
     expect(gov.ratio).toBe(2);
   });
@@ -475,14 +482,14 @@ describe('createQualityGovernor', () => {
   it('drops stalls longer than stallMs entirely', () => {
     const gov = createQualityGovernor(2, 1, Q);
     feed(gov, Q.warmupFrames, FAST);
-    feed(gov, 4 * Q.windowFrames, 400);
+    feed(gov, 4 * WINDOW, 400);
     expect(gov.ratio).toBe(2);
   });
 
   it('ignores zero or negative gaps (restart stamp taken after the rAF time)', () => {
     const gov = createQualityGovernor(2, 1, Q);
     feed(gov, Q.warmupFrames, FAST);
-    feed(gov, 4 * Q.windowFrames, -3);
+    feed(gov, 4 * WINDOW, -3);
     expect(gov.ratio).toBe(2);
   });
 
@@ -491,7 +498,7 @@ describe('createQualityGovernor', () => {
     const gov = createQualityGovernor(2, 0.5, Q);
     feed(gov, FIRST_DECISION, SLOW);
     expect(gov.ratio).toBeCloseTo(1.7);
-    const between = Q.settleFrames + Q.downWindows * Q.windowFrames;
+    const between = Q.settleFrames + Q.downWindows * WINDOW;
     expect(feed(gov, between - 1, SLOW)).toBe(0);
   });
 
@@ -532,7 +539,7 @@ describe('createQualityGovernor', () => {
     expect(ratios[0]).toBeCloseTo(1.7);
     const probes = ratios.filter((r) => r === 2).length;
     // Without a backoff a probe would come back every settle + upWindows windows.
-    const naiveProbes = Math.floor(frames / (Q.settleFrames + (Q.upWindows + 1) * Q.windowFrames));
+    const naiveProbes = Math.floor(frames / (Q.settleFrames + (Q.upWindows + 1) * WINDOW));
     expect(probes).toBeGreaterThan(0);
     expect(probes).toBeLessThan(naiveProbes / 2);
     expect(gov.ratio).toBeCloseTo(1.7);
@@ -543,7 +550,7 @@ describe('createQualityGovernor', () => {
   it('gives up and restores the resolution when stepping down does not help', () => {
     const gov = createQualityGovernor(2, 1, Q);
     const steps = Q.maxIneffectiveSteps + 1;
-    feed(gov, Q.warmupFrames + steps * (Q.settleFrames + Q.downWindows * Q.windowFrames), SLOW);
+    feed(gov, Q.warmupFrames + steps * (Q.settleFrames + Q.downWindows * WINDOW), SLOW);
     expect(gov.ratio).toBe(2);
   });
 
@@ -576,6 +583,10 @@ describe('createQualityGovernor', () => {
 // ---- Vsync estimate ----
 
 const vsyncOf = (hz: number) => 1000 / hz;
+/** Frames per evaluation window on a `hz` display (the governor sizes windows in time, not frames). */
+const windowAt = (cfg: { windowMs: number; minWindowFrames: number }, hz: number, period = 1) =>
+  Math.max(cfg.minWindowFrames, Math.round(cfg.windowMs / (period * vsyncOf(hz))));
+const W165 = windowAt(Q, 165);
 
 /** A small deterministic jitter (+-0.15ms) so streams are not perfectly flat. */
 const jitter = (i: number) => ((i * 7) % 5) * 0.075 - 0.15;
@@ -666,7 +677,7 @@ function feedOnDisplay(gov: QualityGovernor, hz: number, n: number, gapVsyncs: n
 }
 
 describe('createQualityGovernor (budget relative to the real vsync)', () => {
-  const settle = Q.warmupFrames + Q.downWindows * Q.windowFrames + 5;
+  const settle = Q.warmupFrames + Q.downWindows * W165 + 5;
 
   it.each([60, 144, 165])('%iHz: frames arriving every vsync are on budget', (hz) => {
     const gov = createQualityGovernor(2, 1, Q);
@@ -735,7 +746,7 @@ describe('createQualityGovernor (budget relative to the real vsync)', () => {
 // ---- Governor: half-rate fallback ----
 
 /**
- * Feeds `n` frames at 165Hz where each window of `windowFrames` has `share(ratio, half)` of
+ * Feeds `n` frames at 165Hz where each window has `share(ratio, half)` of
  * its frames late (2 periods), the rest on time. The period is 1 vsync, or 2 at half rate.
  */
 function feedShare(gov: QualityGovernor, n: number, share: (ratio: number, half: boolean) => number): void {
@@ -743,7 +754,8 @@ function feedShare(gov: QualityGovernor, n: number, share: (ratio: number, half:
   for (let i = 0; i < n; i++) {
     gov.observeVsync(v);
     const period = gov.halfRate ? 2 : 1;
-    const late = i % Q.windowFrames < share(gov.ratio, gov.halfRate) * Q.windowFrames;
+    const win = windowAt(Q, 165, period);
+    const late = i % win < share(gov.ratio, gov.halfRate) * win;
     gov.sample(period * v * (late ? 2 : 1));
   }
 }
@@ -778,7 +790,7 @@ describe('createQualityGovernor (half-rate fallback)', () => {
 
   it('engages on a 1x screen (cap == floor) as soon as two windows are over budget', () => {
     const gov = createQualityGovernor(1, 1, Q);
-    feedShare(gov, Q.warmupFrames + 4 * Q.windowFrames, (_r, half) => (half ? 0 : 0.5));
+    feedShare(gov, Q.warmupFrames + 2 * W165 + 4, (_r, half) => (half ? 0 : 0.5));
     expect(gov.halfRate).toBe(true);
     expect(gov.ratio).toBe(1);
   });
@@ -788,7 +800,7 @@ describe('createQualityGovernor (half-rate fallback)', () => {
     feedShare(gov, 600, () => 0.6);
     let atHalf = 0;
     for (let i = 0; i < 40; i++) {
-      feedShare(gov, Q.windowFrames, () => 0.6);
+      feedShare(gov, W165, () => 0.6);
       if (gov.halfRate) atHalf++;
     }
     // Held at full rate for most of the hold (it may only flap for a probe).
@@ -800,7 +812,7 @@ describe('createQualityGovernor (half-rate fallback)', () => {
     feedShare(gov, 400, (_r, half) => (half ? 0 : 0.5));
     expect(gov.halfRate).toBe(true);
     // From here every frame arrives exactly 2 vsyncs after the last: healthy at half rate.
-    feedShare(gov, 3 * Q.windowFrames, (_r, half) => (half ? 0 : 0.5));
+    feedShare(gov, 3 * W165, (_r, half) => (half ? 0 : 0.5));
     expect(gov.halfRate).toBe(true);
   });
 
@@ -813,7 +825,7 @@ describe('createQualityGovernor (half-rate fallback)', () => {
       const period = gov.halfRate ? 2 : 1;
       // GPU cannot hold full rate: every full-rate frame is late, half-rate ones are on time.
       gov.sample(period * v * (gov.halfRate ? 1 : 2));
-      if (i % Q.windowFrames === 0) states.push(gov.halfRate);
+      if (i % W165 === 0) states.push(gov.halfRate);
     }
     expect(states.filter(Boolean).length).toBeGreaterThan(states.length / 2);
     expect(states.some((s) => !s)).toBe(true);
@@ -838,7 +850,7 @@ describe('QUALITY (production config) against a 165Hz display', () => {
   it('1 vsync per frame is calm, 2 vsyncs per frame is late', () => {
     const calm = createQualityGovernor(2, 1, QUALITY);
     const busy = createQualityGovernor(2, 1, QUALITY);
-    const frames = QUALITY.warmupFrames + QUALITY.downWindows * QUALITY.windowFrames + 5;
+    const frames = QUALITY.warmupFrames + QUALITY.downWindows * windowAt(QUALITY, 165) + 5;
     for (let i = 0; i < frames; i++) {
       calm.observeVsync(vsyncOf(165));
       calm.sample(vsyncOf(165));
@@ -854,7 +866,7 @@ describe('QUALITY (production config) against a 165Hz display', () => {
 
 describe('vsync lock-in (GPU too slow from the very first frame)', () => {
   const v165 = vsyncOf(165);
-  const frames = QUALITY.warmupFrames + QUALITY.downWindows * QUALITY.windowFrames + 5;
+  const frames = QUALITY.warmupFrames + QUALITY.downWindows * windowAt(QUALITY, 165) + 5;
 
   // Chrome throttles rAF to the frame production rate: every loop gap is 2 vsyncs.
   it('with only loop gaps the estimate locks onto 2 vsyncs and nothing is ever late (the bug)', () => {
@@ -880,10 +892,10 @@ describe('vsync lock-in (GPU too slow from the very first frame)', () => {
 
   // The rise path still protects against a genuinely slower display: only after a long
   // consistent run of longer gaps, never before the governor had its say.
-  it('a probe-seeded estimate still follows a genuinely slower display, after vsyncRiseEvals', () => {
+  it('a probe-seeded estimate still follows a genuinely slower display, after vsyncRiseMs', () => {
     const gov = createQualityGovernor(2, 1, QUALITY);
     for (let i = 0; i < 40; i++) gov.observeVsync(v165);
-    for (let i = 0; i < 64 + QUALITY.vsyncRiseEvals * QUALITY.vsyncEvery + 16; i++) gov.observeVsync(vsyncOf(60));
+    for (let i = 0; i < 64 + Math.ceil(QUALITY.vsyncRiseMs / vsyncOf(60)) + 16; i++) gov.observeVsync(vsyncOf(60));
     expect(gov.vsyncMs).toBeCloseTo(vsyncOf(60), 0);
   });
 });
@@ -913,5 +925,185 @@ describe('vsyncProbeWanted', () => {
     expect(vsyncProbeWanted(true, true, false, 0, 30)).toBe(false); // the loop feeds it
     expect(vsyncProbeWanted(true, false, true, 0, 30)).toBe(false); // already known
     expect(vsyncProbeWanted(true, false, false, 30, 30)).toBe(false); // cap reached
+  });
+});
+
+// ---- INC-02: resolution changes are applied before drawing ----
+
+describe('createFrameStep (a buffer reallocation is always followed by a draw)', () => {
+  function setup(halfRate = false, willChange: () => boolean = () => false) {
+    const calls: string[] = [];
+    const step = createFrameStep({
+      governor: {
+        get halfRate() {
+          return halfRate;
+        },
+        sample: () => {
+          calls.push('sample');
+          return willChange();
+        },
+      },
+      applyPixelRatio: () => calls.push('apply'),
+      render: () => calls.push('render'),
+    });
+    return { calls, step, setHalf: (h: boolean) => (halfRate = h) };
+  }
+
+  it('draws without touching the buffer when nothing changed', () => {
+    const { calls, step } = setup();
+    step.run(0, 16, 0);
+    expect(calls).toEqual(['render', 'sample']);
+  });
+
+  // The bug: apply ran AFTER render, so setPixelRatio cleared the buffer that was about to be presented.
+  it('applies a change decided by sample() at the start of the NEXT frame, before render', () => {
+    let change = true;
+    const { calls, step } = setup(false, () => {
+      const c = change;
+      change = false;
+      return c;
+    });
+    step.run(0, 16, 0);
+    expect(calls).toEqual(['render', 'sample']); // decided, not applied after this draw
+    calls.length = 0;
+    step.run(1, 32, 16);
+    expect(calls).toEqual(['apply', 'render', 'sample']);
+  });
+
+  it('never leaves apply as the last thing a callback does', () => {
+    let change = true;
+    const { calls, step } = setup(false, () => change);
+    for (let i = 0; i < 6; i++) {
+      calls.length = 0;
+      step.run(i, 16 * (i + 1), 16 * i);
+      expect(calls.at(-1)).not.toBe('apply');
+      change = i % 2 === 0;
+    }
+  });
+
+  it('applies once per change, not on every frame', () => {
+    let change = true;
+    const { calls, step } = setup(false, () => {
+      const c = change;
+      change = false;
+      return c;
+    });
+    for (let i = 0; i < 5; i++) step.run(i, 16 * (i + 1), 16 * i);
+    expect(calls.filter((c) => c === 'apply').length).toBe(1);
+  });
+
+  it('keeps the change pending across a skipped half-rate vsync', () => {
+    const { calls, step, setHalf } = setup(false, () => false);
+    step.markDirty();
+    setHalf(true);
+    expect(step.run(1, 16, 0)).toBe(false); // odd vsync: skipped, nothing drawn
+    expect(calls).toEqual([]);
+    expect(step.run(2, 32, 0)).toBe(true);
+    expect(calls).toEqual(['apply', 'render', 'sample']);
+  });
+
+  it('markDirty() (devicePixelRatio changed) is also consumed before the next draw', () => {
+    const { calls, step } = setup();
+    step.markDirty();
+    step.run(0, 16, 0);
+    expect(calls.slice(0, 2)).toEqual(['apply', 'render']);
+  });
+});
+
+// ---- INC-02: hysteresis, timed in milliseconds ----
+
+/**
+ * Wall-clock simulation of the production governor: every vsync is observed, a frame
+ * is on time when `capable(ratio, half)` and one vsync late otherwise.
+ */
+function simulate(hz: number, totalMs: number, capable: (ratio: number, half: boolean) => boolean) {
+  const gov = createQualityGovernor(2, 1, QUALITY);
+  const v = vsyncOf(hz);
+  for (let i = 0; i < 20; i++) gov.observeVsync(v); // the probe before the first draw
+  let t = 0;
+  const ups: number[] = [];
+  const downs: number[] = [];
+  while (t < totalMs) {
+    const period = gov.halfRate ? 2 : 1;
+    const vsyncs = period * (capable(gov.ratio, gov.halfRate) ? 1 : 2);
+    for (let k = 0; k < vsyncs; k++) gov.observeVsync(v);
+    t += vsyncs * v;
+    const before = gov.ratio;
+    if (gov.sample(vsyncs * v)) (gov.ratio > before ? ups : downs).push(t);
+  }
+  return { gov, ups, downs, t };
+}
+
+describe('governor timing is wall-clock, not frame counts', () => {
+  it('windows are sized in time: ~windowMs of frames on 60 and 165Hz', () => {
+    expect(windowAt(QUALITY, 60)).toBe(30);
+    expect(windowAt(QUALITY, 165)).toBeGreaterThanOrEqual(80);
+  });
+
+  it('reacts to sustained load after the same wall-clock time on 60 and 165Hz', () => {
+    const slow = () => false;
+    const a = simulate(60, 10_000, slow).downs[0];
+    const b = simulate(165, 10_000, slow).downs[0];
+    expect(a).toBeGreaterThan(0);
+    // Warm-up is counted in frames (event hitches); the rest is time. Same order of magnitude.
+    expect(b / a).toBeGreaterThan(0.6);
+    expect(b / a).toBeLessThan(1.4);
+  });
+
+  it('probes up at the same wall-clock cadence on 60 and 165Hz', () => {
+    const holds = (ratio: number) => ratio <= 1.5; // 1.445 holds, 1.7 never does
+    const a = simulate(60, 300_000, holds).ups;
+    const b = simulate(165, 300_000, holds).ups;
+    expect(Math.abs(a.length - b.length)).toBeLessThanOrEqual(1);
+    expect(a[0]).toBeGreaterThan(4000); // never sooner than the calm stretch
+    expect(Math.abs(a[0] - b[0]) / a[0]).toBeLessThan(0.3);
+  });
+});
+
+describe('probe hysteresis (no blink every few seconds)', () => {
+  const holds = (ratio: number) => ratio <= 1.5;
+
+  it('probes a failing notch rarely: at most a handful of times in 5 minutes', () => {
+    for (const hz of [60, 165]) {
+      expect(simulate(hz, 300_000, holds).ups.length).toBeLessThanOrEqual(6);
+    }
+  });
+
+  it('waits longer after every failed probe of the same notch', () => {
+    const ups = simulate(60, 600_000, holds).ups;
+    expect(ups.length).toBeGreaterThanOrEqual(4);
+    const gaps = ups.slice(1).map((t, i) => t - ups[i]);
+    expect(gaps[1]).toBeGreaterThan(gaps[0] * 1.5);
+    expect(gaps[2]).toBeGreaterThan(gaps[1] * 1.5);
+  });
+
+  // 1.228 -> 1.445 buys 0.22 of pixel ratio: not worth risking another visible step
+  // soon after a probe already failed.
+  it('does not probe up for a small gain while the last probe failed recently', () => {
+    const holdsLow = (ratio: number) => ratio <= 1.3; // holds 1.228, fails 1.445
+    const ups = simulate(60, 300_000, holdsLow).ups;
+    expect(ups.length).toBeGreaterThanOrEqual(2);
+    const quiet = QUALITY.recentFailWindows * windowAt(QUALITY, 60) * vsyncOf(60);
+    expect(ups[1] - ups[0]).toBeGreaterThanOrEqual(quiet * 0.9);
+  });
+
+  it('still probes a big gain soon after a failure (1.7 -> 2 is +0.3)', () => {
+    // Fails 2, holds 1.7; a failed probe of the top notch must not block a later recovery
+    // from a lower notch once the load goes away.
+    let heavy = true;
+    const gov = createQualityGovernor(2, 1, QUALITY);
+    const v = vsyncOf(60);
+    for (let i = 0; i < 20; i++) gov.observeVsync(v);
+    let t = 0;
+    let climbed = false;
+    while (t < 120_000) {
+      const vs = heavy && gov.ratio > 1.5 ? 2 : 1;
+      for (let k = 0; k < vs; k++) gov.observeVsync(v);
+      t += vs * v;
+      gov.sample(vs * v);
+      if (t > 30_000) heavy = false;
+      if (heavy === false && gov.ratio === 2) climbed = true;
+    }
+    expect(climbed).toBe(true);
   });
 });

@@ -156,15 +156,27 @@ export const QUALITY = {
   /** Relative change below which a new percentile is noise and the estimate stays put. */
   vsyncTolerance: 0.1,
   /**
-   * Evaluations in a row that must all read a longer vsync before the estimate follows
+   * Time the evaluations must ALL read a longer vsync before the estimate follows
    * (window dragged to a slower monitor: the DPR hook doesn't fire when only the refresh
-   * rate differs). 20 x `vsyncEvery` gaps is longer than any governor reaction, so
-   * sustained GPU load steps the resolution down first. Going shorter is immediate.
+   * rate differs). Longer than any governor reaction on any refresh rate, so sustained
+   * GPU load steps the resolution down before the estimate can drift up to the slowed
+   * cadence. Going shorter is immediate.
    */
-  vsyncRiseEvals: 20,
-  /** Rendered frames per evaluation window, ~0.5s at 60fps (~0.18s at 165Hz). */
-  windowFrames: 30,
-  /** Frames ignored after the loop starts or resumes: shader warm-up, tab-switch catch-up. */
+  vsyncRiseMs: 5000,
+  /**
+   * Length of an evaluation window, in wall-clock time: the window holds
+   * `windowMs / (vsync x period)` rendered frames (30 at 60Hz, ~82 at 165Hz). Every
+   * timing below that counts windows (down/up/backoff/hold) is therefore the same
+   * number of seconds on every display. Counting frames made them 2.75x faster on 165Hz.
+   */
+  windowMs: 500,
+  /** Floor for the frames in a window (a slow cadence at half rate still needs a sample). */
+  minWindowFrames: 8,
+  /**
+   * Frames (not time) ignored after the loop starts or resumes: shader warm-up,
+   * tab-switch catch-up. Like `settleFrames` this is a handful of event-driven hitch
+   * frames, not an elapsed time.
+   */
   warmupFrames: 45,
   /** Frames ignored after a pixel-ratio change or a resize: the buffer reallocation hitch. */
   settleFrames: 10,
@@ -174,10 +186,24 @@ export const QUALITY = {
   calmShare: 0.04,
   /** Over-budget windows in a row before stepping down. A GC pause only ever spoils one. */
   downWindows: 2,
-  /** Calm windows in a row (~4s) before probing one notch up. */
+  /** Calm windows in a row (4s) before probing one notch up. */
   upWindows: 8,
-  /** Extra windows to wait before probing a notch that failed; doubles on each failure. */
-  probeBackoff: { initial: 8, max: 240 },
+  /**
+   * Windows to wait before probing again a notch that failed, per notch: starts at
+   * `initial` (12s) and doubles with each failure of THAT notch up to `max` (2 min).
+   * A success only clears its own notch, so a lucky probe of one notch doesn't reset
+   * the wait of the notch that keeps failing.
+   */
+  probeBackoff: { initial: 24, max: 240 },
+  /**
+   * After a failed probe, for this many windows (60s) only probes that buy at least
+   * `minProbeGain` of pixel ratio are tried. Small steps (1.23 to 1.45) are barely
+   * visible, and failing them is: the resolution jump is the only thing the viewer sees.
+   * A step that doubles the cadence (half rate back to full) always counts as big.
+   */
+  recentFailWindows: 120,
+  /** Pixel-ratio gain a probe must buy while a failure is recent (0.25: 1.7 to 2 qualifies, 1.23 to 1.45 doesn't). */
+  minProbeGain: 0.25,
   /**
    * Least drop in the late-frame share a step down must buy. Under iOS Low Power
    * Mode, Chrome's Energy Saver or a CPU-bound page the rAF cadence is ~30fps at
@@ -187,7 +213,7 @@ export const QUALITY = {
   /** Useless steps down in a row before giving up: the resolution is restored and held. */
   maxIneffectiveSteps: 2,
   /**
-   * Windows without any step down after giving up (240 ≈ 2-4 min); doubles each
+   * Windows without any step down after giving up (240 = 2 min); doubles each
    * time, so a throttled device sees one short dip, not a resolution that pumps.
    */
   hold: { initial: 240, max: 1920 },
