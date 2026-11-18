@@ -1,24 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, OnDestroy, signal, ElementRef, ViewChild, AfterViewInit, PLATFORM_ID, afterNextRender, DestroyRef } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, ElementRef, viewChild, afterNextRender, DestroyRef } from '@angular/core';
 import { TitleComponent } from '@atoms/title/title.component';
 import { ButtonPrimaryComponent } from '@atoms/button-primary/button-primary.component';
 import { I18nService } from '@app/services/i18n.service';
 import { ABOUT_TITLE } from '@constants/appConst';
-import { trigger, state, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
-import { take, timer } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { USER } from '@constants/userConst';
-import { YEARS_OF_EXPERIENCE } from '@constants/experience';
-
-interface StatCardData {
-  icon: string;
-  title: string;
-  value: number;
-  subtitle: string;
-  delay: number;
-  color: 'purple' | 'blue' | 'green' | 'red';
-}
+import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 
 const ICONS: Record<string, string> = {
   'calendar': `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,146 +41,44 @@ const ICONS: Record<string, string> = {
   styleUrl: './about-me.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TitleComponent, ButtonPrimaryComponent],
-  animations: [
-    trigger('fadeInUp', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(30px)' }),
-        animate('0.8s ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
-      ])
-    ]),
-    trigger('fadeInLeft', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateX(-50px)' }),
-        animate('0.8s 0.3s ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
-      ])
-    ]),
-    trigger('fadeInRight', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateX(50px)' }),
-        animate('0.8s 0.5s ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
-      ])
-    ]),
-    trigger('scaleUp', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'scale(0.9)' }),
-        animate('0.6s ease-out', style({ opacity: 1, transform: 'scale(1)' }))
-      ])
-    ]),
-    trigger('slideScale', [
-      transition(':enter', [
-        style({ scaleX: 0 }),
-        animate('1s 0.5s ease-out', style({ scaleX: 1 }))
-      ])
-    ])
-  ]
 })
-export class AboutMeLayout implements OnDestroy {
+export class AboutMeLayout {
   protected readonly i18nService = inject(I18nService);
-  private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly motion = inject(ReducedMotionService);
 
-  @ViewChild('sectionRef', { static: true }) sectionRef!: ElementRef;
+  private readonly sectionRef = viewChild.required<ElementRef<HTMLElement>>('sectionRef');
 
   protected readonly ABOUT_TITLE = computed(() => this.i18nService.getConstant('appConst')?.ABOUT_TITLE || ABOUT_TITLE);
   protected readonly PHOTO = USER.photo;
   protected readonly DOWNLOAD_LINK = USER.downloadCv;
   protected readonly titleID: string = 'bento-about-tt';
-  protected readonly Math = Math;
-
-  protected isBrowser = isPlatformBrowser(this.platformId);
-
-  // Animated counters
-  protected experienceCount = signal(0);
-  protected projectsCount = signal(0);
-  protected isInView = signal(false);
-
-  private intersectionObserver?: IntersectionObserver;
-  private animationFrames: number[] = [];
-
 
   constructor() {
+    // Content is always rendered (SSR included) so layout never shifts.
+    // Reveal and pause states are plain classes toggled outside change detection.
     afterNextRender(() => {
-      this.isBrowser = isPlatformBrowser(this.platformId);
-      if (this.isBrowser && this.sectionRef) {
-        this.setupIntersectionObserver();
-        this.intersectionObserver!.observe(this.sectionRef.nativeElement);
-      }
+      const el = this.sectionRef().nativeElement;
+      if (typeof IntersectionObserver === 'undefined' || this.motion.prefersReducedMotion()) return;
+
+      // Hidden state only exists once JS runs, so no-JS users still see content.
+      el.classList.add('anim-ready');
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          el.classList.toggle('offscreen', !entry.isIntersecting);
+          if (entry.isIntersecting) el.classList.add('revealed');
+        },
+        { threshold: 0.05 },
+      );
+      observer.observe(el);
+      this.destroyRef.onDestroy(() => observer.disconnect());
     });
-  }
-
-  ngOnDestroy() {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-    if (this.intersectionObserver) {
-      this.intersectionObserver.disconnect();
-    }
-    if (this.isBrowser) {
-      this.animationFrames.forEach(frame => cancelAnimationFrame(frame));
-    }
-  }
-
-  private setupIntersectionObserver() {
-    this.intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !this.isInView()) {
-            this.isInView.set(true);
-            this.startCounters();
-          }
-        });
-      },
-      { threshold: 0.05, rootMargin: '0px' }
-    );
-  }
-
-  private startCounters() {
-    // Experience counter (auto-calculated years)
-    this.animateCounter(0, YEARS_OF_EXPERIENCE, 2000, 1000, (value) => this.experienceCount.set(value));
-
-    // Projects counter (50 projects)
-    this.animateCounter(0, 50, 2500, 1200, (value) => this.projectsCount.set(value));
-  }
-
-    private animateCounter(start: number, end: number, duration: number, delay: number, callback: (value: number) => void) {
-    if (!this.isBrowser) {
-      // Fallback for SSR - just set the final value
-      callback(end);
-      return;
-    }
-
-    timer(delay).pipe(take(1), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      const startTime = performance.now();
-
-      const animate = (currentTime: number) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        const currentValue = Math.floor(progress * end);
-        callback(currentValue);
-
-        if (progress < 1) {
-          const frame = requestAnimationFrame(animate);
-          this.animationFrames.push(frame);
-        }
-      };
-
-      const frame = requestAnimationFrame(animate);
-      this.animationFrames.push(frame);
-    })
   }
 
   protected getIconSvg(iconName: string): SafeHtml {
     const defaultIcon = ICONS[iconName];
     return this.sanitizer.bypassSecurityTrustHtml(defaultIcon);
-  }
-
-  protected getColorClasses(color: string): string {
-    const colorMap: { [key: string]: string } = {
-      'purple': 'text-purple-300',
-      'blue': 'text-blue-300',
-      'green': 'text-green-300',
-      'red': 'text-red-300'
-    };
-    return colorMap[color] || 'text-purple-300';
   }
 }
