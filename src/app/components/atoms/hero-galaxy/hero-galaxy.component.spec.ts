@@ -1,5 +1,7 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import type { GalaxySceneHooks } from '@app/lib/galaxy-scene';
 import {
+  FIRST_FRAME_TIMEOUT_MS,
   GALAXY_SCENE_LOADER,
   HeroGalaxyComponent,
   type GalaxySceneFactory,
@@ -55,7 +57,7 @@ describe('HeroGalaxyComponent', () => {
     await mountWithScene();
 
     expect(createGalaxyScene).toHaveBeenCalledTimes(1);
-    expect(createGalaxyScene).toHaveBeenCalledWith(fixture.nativeElement);
+    expect(createGalaxyScene).toHaveBeenCalledWith(fixture.nativeElement, expect.any(Object));
     expect(failed).toBe(0);
   });
 
@@ -108,6 +110,128 @@ describe('HeroGalaxyComponent', () => {
 
     expect(() => fixture.destroy()).not.toThrow();
     expect(cleanup).not.toHaveBeenCalled();
+  });
+});
+
+// The scene can create a context and still never show a frame (a compile that
+// never settles, a lost context, a program that fails to link). The component
+// owns the fallback decision: no frame in time, or a reported failure → `failed`.
+describe('HeroGalaxyComponent (first-frame watchdog)', () => {
+  let fixture: ComponentFixture<HeroGalaxyComponent>;
+  let failed: number;
+  let hooks: GalaxySceneHooks | undefined;
+  const cleanup = vi.fn();
+  const createGalaxyScene = vi.fn<GalaxySceneFactory>((_host, h) => {
+    hooks = h;
+    return cleanup;
+  });
+
+  /** Fake timers drive both the boot (afterNextRender, the awaited loader) and the watchdog. */
+  const flush = async (ms = 20) => {
+    fixture.detectChanges();
+    await vi.advanceTimersByTimeAsync(ms);
+  };
+
+  const mount = async (loader: () => Promise<GalaxySceneFactory> = async () => createGalaxyScene) => {
+    await TestBed.configureTestingModule({
+      imports: [HeroGalaxyComponent],
+      providers: [{ provide: GALAXY_SCENE_LOADER, useValue: loader }],
+    }).compileComponents();
+    fixture = TestBed.createComponent(HeroGalaxyComponent);
+    fixture.componentInstance.failed.subscribe(() => failed++);
+    await flush();
+  };
+
+  let warn: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    failed = 0;
+    hooks = undefined;
+    cleanup.mockClear();
+    createGalaxyScene.mockClear();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+    warn.mockRestore();
+  });
+
+  it('hands the scene its lifecycle hooks', async () => {
+    await mount();
+    expect(createGalaxyScene).toHaveBeenCalledTimes(1);
+    expect(hooks?.onFirstFrame).toEqual(expect.any(Function));
+    expect(hooks?.onActiveChange).toEqual(expect.any(Function));
+    expect(hooks?.onFailure).toEqual(expect.any(Function));
+  });
+
+  it('emits failed and releases the scene when no frame shows up in time', async () => {
+    await mount();
+    await vi.advanceTimersByTimeAsync(FIRST_FRAME_TIMEOUT_MS);
+    expect(failed).toBe(1);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(cleanup).toHaveBeenCalledTimes(1);
+    // Destroying afterwards must not release it twice.
+    fixture.destroy();
+    expect(cleanup).toHaveBeenCalledTimes(1);
+  });
+
+  it('stays quiet once the first frame is presented', async () => {
+    await mount();
+    hooks!.onFirstFrame!();
+    await vi.advanceTimersByTimeAsync(10 * FIRST_FRAME_TIMEOUT_MS);
+    expect(failed).toBe(0);
+    expect(cleanup).not.toHaveBeenCalled();
+  });
+
+  // Hidden tab, hero off-screen, faded out by scroll: legitimately not drawing.
+  it('does not count time while the scene reports it is idle', async () => {
+    await mount();
+    hooks!.onActiveChange!(false);
+    await vi.advanceTimersByTimeAsync(10 * FIRST_FRAME_TIMEOUT_MS);
+    expect(failed).toBe(0);
+    hooks!.onActiveChange!(true);
+    await vi.advanceTimersByTimeAsync(FIRST_FRAME_TIMEOUT_MS);
+    expect(failed).toBe(1);
+  });
+
+  it('emits failed when the scene reports a failure (context lost, shader link error)', async () => {
+    await mount();
+    hooks!.onFirstFrame!();
+    hooks!.onFailure!('context lost');
+    expect(failed).toBe(1);
+    expect(cleanup).toHaveBeenCalledTimes(1);
+  });
+
+  it('emits failed only once', async () => {
+    await mount();
+    hooks!.onFailure!('context lost');
+    hooks!.onFailure!('shader');
+    await vi.advanceTimersByTimeAsync(10 * FIRST_FRAME_TIMEOUT_MS);
+    expect(failed).toBe(1);
+    expect(warn).toHaveBeenCalledTimes(1);
+  });
+
+  it('stops the watchdog when the component is destroyed', async () => {
+    await mount();
+    fixture.destroy();
+    await vi.advanceTimersByTimeAsync(10 * FIRST_FRAME_TIMEOUT_MS);
+    expect(failed).toBe(0);
+    expect(cleanup).toHaveBeenCalledTimes(1);
+  });
+
+  // The view can go away while the three.js chunk is still loading (hydration
+  // re-render, fast navigation). Registering on a destroyed DestroyRef throws
+  // NG0911 and would leak a live WebGL context nobody can release.
+  it('never builds a scene for a view destroyed while the chunk was loading', async () => {
+    let release!: (f: GalaxySceneFactory) => void;
+    await mount(() => new Promise((r) => (release = r)));
+    fixture.destroy();
+    release(createGalaxyScene);
+    await vi.advanceTimersByTimeAsync(10 * FIRST_FRAME_TIMEOUT_MS);
+    expect(createGalaxyScene).not.toHaveBeenCalled();
+    expect(failed).toBe(0);
+    expect(warn).not.toHaveBeenCalled();
   });
 });
 

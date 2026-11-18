@@ -5,6 +5,7 @@ import {
   framingFor,
   glslFloat,
   isFrameDue,
+  isShortLandscape,
   needsResize,
   settleWithin,
   zoomOutFor,
@@ -43,7 +44,7 @@ describe('framingFor', () => {
 
   it('keeps the landscape framing untouched', () => {
     for (const aspect of [FRAMING.minAspect, 1.41, 16 / 9, 2.4]) {
-      expect(framingFor(aspect)).toEqual({ zoom: zoomOutFor(aspect), magnify: 1, lift: 0, brightness: 1 });
+      expect(framingFor(aspect)).toEqual({ zoom: zoomOutFor(aspect), magnify: 1, lift: 0, shift: 0, brightness: 1 });
     }
   });
 
@@ -62,6 +63,7 @@ describe('framingFor', () => {
         zoom: P.zoom,
         magnify: P.magnify,
         lift: P.lift,
+        shift: 0,
         brightness: P.brightness,
       });
     }
@@ -85,6 +87,78 @@ describe('framingFor', () => {
 
   it('brings the camera closer than the old zoom-out on phones (bigger galaxy)', () => {
     expect(framingFor(0.44).zoom).toBeLessThan(zoomOutFor(0.44));
+  });
+});
+
+// Landscape phones: the hero copy is centered and the viewport is short, so the
+// default framing parks the bright core right on the name and role text.
+describe('isShortLandscape', () => {
+  const max = FRAMING.shortLandscape.maxHeightPx;
+
+  it('matches landscape phones', () => {
+    expect(isShortLandscape({ w: 844, h: 390 })).toBe(true);
+    expect(isShortLandscape({ w: 932, h: 430 })).toBe(true);
+    expect(isShortLandscape({ w: 667, h: 375 })).toBe(true);
+  });
+
+  // Same breakpoint as the hero CSS: `(orientation: landscape) and (max-height: 500px)`.
+  it('uses the hero CSS breakpoint, inclusive', () => {
+    expect(isShortLandscape({ w: 900, h: max })).toBe(true);
+    expect(isShortLandscape({ w: 900, h: max + 1 })).toBe(false);
+  });
+
+  it('leaves desktops, tablets and portrait phones alone', () => {
+    expect(isShortLandscape({ w: 1440, h: 900 })).toBe(false);
+    expect(isShortLandscape({ w: 1280, h: 720 })).toBe(false);
+    expect(isShortLandscape({ w: 1024, h: 768 })).toBe(false);
+    expect(isShortLandscape({ w: 390, h: 844 })).toBe(false);
+    expect(isShortLandscape({ w: 360, h: 740 })).toBe(false);
+    // CSS calls a square viewport portrait (height >= width), so does this.
+    expect(isShortLandscape({ w: 400, h: 400 })).toBe(false);
+  });
+});
+
+describe('framingFor (viewport-aware)', () => {
+  const L = FRAMING.shortLandscape;
+  const P = FRAMING.portrait;
+
+  it('keeps desktop framing bit-identical when given a desktop viewport', () => {
+    for (const [w, h] of [[1440, 900], [1280, 800], [1920, 1080], [1280, 720]]) {
+      expect(framingFor(w / h, { w, h })).toEqual(framingFor(w / h));
+    }
+  });
+
+  it('keeps portrait phones bit-identical when given their viewport', () => {
+    for (const [w, h] of [[390, 844], [360, 740], [768, 1024]]) {
+      expect(framingFor(w / h, { w, h })).toEqual(framingFor(w / h));
+    }
+  });
+
+  it('shifts the core sideways and dims it on landscape phones', () => {
+    const f = framingFor(844 / 390, { w: 844, h: 390 });
+    expect(f.shift).toBe(L.shift);
+    expect(f.shift).toBeGreaterThan(0);
+    expect(f.brightness).toBe(L.brightness);
+    expect(f.brightness).toBeLessThan(1);
+    expect(f.magnify).toBe(L.magnify);
+    expect(f.lift).toBe(L.lift);
+    expect(f.zoom).toBe(zoomOutFor(844 / 390));
+  });
+
+  // The hero's height (and so the canvas aspect) depends on how much copy fits:
+  // detection is by viewport, so a tall canvas on a short screen still gets it.
+  it('detects landscape phones by viewport, whatever the canvas aspect', () => {
+    for (const aspect of [2.2, 1.6, 1.07, 0.9]) {
+      const f = framingFor(aspect, { w: 844, h: 390 });
+      expect(f.shift).toBe(L.shift);
+      expect(f.brightness).toBe(L.brightness);
+      expect(f.lift).toBe(L.lift);
+    }
+  });
+
+  it('never applies the portrait lift on a landscape phone', () => {
+    expect(framingFor(0.9, { w: 844, h: 390 }).lift).toBe(L.lift);
+    expect(L.lift).toBeLessThan(P.lift);
   });
 });
 

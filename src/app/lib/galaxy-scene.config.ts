@@ -86,8 +86,10 @@ export const LOOP = {
    * Longest the loop waits for the shaders to compile in the background before it
    * starts anyway (and compiles them on the first frame, as it did before).
    * It only matters when the parallel-compile extension never reports "ready".
+   * Kept well under hero-galaxy's `FIRST_FRAME_TIMEOUT_MS` (a spec checks it), so
+   * a stuck compile still gets its first frame on screen before the fallback.
    */
-  compileTimeoutMs: 3000,
+  compileTimeoutMs: 1500,
 } as const;
 
 // ---- Adaptive resolution ----
@@ -193,6 +195,30 @@ export const FRAMING = {
     /** Image lift as a fraction of the canvas height (a lens shift: the perspective doesn't change). Puts the core above the name. */
     lift: 0.21,
     /** Brightness multiplier for the stars and the core glow. */
+    brightness: 0.8,
+  },
+  /**
+   * Landscape phones. The hero copy is a centered column and the viewport is too
+   * short to lift the core above it, so the default framing parked the bright core
+   * right on the name and the role text (~1:1 contrast). Instead the image slides
+   * sideways (a horizontal lens shift, like the portrait `lift`) so the core sits
+   * in the empty band right of the copy, and the copy keeps dim arms behind it.
+   *
+   * Detected by viewport, not canvas aspect: the hero's height depends on how much
+   * copy fits, so the canvas aspect on these screens is anything from ~1 to ~2.4.
+   * Replaces the portrait blend there; desktop, tablets and portrait phones never
+   * get here.
+   */
+  shortLandscape: {
+    /** Same breakpoint as the hero CSS: `(orientation: landscape) and (max-height: 500px)`. */
+    maxHeightPx: 500,
+    /** Image shift to the right, as a fraction of the canvas width: 0.32 puts the core at ~82% of the width. */
+    shift: 0.32,
+    /** Telephoto magnification: slightly bigger, so it reads as a deliberate side element and not a speck. */
+    magnify: 1.15,
+    /** Image lift as a fraction of the canvas height. */
+    lift: 0,
+    /** Brightness multiplier: the inner arms still cross the copy. */
     brightness: 0.8,
   },
 } as const;

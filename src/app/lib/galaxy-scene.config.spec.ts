@@ -1,4 +1,5 @@
-import { CORE_GLOW, DEVICE, PALETTES, QUALITY, type GradientStop } from './galaxy-scene.config';
+import { FIRST_FRAME_TIMEOUT_MS } from '@app/components/atoms/hero-galaxy/hero-galaxy.component';
+import { CORE_GLOW, DEVICE, FRAMING, LOOP, PALETTES, QUALITY, type GradientStop } from './galaxy-scene.config';
 
 // The palettes are hand-tuned data; the gradient lookup in galaxy-scene.ts relies
 // on these invariants, so a tweak that breaks one fails here, not on screen.
@@ -67,5 +68,28 @@ describe('CORE_GLOW.alphaTest', () => {
   it('only discards fragments that contribute under 1/4 of an 8-bit step', () => {
     expect(CORE_GLOW.alphaTest).toBeGreaterThan(0);
     expect(CORE_GLOW.alphaTest * 255).toBeLessThanOrEqual(0.25);
+  });
+});
+
+// The hero falls back to the CSS orbits when no frame shows up in time. A compile
+// that never reports "ready" must start the loop (compile on first frame) well
+// before that watchdog gives up on it.
+describe('LOOP.compileTimeoutMs', () => {
+  it('leaves the first frame room before the hero-galaxy watchdog fires', () => {
+    expect(LOOP.compileTimeoutMs).toBeLessThanOrEqual(FIRST_FRAME_TIMEOUT_MS - 750);
+  });
+});
+
+describe('FRAMING.shortLandscape', () => {
+  const L = FRAMING.shortLandscape;
+
+  it('moves the core sideways but keeps it inside the frame', () => {
+    expect(L.shift).toBeGreaterThan(0);
+    expect(L.shift).toBeLessThan(0.5);
+  });
+
+  it('only ever dims', () => {
+    expect(L.brightness).toBeGreaterThan(0);
+    expect(L.brightness).toBeLessThanOrEqual(1);
   });
 });

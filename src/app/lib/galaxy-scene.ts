@@ -37,15 +37,28 @@ export interface Framing {
   readonly magnify: number;
   /** Image lift, as a fraction of the canvas height. */
   readonly lift: number;
+  /** Image shift to the right, as a fraction of the canvas width. */
+  readonly shift: number;
   /** Multiplier on the galaxy's opacity. */
   readonly brightness: number;
 }
 
+/** A phone on its side: landscape (CSS calls a square portrait) and no taller than the hero CSS breakpoint. */
+export function isShortLandscape(viewport: Size): boolean {
+  return viewport.w > viewport.h && viewport.h <= FRAMING.shortLandscape.maxHeightPx;
+}
+
 /**
  * Framing by canvas aspect: the original zoom-out on landscape, blending smoothly
- * into `FRAMING.portrait` as the canvas turns portrait. Runs on resize only.
+ * into `FRAMING.portrait` as the canvas turns portrait. A short landscape
+ * viewport (phone on its side) gets `FRAMING.shortLandscape` instead, whatever
+ * the canvas aspect. Runs on resize only.
  */
-export function framingFor(aspect: number): Framing {
+export function framingFor(aspect: number, viewport?: Size): Framing {
+  if (viewport && isShortLandscape(viewport)) {
+    const l = FRAMING.shortLandscape;
+    return { zoom: zoomOutFor(aspect), magnify: l.magnify, lift: l.lift, shift: l.shift, brightness: l.brightness };
+  }
   const p = FRAMING.portrait;
   const x = Math.min(1, Math.max(0, (FRAMING.minAspect - aspect) / (FRAMING.minAspect - p.aspect)));
   const t = x * x * (3 - 2 * x); // smoothstep: no kink where the blend starts or ends
@@ -55,6 +68,7 @@ export function framingFor(aspect: number): Framing {
     zoom: mix(zoomOutFor(aspect), p.zoom),
     magnify: mix(1, p.magnify),
     lift: mix(0, p.lift),
+    shift: 0,
     brightness: mix(1, p.brightness),
   };
 }
@@ -297,6 +311,24 @@ export function createQualityGovernor(cap: number, floor: number, cfg: QualityCo
 
 const easeOutCubic = (x: number) => 1 - Math.pow(1 - x, 3);
 
+/** What the scene reports to its host. All optional. */
+export interface GalaxySceneHooks {
+  /** Once, after the first frame was drawn with linked shader programs. */
+  onFirstFrame?(): void;
+  /**
+   * Whether a frame is due right now: tab visible, container on screen, not faded
+   * out by scroll. Reported right after creation, then on every change until the
+   * first frame. "Not active" is the scene legitimately idling, not failing.
+   */
+  onActiveChange?(active: boolean): void;
+  /**
+   * Once, when the scene can no longer draw: the WebGL context was lost, or a
+   * shader program failed to link. The loop is already stopped; the host should
+   * fall back and call the cleanup.
+   */
+  onFailure?(reason: string): void;
+}
+
 /**
  * Spiral galaxy particle field for the hero section. Every tunable value lives
  * in `galaxy-scene.config.ts`; this module is only the mechanism.
@@ -306,9 +338,10 @@ const easeOutCubic = (x: number) => 1 - Math.pow(1 - x, 3);
  * zoneless app. Only import this from the browser — it touches `window` at call time.
  *
  * @param container element the canvas is appended to; it drives size and visibility
+ * @param hooks first-frame, activity and failure reports (see `GalaxySceneHooks`)
  * @returns a cleanup function, or `null` when WebGL is unavailable (caller falls back)
  */
-export function createGalaxyScene(container: HTMLElement): (() => void) | null {
+export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHooks = {}): (() => void) | null {
   // Outside the try: a failure after the context exists must still release it.
   let renderer: THREE.WebGLRenderer | undefined;
   try {
@@ -335,6 +368,19 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       powerPreference: 'low-power',
     });
     const gl = renderer;
+    // A program that fails to link draws nothing, forever, while three keeps
+    // "rendering" it. Replacing three's logger keeps the diagnostics and turns
+    // the failure into a fallback. three calls this synchronously the first time
+    // the program is used (compile() or the first render).
+    gl.debug.onShaderError = (ctx, program, vs, fs) => {
+      console.warn(
+        'HeroGalaxy: shader program failed to link.',
+        ctx.getProgramInfoLog(program),
+        ctx.getShaderInfoLog(vs),
+        ctx.getShaderInfoLog(fs)
+      );
+      fail('shader program failed to link');
+    };
     const governor = createQualityGovernor(pixelRatio(), forDevice(QUALITY.minPixelRatio));
     gl.setPixelRatio(governor.ratio);
     // Telephoto factor of the current framing (`fit()` sets it). The shader sizes
@@ -543,6 +589,11 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
     let raf = 0;
     let running = false;
     let disposed = false;
+    // Context lost or a program failed to link: nothing will ever draw again.
+    let broken = false;
+    // First frame reported; `active` is the last activity reported before it.
+    let presented = false;
+    let active: boolean | undefined;
     // Shaders compiled (or the compile timeout passed): the loop may start.
     let ready = false;
     let clock = 0;
@@ -583,16 +634,18 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       gl.setSize(buffer.w, buffer.h, false);
       gl.domElement.style.height = `${buffer.h}px`;
       camera.aspect = buffer.w / buffer.h;
-      const framing = framingFor(camera.aspect);
+      const framing = framingFor(camera.aspect, { w: window.innerWidth, h: window.innerHeight });
       brightness = framing.brightness;
       magnify = framing.magnify;
       camera.zoom = magnify;
       uniforms.uSize.value = pointSize();
       camera.position.copy(baseOffset).multiplyScalar(framing.zoom).add(target);
-      // Lens shift: render a window `lift` lower in the full frame, which moves the
-      // image up without touching the perspective. No offset at all on landscape.
-      if (framing.lift > 0) {
-        camera.setViewOffset(buffer.w, buffer.h, 0, framing.lift * buffer.h, buffer.w, buffer.h);
+      // Lens shift: render a window `lift` lower (and `shift` further left) in the
+      // full frame, which moves the image up (and right) without touching the
+      // perspective. No offset at all on desktop.
+      if (framing.lift !== 0 || framing.shift !== 0) {
+        const x = framing.shift === 0 ? 0 : -framing.shift * buffer.w;
+        camera.setViewOffset(buffer.w, buffer.h, x, framing.lift * buffer.h, buffer.w, buffer.h);
       } else {
         camera.clearViewOffset();
       }
@@ -636,10 +689,11 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       tintGlow();
 
       gl.render(scene, camera);
+      reportPresented();
     };
 
     const loop = (now: number) => {
-      if (disposed) return;
+      if (disposed || broken) return;
       if (isFrameDue(now, last)) {
         const gap = now - last;
         render(now);
@@ -650,7 +704,7 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
     };
 
     const setRunning = (on: boolean) => {
-      if (disposed || on === running) return;
+      if (disposed || (on && broken) || on === running) return;
       running = on;
       if (on) {
         last = performance.now();
@@ -663,7 +717,31 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
     };
     // Zero GPU work until the shaders are ready, and whenever the hero is
     // off-screen, the tab is hidden, or the scroll fade reached full transparency.
-    const syncRunning = () => setRunning(ready && !hidden && inView && fade > MOTION.stopOpacity);
+    const syncRunning = () => {
+      const due = !hidden && inView && fade > MOTION.stopOpacity;
+      if (due !== active && !presented && !broken) {
+        active = due;
+        hooks.onActiveChange?.(due);
+      }
+      setRunning(ready && due);
+    };
+
+    // Reported once the first frame was drawn by linked programs: a link failure
+    // reports itself through onShaderError during that same render, first.
+    function reportPresented(): void {
+      if (presented || broken) return;
+      presented = true;
+      const err = gl.getContext().getError(); // once: a sync point, never per frame
+      if (err !== 0) console.warn(`HeroGalaxy: WebGL error 0x${err.toString(16)} after the first frame.`);
+      hooks.onFirstFrame?.();
+    }
+
+    function fail(reason: string): void {
+      if (broken || disposed) return;
+      broken = true;
+      setRunning(false);
+      hooks.onFailure?.(reason);
+    }
 
     const paintStaticFrame = () => {
       uniforms.uTime.value = MOTION.stillTime;
@@ -674,10 +752,11 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       halo.material.opacity = CORE_GLOW.halo.opacity * brightness;
       tintGlow();
       gl.render(scene, camera);
+      reportPresented();
     };
     // Reduced motion: repaint the still frame when something it depends on changes.
     const repaintStill = () => {
-      if (reduce && ready) paintStaticFrame();
+      if (reduce && ready && !broken) paintStaticFrame();
     };
 
     // ---- Shader precompile ----
@@ -700,7 +779,7 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
     let settled = false;
     const gate = settleWithin(precompile(), LOOP.compileTimeoutMs).then(() => {
       settled = true;
-      if (disposed) return;
+      if (disposed || broken) return;
       ready = true;
       if (reduce) {
         // Reduced motion: the still frame first, no scroll/mouse listeners. The
@@ -712,6 +791,16 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       }
       syncRunning();
     });
+
+    // ---- Context loss ----
+    // Lost (GPU reset, memory pressure, too many live contexts): stop drawing and
+    // let the host fall back to the CSS orbits instead of rebuilding. A restore
+    // is never guaranteed to come, a context lost for one of those reasons tends
+    // to be lost again, and a rebuild re-uploads everything for a decorative
+    // background. The cleanup's own forceContextLoss() fires this event too; by
+    // then the listener is gone and `disposed` is set.
+    const onContextLost = () => fail('WebGL context lost');
+    gl.domElement.addEventListener('webglcontextlost', onContextLost);
 
     // ---- Listeners / observers ----
     // Pointer normalized to [-0.5, 0.5] on each axis, 0 at the viewport center.
@@ -778,6 +867,7 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       document.addEventListener('visibilitychange', onVis);
       onScroll(); // seeds `fade` for a page loaded mid-scroll; the gate starts the loop
     }
+    syncRunning(); // reports the initial activity; the loop itself waits for the gate
 
     const releaseGpu = () => {
       geo.dispose();
@@ -791,6 +881,7 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
+      gl.domElement.removeEventListener('webglcontextlost', onContextLost);
       io.disconnect();
       ro.disconnect();
       mo.disconnect();
