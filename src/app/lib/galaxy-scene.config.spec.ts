@@ -1,5 +1,15 @@
 import { FIRST_FRAME_TIMEOUT_MS } from '@app/components/atoms/hero-galaxy/hero-galaxy.component';
-import { CORE_GLOW, DEVICE, FRAMING, LOOP, PALETTES, QUALITY, type GradientStop } from './galaxy-scene.config';
+import {
+  CORE_GLOW,
+  DEVICE,
+  FRAMING,
+  GALAXY,
+  LOOP,
+  MOTION,
+  PALETTES,
+  QUALITY,
+  type GradientStop,
+} from './galaxy-scene.config';
 
 // The palettes are hand-tuned data; the gradient lookup in galaxy-scene.ts relies
 // on these invariants, so a tweak that breaks one fails here, not on screen.
@@ -91,5 +101,49 @@ describe('FRAMING.shortLandscape', () => {
   it('only ever dims', () => {
     expect(L.brightness).toBeGreaterThan(0);
     expect(L.brightness).toBeLessThanOrEqual(1);
+  });
+});
+
+// Scroll-linked depth: the galaxy recedes as the hero scrolls away. Gentle by
+// construction, so it can never outrun the page or flip the disc.
+describe('MOTION.scrollDepth', () => {
+  const S = MOTION.scrollDepth;
+
+  it('only ever pulls the camera back, and not by much', () => {
+    expect(S.dolly).toBeGreaterThanOrEqual(0);
+    expect(S.dolly).toBeLessThanOrEqual(0.5);
+  });
+
+  // lag 1 would pin the galaxy to the viewport; above it the galaxy would sink.
+  it('lags the page without ever standing still against it', () => {
+    expect(S.lag).toBeGreaterThanOrEqual(0);
+    expect(S.lag).toBeLessThan(1);
+  });
+
+  it('smooths at a positive rate with an invisible snap', () => {
+    expect(S.rate).toBeGreaterThan(0);
+    expect(S.snap).toBeGreaterThan(0);
+    expect(S.snap).toBeLessThan(0.01);
+  });
+
+  // Base tilt + the steepest framing + the full scroll tilt must stay short of face-on.
+  it('never tilts the disc past face-on', () => {
+    const steepest = GALAXY.tilt.x + Math.max(0, FRAMING.portrait.tilt) + S.tilt;
+    expect(Math.abs(steepest)).toBeLessThan(Math.PI / 2 - 0.3);
+  });
+});
+
+describe('CORE_GLOW.ignition', () => {
+  const I = CORE_GLOW.ignition;
+
+  it('is a brief flare, well inside the intro', () => {
+    expect(I.durationMs).toBeGreaterThan(200);
+    expect(I.durationMs).toBeLessThanOrEqual(1000);
+    expect(I.durationMs / 1000).toBeLessThan(1 / MOTION.introRate);
+  });
+
+  it('only ever brightens and grows the core', () => {
+    expect(I.scale).toBeGreaterThanOrEqual(0);
+    expect(I.opacity).toBeGreaterThanOrEqual(0);
   });
 });

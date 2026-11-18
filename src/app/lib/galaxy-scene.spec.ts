@@ -4,15 +4,18 @@ import {
   frameDelta,
   framingFor,
   glslFloat,
+  ignition,
   isFrameDue,
   isShortLandscape,
   needsResize,
+  scrollProgress,
   settleWithin,
+  smoothstep,
   zoomOutFor,
   type QualityConfig,
   type QualityGovernor,
 } from './galaxy-scene';
-import { FRAMING, LOOP } from './galaxy-scene.config';
+import { FRAMING, LOOP, MOTION } from './galaxy-scene.config';
 
 const MAX_ZOOM_OUT = FRAMING.maxZoomOut;
 const MIN_FRAME_MS = LOOP.minFrameMs;
@@ -44,7 +47,14 @@ describe('framingFor', () => {
 
   it('keeps the landscape framing untouched', () => {
     for (const aspect of [FRAMING.minAspect, 1.41, 16 / 9, 2.4]) {
-      expect(framingFor(aspect)).toEqual({ zoom: zoomOutFor(aspect), magnify: 1, lift: 0, shift: 0, brightness: 1 });
+      expect(framingFor(aspect)).toEqual({
+        zoom: zoomOutFor(aspect),
+        magnify: 1,
+        lift: 0,
+        shift: 0,
+        brightness: 1,
+        tilt: 0,
+      });
     }
   });
 
@@ -55,6 +65,7 @@ describe('framingFor', () => {
     expect(f.lift).toBeLessThan(0.01);
     expect(f.magnify).toBeLessThan(1.01);
     expect(f.brightness).toBeGreaterThan(0.99);
+    expect(Math.abs(f.tilt)).toBeLessThan(0.01);
   });
 
   it('applies the full portrait framing on phones', () => {
@@ -65,6 +76,7 @@ describe('framingFor', () => {
         lift: P.lift,
         shift: 0,
         brightness: P.brightness,
+        tilt: P.tilt,
       });
     }
   });
@@ -78,6 +90,7 @@ describe('framingFor', () => {
       expect(Math.abs(f.zoom - prev.zoom)).toBeLessThan(0.03);
       expect(Math.abs(f.lift - prev.lift)).toBeLessThan(0.01);
       expect(f.magnify).toBeGreaterThanOrEqual(prev.magnify);
+      expect(Math.abs(f.tilt - prev.tilt)).toBeLessThan(0.02);
       prev = f;
     }
     const squarish = framingFor(0.9);
@@ -143,6 +156,8 @@ describe('framingFor (viewport-aware)', () => {
     expect(f.magnify).toBe(L.magnify);
     expect(f.lift).toBe(L.lift);
     expect(f.zoom).toBe(zoomOutFor(844 / 390));
+    // The steeper portrait view is a portrait-only knob: the side framing keeps the desktop disc.
+    expect(f.tilt).toBe(0);
   });
 
   // The hero's height (and so the canvas aspect) depends on how much copy fits:
@@ -267,6 +282,93 @@ describe('approach', () => {
 
   it('stays put when already on the target', () => {
     expect(approach(1, 1, 5, 0.016, 0.001)).toBe(1);
+  });
+});
+
+describe('smoothstep', () => {
+  it('lands exactly on 0 and 1 and passes through the middle', () => {
+    expect(smoothstep(0)).toBe(0);
+    expect(smoothstep(1)).toBe(1);
+    expect(smoothstep(0.5)).toBe(0.5);
+  });
+
+  it('clamps outside [0, 1]', () => {
+    expect(smoothstep(-2)).toBe(0);
+    expect(smoothstep(3)).toBe(1);
+  });
+
+  // Flat at both ends: the scroll depth starts and settles without a kink.
+  it('eases in and out, monotonically', () => {
+    expect(smoothstep(0.1)).toBeLessThan(0.1);
+    expect(smoothstep(0.9)).toBeGreaterThan(0.9);
+    let prev = 0;
+    for (let x = 0; x <= 1; x += 0.05) {
+      expect(smoothstep(x)).toBeGreaterThanOrEqual(prev);
+      prev = smoothstep(x);
+    }
+  });
+});
+
+// How far the hero has been scrolled away, over MOTION.fadeDistance viewport heights.
+describe('scrollProgress', () => {
+  const vh = 800;
+  const fadePx = vh * MOTION.fadeDistance;
+
+  it('is 0 at the top and 1 once the fade distance is scrolled', () => {
+    expect(scrollProgress(0, vh)).toBe(0);
+    expect(scrollProgress(fadePx, vh)).toBe(1);
+    expect(scrollProgress(fadePx * 3, vh)).toBe(1);
+  });
+
+  it('is linear in between', () => {
+    expect(scrollProgress(fadePx * 0.3, vh)).toBeCloseTo(0.3);
+  });
+
+  // iOS rubber-band overscroll reports a negative scrollY at the top.
+  it('never goes negative', () => {
+    expect(scrollProgress(-60, vh)).toBe(0);
+  });
+
+  it('survives a zero-height viewport', () => {
+    expect(Number.isFinite(scrollProgress(10, 0))).toBe(true);
+  });
+});
+
+// The core's brief flare when the galaxy first appears.
+describe('ignition', () => {
+  const d = 0.6;
+
+  it('is 0 before it starts and once it is over', () => {
+    expect(ignition(-0.1, d)).toBe(0);
+    expect(ignition(0, d)).toBe(0);
+    expect(ignition(d, d)).toBe(0);
+    expect(ignition(5, d)).toBe(0);
+  });
+
+  it('peaks at 1 inside the window', () => {
+    let peak = 0;
+    for (let t = 0; t <= d; t += d / 200) peak = Math.max(peak, ignition(t, d));
+    expect(peak).toBeCloseTo(1, 2);
+  });
+
+  // A flare: fast attack, slower release.
+  it('rises faster than it decays', () => {
+    let peakAt = 0;
+    let peak = 0;
+    for (let t = 0; t <= d; t += d / 200) {
+      if (ignition(t, d) > peak) {
+        peak = ignition(t, d);
+        peakAt = t;
+      }
+    }
+    expect(peakAt).toBeLessThan(d / 2);
+  });
+
+  it('stays within [0, 1]', () => {
+    for (let t = 0; t <= d; t += d / 50) {
+      expect(ignition(t, d)).toBeGreaterThanOrEqual(0);
+      expect(ignition(t, d)).toBeLessThanOrEqual(1);
+    }
   });
 });
 

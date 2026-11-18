@@ -196,6 +196,12 @@ export const FRAMING = {
     lift: 0.21,
     /** Brightness multiplier for the stars and the core glow. */
     brightness: 0.8,
+    /**
+     * Extra disc tilt toward the viewer, radians, added to `GALAXY.tilt.x`. The
+     * desktop view grazes the disc at ~10°, which reads as a flat band on a narrow
+     * screen; tilting the near rim down opens the spiral arms up. 0 keeps the desktop angle.
+     */
+    tilt: 0.35,
   },
   /**
    * Landscape phones. The hero copy is a centered column and the viewport is too
@@ -289,6 +295,15 @@ export const CORE_GLOW = {
   ],
   /** Small bright glow: breathes in size (`pulse`) and flickers in opacity. */
   core: { scale: 2, opacity: 0.2, flicker: 0.04, flickerSpeed: 1.9, pulse: 0.05, pulseSpeed: 1.4 },
+  /**
+   * Ignition: when the first frame shows, the core flares (fast attack, slower
+   * release, peak at a third of `durationMs`) so the galaxy reads as switching on
+   * rather than just fading in. `scale` is the extra core size at the peak, as a
+   * fraction. `opacity` is extra core opacity at the peak, as a multiple of
+   * `core.opacity`, added on top of the intro fade (not scaled by it): the core
+   * lights up while the arms are still faint. Skipped under reduced motion; 0 and 0 turn it off.
+   */
+  ignition: { durationMs: 600, scale: 0.5, opacity: 1.5 },
   /** Wide, faint glow around the core. */
   halo: { scale: 6.5, opacity: 0.06 },
   /**
@@ -322,6 +337,31 @@ export const MOTION = {
   parallax: { yaw: 0.16, pitch: 0.1, rate: 3 },
   /** Scroll distance, in viewport heights, over which the galaxy fades out. */
   fadeDistance: 0.9,
+  /**
+   * Scroll-linked depth. As the hero scrolls away (progress 0 → 1 over
+   * `fadeDistance`) the galaxy recedes instead of only fading: the camera dollies
+   * back, the disc tips a little toward the viewer, and the image lags behind the
+   * page like a distant plane. It is smoothed per frame (dt-based, like the
+   * parallax), so it glides even when scroll events arrive in bursts, and it
+   * reverses the same way on the way back up. At the top of the page all three
+   * are exactly 0: the framing is untouched. Not applied under reduced motion
+   * (that path has no scroll listener at all).
+   */
+  scrollDepth: {
+    /** Extra camera distance at full progress, as a fraction of the framed distance (eased). */
+    dolly: 0.3,
+    /** Extra disc tilt toward the viewer at full progress, radians (eased). */
+    tilt: 0.16,
+    /**
+     * Image lag as a fraction of the scrolled distance (linear, so it moves like a
+     * plane further away): 0.5 → the galaxy scrolls at half the page speed.
+     */
+    lag: 0.5,
+    /** How fast the smoothed progress catches up with the scroll position, per second. */
+    rate: 5,
+    /** The smoothed progress snaps onto the scroll position this close to it, so the camera stops being updated. */
+    snap: 0.0005,
+  },
   /** Opacity under which the loop stops, since nothing visible is left to draw. */
   stopOpacity: 0.01,
 } as const;

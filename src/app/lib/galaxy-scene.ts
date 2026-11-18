@@ -41,6 +41,31 @@ export interface Framing {
   readonly shift: number;
   /** Multiplier on the galaxy's opacity. */
   readonly brightness: number;
+  /** Extra disc tilt toward the viewer, radians, on top of `GALAXY.tilt.x`. */
+  readonly tilt: number;
+}
+
+/** Hermite smoothstep on [0, 1], clamped: flat at both ends, so blends start and settle without a kink. */
+export function smoothstep(x: number): number {
+  const t = Math.min(1, Math.max(0, x));
+  return t * t * (3 - 2 * t);
+}
+
+/** How far the hero has scrolled away: 0 at the top, 1 after `MOTION.fadeDistance` viewport heights. */
+export function scrollProgress(scrollY: number, viewportH: number): number {
+  return Math.min(1, Math.max(0, scrollY / (Math.max(1, viewportH) * MOTION.fadeDistance)));
+}
+
+/**
+ * Flare envelope for the core's ignition, `t` seconds after the first frame:
+ * 0 outside (0, duration), peaking at exactly 1 a third of the way in. The
+ * x·(1−x)² shape gives a fast attack and a slower release.
+ */
+export function ignition(t: number, duration: number): number {
+  const x = t / duration;
+  if (!(x > 0 && x < 1)) return 0;
+  const rest = 1 - x;
+  return 6.75 * x * rest * rest; // 27/4 normalizes the peak at x = 1/3 to 1
 }
 
 /** A phone on its side: landscape (CSS calls a square portrait) and no taller than the hero CSS breakpoint. */
@@ -57,11 +82,17 @@ export function isShortLandscape(viewport: Size): boolean {
 export function framingFor(aspect: number, viewport?: Size): Framing {
   if (viewport && isShortLandscape(viewport)) {
     const l = FRAMING.shortLandscape;
-    return { zoom: zoomOutFor(aspect), magnify: l.magnify, lift: l.lift, shift: l.shift, brightness: l.brightness };
+    return {
+      zoom: zoomOutFor(aspect),
+      magnify: l.magnify,
+      lift: l.lift,
+      shift: l.shift,
+      brightness: l.brightness,
+      tilt: 0,
+    };
   }
   const p = FRAMING.portrait;
-  const x = Math.min(1, Math.max(0, (FRAMING.minAspect - aspect) / (FRAMING.minAspect - p.aspect)));
-  const t = x * x * (3 - 2 * x); // smoothstep: no kink where the blend starts or ends
+  const t = smoothstep((FRAMING.minAspect - aspect) / (FRAMING.minAspect - p.aspect));
   // a·(1−t) + b·t lands exactly on both ends: landscape stays bit-identical.
   const mix = (a: number, b: number) => a * (1 - t) + b * t;
   return {
@@ -70,6 +101,7 @@ export function framingFor(aspect: number, viewport?: Size): Framing {
     lift: mix(0, p.lift),
     shift: 0,
     brightness: mix(1, p.brightness),
+    tilt: mix(0, p.tilt),
   };
 }
 
@@ -613,6 +645,16 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
     let hidden = document.hidden;
     // Galaxy brightness from the framing (dimmer on portrait, behind the copy).
     let brightness = 1;
+    // Framing set by `fit()` on resize; `applyView()` composes it with the scroll depth.
+    let framedZoom = 1;
+    let framedTilt = 0;
+    let framedLift = 0;
+    let framedShift = 0;
+    // Scroll depth: `scrollTarget` follows scroll events, `depth` glides toward it
+    // per frame. Both are progress in [0, 1]; see MOTION.scrollDepth.
+    let scrollTarget = 0;
+    let depth = 0;
+    let fadePx = window.innerHeight * MOTION.fadeDistance;
 
     // `approach` lands exactly on the target, so once the palette blend settles
     // the two color lerps stop running every frame.
@@ -639,20 +681,33 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
       magnify = framing.magnify;
       camera.zoom = magnify;
       uniforms.uSize.value = pointSize();
-      camera.position.copy(baseOffset).multiplyScalar(framing.zoom).add(target);
-      // Lens shift: render a window `lift` lower (and `shift` further left) in the
-      // full frame, which moves the image up (and right) without touching the
-      // perspective. No offset at all on desktop.
-      if (framing.lift !== 0 || framing.shift !== 0) {
-        const x = framing.shift === 0 ? 0 : -framing.shift * buffer.w;
-        camera.setViewOffset(buffer.w, buffer.h, x, framing.lift * buffer.h, buffer.w, buffer.h);
-      } else {
-        camera.clearViewOffset();
-      }
-      camera.updateProjectionMatrix();
+      framedZoom = framing.zoom;
+      framedTilt = framing.tilt;
+      framedLift = framing.lift;
+      framedShift = framing.shift;
+      applyView();
       // The reallocation hitch is not GPU load.
       governor.rewarm(QUALITY.settleFrames);
     };
+
+    // Framing plus scroll depth: camera distance, disc tilt and lens shift. Runs
+    // on resize and on frames where the smoothed depth moved; allocation-free.
+    // At depth 0 it reproduces the framing exactly (no view offset on desktop).
+    function applyView(): void {
+      const S = MOTION.scrollDepth;
+      const eased = smoothstep(depth);
+      // Dolly: slide back along the same line of sight, so no lookAt is needed.
+      camera.position.copy(baseOffset).multiplyScalar(framedZoom * (1 + S.dolly * eased)).add(target);
+      galaxy.rotation.x = GALAXY.tilt.x + framedTilt + S.tilt * eased;
+      // Lens shift: render a window `lift` lower (and `shift` further left) in the
+      // full frame, which moves the image up (and right) without touching the
+      // perspective. The scroll lag moves the window up, so the image trails the page.
+      const x = framedShift === 0 ? 0 : -framedShift * buffer.w;
+      const y = framedLift * buffer.h - S.lag * depth * fadePx;
+      if (x !== 0 || y !== 0) camera.setViewOffset(buffer.w, buffer.h, x, y, buffer.w, buffer.h);
+      else camera.clearViewOffset();
+      camera.updateProjectionMatrix();
+    }
     fit();
 
     // Points are sized in drawing-buffer pixels: `uSize` follows the pixel ratio so
@@ -677,14 +732,24 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
 
       galaxy.scale.setScalar(THREE.MathUtils.lerp(MOTION.introStartScale, 1, introEased));
       galaxy.rotation.y += dt * GALAXY.driftSpeed;
+      if (depth !== scrollTarget) {
+        const S = MOTION.scrollDepth;
+        depth = approach(depth, scrollTarget, S.rate, dt, S.snap);
+        applyView();
+      }
       const follow = Math.min(1, dt * MOTION.parallax.rate);
       rig.rotation.y += (mx * MOTION.parallax.yaw - rig.rotation.y) * follow;
       rig.rotation.x += (my * MOTION.parallax.pitch - rig.rotation.x) * follow;
 
       const glow = CORE_GLOW.core;
-      core.scale.setScalar(glow.scale * (1 + glow.pulse * Math.sin(clock * glow.pulseSpeed)));
+      const ig = CORE_GLOW.ignition;
+      const flare = reduce ? 0 : ignition(clock, ig.durationMs / MS_PER_SECOND);
+      core.scale.setScalar(glow.scale * (1 + glow.pulse * Math.sin(clock * glow.pulseSpeed)) * (1 + ig.scale * flare));
+      // The flare is added on top of the intro fade, not scaled by it: the core
+      // lights up first and the arms fade in around it.
       core.material.opacity =
-        (glow.opacity + glow.flicker * Math.sin(clock * glow.flickerSpeed)) * uniforms.uOpacity.value;
+        (glow.opacity + glow.flicker * Math.sin(clock * glow.flickerSpeed)) * uniforms.uOpacity.value +
+        glow.opacity * ig.opacity * flare * fade * brightness;
       halo.material.opacity = CORE_GLOW.halo.opacity * uniforms.uOpacity.value;
       tintGlow();
 
@@ -809,8 +874,9 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
       my = e.clientY / window.innerHeight - 0.5;
     };
     const onScroll = () => {
-      const fadeDistancePx = window.innerHeight * MOTION.fadeDistance;
-      fade = 1 - THREE.MathUtils.clamp(window.scrollY / fadeDistancePx, 0, 1);
+      fadePx = window.innerHeight * MOTION.fadeDistance;
+      scrollTarget = scrollProgress(window.scrollY, window.innerHeight);
+      fade = 1 - scrollTarget;
       syncRunning();
     };
     const onVis = () => {
@@ -866,6 +932,9 @@ export function createGalaxyScene(container: HTMLElement, hooks: GalaxySceneHook
       window.addEventListener('scroll', onScroll, { passive: true });
       document.addEventListener('visibilitychange', onVis);
       onScroll(); // seeds `fade` for a page loaded mid-scroll; the gate starts the loop
+      // ...and the depth, so a reload mid-page doesn't glide in from the top.
+      depth = scrollTarget;
+      applyView();
     }
     syncRunning(); // reports the initial activity; the loop itself waits for the gate
 
