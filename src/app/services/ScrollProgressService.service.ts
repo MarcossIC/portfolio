@@ -7,6 +7,7 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { ReducedMotionService } from './ReducedMotion.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   animationFrameScheduler,
@@ -70,6 +71,7 @@ export class ScrollProgressService implements OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
+  private readonly reducedMotion = inject(ReducedMotionService);
   private springAnimationSubscription: Subscription | null = null;
 
   // Configuración del spring (similar a Framer Motion)
@@ -95,7 +97,7 @@ export class ScrollProgressService implements OnDestroy {
    */
   getScrollY(): Observable<number> {
     if (!this.isBrowser) return of(0);
-    return fromEvent(window, 'scroll').pipe(
+    return fromEvent(window, 'scroll', { passive: true }).pipe(
       takeUntilDestroyed(this.destroyRef),
       startWith(0),
       map(() => window.scrollY),
@@ -164,7 +166,7 @@ export class ScrollProgressService implements OnDestroy {
   startScrollListener() {
     if (!this.isBrowser || this.scrollListenerActive) return;
     this.scrollListenerActive = true;
-    fromEvent(window, 'scroll')
+    fromEvent(window, 'scroll', { passive: true })
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         startWith(0),
@@ -177,7 +179,7 @@ export class ScrollProgressService implements OnDestroy {
       });
 
     // Recalcular en resize
-    fromEvent(window, 'resize')
+    fromEvent(window, 'resize', { passive: true })
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         debounceTime(100),
@@ -284,65 +286,68 @@ export class ScrollProgressService implements OnDestroy {
     this.animationFrame = requestAnimationFrame(animate);
   }
 
+  /** Cancels the in-flight programmatic scroll (set while an animation runs). */
+  private cancelScroll: (() => void) | null = null;
+
   /**
-   * Scroll programático con animación suave a un elemento específico, no target fijo
+   * Programmatic smooth scroll to a live element. The target is re-read every
+   * frame so it converges even if content above reflows (defer/images).
+   * Duration scales with distance (450-1000ms) unless given explicitly.
    */
-  scrollToElement(element: HTMLElement, offset = 0, duration = 800): Promise<void> {
-    if (!this.isBrowser) return Promise.resolve();
-    return new Promise((resolve) => {
-      const start = window.scrollY;
-      const startTime = performance.now();
-
-      const animateScroll = (currentTime: number) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-
-        const currentTop = element.getBoundingClientRect().top + window.scrollY;
-        const target = Math.max(0, currentTop - offset);
-
-        window.scrollTo(0, start + (target - start) * easeOut);
-
-        if (progress < 1) requestAnimationFrame(animateScroll);
-        else {
-          // snap final por si algo reflowó en el último frame
-          const finalTop = element.getBoundingClientRect().top + window.scrollY;
-          window.scrollTo(0, Math.max(0, finalTop - offset));
-          resolve();
-        }
-      };
-
-      requestAnimationFrame(animateScroll);
-    });
+  scrollToElement(element: HTMLElement, offset = 0, duration?: number): Promise<void> {
+    return this.animateScroll(
+      () => Math.max(0, element.getBoundingClientRect().top + window.scrollY - offset),
+      duration
+    );
   }
 
-  /**
-   * Scroll programático con animación suave
-   */
-  scrollTo(target: number, duration: number = 800): Promise<void> {
+  /** Programmatic smooth scroll to an absolute Y. */
+  scrollTo(target: number, duration?: number): Promise<void> {
+    return this.animateScroll(() => target, duration);
+  }
+
+  private animateScroll(getTarget: () => number, explicitDuration?: number): Promise<void> {
     if (!this.isBrowser) return Promise.resolve();
+    this.cancelScroll?.();
+
+    const jump = (top: number) => window.scrollTo({ top, left: 0, behavior: 'instant' });
+
+    if (this.reducedMotion.prefersReducedMotion()) {
+      jump(getTarget());
+      return Promise.resolve();
+    }
+
     return new Promise((resolve) => {
       const start = window.scrollY;
-      const distance = target - start;
+      const duration =
+        explicitDuration ?? Math.min(1000, Math.max(450, 400 + Math.abs(getTarget() - start) * 0.2));
       const startTime = performance.now();
+      let rafId = 0;
 
-      const animateScroll = (currentTime: number) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+      const userEvents = ['wheel', 'touchstart', 'keydown'] as const;
+      const finish = () => {
+        cancelAnimationFrame(rafId);
+        for (const e of userEvents) window.removeEventListener(e, finish);
+        if (this.cancelScroll === finish) this.cancelScroll = null;
+        resolve();
+      };
+      // The user takes over: stop fighting their input.
+      for (const e of userEvents) window.addEventListener(e, finish, { passive: true });
+      this.cancelScroll = finish;
 
-        // Easing function (ease-out)
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-
-        window.scrollTo(0, start + distance * easeOut);
-
-        if (progress < 1) {
-          requestAnimationFrame(animateScroll);
+      const step = (now: number) => {
+        const p = Math.min((now - startTime) / duration, 1);
+        const eased = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; // easeInOutCubic
+        const target = getTarget();
+        if (p < 1) {
+          jump(start + (target - start) * eased);
+          rafId = requestAnimationFrame(step);
         } else {
-          resolve();
+          jump(target); // final snap in case something reflowed in the last frame
+          finish();
         }
       };
-
-      requestAnimationFrame(animateScroll);
+      rafId = requestAnimationFrame(step);
     });
   }
 
@@ -351,6 +356,7 @@ export class ScrollProgressService implements OnDestroy {
       cancelAnimationFrame(this.animationFrame);
       this.animationFrame = null;
     }
+    this.cancelScroll?.();
     this.isAnimating = false;
     this.scrollYProgress$.complete();
     this.smoothScrollYProgress$.complete();

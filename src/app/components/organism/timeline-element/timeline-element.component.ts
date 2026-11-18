@@ -11,6 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { Directions } from '@app/models/types';
+import { ReducedMotionService } from '@app/services/ReducedMotion.service';
 
 /** Max tilt rotation (deg) on each axis — mirrors the reference TiltCard max={7}. */
 const TILT_MAX_DEG = 7;
@@ -47,29 +48,36 @@ export class TimelineElementComponent {
   private hostEl = inject(ElementRef);
   private destroyRef = inject(DestroyRef);
 
-  /** Pending rAF id + the transform to flush on the next frame (avoids per-event writes). */
+  private readonly motion = inject(ReducedMotionService);
+
+  /** Pending rAF id + the latest pointer position to flush on the next frame. */
   private rafId = 0;
-  private pendingTransform = '';
+  private pointerX = 0;
+  private pointerY = 0;
+  /** Card rect cached on pointerenter; null = must be re-read (scroll/resize). */
+  private rect: DOMRect | null = null;
 
   constructor() {
     afterNextRender(() => {
       const host = this.hostEl.nativeElement as HTMLElement;
-      // const prefersReducedMotion = window.matchMedia(
-      //   '(prefers-reduced-motion: reduce)'
-      // ).matches;
+      const reduced = this.motion.prefersReducedMotion();
 
-      this.setupRevealObserver(host, false);
-      this.setupTilt(false);
+      this.setupRevealObserver(host, reduced);
+      this.setupTilt(reduced);
     });
   }
 
-  /** Slide/fade the item in once it scrolls into view. */
+  /**
+   * Slide/fade the item in once it scrolls into view.
+   *
+   * Content is visible by default (SSR / no JS). The hidden "pre-reveal" state
+   * only applies once the client adds `is-armed` right before observing; under
+   * reduced motion it is never armed, so nothing animates.
+   */
   private setupRevealObserver(host: HTMLElement, prefersReducedMotion: boolean) {
-    if (prefersReducedMotion) {
-      this.isVisible.set(true);
-      return;
-    }
+    if (prefersReducedMotion) return;
 
+    host.classList.add('is-armed');
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -87,60 +95,69 @@ export class TimelineElementComponent {
   }
 
   /**
-   * Pointer-driven FLAT tilt, written straight to the card's `transform`.
+   * Pointer-driven tilt, written straight to the card's `transform` in a rAF
+   * (never a signal, so no change detection per pointermove).
    *
-   * Critical: this is a *flat* tilt — `perspective() rotateX rotateY` only, NO
-   * `transform-style: preserve-3d` and NO `translateZ`. A 3D rendering context
-   * disables `backdrop-filter` in Chrome (kills the glass). A flat 2D transform
-   * on the glass element itself does NOT — verified empirically.
-   *
-   * Rotation is flushed in a rAF (never a signal) so per-frame pointermove
-   * doesn't trigger change detection in this zoneless app. The hover glow +
-   * border are pure CSS :hover.
+   * The card rect is read once on pointerenter and again only after a
+   * scroll/resize invalidated it, and always inside the rAF right before the
+   * write, so there is no forced layout per pointermove. Only enabled for
+   * `(hover: hover) and (pointer: fine)` devices without reduced motion.
    */
   private setupTilt(prefersReducedMotion: boolean) {
     const card = this.tiltCard()?.nativeElement;
-    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    if (!card || prefersReducedMotion) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
-    // No tilt on touch devices or when motion is reduced — the card keeps its
-    // glass + CSS hover, just without the rotation.
-    if (!card || prefersReducedMotion || coarsePointer) return;
+    const invalidate = () => {
+      this.rect = null;
+    };
+
+    const onEnter = () => {
+      this.rect = card.getBoundingClientRect();
+      window.addEventListener('scroll', invalidate, { passive: true });
+      window.addEventListener('resize', invalidate, { passive: true });
+    };
 
     const onLeave = () => {
       if (this.rafId) {
         cancelAnimationFrame(this.rafId);
         this.rafId = 0;
       }
-      // Clear the inline transform → back to the stylesheet (none); CSS eases it.
+      this.rect = null;
+      window.removeEventListener('scroll', invalidate);
+      window.removeEventListener('resize', invalidate);
+      // Clear the inline transform -> back to the stylesheet (none); CSS eases it.
       card.style.transform = '';
     };
 
-    const onMove = (event: PointerEvent) => {
-      const rect = card.getBoundingClientRect();
-      const px = (event.clientX - rect.left) / rect.width; // 0..1
-      const py = (event.clientY - rect.top) / rect.height; // 0..1
+    const flush = () => {
+      this.rafId = 0;
+      const rect = (this.rect ??= card.getBoundingClientRect());
+      const px = (this.pointerX - rect.left) / rect.width; // 0..1
+      const py = (this.pointerY - rect.top) / rect.height; // 0..1
       const rotateY = (px - 0.5) * 2 * TILT_MAX_DEG;
       const rotateX = -(py - 0.5) * 2 * TILT_MAX_DEG;
-
-      // Flat tilt + the hover lift, all in one transform on the glass element.
-      this.pendingTransform = `perspective(1000px) rotateX(${rotateX.toFixed(
+      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(
         2
       )}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-${TILT_LIFT}px)`;
-
-      if (!this.rafId) {
-        this.rafId = requestAnimationFrame(() => {
-          card.style.transform = this.pendingTransform;
-          this.rafId = 0;
-        });
-      }
     };
 
-    card.addEventListener('pointermove', onMove);
+    const onMove = (event: PointerEvent) => {
+      this.pointerX = event.clientX;
+      this.pointerY = event.clientY;
+      if (!this.rafId) this.rafId = requestAnimationFrame(flush);
+    };
+
+    card.addEventListener('pointerenter', onEnter);
+    card.addEventListener('pointermove', onMove, { passive: true });
     card.addEventListener('pointerleave', onLeave);
 
     this.destroyRef.onDestroy(() => {
+      card.removeEventListener('pointerenter', onEnter);
       card.removeEventListener('pointermove', onMove);
       card.removeEventListener('pointerleave', onLeave);
+      window.removeEventListener('scroll', invalidate);
+      window.removeEventListener('resize', invalidate);
       if (this.rafId) cancelAnimationFrame(this.rafId);
     });
   }

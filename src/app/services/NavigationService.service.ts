@@ -8,7 +8,7 @@ import { ScrollProgressService } from './ScrollProgressService.service';
 export interface NavigationConfig {
   /**
    * Duración de la animación en milisegundos
-   * Default: 800ms
+   * Default: escala con la distancia (450-1000ms)
    */
   duration?: number;
 
@@ -44,8 +44,7 @@ export class NavigationService {
   private readonly scrollService = inject(ScrollProgressService);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  private readonly defaultConfig: Required<NavigationConfig> = {
-    duration: 800,
+  private readonly defaultConfig: Omit<Required<NavigationConfig>, 'duration'> & Pick<NavigationConfig, 'duration'> = {
     offset: 100,
     fallbackBehavior: 'fallback'
   };
@@ -141,22 +140,6 @@ export class NavigationService {
    */
   sectionExists(sectionId: string): boolean {
     return !!this.document.getElementById(sectionId);
-  }
-
-  /**
-   * Obtiene la posición actual del scroll como porcentaje
-   * @returns Observable con el progreso del scroll (0-1)
-   */
-  getScrollProgress() {
-    return this.scrollService.getScrollYProgress();
-  }
-
-  /**
-   * Obtiene la posición actual del scroll suavizada
-   * @returns Observable con el progreso suavizado del scroll (0-1)
-   */
-  getSmoothScrollProgress() {
-    return this.scrollService.getSmoothScrollProgress();
   }
 
   /**

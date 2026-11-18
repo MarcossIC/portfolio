@@ -6,7 +6,6 @@ import {
   ElementRef,
   inject,
   input,
-  signal,
   viewChild,
 } from '@angular/core';
 import { TimelineElementComponent } from '../timeline-element/timeline-element.component';
@@ -19,10 +18,7 @@ import { ReducedMotionService } from '@app/services/ReducedMotion.service';
   selector: 'timeline-experiency',
   template: `
       <div class="timeline" #timelineContainer>
-        <div
-          class="timeline-progress"
-          [style.--timeline-scale]="timelineFill()"
-        ></div>
+        <div class="timeline-progress" #progress></div>
         @for (ITEM of ITEMS(); track ITEM.ID) {
           <timeline-element
             [cardDirection]="$index % 2 !== 1 ? DIRECTION.LEFT : DIRECTION.RIGHT"
@@ -50,41 +46,48 @@ export class TimelineExperiencyComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly timelineContainer = viewChild<ElementRef>('timelineContainer');
 
-  protected readonly timelineFill = signal(0);
+  private readonly progress = viewChild<ElementRef<HTMLElement>>('progress');
 
   constructor() {
     afterNextRender(() => {
+      const bar = this.progress()?.nativeElement;
+      if (!bar) return;
+
       if (this.motionService.prefersReducedMotion()) {
-        this.timelineFill.set(1);
+        bar.style.setProperty('--timeline-scale', '1');
         return;
       }
 
-      let ticking = false;
+      // Visual-only value: written straight to the element in a rAF (no signal,
+      // no change detection per scroll frame). CSS applies it via scaleY().
+      let rafId = 0;
+      let last = -1;
       const updateFill = () => {
+        rafId = 0;
         const container = this.timelineContainer()?.nativeElement;
         if (!container) return;
 
         const rect = container.getBoundingClientRect();
-        const vh = window.innerHeight;
-
-        if (rect.top > vh) {
-          this.timelineFill.set(0);
-        } else {
-          const fill = Math.min(Math.max((vh - rect.top) / rect.height, 0), 1);
-          this.timelineFill.set(fill);
-        }
-        ticking = false;
+        const fill =
+          rect.top > window.innerHeight || rect.height <= 0
+            ? 0
+            : Math.min(Math.max((window.innerHeight - rect.top) / rect.height, 0), 1);
+        if (Math.abs(fill - last) < 0.001) return;
+        last = fill;
+        bar.style.setProperty('--timeline-scale', String(fill));
       };
 
       const onScroll = () => {
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(updateFill);
-        }
+        if (!rafId) rafId = requestAnimationFrame(updateFill);
       };
 
       window.addEventListener('scroll', onScroll, { passive: true });
-      this.destroyRef.onDestroy(() => window.removeEventListener('scroll', onScroll));
+      window.addEventListener('resize', onScroll, { passive: true });
+      this.destroyRef.onDestroy(() => {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+        if (rafId) cancelAnimationFrame(rafId);
+      });
       onScroll(); // Initial check
     });
   }
