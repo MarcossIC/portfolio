@@ -12,10 +12,15 @@
       <div class="atropos-scale">
         <div class="atropos-rotate">
           <div class="atropos-inner">
-            <div
+            <img
               class="img-container"
-              [style.background-image]="'url(' + SRC() + ')'"
-            ></div>
+              [src]="SRC()"
+              [alt]="TITLE()"
+              width="400"
+              height="400"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
       </div>
@@ -23,7 +28,7 @@
   </a>
 
   <!-- TAGS for project -->
-  <div class="flex flex-nowrap gap-x-4 absolute left-[5%] bottom-[1.75%]">
+  <div class="flex flex-wrap gap-x-4 gap-y-2 absolute left-[5%] right-[5%] bottom-[1.75%]">
     <ng-content></ng-content>
   </div>
 </div>

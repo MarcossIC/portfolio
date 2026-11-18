@@ -50,7 +50,6 @@
   height: 50px;
   /* Soft glow via gradient instead of filter: blur(30px) (no offscreen blur pass). */
   background: radial-gradient(closest-side, #2f1e4d8c 0%, #2f1e4d55 45%, transparent 100%);
-  transform: scale(2.4);
   z-index: -1;
   opacity: 0.75;
   top: 0px;
