@@ -9,6 +9,7 @@ import {
   LOOP,
   MOTION,
   PALETTES,
+  QUALITY,
   SHADER,
   WARM_ATMOS,
   type GradientStop,
@@ -52,6 +53,219 @@ export function glslFloat(value: number): string {
   return Number.isInteger(value) ? value.toFixed(1) : String(value);
 }
 
+/**
+ * Frame-rate independent exponential approach toward `target`, snapped onto it
+ * once within `snap`. Landing exactly on the target is what lets the caller skip
+ * work while nothing changes.
+ */
+export function approach(current: number, target: number, rate: number, dt: number, snap: number): number {
+  const next = current + (target - current) * Math.min(1, dt * rate);
+  return Math.abs(target - next) < snap ? target : next;
+}
+
+/** Resolves when `work` settles — fulfilled or rejected — or after `ms`, whichever comes first. Never rejects. */
+export function settleWithin(work: Promise<unknown>, ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    const timer = setTimeout(resolve, ms);
+    const done = () => {
+      clearTimeout(timer);
+      resolve();
+    };
+    work.then(done, done);
+  });
+}
+
+/** Governor tuning; `QUALITY` in the config is the production value. */
+export interface QualityConfig {
+  readonly step: number;
+  readonly slowFrameMs: number;
+  readonly stallMs: number;
+  readonly windowFrames: number;
+  readonly warmupFrames: number;
+  readonly settleFrames: number;
+  readonly overShare: number;
+  readonly calmShare: number;
+  readonly downWindows: number;
+  readonly upWindows: number;
+  readonly probeBackoff: { readonly initial: number; readonly max: number };
+  readonly minGain: number;
+  readonly maxIneffectiveSteps: number;
+  readonly hold: { readonly initial: number; readonly max: number };
+}
+
+export interface QualityGovernor {
+  /** Pixel ratio the drawing buffer should use now. */
+  readonly ratio: number;
+  /** Feeds the gap (ms) since the previous rendered frame. Returns true when `ratio` changed. */
+  sample(gapMs: number): boolean;
+  /** Ignores at least the next `frames` samples (loop resumed, canvas resized). */
+  rewarm(frames?: number): void;
+  /** New device cap (devicePixelRatio changed): starts over from it. Returns true when `ratio` changed. */
+  setCap(cap: number): boolean;
+}
+
+/**
+ * Adaptive resolution: steps the pixel ratio down a notch while frames keep
+ * coming late, and probes back up after a calm stretch. See `QUALITY` for why it
+ * counts late frames instead of averaging milliseconds.
+ *
+ * Mutable closure state on purpose: it runs once per rendered frame and must not
+ * allocate. Notches are `cap × step^level`, clamped to `floor`.
+ */
+export function createQualityGovernor(cap: number, floor: number, cfg: QualityConfig = QUALITY): QualityGovernor {
+  let maxRatio = cap;
+  let minRatio = Math.min(floor, cap);
+  let maxLevel = 0;
+  let level = 0;
+  let ratio = cap;
+
+  // Current window.
+  let skip = cfg.warmupFrames;
+  let frames = 0;
+  let late = 0;
+  // Window streaks.
+  let over = 0;
+  let overSum = 0;
+  let calm = 0;
+  // Probing up.
+  let probing = false;
+  let probeOk = 0;
+  let upBlock = 0;
+  let backoff = cfg.probeBackoff.initial;
+  // Giving up when stepping down does not help.
+  let lastDownShare = -1;
+  let ineffective = 0;
+  let holdLeft = 0;
+  let holdLen = cfg.hold.initial;
+
+  const buildLadder = () => {
+    // Epsilon: a floor sitting exactly on a notch must not add an empty one.
+    maxLevel =
+      maxRatio > minRatio ? Math.ceil(Math.log(minRatio / maxRatio) / Math.log(cfg.step) - 1e-9) : 0;
+  };
+  buildLadder();
+
+  const resetStreaks = () => {
+    frames = late = 0;
+    over = overSum = calm = 0;
+  };
+
+  const setLevel = (next: number): boolean => {
+    level = Math.min(maxLevel, Math.max(0, next));
+    skip = Math.max(skip, cfg.settleFrames);
+    resetStreaks();
+    const r = Math.max(minRatio, maxRatio * Math.pow(cfg.step, level));
+    if (r === ratio) return false;
+    ratio = r;
+    return true;
+  };
+
+  const stepDown = (share: number): boolean => {
+    if (holdLeft > 0) return false;
+    // Judge the previous step down by what it bought.
+    if (lastDownShare >= 0) {
+      ineffective = share > lastDownShare - cfg.minGain ? ineffective + 1 : 0;
+      lastDownShare = -1;
+    }
+    if (ineffective >= cfg.maxIneffectiveSteps) {
+      // Not fill-bound (throttled rAF, busy main thread): undo the useless steps and hold.
+      const restore = level - ineffective;
+      ineffective = 0;
+      holdLeft = holdLen;
+      holdLen = Math.min(holdLen * 2, cfg.hold.max);
+      return setLevel(restore);
+    }
+    if (level >= maxLevel) return false;
+    lastDownShare = share;
+    return setLevel(level + 1);
+  };
+
+  const evaluate = (share: number): boolean => {
+    if (upBlock > 0) upBlock--;
+    if (holdLeft > 0) holdLeft--;
+    const isOver = share > cfg.overShare;
+    if (!isOver) {
+      lastDownShare = -1;
+      ineffective = 0;
+    }
+
+    if (probing) {
+      if (isOver) {
+        // The notch above is too much: back down, and wait longer before the next try.
+        probing = false;
+        upBlock = backoff;
+        backoff = Math.min(backoff * 2, cfg.probeBackoff.max);
+        return setLevel(level + 1);
+      }
+      if (++probeOk >= cfg.downWindows) {
+        probing = false;
+        backoff = cfg.probeBackoff.initial;
+      }
+    }
+
+    if (isOver) {
+      calm = 0;
+      overSum += share;
+      if (++over < cfg.downWindows) return false;
+      const sustained = overSum / over;
+      over = overSum = 0;
+      return stepDown(sustained);
+    }
+
+    over = overSum = 0;
+    if (share > cfg.calmShare) {
+      calm = 0;
+      return false;
+    }
+    if (++calm < cfg.upWindows || upBlock > 0 || level === 0 || probing) return false;
+    probing = true;
+    probeOk = 0;
+    return setLevel(level - 1);
+  };
+
+  return {
+    get ratio() {
+      return ratio;
+    },
+    sample(gapMs) {
+      // Non-positive: restart stamp taken after the rAF time. Huge: a stall, not load.
+      if (!(gapMs > 0) || gapMs > cfg.stallMs) return false;
+      if (skip > 0) {
+        skip--;
+        return false;
+      }
+      frames++;
+      if (gapMs > cfg.slowFrameMs) late++;
+      if (frames < cfg.windowFrames) return false;
+      const share = late / frames;
+      frames = late = 0;
+      return evaluate(share);
+    },
+    rewarm(n = cfg.warmupFrames) {
+      skip = Math.max(skip, n);
+      resetStreaks();
+    },
+    setCap(next) {
+      maxRatio = next;
+      minRatio = Math.min(floor, next);
+      buildLadder();
+      level = 0;
+      probing = false;
+      upBlock = 0;
+      backoff = cfg.probeBackoff.initial;
+      lastDownShare = -1;
+      ineffective = 0;
+      holdLeft = 0;
+      holdLen = cfg.hold.initial;
+      skip = Math.max(skip, cfg.warmupFrames);
+      resetStreaks();
+      const changed = ratio !== next;
+      ratio = next;
+      return changed;
+    },
+  };
+}
+
 const easeOutCubic = (x: number) => 1 - Math.pow(1 - x, 3);
 
 /**
@@ -70,9 +284,8 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
   let renderer: THREE.WebGLRenderer | undefined;
   try {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobile =
-      window.matchMedia('(pointer: coarse)').matches ||
-      window.innerWidth < DEVICE.mobileBreakpointPx;
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const isMobile = coarsePointer || window.innerWidth < DEVICE.mobileBreakpointPx;
     const forDevice = <T>(value: { readonly mobile: T; readonly desktop: T }): T =>
       isMobile ? value.mobile : value.desktop;
 
@@ -84,11 +297,17 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
     renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: false,
+      // Nothing reads or writes depth (additive blending, depthWrite off, and
+      // additive order doesn't matter), so the default depth buffer is pure cost:
+      // memory plus a clear per frame. Stencil is off by default; stated for clarity.
+      depth: false,
+      stencil: false,
       // Decorative background: never wake the discrete GPU on dual-GPU laptops.
       powerPreference: 'low-power',
     });
     const gl = renderer;
-    gl.setPixelRatio(pixelRatio());
+    const governor = createQualityGovernor(pixelRatio(), forDevice(QUALITY.minPixelRatio));
+    gl.setPixelRatio(governor.ratio);
     const pointSize = () => gl.getPixelRatio() * forDevice(DEVICE.pointScale);
     // Height is set in px by `fit()`, not 100%: on touch devices the buffer may
     // stay taller than the host, which clips it instead of stretching it.
@@ -215,12 +434,18 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       }
     `;
 
+    // mediump overrides three's highp default for this stage only: an 8-bit glow
+    // needs no more, it is cheaper on mobile GPUs, and desktop drivers ignore it.
+    // The vertex stage stays highp (the shader clock grows without bound).
     const fragmentShader = /* glsl */ `
+      precision mediump float;
       varying vec3 vColor;
       varying float vAlpha;
       void main() {
         // 0 at the point's center, 1 at its edge.
         float d = length(gl_PointCoord - 0.5) * 2.0;
+        // The quad's corners have zero glow: skip their blending (~21% of the quad).
+        if (d >= 1.0) discard;
         float glow = pow(max(0.0, 1.0 - d), GLOW_FALLOFF);
         gl_FragColor = vec4(vColor, glow * vAlpha);
       }
@@ -263,6 +488,7 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
         depthWrite: false,
         blending: THREE.AdditiveBlending,
         opacity,
+        alphaTest: CORE_GLOW.alphaTest,
       });
       const s = new THREE.Sprite(m);
       s.scale.setScalar(scale);
@@ -285,6 +511,8 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
     let raf = 0;
     let running = false;
     let disposed = false;
+    // Shaders compiled (or the compile timeout passed): the loop may start.
+    let ready = false;
     let clock = 0;
     let last = 0;
     let intro = 0;
@@ -293,13 +521,19 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
     const isWarm = () => document.documentElement.getAttribute(ATMOS_ATTRIBUTE) === WARM_ATMOS;
     let warm = isWarm() ? 1 : 0;
     let warmTarget = warm;
+    // Blend the sprite tints were last computed for; NaN forces the first tint.
+    let tinted = NaN;
     let mx = 0;
     let my = 0;
     let fade = 1;
     let inView = true;
     let hidden = document.hidden;
 
+    // `approach` lands exactly on the target, so once the palette blend settles
+    // the two color lerps stop running every frame.
     const tintGlow = () => {
+      if (warm === tinted) return;
+      tinted = warm;
       core.material.color.lerpColors(coreCol.neb, coreCol.emb, warm);
       halo.material.color.lerpColors(haloCol.neb, haloCol.emb, warm);
     };
@@ -317,11 +551,15 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       camera.aspect = buffer.w / buffer.h;
       camera.position.copy(baseOffset).multiplyScalar(zoomOutFor(camera.aspect)).add(target);
       camera.updateProjectionMatrix();
+      // The reallocation hitch is not GPU load.
+      governor.rewarm(QUALITY.settleFrames);
     };
     fit();
 
+    // Points are sized in drawing-buffer pixels: `uSize` follows the pixel ratio so
+    // stars keep the same CSS size whatever resolution the governor picks.
     const applyPixelRatio = () => {
-      gl.setPixelRatio(pixelRatio()); // re-applies the current size internally
+      gl.setPixelRatio(governor.ratio); // re-applies the current size internally
       uniforms.uSize.value = pointSize();
     };
 
@@ -330,7 +568,7 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       last = now;
       clock += dt;
       intro = Math.min(1, intro + dt * MOTION.introRate);
-      warm += (warmTarget - warm) * Math.min(1, dt * MOTION.paletteRate);
+      warm = approach(warm, warmTarget, MOTION.paletteRate, dt, MOTION.paletteSnap);
       const introEased = easeOutCubic(intro);
 
       uniforms.uTime.value = clock + MOTION.startTime;
@@ -355,7 +593,12 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
 
     const loop = (now: number) => {
       if (disposed) return;
-      if (isFrameDue(now, last)) render(now);
+      if (isFrameDue(now, last)) {
+        const gap = now - last;
+        render(now);
+        // Applied after the frame: the next one draws at the new resolution.
+        if (governor.sample(gap)) applyPixelRatio();
+      }
       raf = requestAnimationFrame(loop);
     };
 
@@ -364,14 +607,16 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       running = on;
       if (on) {
         last = performance.now();
+        // The first frames after a resume (tab switch, scrolled back) are catch-up, not load.
+        governor.rewarm();
         raf = requestAnimationFrame(loop);
       } else {
         cancelAnimationFrame(raf);
       }
     };
-    // Zero GPU work when the hero is off-screen, the tab is hidden, or the
-    // scroll fade already took the galaxy to full transparency.
-    const syncRunning = () => setRunning(!hidden && inView && fade > MOTION.stopOpacity);
+    // Zero GPU work until the shaders are ready, and whenever the hero is
+    // off-screen, the tab is hidden, or the scroll fade reached full transparency.
+    const syncRunning = () => setRunning(ready && !hidden && inView && fade > MOTION.stopOpacity);
 
     const paintStaticFrame = () => {
       uniforms.uTime.value = MOTION.stillTime;
@@ -383,13 +628,43 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       tintGlow();
       gl.render(scene, camera);
     };
+    // Reduced motion: repaint the still frame when something it depends on changes.
+    const repaintStill = () => {
+      if (reduce && ready) paintStaticFrame();
+    };
 
-    // ---- Reduced motion: one static frame, no listeners, no loop ----
-    if (reduce) {
-      intro = 1;
-      fade = 1;
-      paintStaticFrame();
-    }
+    // ---- Shader precompile ----
+    // The first render would otherwise compile and link the programs inside the
+    // first animation frame — a visible hitch right as the intro starts. With
+    // KHR_parallel_shader_compile, compileAsync links them in the background and
+    // polls; without it, compile() links them synchronously now, before the loop
+    // (compileAsync would only add a "not supported" console warning). Either way
+    // the intro starts on a warm pipeline, and the timeout guarantees it starts.
+    gl.initTexture(tex); // upload the glow texture now, not on the first frame
+    const precompile = (): Promise<unknown> => {
+      try {
+        if (gl.extensions.has('KHR_parallel_shader_compile')) return gl.compileAsync(scene, camera);
+        gl.compile(scene, camera);
+        return Promise.resolve();
+      } catch {
+        return Promise.resolve(); // the first render compiles instead, as before
+      }
+    };
+    let settled = false;
+    const gate = settleWithin(precompile(), LOOP.compileTimeoutMs).then(() => {
+      settled = true;
+      if (disposed) return;
+      ready = true;
+      if (reduce) {
+        // Reduced motion: the still frame first, no scroll/mouse listeners. The
+        // loop still starts below, exactly as the IntersectionObserver's first
+        // callback started it before the precompile gate existed (kept on purpose).
+        intro = 1;
+        fade = 1;
+        paintStaticFrame();
+      }
+      syncRunning();
+    });
 
     // ---- Listeners / observers ----
     // Pointer normalized to [-0.5, 0.5] on each axis, 0 at the viewport center.
@@ -415,7 +690,7 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
 
     const ro = new ResizeObserver(() => {
       fit();
-      if (reduce) paintStaticFrame();
+      repaintStill();
     });
     ro.observe(container);
 
@@ -429,8 +704,10 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       dprQuery.addEventListener('change', onPixelRatioChange);
     };
     const onPixelRatioChange = () => {
+      // New screen, new budget: the governor starts over from the new cap.
+      governor.setCap(pixelRatio());
       applyPixelRatio();
-      if (reduce) paintStaticFrame();
+      repaintStill();
       watchPixelRatio();
     };
     watchPixelRatio();
@@ -441,17 +718,28 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       warmTarget = isWarm() ? 1 : 0;
       if (reduce) {
         warm = warmTarget;
-        paintStaticFrame();
+        repaintStill();
       }
     });
     mo.observe(document.documentElement, { attributes: true, attributeFilter: [ATMOS_ATTRIBUTE] });
 
     if (!reduce) {
-      window.addEventListener('mousemove', onMove, { passive: true });
+      // Touch-first devices get no parallax listener at all: taps would only fire
+      // compatibility mousemoves that nudge the camera for no reason.
+      if (!coarsePointer) window.addEventListener('mousemove', onMove, { passive: true });
       window.addEventListener('scroll', onScroll, { passive: true });
       document.addEventListener('visibilitychange', onVis);
-      onScroll(); // seeds `fade` (and starts the loop) for a page loaded mid-scroll
+      onScroll(); // seeds `fade` for a page loaded mid-scroll; the gate starts the loop
     }
+
+    const releaseGpu = () => {
+      geo.dispose();
+      mat.dispose();
+      tex.dispose();
+      core.material.dispose();
+      halo.material.dispose();
+      releaseRenderer(gl);
+    };
 
     return () => {
       disposed = true;
@@ -463,12 +751,10 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('scroll', onScroll);
       document.removeEventListener('visibilitychange', onVis);
-      geo.dispose();
-      mat.dispose();
-      tex.dispose();
-      core.material.dispose();
-      halo.material.dispose();
-      releaseRenderer(gl);
+      // While compiling, three polls each program's status on a timer; freeing the
+      // programs under that poll would throw from it. Release once it settled.
+      if (settled) releaseGpu();
+      else void gate.then(releaseGpu);
     };
   } catch (e) {
     console.warn('HeroGalaxy: WebGL unavailable, falling back.', e);

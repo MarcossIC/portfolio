@@ -82,6 +82,70 @@ export const LOOP = {
    * galaxy gains nothing from high refresh rates; the GPU would only do twice the work.
    */
   minFrameMs: 1000 / 95,
+  /**
+   * Longest the loop waits for the shaders to compile in the background before it
+   * starts anyway (and compiles them on the first frame, as it did before).
+   * It only matters when the parallel-compile extension never reports "ready".
+   */
+  compileTimeoutMs: 3000,
+} as const;
+
+// ---- Adaptive resolution ----
+
+/**
+ * The governor lowers the drawing-buffer pixel ratio when the galaxy can't hold
+ * ~60fps and raises it back once frames are on time again. Fill-rate is the only
+ * real cost of this scene, and it scales with the square of the pixel ratio.
+ *
+ * It only sees the gaps between rendered rAF frames, and those are quantized to
+ * the display's vsync: a frame is either on time or one vsync late. So it counts
+ * late frames per window instead of averaging milliseconds, and it can't tell
+ * "on budget" from "well under budget" — going back up is a probe that is undone
+ * if it fails. Stars keep their apparent size: `uSize` follows the pixel ratio.
+ */
+export const QUALITY = {
+  /** Lowest pixel ratio the governor may drop to. Soft glow points still read fine at 1x on desktop. */
+  minPixelRatio: { mobile: 0.75, desktop: 1 },
+  /** Each notch multiplies the pixel ratio by this: ≈28% fewer pixels per notch down. */
+  step: 0.85,
+  /**
+   * A rendered frame is late when it comes more than this after the previous one.
+   * Between the healthy gaps (16.7ms at 60/120Hz, 20ms on 100Hz where the cap
+   * renders every other vsync) and the late ones (33.3ms at 60Hz, 22.2ms at 90Hz,
+   * 25ms at 120Hz). At 144Hz a 20.8ms gap (48fps) counts as on time.
+   */
+  slowFrameMs: 21.5,
+  /** Gaps longer than this are stalls (tab switch, breakpoint, a long task), not GPU load: dropped. */
+  stallMs: 250,
+  /** Rendered frames per evaluation window, ~0.5s at 60fps. */
+  windowFrames: 30,
+  /** Frames ignored after the loop starts or resumes: shader warm-up, tab-switch catch-up. */
+  warmupFrames: 45,
+  /** Frames ignored after a pixel-ratio change or a resize: the buffer reallocation hitch. */
+  settleFrames: 10,
+  /** A window is over budget when more than this share of its frames is late (~50fps or worse). */
+  overShare: 0.2,
+  /** A window is calm when at most this share is late: one late frame in a window is a blip. */
+  calmShare: 0.04,
+  /** Over-budget windows in a row before stepping down. A GC pause only ever spoils one. */
+  downWindows: 2,
+  /** Calm windows in a row (~4s) before probing one notch up. */
+  upWindows: 8,
+  /** Extra windows to wait before probing a notch that failed; doubles on each failure. */
+  probeBackoff: { initial: 8, max: 240 },
+  /**
+   * Least drop in the late-frame share a step down must buy. Under iOS Low Power
+   * Mode, Chrome's Energy Saver or a CPU-bound page the rAF cadence is ~30fps at
+   * any resolution, and dropping pixels would only blur the stars.
+   */
+  minGain: 0.1,
+  /** Useless steps down in a row before giving up: the resolution is restored and held. */
+  maxIneffectiveSteps: 2,
+  /**
+   * Windows without any step down after giving up (240 ≈ 2-4 min); doubles each
+   * time, so a throttled device sees one short dip, not a resolution that pumps.
+   */
+  hold: { initial: 240, max: 1920 },
 } as const;
 
 // ---- Camera & framing ----
@@ -174,6 +238,13 @@ export const CORE_GLOW = {
   core: { scale: 2, opacity: 0.2, flicker: 0.04, flickerSpeed: 1.9, pulse: 0.05, pulseSpeed: 1.4 },
   /** Wide, faint glow around the core. */
   halo: { scale: 6.5, opacity: 0.06 },
+  /**
+   * Sprite fragments whose alpha (texture × opacity) is under this are discarded
+   * instead of blended. The halo quad covers ~half the screen and its corners are
+   * fully transparent; at 1/1024 a skipped pixel adds under 1/4 of an 8-bit step,
+   * so nothing visible is lost — only the blending work.
+   */
+  alphaTest: 1 / 1024,
 } as const;
 
 // ---- Motion ----
@@ -189,6 +260,8 @@ export const MOTION = {
   stillTime: 9,
   /** Nebula ⇄ Ember blend rate: ~95% of the way in ~0.6s. */
   paletteRate: 5,
+  /** The blend snaps onto its target this close to it (invisible), so the glow tint stops being recomputed. */
+  paletteSnap: 0.001,
   /**
    * Mouse parallax: rig rotation across the full viewport width (yaw) and height (pitch).
    * The pointer at an edge gets half of it. `rate` sets how fast the rig catches up.
