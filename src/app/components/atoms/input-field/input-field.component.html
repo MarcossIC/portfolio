@@ -11,6 +11,8 @@
     [autocomplete]="autocomplete()"
     placeholder=" "
     autocapitalize="none"
+    [attr.inputmode]="type() === 'email' ? 'email' : null"
+    enterkeyhint="next"
   />
   <label [for]="id()">{{ label() }}</label>
   @if (showSuccess) {

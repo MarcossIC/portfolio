@@ -1,8 +1,9 @@
-footer {
+:host { display: block; width: 100%; }
+.footer-inner {
   width: 100%;
   position: relative; /* sin esto, cosmic-background (.bottom-fade) pinta ENCIMA del texto */
   z-index: 1;
-  padding-bottom: 3rem; /* aire extra: saca el copy del corazon del bottom-fade */
+  padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px)); /* aire extra: saca el copy del corazon del bottom-fade */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,10 +11,13 @@ footer {
   gap: 1rem;
   background: transparent;
 }
-footer ::ng-deep .logo img { height: 56px; width: auto; opacity: 0.9; }
+.footer-inner ::ng-deep .logo img { height: 56px; width: auto; opacity: 0.9; }
 .footer-location { margin: 0; color: var(--text-muted, hsl(270 10% 72%)); font-size: 0.8125rem; }
-.footer-email { display: inline-flex; opacity: 0.85; transition: opacity 150ms ease; }
-.footer-email:hover { opacity: 1; }
+/* 44px tap target around a 19px icon */
+.footer-email { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; opacity: 0.85; transition: opacity 150ms ease; }
+.footer-email:active { opacity: 1; }
+@media (hover: hover) and (pointer: fine) { .footer-email:hover { opacity: 1; } }
+.footer-email:focus-visible { outline: 2px solid var(--cosmic-violet, #d8b4fe); outline-offset: 2px; border-radius: 0.5rem; }
 .footer-email img { height: 19px; width: auto; }
 .footer-copy { margin: 0; display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-faint, hsl(270 8% 52%)); font-size: 0.75rem; }
 ::ng-deep .coffee-icon { width: 14px; height: 14px; flex-shrink: 0; }

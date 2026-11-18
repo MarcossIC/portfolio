@@ -14,7 +14,7 @@
   <div class="form-inner">
     <!-- Name field -->
     <div class="field-group" [class.field-focused]="focused() === 'name'">
-      <label class="field-label">
+      <label class="field-label" for="contact-name">
         {{ CONTACT_FORM().FIELDS.NAME.LABEL }}
       </label>
       <input
@@ -23,6 +23,8 @@
         formControlName="name"
         id="contact-name"
         autocomplete="name"
+        autocapitalize="words"
+        enterkeyhint="next"
         class="field-input"
         [placeholder]="CONTACT_FORM().FIELDS.NAME.PLACEHOLDER"
         [attr.aria-label]="CONTACT_FORM().FIELDS.NAME.ARIA"
@@ -36,7 +38,7 @@
 
     <!-- Email field -->
     <div class="field-group" [class.field-focused]="focused() === 'email'">
-      <label class="field-label">
+      <label class="field-label" for="contact-email">
         {{ CONTACT_FORM().FIELDS.EMAIL.LABEL }}
       </label>
       <input
@@ -45,6 +47,11 @@
         formControlName="email"
         id="contact-email"
         autocomplete="email"
+        inputmode="email"
+        autocapitalize="none"
+        autocorrect="off"
+        spellcheck="false"
+        enterkeyhint="next"
         class="field-input"
         [placeholder]="CONTACT_FORM().FIELDS.EMAIL.PLACEHOLDER"
         [attr.aria-label]="CONTACT_FORM().FIELDS.EMAIL.ARIA"
@@ -58,7 +65,7 @@
 
     <!-- Message field -->
     <div class="field-group" [class.field-focused]="focused() === 'message'">
-      <label class="field-label">
+      <label class="field-label" for="contact-message">
         {{ CONTACT_FORM().FIELDS.MESSAGE.LABEL }}
       </label>
       <textarea
@@ -66,6 +73,8 @@
         formControlName="message"
         id="contact-message"
         rows="4"
+        autocomplete="off"
+        enterkeyhint="enter"
         class="field-input field-textarea"
         [placeholder]="CONTACT_FORM().FIELDS.MESSAGE.PLACEHOLDER"
         [attr.aria-label]="CONTACT_FORM().FIELDS.MESSAGE.ARIA"

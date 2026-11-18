@@ -1,7 +1,6 @@
 <header
-  class="header animate-slide-down"
-  [class.glass-strong]="scrolled()"
-  [class.glass]="!scrolled()"
+  class="header glass animate-slide-down"
+  [class.is-scrolled]="scrolled()"
 >
   <div class="header-container">
     <!-- Logo -->
@@ -11,7 +10,7 @@
 
     <!-- Center nav (desktop) -->
     <nav class="nav-desktop">
-      <div class="nav-pill glass-card">
+      <div class="nav-pill">
         @for (NAVIGATION of NAVIGATIONS(); track NAVIGATION.ID) {
           <navigate
             [path]="NAVIGATION.PATH"
@@ -29,43 +28,45 @@
       <header-menu-options></header-menu-options>
     </div>
 
-    <!-- Mobile hamburger -->
+    <!-- Mobile hamburger -> X (transform only) -->
     <button
-      class="mobile-toggle glass-card"
+      #toggleBtn
+      type="button"
+      class="mobile-toggle"
+      [class.is-open]="mobileOpen()"
       (click)="toggleMobile()"
       [attr.aria-label]="mobileOpen() ? 'Close menu' : 'Open menu'"
       [attr.aria-expanded]="mobileOpen()"
+      aria-controls="mobile-menu"
     >
-      @if (mobileOpen()) {
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      } @else {
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-      }
+      <span class="burger" aria-hidden="true">
+        <span class="burger-bar burger-bar--top"></span>
+        <span class="burger-bar burger-bar--mid"></span>
+        <span class="burger-bar burger-bar--bot"></span>
+      </span>
     </button>
   </div>
 
-  <!-- Mobile dropdown -->
-  @if (mobileOpen()) {
-    <nav class="mobile-nav">
-      @for (NAVIGATION of NAVIGATIONS(); track NAVIGATION.ID) {
-        <navigate
-          [path]="NAVIGATION.PATH"
-          [fragment]="NAVIGATION.FRAGMENT"
-          class="mobile-link"
-          (click)="closeMobile()"
-        >{{ NAVIGATION.LABEL }}</navigate>
-      }
-      <div class="mobile-options">
-        <header-menu-options context="mobile"></header-menu-options>
-        <atmosphere-toggle variant="compact" class="mobile-atmos"></atmosphere-toggle>
-      </div>
-    </nav>
-  }
+  <!-- Mobile menu: always in the DOM, animated with transform + opacity, inert while closed -->
+  <nav
+    #mobilePanel
+    id="mobile-menu"
+    class="mobile-nav"
+    [class.is-open]="mobileOpen()"
+    [attr.inert]="mobileOpen() ? null : ''"
+    aria-label="Mobile"
+  >
+    @for (NAVIGATION of NAVIGATIONS(); track NAVIGATION.ID) {
+      <navigate
+        [path]="NAVIGATION.PATH"
+        [fragment]="NAVIGATION.FRAGMENT"
+        class="mobile-link"
+        (click)="closeMobile('none')"
+      >{{ NAVIGATION.LABEL }}</navigate>
+    }
+    <div class="mobile-options">
+      <header-menu-options context="mobile"></header-menu-options>
+      <atmosphere-toggle variant="compact" class="mobile-atmos"></atmosphere-toggle>
+    </div>
+  </nav>
 </header>

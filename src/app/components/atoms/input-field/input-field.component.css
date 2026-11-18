@@ -9,9 +9,7 @@ input {
   color: rgb(255, 255, 255);
   font-weight: 400;
   font-size: 1rem;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 input:focus {
@@ -97,7 +95,7 @@ label {
   transform: translateY(calc(-50% - 4px));
   pointer-events: none;
   color: rgba(255, 255, 255, 0.7);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease, left 0.3s ease;
   font-size: 1rem;
   background: linear-gradient(to bottom, transparent 45%, rgba(26, 26, 46, 0.9) 45%, rgba(26, 26, 46, 0.9) 55%, transparent 55%);
   padding: 0 6px;

@@ -7,11 +7,17 @@
   padding: 6px 8px;
   min-height: 44px;
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
-.resume-link:hover {
-  background: rgba(255, 255, 255, 0.05);
+@media (hover: hover) and (pointer: fine) {
+  .resume-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.resume-link:active {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .resume-text {
@@ -32,12 +38,14 @@
   width: 14px;
   height: 14px;
   opacity: 0.8;
-  transition: all 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.resume-link:hover .arrow-icon {
-  opacity: 1;
-  transform: translate(2px, -2px);
+@media (hover: hover) and (pointer: fine) {
+  .resume-link:hover .arrow-icon {
+    opacity: 1;
+    transform: translate(2px, -2px);
+  }
 }
 
 /* Responsive design progresivo */

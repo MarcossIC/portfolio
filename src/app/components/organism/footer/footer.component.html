@@ -1,4 +1,5 @@
-<footer aria-label="Site footer">
+<!-- A div, not <footer>: app.component.html already wraps this in a <footer> landmark -->
+<div class="footer-inner">
   <LogoIcon />
   <a
     class="footer-email"
@@ -12,4 +13,4 @@
   </a>
   <p class="footer-location">{{ FOOTER().CONTACT.LOCATION.TEXT }}</p>
   <p class="footer-copy"><CoffeeIcon class="coffee-icon" /><small>{{ FOOTER().COPYRIGHT.TEXT }}</small></p>
-</footer>
+</div>
