@@ -23,8 +23,9 @@ export class AtroposDirective {
     if (!isPlatformBrowser(this.platform)) return;
 
     afterNextRender(() => {
+      // Optional call: jsdom (unit tests of host components) has no matchMedia.
       const canTilt =
-        window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+        !!window.matchMedia?.('(hover: hover) and (pointer: fine)').matches &&
         !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!canTilt || typeof IntersectionObserver === 'undefined') return;
 
