@@ -1,29 +1,27 @@
 <div class="project-img relative">
-  <a
-    [attr.href]="REPO() || null"
-    [attr.target]="REPO() ? '_blank' : null"
-    [title]="TITLE()"
-    [class.cursor-pointer]="!!REPO()"
-    class="link-to-repo z-20 outline-none focus:outline-none"
-    #projectImg
-  >
+  <div class="project-shot z-20" #projectImg>
     <!-- Container for atropos -->
     <div class="atropos project-atropos-content" useAtropos>
       <div class="atropos-scale">
         <div class="atropos-rotate">
           <div class="atropos-inner">
-            <div
+            <img
               class="img-container"
-              [style.background-image]="'url(' + SRC() + ')'"
-            ></div>
+              [src]="SRC()"
+              [alt]="TITLE()"
+              width="400"
+              height="400"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
       </div>
     </div>
-  </a>
+  </div>
 
-  <!-- TAGS for project -->
-  <div class="flex flex-nowrap gap-x-4 absolute left-[5%] bottom-[1.75%]">
+  <!-- Tech stack row (in flow, under the screenshot) -->
+  <div class="project-tags">
     <ng-content></ng-content>
   </div>
 </div>

@@ -1,7 +1,0 @@
-.about{
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100vh - 100px);
-    margin-inline: 1rem;
-    padding: 0 2.25rem;
-}

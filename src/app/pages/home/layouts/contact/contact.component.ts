@@ -5,13 +5,15 @@ import {
   computed,
   DestroyRef,
   inject,
+  signal,
+  viewChild,
 } from '@angular/core';
-import { type Observable, catchError } from 'rxjs';
+import { type Observable, EMPTY, catchError, finalize } from 'rxjs';
 import type { ContactState } from '@app/models/contactState.model';
 import { ToastService } from '@app/lib/toast/Toast.service';
 import { ContactFormComponent } from '@app/components/organism/contact-form/contact-form.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CONTACT_TITLE } from '@constants/appConst';
+import { CONTACT_FORM, CONTACT_TITLE } from '@constants/appConst';
 import { I18nService } from '@app/services/i18n.service';
 import { USER } from '@constants/userConst';
 import { ScrollAnimationDirective } from '@lib/directives/ScrollAnimation.directive';
@@ -30,13 +32,28 @@ import { ScrollAnimationDirective } from '@lib/directives/ScrollAnimation.direct
 export class ContactLayout {
   protected readonly i18nService = inject(I18nService);
   protected readonly CONTACT_TITLE = computed(() => this.i18nService.getConstant('appConst')?.CONTACT_TITLE || CONTACT_TITLE);
+  protected readonly CONTACT_FORM = computed(() => this.i18nService.getConstant('appConst')?.CONTACT_FORM || CONTACT_FORM);
   protected readonly USER = computed(() => this.i18nService.getConstant('userConst')?.USER || USER);
   private readonly toast = inject(ToastService);
   private http = inject(HttpClient);
   private destroy = inject(DestroyRef);
 
+  /** True while the POST is in flight; drives the form's disabled/spinner state. */
+  protected readonly sending = signal(false);
+  private readonly form = viewChild(ContactFormComponent);
+
   protected handleFormSubmit(event: ContactState) {
-    this.toast.info('Sending...', 'We are processing your request');
+    if (this.sending()) return;
+
+    const texts = this.CONTACT_FORM().TOAST;
+    // A notification failure must never block the send nor leave `sending` stuck.
+    let sendingToastId: string | null = null;
+    try {
+      sendingToastId = this.toast.info(texts.SENDING_TITLE, texts.SENDING_MESSAGE);
+    } catch {
+      sendingToastId = null;
+    }
+    this.sending.set(true);
 
     const contactForm = new FormData();
     contactForm.append('name', event.name);
@@ -46,20 +63,19 @@ export class ContactLayout {
     this.sendForm(contactForm)
       .pipe(
         takeUntilDestroyed(this.destroy),
-        catchError((error) => {
-          this.toast.error(
-            'Error',
-            'An unexpected error has occurred with the server'
-          );
-          console.log('error:', error);
-          return error;
-        })
+        catchError(() => {
+          this.toast.error(texts.ERROR_TITLE, texts.ERROR_MESSAGE);
+          return EMPTY;
+        }),
+        // Runs on success, error and unsubscribe: the "sending" toast must never linger.
+        finalize(() => {
+          this.sending.set(false);
+          if (sendingToastId) this.toast.remove(sendingToastId);
+        }),
       )
-      .subscribe((_) => {
-        this.toast.success(
-          'Success',
-          'Your message has been sent successfully'
-        );
+      .subscribe(() => {
+        this.toast.success(texts.SUCCESS_TITLE, texts.SUCCESS_MESSAGE);
+        this.form()?.reset();
       });
   }
 

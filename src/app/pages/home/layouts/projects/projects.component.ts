@@ -59,7 +59,30 @@ export class ProjectsLayout {
     openai: OpenAiIconComponent
   };
 
+  /** Human-readable tech names for the icon row (tooltip + accessible name). */
+  private readonly techLabels: Record<string, string> = {
+    react: 'React',
+    sass: 'Sass',
+    angular: 'Angular',
+    css3: 'CSS3',
+    tailwind: 'Tailwind CSS',
+    spring: 'Spring Boot',
+    nextjs: 'Next.js',
+    nuxt: 'Nuxt',
+    nestjs: 'NestJS',
+    sqlserver: 'SQL Server',
+    playwright: 'Playwright',
+    tauri: 'Tauri',
+    rust: 'Rust',
+    docker: 'Docker',
+    openai: 'OpenAI',
+  };
+
   protected getIconComponent(icon: string): Type<unknown> {
     return this.iconComponents[icon] || null;
+  }
+
+  protected getTechLabel(icon: string): string {
+    return this.techLabels[icon] ?? icon;
   }
 }

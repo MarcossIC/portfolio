@@ -84,31 +84,52 @@
   gap: 0.5rem;
 }
 
-/* Shockwave overlays — GSAP toggles display and animates size/opacity.
-   Stack (bottom→top): bloom 90 · plasma 91 · ring 92 · sparks 93. */
+/* Shockwave overlays — authored once per click, then ONLY transform/opacity
+   animate (WAAPI → compositor). Fixed sizes + negative margins center them on
+   left/top; nothing is resized per frame.
+   Stack (bottom→top): bloom 90 · plasma 91 · punch/ring 92 · sparks 93. */
 .shock-ring,
+.shock-punch,
 .shock-plasma,
 .shock-bloom {
   position: fixed;
   display: none;
   border-radius: 50%;
   pointer-events: none;
-  mix-blend-mode: screen;
+  opacity: 0;
+  will-change: transform, opacity;
 }
 
+/* Size/margins/color set per click from the wavefront (see runOverlayFX). */
 .shock-ring {
   z-index: 92;
-  border-style: solid;
+  border: 1.5px solid transparent;
 }
 
-/* Plasma trail: a conic-gradient GSAP rotates during the wave for inner texture. */
+/* Thick bright birth of the wave (the scaled ring is sub-pixel while tiny). */
+.shock-punch {
+  z-index: 92;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border: 3px solid transparent;
+}
+
+/* Plasma trail: a conic-gradient rotated during the wave for inner texture. */
 .shock-plasma {
   z-index: 91;
+  width: 512px;
+  height: 512px;
+  margin: -256px 0 0 -256px;
 }
 
+/* No blur: on a gradient that already fades to transparent at 60% it was
+   invisible, but it forced a filter pass over a full-viewport layer. */
 .shock-bloom {
   z-index: 90;
-  filter: blur(8px);
+  width: 256px;
+  height: 256px;
+  margin: -128px 0 0 -128px;
 }
 
 /* Orb-hatch host. The spark spans are created at runtime (position:fixed,

@@ -1,93 +1,51 @@
+/* Fonts: Latin + Latin-1 subset, WOFF2. Absolute /assets URLs are not rewritten by
+   the bundler, so index.html can preload them at a stable path.
+   Montserrat is intentionally not declared (it was already commented out, so
+   headings render with the sans-serif fallback; declaring it would change the look). */
 @font-face {
   font-family: "Manrope";
-  font-style: light;
+  font-style: normal;
   font-weight: 300;
-  src:
-    local("Manrope-Light"),
-    url("../assets/fonts/Manrope-Light.ttf") format("truetype");
+  font-display: swap;
+  src: url("/assets/fonts/Manrope-Light.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2013-2014,U+2018-201A,U+201C-201E,U+2022,U+2026,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215;
 }
 
 @font-face {
   font-family: "Manrope";
   font-style: normal;
   font-weight: 400;
-  src:
-    local("Manrope-Regular"),
-    url("../assets/fonts/Manrope-Regular.ttf") format("truetype");
+  font-display: swap;
+  src: url("/assets/fonts/Manrope-Regular.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2013-2014,U+2018-201A,U+201C-201E,U+2022,U+2026,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215;
 }
 
 @font-face {
   font-family: "Manrope";
-  font-style: medium;
-  font-weight: 500;
-  src:
-    local("Manrope-Medium"),
-    url("../assets/fonts/Manrope-Medium.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Manrope";
-  font-style: bold;
-  font-weight: 600;
-  src:
-    local("Manrope-SemiBold"),
-    url("../assets/fonts/Manrope-SemiBold.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Manrope";
-  font-style: bolder;
-  font-weight: 700;
-  src:
-    local("Manrope-Bold"),
-    url("../assets/fonts/Manrope-Bold.ttf") format("truetype");
-}
-/*******************************************************/
-/*************     MONTSERRAT FONT  ********************/
-/*******************************************************/
-
-/* @font-face {
-  font-family: "Montserrat";
-  font-style: light;
-  font-weight: 300;
-  src:
-    local("Montserrat-Light"),
-    url("../assets/fonts/Montserrat-Light.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Montserrat";
   font-style: normal;
-  font-weight: 400;
-  src:
-    local("Montserrat-Regular"),
-    url("../assets/fonts/Montserrat-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Montserrat";
-  font-style: medium;
   font-weight: 500;
-  src:
-    local("Montserrat-Medium"),
-    url("../assets/fonts/Montserrat-Medium.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Montserrat";
-  font-style: bold;
-  font-weight: 600;
-  src:
-    local("Montserrat-SemiBold"),
-    url("../assets/fonts/Montserrat-SemiBold.ttf") format("truetype");
+  font-display: swap;
+  src: url("/assets/fonts/Manrope-Medium.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2013-2014,U+2018-201A,U+201C-201E,U+2022,U+2026,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215;
 }
 
 @font-face {
-  font-family: "Montserrat";
-  font-style: bolder;
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/fonts/Manrope-SemiBold.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2013-2014,U+2018-201A,U+201C-201E,U+2022,U+2026,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
   font-weight: 700;
-  src:
-    local("Montserrat-Bold"),
-    url("../assets/fonts/Montserrat-Bold.ttf") format("truetype");
-} */
+  font-display: swap;
+  src: url("/assets/fonts/Manrope-Bold.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2013-2014,U+2018-201A,U+201C-201E,U+2022,U+2026,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215;
+}
 
 ::-webkit-scrollbar {
   width: 2px;
@@ -160,7 +118,8 @@ html::-webkit-scrollbar-corner {
 html,
 :host {
   height: 100%;
-  overflow-x: hidden;
+  /* clip (not hidden) keeps sticky/fixed and iOS scrolling intact; only on html. */
+  overflow-x: clip;
 
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
@@ -192,7 +151,6 @@ body {
   min-height: 100dvh;
   max-width: 100dvw;
   scroll-behavior: smooth;
-  overflow-x: hidden;
   outline: none;
   overscroll-behavior-x: none;
   touch-action: manipulation;

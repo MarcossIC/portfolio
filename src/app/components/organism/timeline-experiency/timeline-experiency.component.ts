@@ -6,12 +6,11 @@ import {
   ElementRef,
   inject,
   input,
-  signal,
   viewChild,
 } from '@angular/core';
 import { TimelineElementComponent } from '../timeline-element/timeline-element.component';
 import { Directions, UserExperience, type UserStudies } from '@app/models/types';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
+import { litFlags, nodeThresholds } from './timeline-ignite';
 
 @Component({
   standalone: true,
@@ -19,10 +18,7 @@ import { ReducedMotionService } from '@app/services/ReducedMotion.service';
   selector: 'timeline-experiency',
   template: `
       <div class="timeline" #timelineContainer>
-        <div
-          class="timeline-progress"
-          [style.--timeline-scale]="timelineFill()"
-        ></div>
+        <div class="timeline-progress" #progress></div>
         @for (ITEM of ITEMS(); track ITEM.ID) {
           <timeline-element
             [cardDirection]="$index % 2 !== 1 ? DIRECTION.LEFT : DIRECTION.RIGHT"
@@ -46,45 +42,87 @@ export class TimelineExperiencyComponent {
     RIGHT: Directions.RIGHT,
   };
 
-  private readonly motionService = inject(ReducedMotionService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly timelineContainer = viewChild<ElementRef>('timelineContainer');
 
-  protected readonly timelineFill = signal(0);
+  private readonly progress = viewChild<ElementRef<HTMLElement>>('progress');
 
   constructor() {
     afterNextRender(() => {
-      if (this.motionService.prefersReducedMotion()) {
-        this.timelineFill.set(1);
-        return;
-      }
+      const bar = this.progress()?.nativeElement;
+      if (!bar) return;
 
-      let ticking = false;
+      const badges = (): HTMLElement[] =>
+        Array.from(this.timelineContainer()?.nativeElement.querySelectorAll('.timeline-node__badge') ?? []);
+
+      // Node "ignition": thresholds (fraction of the rail height) are measured once
+      // and again only when the container resizes; offsetTop ignores the reveal transforms.
+      let nodes: HTMLElement[] = [];
+      let thresholds: number[] = [];
+      let lit: boolean[] = [];
+      let dirty = true;
+      const measure = (container: HTMLElement) => {
+        dirty = false;
+        nodes = badges();
+        const centers = nodes.map((badge) => {
+          const node = badge.closest('.timeline-node') as HTMLElement | null;
+          const item = node?.closest('.timeline-item') as HTMLElement | null;
+          return (item?.offsetTop ?? 0) + (node?.offsetTop ?? 0) + (node?.offsetHeight ?? 0) / 2;
+        });
+        thresholds = nodeThresholds(centers, container.offsetHeight || container.getBoundingClientRect().height);
+        lit = nodes.map((n) => n.classList.contains('is-lit'));
+      };
+
+      // Visual-only value: written straight to the element in a rAF (no signal,
+      // no change detection per scroll frame). CSS applies it via scaleY().
+      let rafId = 0;
+      let last = -1;
       const updateFill = () => {
+        rafId = 0;
         const container = this.timelineContainer()?.nativeElement;
         if (!container) return;
 
         const rect = container.getBoundingClientRect();
-        const vh = window.innerHeight;
+        const fill =
+          rect.top > window.innerHeight || rect.height <= 0
+            ? 0
+            : Math.min(Math.max((window.innerHeight - rect.top) / rect.height, 0), 1);
+        if (Math.abs(fill - last) < 0.001 && !dirty) return;
+        last = fill;
+        bar.style.setProperty('--timeline-scale', String(fill));
 
-        if (rect.top > vh) {
-          this.timelineFill.set(0);
-        } else {
-          const fill = Math.min(Math.max((vh - rect.top) / rect.height, 0), 1);
-          this.timelineFill.set(fill);
-        }
-        ticking = false;
+        if (dirty) measure(container);
+        const next = litFlags(fill, thresholds);
+        next.forEach((on, i) => {
+          if (on !== lit[i]) {
+            lit[i] = on;
+            nodes[i].classList.toggle('is-lit', on);
+          }
+        });
       };
 
       const onScroll = () => {
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(updateFill);
-        }
+        if (!rafId) rafId = requestAnimationFrame(updateFill);
       };
 
+      const resizeObserver =
+        typeof ResizeObserver === 'undefined'
+          ? undefined
+          : new ResizeObserver(() => {
+              dirty = true;
+              onScroll();
+            });
+      const watched = this.timelineContainer()?.nativeElement;
+      if (watched) resizeObserver?.observe(watched);
+
       window.addEventListener('scroll', onScroll, { passive: true });
-      this.destroyRef.onDestroy(() => window.removeEventListener('scroll', onScroll));
+      window.addEventListener('resize', onScroll, { passive: true });
+      this.destroyRef.onDestroy(() => {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+        resizeObserver?.disconnect();
+        if (rafId) cancelAnimationFrame(rafId);
+      });
       onScroll(); // Initial check
     });
   }

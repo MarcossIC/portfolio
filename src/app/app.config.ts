@@ -5,7 +5,6 @@ import {
   withPreloading,
   withInMemoryScrolling,
 } from '@angular/router';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { routes } from './app.routing';
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -25,6 +24,5 @@ export const appConfig: ApplicationConfig = {
       withHttpTransferCacheOptions({ includePostRequests: false }),
     ),
     provideHttpClient(withFetch()),
-    provideAnimationsAsync(),
   ],
 };

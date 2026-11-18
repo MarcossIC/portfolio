@@ -46,6 +46,22 @@ describe('ProjectsLayoutComponent', () => {
     }
   });
 
+  it('labels every tech icon with a readable name for tooltips and screen readers', () => {
+    const label = (icon: string) =>
+      (component as unknown as { getTechLabel(icon: string): string }).getTechLabel(icon);
+    for (const icon of usedIcons) {
+      expect(label(icon), `missing label for "${icon}"`).not.toBe(icon);
+    }
+
+    const rendered = fixture.nativeElement.querySelectorAll('.tech-icon') as NodeListOf<HTMLElement>;
+    expect(rendered.length).toBe(PROJECTS_V2.flatMap((project) => project.ICONS).length);
+    for (const el of rendered) {
+      expect(el.getAttribute('role')).toBe('img');
+      expect(el.getAttribute('aria-label')).toBeTruthy();
+      expect(el.getAttribute('title')).toBe(el.getAttribute('aria-label'));
+    }
+  });
+
   it('includes the Daimler Truck Financial Services project with its stack', () => {
     const dtfs = PROJECTS_V2.find((project) => project.ID === '7-project');
 

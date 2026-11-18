@@ -12,7 +12,9 @@ import {
   viewChild,
 } from '@angular/core';
 import { AtmosphereService, type Atmos } from '@app/services/atmosphere.service';
-import { ReducedMotionService } from '@app/services/ReducedMotion.service';
+import { I18nService } from '@app/services/i18n.service';
+import { ATMOSPHERE } from '@constants/appConst';
+import { isLiteViewport } from '@atoms/cosmic-background/cosmic-background.utils';
 
 type GsapApi = typeof import('gsap').gsap;
 type GsapTimeline = ReturnType<GsapApi['timeline']>;
@@ -44,6 +46,23 @@ const WAVE_S = 1.1;
 const WAVE_EASING = 'cubic-bezier(0.215, 0.61, 0.355, 1)';
 /** Orb-hatch particles emitted on the punch (§7.1). */
 const SPARK_COUNT = 8;
+/** Shorter wave for small / touch viewports (clip and ring stay in sync). */
+const LITE_WAVE_S = 0.8;
+/**
+ * The ring is authored once per click at 1/RING_OVERSCALE of its final diameter
+ * and then ONLY scaled (compositor). A transform also scales the border/glow, so
+ * the authored size keeps their apparent thickness close to the old
+ * width/borderWidth tween in the visible part of the wave.
+ */
+const RING_OVERSCALE = 3;
+/** Visual diameter the ring is born at (as before). */
+const RING_START_PX = 14;
+/** Fixed authoring sizes (CSS) of the other FX layers — scaled, never resized. */
+const BLOOM_PX = 256;
+const PLASMA_PX = 512;
+/** GSAP eases as cubic-béziers for WAAPI. */
+const EASE_POWER2_OUT = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+const EASE_POWER2_IN = 'cubic-bezier(0.55, 0.085, 0.68, 0.53)';
 
 @Component({
   standalone: true,
@@ -56,7 +75,7 @@ export class AtmosphereToggleComponent {
   public readonly variant = input<'icon' | 'compact'>('icon');
 
   private readonly atmosphere = inject(AtmosphereService);
-  private readonly reducedMotion = inject(ReducedMotionService);
+  private readonly i18n = inject(I18nService);
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
   private readonly appRef = inject(ApplicationRef);
@@ -73,17 +92,28 @@ export class AtmosphereToggleComponent {
   }
 
   private readonly ring = viewChild.required<ElementRef<HTMLDivElement>>('ring');
+  private readonly punch = viewChild.required<ElementRef<HTMLDivElement>>('punch');
   private readonly plasma = viewChild.required<ElementRef<HTMLDivElement>>('plasma');
   private readonly bloom = viewChild.required<ElementRef<HTMLDivElement>>('bloom');
   private readonly sparks = viewChild.required<ElementRef<HTMLDivElement>>('sparks');
 
   protected readonly atmos = this.atmosphere.atmos;
-  protected readonly modeName = computed(() =>
-    this.atmos() === 'ember' ? 'Ember' : 'Nebula'
+  protected readonly TEXT = computed(
+    () => this.i18n.getConstant('appConst')?.ATMOSPHERE || ATMOSPHERE
+  );
+  // Nebula / Ember are proper names of the atmospheres, so they stay untranslated.
+  protected readonly modeName = computed(() => this.TEXT().NAMES[this.atmos()]);
+  protected readonly switchLabel = computed(
+    () => `${this.TEXT().SWITCH_ARIA} ${this.modeName()}`
+  );
+  protected readonly titleText = computed(
+    () => `${this.TEXT().LABEL}: ${this.modeName()}`
   );
 
   private busy = false;
   private overlaysRelocated = false;
+  /** WAAPI animations of the current wave (compositor-driven transform/opacity). */
+  private fx: Animation[] = [];
 
   protected async toggle(event: MouseEvent): Promise<void> {
     if (this.busy) return;
@@ -94,9 +124,8 @@ export class AtmosphereToggleComponent {
     // the browser once the handler yields at the first `await` below.
     const btn = event.currentTarget as HTMLElement | null;
 
-    // Reduced-motion (or no DOM) → instant swap, no wavefront. This guard is the
-    // accessibility net: a full-viewport wave is the textbook vestibular trigger.
-    if (!this.isBrowser || !btn || this.reducedMotion.prefersReducedMotion()) {
+    // No DOM → instant swap, no wavefront.
+    if (!this.isBrowser || !btn) {
       this.atmosphere.commit(next);
       return;
     }
@@ -149,6 +178,7 @@ export class AtmosphereToggleComponent {
 
     const nodes = [
       this.ring().nativeElement,
+      this.punch().nativeElement,
       this.plasma().nativeElement,
       this.bloom().nativeElement,
       this.sparks().nativeElement,
@@ -193,11 +223,13 @@ export class AtmosphereToggleComponent {
   ): void {
     this.ensureVtStyle();
 
+    const lite = this.isLite();
+    const waveS = lite ? LITE_WAVE_S : WAVE_S;
     const ringDiameter = wf.maxD * 2 * 1.05 * 0.97; // hug the clip edge (clip ×1.05, ring ×0.97)
     const flash = () => {
       // The overlay is pure enhancement — never let it break the swap.
       try {
-        this.runOverlayFX(gsap, btn, next, wf, ringDiameter);
+        this.runOverlayFX(gsap, btn, next, wf, ringDiameter, waveS, lite);
       } catch {
         /* noop */
       }
@@ -222,7 +254,7 @@ export class AtmosphereToggleComponent {
 
     vt.ready.then(
       () => {
-        this.animateClip(wf);
+        this.animateClip(wf, waveS);
         flash();
       },
       // Snapshot capture failed: theme already committed in the callback, still flash.
@@ -236,7 +268,7 @@ export class AtmosphereToggleComponent {
   }
 
   /** Expanding clip-path over the NEW snapshot — this is what "reveals" the theme. */
-  private animateClip(wf: Wavefront): void {
+  private animateClip(wf: Wavefront, waveS: number): void {
     try {
       this.document.documentElement.animate(
         {
@@ -246,7 +278,7 @@ export class AtmosphereToggleComponent {
           ],
         },
         {
-          duration: WAVE_S * 1000,
+          duration: waveS * 1000,
           easing: WAVE_EASING,
           pseudoElement: '::view-transition-new(root)',
         }
@@ -264,16 +296,30 @@ export class AtmosphereToggleComponent {
     wf: Wavefront,
     done: () => void
   ): void {
+    const lite = this.isLite();
+    const waveS = lite ? LITE_WAVE_S : WAVE_S;
     const ringDiameter = wf.maxD * 2 * 1.08; // no clip to hug — just cover the screen
-    const tl = this.runOverlayFX(gsap, btn, next, wf, ringDiameter, done);
+    const tl = this.runOverlayFX(gsap, btn, next, wf, ringDiameter, waveS, lite, done);
     // Commit at ~1/3 of the wave so the color snap reads as caused by the shockwave.
     tl.add(() => this.atmosphere.commit(next), 0.34);
+  }
+
+  /** Small or touch viewport → lighter FX (no plasma, no blend, shorter wave). */
+  private isLite(): boolean {
+    const win = this.document.defaultView;
+    if (!win) return false;
+    return isLiteViewport(win.innerWidth, !!win.matchMedia?.('(pointer: coarse)').matches);
   }
 
   /**
    * Ring + bloom explode from the button and the starfield flares. Shared by both
    * routes; the caller decides the ring's final diameter and (fallback only) when
    * to commit. Returns the timeline so callers can hang extra steps on it.
+   *
+   * Perf contract: every layer is authored ONCE per click (one style write) and
+   * then only `transform`/`opacity` change, through WAAPI, so the compositor runs
+   * the wave even while the main thread recalculates the new theme. GSAP keeps the
+   * button punch, the sparks and the overall timing/cleanup.
    */
   private runOverlayFX(
     gsap: GsapApi,
@@ -281,47 +327,50 @@ export class AtmosphereToggleComponent {
     next: Atmos,
     wf: Wavefront,
     ringDiameter: number,
+    waveS: number,
+    lite: boolean,
     onComplete?: () => void
   ): GsapTimeline {
     const ring = this.ring().nativeElement;
+    const punch = this.punch().nativeElement;
     const plasma = this.plasma().nativeElement;
     const bloom = this.bloom().nativeElement;
-    const html = this.document.documentElement;
+    const flare = this.document.querySelector<HTMLElement>('[data-star-flare]');
     const color = SHOCK_COLORS[next];
-    const bloomSize = wf.maxD * 2 * 1.08;
+    const coverScale = (px: number) => (wf.maxD * 2 * 1.08) / px;
+    const ringBase = ringDiameter / RING_OVERSCALE;
+    const layers = lite ? [ring, punch, bloom] : [ring, punch, plasma, bloom];
+    /** Seconds on the reference (desktop) wave → ms on this wave. */
+    const ms = (s: number) => (s / WAVE_S) * waveS * 1000;
 
-    gsap.set([ring, plasma, bloom], {
-      display: 'block',
-      left: wf.cx,
-      top: wf.cy,
-      xPercent: -50,
-      yPercent: -50,
-    });
+    this.cancelFx();
+    gsap.set(layers, { display: 'block', left: wf.cx, top: wf.cy });
     gsap.set(ring, {
-      width: 14,
-      height: 14,
-      opacity: 1,
-      borderWidth: 5,
+      width: ringBase,
+      height: ringBase,
+      marginLeft: -ringBase / 2,
+      marginTop: -ringBase / 2,
       borderColor: color,
-      boxShadow: `0 0 70px 10px ${color}, 0 0 30px 4px #fff`,
+      boxShadow: `0 0 22px 3px ${color}, 0 0 9px 1px #fff`,
     });
-    gsap.set(plasma, {
-      width: bloomSize,
-      height: bloomSize,
-      opacity: 0,
-      rotation: 0,
-      background: `conic-gradient(from 0deg, transparent 0deg, ${color} 60deg, transparent 140deg, ${color} 220deg, transparent 300deg)`,
-    });
+    gsap.set(punch, { borderColor: color, boxShadow: `0 0 26px 5px ${color}, 0 0 12px 2px #fff` });
     gsap.set(bloom, {
-      width: bloomSize,
-      height: bloomSize,
-      opacity: 0,
+      transform: `scale(${coverScale(BLOOM_PX)})`,
       background: `radial-gradient(circle, ${color} 0%, transparent 60%)`,
+      // Desktop keeps ONE blended layer for <1s (bright UI stays bright under the
+      // flash); lite composites it normally.
+      mixBlendMode: lite ? 'normal' : 'screen',
     });
+    if (!lite) {
+      gsap.set(plasma, {
+        background: `conic-gradient(from 0deg, transparent 0deg, ${color} 60deg, transparent 140deg, ${color} 220deg, transparent 300deg)`,
+      });
+    }
 
     const tl = gsap.timeline({
       onComplete: () => {
-        gsap.set([ring, plasma, bloom], { display: 'none' });
+        this.cancelFx();
+        gsap.set(layers, { display: 'none' });
         this.sparks().nativeElement.replaceChildren(); // safety net if a tween was cut short
         onComplete?.();
       },
@@ -331,32 +380,94 @@ export class AtmosphereToggleComponent {
     tl.to(btn, { scale: 0.8, duration: 0.12, ease: 'power2.in' }, 0)
       .to(btn, { scale: 1, duration: 0.55, ease: 'elastic.out(1, 0.5)' }, 0.12);
     this.orbHatch(gsap, btn, next, tl);
+    // Keep the timeline alive for the whole wave (cleanup runs after the WAAPI layers).
+    tl.to({}, { duration: waveS }, 0);
 
-    // 2. Bloom flash
-    tl.to(bloom, { opacity: 0.55, duration: 0.18, ease: 'power2.out' }, 0.02)
-      .to(bloom, { opacity: 0, duration: 0.75, ease: 'power2.in' }, 0.22);
-
-    // 2b. Plasma trail: faint conic texture that spins across the wave (§7.6)
-    tl.to(plasma, { opacity: 0.08, duration: 0.22, ease: 'power2.out' }, 0.04)
-      .to(plasma, { rotation: 90, duration: WAVE_S, ease: 'none' }, 0)
-      .to(plasma, { opacity: 0, duration: 0.5, ease: 'power2.in' }, 0.6);
-
-    // 3. Ring: explodes to the wavefront edge, thins out and fades
-    tl.to(
+    // 2. Main ring: born at 14px, scaled to the wavefront edge, fades late
+    this.animate(
       ring,
-      { width: ringDiameter, height: ringDiameter, borderWidth: 1, duration: WAVE_S, ease: 'power3.out' },
-      0
-    ).to(ring, { opacity: 0, duration: 0.42, ease: 'power2.in' }, 0.62);
+      [{ transform: `scale(${RING_START_PX / ringBase})` }, { transform: `scale(${RING_OVERSCALE})` }],
+      { duration: ms(WAVE_S), easing: WAVE_EASING }
+    );
+    this.animate(
+      ring,
+      [{ opacity: 1 }, { opacity: 1, offset: 0.62 / 1.04, easing: EASE_POWER2_IN }, { opacity: 0 }],
+      { duration: ms(1.04) }
+    );
 
-    // 4. Starfield flare (pulses the CSS var read by cosmic-background)
-    tl.fromTo(
-      html,
-      { '--star-boost': 1 },
-      { '--star-boost': 2.1, duration: 0.42, ease: 'power2.out' },
-      0.12
-    ).to(html, { '--star-boost': 1, duration: 0.6, ease: 'power2.in' }, 0.5);
+    // 2b. Punch ring: the thick, bright birth of the wave that the scaled ring
+    // can't show while tiny (its border scales down with it).
+    this.animate(punch, [{ transform: 'scale(0.22)' }, { transform: 'scale(4.5)' }], {
+      duration: ms(0.5),
+      easing: WAVE_EASING,
+    });
+    this.animate(punch, [{ opacity: 1, easing: EASE_POWER2_IN }, { opacity: 0 }], { duration: ms(0.5) });
+
+    // 3. Bloom flash (small gradient texture scaled up: a smooth gradient
+    // upscales invisibly, and the old blur(8px) on it was imperceptible)
+    const bloomPeak = lite ? 0.4 : 0.55;
+    this.animate(
+      bloom,
+      [
+        { opacity: 0, easing: EASE_POWER2_OUT },
+        { opacity: bloomPeak, offset: 0.18 / 0.95 },
+        { opacity: bloomPeak, offset: 0.2 / 0.95, easing: EASE_POWER2_IN },
+        { opacity: 0 },
+      ],
+      { duration: ms(0.95), delay: ms(0.02) }
+    );
+
+    // 3b. Plasma trail: faint conic texture that spins across the wave (§7.6).
+    // Desktop only; normal compositing (at 8% over a dark void, screen ≈ normal).
+    if (!lite) {
+      const s = coverScale(PLASMA_PX);
+      this.animate(
+        plasma,
+        [{ transform: `scale(${s}) rotate(0deg)` }, { transform: `scale(${s}) rotate(90deg)` }],
+        { duration: ms(WAVE_S), easing: 'linear' }
+      );
+      this.animate(
+        plasma,
+        [
+          { opacity: 0 },
+          { opacity: 0, offset: 0.04 / 1.1, easing: EASE_POWER2_OUT },
+          { opacity: 0.08, offset: 0.26 / 1.1 },
+          { opacity: 0.08, offset: 0.6 / 1.1, easing: EASE_POWER2_IN },
+          { opacity: 0 },
+        ],
+        { duration: ms(1.1) }
+      );
+    }
+
+    // 4. Starfield flare: opacity of a pre-rastered halo layer owned by the
+    // cosmic background (replaces tweening --star-boost on <html>).
+    this.animate(
+      flare,
+      [
+        { opacity: 0 },
+        { opacity: 0, offset: 0.12 / 1.1, easing: EASE_POWER2_OUT },
+        { opacity: 1, offset: 0.5 / 1.1, easing: EASE_POWER2_IN },
+        { opacity: 0 },
+      ],
+      { duration: ms(1.1) }
+    );
 
     return tl;
+  }
+
+  /** WAAPI with a no-op fallback (old engines / jsdom): the FX is enhancement only. */
+  private animate(el: Element | null, keyframes: Keyframe[], options: KeyframeAnimationOptions): void {
+    if (!el || typeof el.animate !== 'function') return;
+    try {
+      this.fx.push(el.animate(keyframes, options));
+    } catch {
+      /* noop */
+    }
+  }
+
+  private cancelFx(): void {
+    this.fx.forEach((a) => a.cancel());
+    this.fx = [];
   }
 
   /**

@@ -1,7 +1,13 @@
 .contact-section {
   position: relative;
   z-index: 10;
-  padding-block: 6rem;
+  padding-block: 4rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .contact-section {
+    padding-block: 6rem;
+  }
 }
 
 /* Ambient glow */
@@ -20,19 +26,18 @@
 .glow--purple {
   bottom: 0;
   left: 25%;
-  width: 600px;
-  height: 600px;
-  background: rgba(216, 180, 254, 0.04);
-  filter: blur(150px);
+  width: min(900px, 140vw);
+  height: min(900px, 140vw);
+  /* Radial gradient instead of filter: blur — soft falloff, no offscreen blur pass */
+  background: radial-gradient(closest-side, rgba(var(--accent-rgb), 0.05), rgba(var(--accent-rgb), 0.02) 55%, transparent);
 }
 
 .glow--red {
   top: 25%;
   right: 16%;
-  width: 400px;
-  height: 400px;
-  background: rgba(255, 80, 50, 0.03);
-  filter: blur(120px);
+  width: min(640px, 110vw);
+  height: min(640px, 110vw);
+  background: radial-gradient(closest-side, rgba(255, 80, 50, 0.04), rgba(255, 80, 50, 0.015) 55%, transparent);
 }
 
 /* Container */
@@ -40,12 +45,13 @@
   width: 100%;
   max-width: 80rem;
   margin-inline: auto;
-  padding-inline: 1.5rem;
+  /* Side gutter comes from .site-container (--gutter) below 1024px. */
+  padding-inline: 0;
 }
 
 /* Section header */
 .section-header {
-  margin-bottom: 4rem;
+  margin-bottom: 2.5rem;
 }
 
 .contact-badge {
@@ -65,28 +71,64 @@
   margin-top: 1.5rem;
   font-family: Montserrat, sans-serif;
   font-weight: 900;
-  font-size: clamp(2.5rem, 7vw, 5rem);
-  line-height: 0.85;
+  /* Same scale as the other section titles on phones/tablets; desktop keeps the
+     larger editorial size. */
+  font-size: var(--fs-section-title, min(15dvw, 3.75rem));
+  /* Phones wrap the title over 3-4 lines: below ~1 the descenders hit the next line. */
+  line-height: 1;
   letter-spacing: -0.02em;
+  /* Flex column: the halves' negative margins below must not collapse. */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Each half is its own balanced block, so "tu" never ends up alone on a line;
+   the <br> between them is then redundant and would add an empty line. */
+.contact-title > span {
+  display: block;
+  text-wrap: balance;
+  /* A block's background (the clipped gradient) only covers its line boxes; with
+     line-height <= 1 accents and descenders would be cut. Pad the paint area and
+     cancel the padding in layout. */
+  padding-block: 0.3em;
+  margin-block: -0.3em;
+}
+
+.contact-title > br {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .contact-title {
+    line-height: 0.95;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .contact-title {
+    font-size: clamp(3.75rem, 5.5vw, 5rem);
+    line-height: 0.9;
+  }
 }
 
 /* Grid */
 .contact-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
 }
 
-/* Info col */
+/* Info col — content stacks from the top; space-between left a ~230px hole
+   between the intro and the email card next to the tall form on desktop. */
 .contact-info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .contact-description {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.55);
   line-height: 1.6;
   max-width: 24rem;
   font-family: 'Manrope', sans-serif;
@@ -106,8 +148,26 @@
   text-decoration: none;
 }
 
-.email-link:hover {
+.email-link {
+  min-height: 3rem;
+  /* long addresses must wrap instead of overflowing on 360px screens */
+  overflow-wrap: anywhere;
+}
+
+.email-link:active {
   color: var(--cosmic-violet, #d8b4fe);
+}
+
+.email-link:focus-visible {
+  outline: 2px solid var(--cosmic-violet, #d8b4fe);
+  outline-offset: 4px;
+  border-radius: 1rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .email-link:hover {
+    color: var(--cosmic-violet, #d8b4fe);
+  }
 }
 
 .email-icon-wrap {
@@ -117,17 +177,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
   flex-shrink: 0;
 }
 
-.email-link:hover .email-icon-wrap {
-  border-color: rgba(216, 180, 254, 0.2);
-  box-shadow: 0 0 20px -4px rgba(216, 180, 254, 0.3);
-}
+@media (hover: hover) and (pointer: fine) {
+  .email-link:hover .email-icon-wrap {
+    border-color: rgba(var(--accent-rgb), 0.2);
+    box-shadow: 0 0 20px -4px rgba(var(--accent-rgb), 0.3);
+  }
 
-.email-link:hover svg {
-  transform: translate(1px, -1px);
+  .email-link:hover svg {
+    transform: translate(1px, -1px);
+  }
 }
 
 .email-link svg {
@@ -136,14 +198,15 @@
 
 .email-label {
   display: block;
-  font-size: 0.625rem;
-  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin-bottom: 0.125rem;
 }
 
-/* Decorative */
+/* Decorative: the glyph is empty and the dot ran an infinite pulse with no offscreen
+   pause, so it stays hidden at every size. */
 .contact-deco {
   display: none;
 }
@@ -158,12 +221,18 @@ contact-form {
 }
 
 @media only screen and (min-width: 768px) {
+  .section-header {
+    margin-bottom: 4rem;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
   .contact-container {
     padding-inline: 3rem;
   }
 
-  .section-header {
-    margin-bottom: 5rem;
+  .contact-info {
+    padding-top: 1.5rem;
   }
 }
 
@@ -171,32 +240,5 @@ contact-form {
   .contact-grid {
     grid-template-columns: 2fr 3fr;
     gap: 5rem;
-  }
-
-  .contact-deco {
-    display: flex;
-    align-items: flex-end;
-    margin-top: 4rem;
-    position: relative;
-  }
-
-  .deco-symbol {
-    font-size: 7.5rem;
-    font-family: Montserrat, sans-serif;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.02);
-    line-height: 1;
-    user-select: none;
-  }
-
-  .deco-dot {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 9999px;
-    background: rgba(216, 180, 254, 0.4);
   }
 }

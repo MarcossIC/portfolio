@@ -1,9 +1,10 @@
 <form
   class="form-wrapper"
   [class.shake]="shakeForm()"
-  (animationend)="onShakeEnd()"
+  (animationend)="$event.target === $event.currentTarget && onShakeEnd()"
   [formGroup]="contactForm"
   (submit)="onSubmit()"
+  novalidate
   role="form"
   [attr.aria-label]="CONTACT_FORM().FORM.ARIA_LABEL"
 >
@@ -14,7 +15,7 @@
   <div class="form-inner">
     <!-- Name field -->
     <div class="field-group" [class.field-focused]="focused() === 'name'">
-      <label class="field-label">
+      <label class="field-label" for="contact-name">
         {{ CONTACT_FORM().FIELDS.NAME.LABEL }}
       </label>
       <input
@@ -23,20 +24,34 @@
         formControlName="name"
         id="contact-name"
         autocomplete="name"
+        autocapitalize="words"
+        enterkeyhint="next"
         class="field-input"
         [placeholder]="CONTACT_FORM().FIELDS.NAME.PLACEHOLDER"
         [attr.aria-label]="CONTACT_FORM().FIELDS.NAME.ARIA"
+        [attr.aria-invalid]="errors().name ? 'true' : null"
+        [attr.aria-describedby]="errors().name ? 'contact-name-error' : null"
         (focus)="setFocus('name')"
         (blur)="setFocus(null)"
       />
       <div class="field-line" [class.field-line--active]="focused() === 'name'"></div>
+      <div class="field-error" aria-live="polite">
+        @if (errors().name; as error) {
+          <p class="field-error-text" id="contact-name-error">
+            <svg class="field-error-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zM9 15v-2h2v2H9zM9 5v6h2V5H9z" />
+            </svg>
+            <span>{{ error }}</span>
+          </p>
+        }
+      </div>
     </div>
 
     <div class="field-spacer"></div>
 
     <!-- Email field -->
     <div class="field-group" [class.field-focused]="focused() === 'email'">
-      <label class="field-label">
+      <label class="field-label" for="contact-email">
         {{ CONTACT_FORM().FIELDS.EMAIL.LABEL }}
       </label>
       <input
@@ -45,20 +60,37 @@
         formControlName="email"
         id="contact-email"
         autocomplete="email"
+        inputmode="email"
+        autocapitalize="none"
+        autocorrect="off"
+        spellcheck="false"
+        enterkeyhint="next"
         class="field-input"
         [placeholder]="CONTACT_FORM().FIELDS.EMAIL.PLACEHOLDER"
         [attr.aria-label]="CONTACT_FORM().FIELDS.EMAIL.ARIA"
+        [attr.aria-invalid]="errors().email ? 'true' : null"
+        [attr.aria-describedby]="errors().email ? 'contact-email-error' : null"
         (focus)="setFocus('email')"
         (blur)="setFocus(null)"
       />
       <div class="field-line" [class.field-line--active]="focused() === 'email'"></div>
+      <div class="field-error" aria-live="polite">
+        @if (errors().email; as error) {
+          <p class="field-error-text" id="contact-email-error">
+            <svg class="field-error-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zM9 15v-2h2v2H9zM9 5v6h2V5H9z" />
+            </svg>
+            <span>{{ error }}</span>
+          </p>
+        }
+      </div>
     </div>
 
     <div class="field-spacer"></div>
 
     <!-- Message field -->
     <div class="field-group" [class.field-focused]="focused() === 'message'">
-      <label class="field-label">
+      <label class="field-label" for="contact-message">
         {{ CONTACT_FORM().FIELDS.MESSAGE.LABEL }}
       </label>
       <textarea
@@ -66,13 +98,27 @@
         formControlName="message"
         id="contact-message"
         rows="4"
+        autocomplete="off"
+        enterkeyhint="enter"
         class="field-input field-textarea"
         [placeholder]="CONTACT_FORM().FIELDS.MESSAGE.PLACEHOLDER"
         [attr.aria-label]="CONTACT_FORM().FIELDS.MESSAGE.ARIA"
+        [attr.aria-invalid]="errors().message ? 'true' : null"
+        [attr.aria-describedby]="errors().message ? 'contact-message-error' : null"
         (focus)="setFocus('message')"
         (blur)="setFocus(null)"
       ></textarea>
       <div class="field-line" [class.field-line--active]="focused() === 'message'"></div>
+      <div class="field-error" aria-live="polite">
+        @if (errors().message; as error) {
+          <p class="field-error-text" id="contact-message-error">
+            <svg class="field-error-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zM9 15v-2h2v2H9zM9 5v6h2V5H9z" />
+            </svg>
+            <span>{{ error }}</span>
+          </p>
+        }
+      </div>
     </div>
 
     <div class="field-spacer-lg"></div>
@@ -82,16 +128,21 @@
       class="submit-btn"
       type="submit"
       [block]="true"
-      [ariaDisabled]="contactForm.invalid"
+      [disabled]="sending()"
+      [ariaDisabled]="contactForm.invalid && !sending()"
     >
-      <span class="submit-content">
-        <span>{{ CONTACT_FORM().BUTTON.TEXT }}</span>
+      <span class="submit-content" [attr.aria-busy]="sending() ? 'true' : null">
+        <span>{{ sending() ? CONTACT_FORM().BUTTON.SENDING : CONTACT_FORM().BUTTON.TEXT }}</span>
+        @if (sending()) {
+        <span class="submit-spinner" aria-hidden="true"></span>
+        } @else {
         <span class="submit-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="22" y1="2" x2="11" y2="13"></line>
             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
           </svg>
         </span>
+        }
       </span>
     </button-primary>
   </div>

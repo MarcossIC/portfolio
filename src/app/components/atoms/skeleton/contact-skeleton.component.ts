@@ -18,6 +18,16 @@ import { SkeletonComponent } from './skeleton.component';
     </div>
   `,
   styles: `
+    /* Real section height: 1120px @390, 981px @1440. */
+    :host {
+      display: block;
+      min-height: 1120px;
+    }
+    @media (min-width: 1200px) {
+      :host {
+        min-height: 981px;
+      }
+    }
     .skeleton-contact {
       display: flex;
       justify-content: center;

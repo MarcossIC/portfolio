@@ -115,25 +115,48 @@ export const CONTACT_FORM = {
       LABEL: '01 \u2014 Nombre',
       PLACEHOLDER: 'Tu nombre completo',
       ARIA: 'Escribe tu nombre.',
-      ERROR_MESSAGE: 'Por favor ingresa un nombre v\u00E1lido.'
+      ERROR_MESSAGE: 'Por favor ingresa un nombre v\u00E1lido.',
+      ERRORS: {
+        REQUIRED: 'Ingresa tu nombre.',
+        MIN_LENGTH: 'El nombre debe tener al menos 2 caracteres.',
+        MAX_LENGTH: 'El nombre es demasiado largo (máx. 80 caracteres).'
+      }
     },
     EMAIL: {
       LABEL: '02 \u2014 Email',
       PLACEHOLDER: 'tu@email.com',
       ARIA: 'Escribe tu email.',
-      ERROR_MESSAGE: 'Por favor ingresa un email v\u00E1lido.'
+      ERROR_MESSAGE: 'Por favor ingresa un email v\u00E1lido.',
+      ERRORS: {
+        REQUIRED: 'Ingresa tu email.',
+        INVALID: 'Ingresa un email válido, por ejemplo tu@email.com.',
+        MAX_LENGTH: 'El email es demasiado largo.'
+      }
     },
     MESSAGE: {
       LABEL: '03 \u2014 Mensaje',
       PLACEHOLDER: 'Cu\u00E9ntame sobre tu proyecto o idea...',
       ARIA: 'Escribe tu mensaje.',
-      ERROR_MESSAGE: 'Por favor ingresa un mensaje v\u00E1lido (hay un l\u00EDmite de 300 caracteres).'
+      ERROR_MESSAGE: 'Por favor ingresa un mensaje v\u00E1lido (hay un l\u00EDmite de 300 caracteres).',
+      ERRORS: {
+        REQUIRED: 'Escribe un mensaje.',
+        MIN_LENGTH: 'El mensaje debe tener al menos 10 caracteres.',
+        MAX_LENGTH: 'El mensaje es demasiado largo (máx. 1000 caracteres).'
+      }
     }
   },
   BUTTON: {
     TEXT: 'Enviar mensaje',
     SENDING: 'Enviando...',
     SENT: '\u00A1Mensaje enviado!'
+  },
+  TOAST: {
+    SENDING_TITLE: 'Enviando...',
+    SENDING_MESSAGE: 'Estamos procesando tu mensaje',
+    SUCCESS_TITLE: '¡Listo!',
+    SUCCESS_MESSAGE: 'Tu mensaje se envió correctamente',
+    ERROR_TITLE: 'Error',
+    ERROR_MESSAGE: 'No pudimos enviar tu mensaje. Intenta de nuevo en unos minutos.'
   }
 };
 
@@ -221,4 +244,23 @@ export const FOOTER = {
   COPYRIGHT: {
     TEXT: 'Desarrollado por Marcos Lopez - Última actualización 2026'
   }
+};
+
+// Nebula / Ember are proper names of the visual atmospheres: kept untranslated.
+export const ATMOSPHERE = {
+  LABEL: 'Atmósfera',
+  SWITCH_ARIA: 'Cambiar atmósfera, modo actual:',
+  NAMES: { nebula: 'Nebula', ember: 'Ember' }
+};
+
+export const HEADER_UI = {
+  OPEN_MENU: 'Abrir menú',
+  CLOSE_MENU: 'Cerrar menú',
+  MOBILE_NAV: 'Navegación móvil',
+  SCROLL_TOP: 'Volver arriba'
+};
+
+export const TOAST_UI = {
+  REGION_LABEL: 'Notificaciones',
+  CLOSE: 'Cerrar notificación'
 };

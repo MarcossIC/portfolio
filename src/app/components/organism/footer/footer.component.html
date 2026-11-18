@@ -1,4 +1,5 @@
-<footer aria-label="Site footer">
+<!-- A div, not <footer>: app.component.html already wraps this in a <footer> landmark -->
+<div class="footer-inner">
   <LogoIcon />
   <a
     class="footer-email"
@@ -6,10 +7,13 @@
     [title]="FOOTER().SOCIAL.GMAIL.TITLE">
     <img
       src="../../../../assets/email.svg"
+      width="250"
+      height="30"
+      decoding="async"
       role="img"
       [attr.aria-label]="FOOTER().CONTACT.EMAIL.ARIA_LABEL"
       [alt]="FOOTER().CONTACT.EMAIL.ALT" />
   </a>
   <p class="footer-location">{{ FOOTER().CONTACT.LOCATION.TEXT }}</p>
   <p class="footer-copy"><CoffeeIcon class="coffee-icon" /><small>{{ FOOTER().COPYRIGHT.TEXT }}</small></p>
-</footer>
+</div>

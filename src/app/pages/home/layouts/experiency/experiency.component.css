@@ -3,5 +3,5 @@ section {
   display: flex;
   flex-direction: column;
   padding-block-end: 2.5rem;
-  padding-block-start: 19dvh;
+  padding-block-start: clamp(4rem, 12dvh, 10rem);
 }

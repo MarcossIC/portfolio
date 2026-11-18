@@ -105,3 +105,18 @@ section {
 }
 
 /* Section padding-top handled by #projects wrapper in home.component.css */
+
+/* Tech icon wrapper (tooltip + accessible name); sizing lives in project-article-img. */
+.tech-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+  transition: opacity 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tech-icon:hover {
+    opacity: 1;
+  }
+}

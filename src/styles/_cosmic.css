@@ -1,30 +1,54 @@
-/* Glass morphism utilities */
+/* Glass morphism utilities.
+   backdrop-filter re-blurs every frame while the WebGL canvas animates behind it,
+   so blur is capped on desktop and dropped entirely on small/touch screens, where a
+   slightly more opaque solid background keeps the glass look. */
 @utility glass {
   background: hsla(263, 50%, 12%, 0.4);
-  backdrop-filter: blur(24px) saturate(1.5);
-  -webkit-backdrop-filter: blur(24px) saturate(1.5);
-  border: 1px solid hsla(270, 95%, 83%, 0.08);
+  backdrop-filter: blur(14px) saturate(1.5);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  border: 1px solid hsl(var(--accent-hsl) / 0.08);
+
+  @media (max-width: 767px), (pointer: coarse) {
+    background: hsla(263, 50%, 12%, 0.82);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    background: hsla(263, 50%, 12%, 0.82);
+  }
 }
 
 @utility glass-strong {
   background: hsla(263, 50%, 10%, 0.6);
-  backdrop-filter: blur(40px) saturate(1.8);
-  -webkit-backdrop-filter: blur(40px) saturate(1.8);
-  border: 1px solid hsla(270, 95%, 83%, 0.12);
+  backdrop-filter: blur(16px) saturate(1.8);
+  -webkit-backdrop-filter: blur(16px) saturate(1.8);
+  border: 1px solid hsl(var(--accent-hsl) / 0.12);
+
+  @media (max-width: 767px), (pointer: coarse) {
+    background: hsla(263, 50%, 10%, 0.92);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    background: hsla(263, 50%, 10%, 0.92);
+  }
 }
 
+/* No backdrop-filter: a 1px blur was an extra compositing pass with no visible effect. */
 @utility glass-card {
   background: hsla(263, 50%, 14%, 0.35);
-    backdrop-filter: blur(1px) saturate(1.2);
-    -webkit-backdrop-filter: blur(1px) saturate(1.2);
-    border: 1px solid var(--ml-glass-border-strong);
-    box-shadow: var(--shadow-glass);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.45s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+  border: 1px solid var(--ml-glass-border-strong);
+  box-shadow: var(--shadow-glass);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.45s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.45s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Text gradient utilities */
+/* Same token as the section titles (bg-ml-text-red), so the hero name and the
+   contact accent follow the atmosphere and share one contrast-checked red. */
 @utility text-gradient-cosmic {
-  background: linear-gradient(180deg, oklch(0.58 0.23 28.18) 10%, oklch(0.43 0.17 28.14 / 0.76) 100%);
+  background: var(--ml-text-red);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -39,7 +63,7 @@
 
 /* Glow effects */
 @utility glow-purple {
-  box-shadow: 0 0 30px -5px hsla(270, 80%, 55%, 0.35), inset 0 0 30px -10px hsla(270, 80%, 55%, 0.1);
+  box-shadow: 0 0 30px -5px hsl(var(--accent-glow-hsl) / 0.35), inset 0 0 30px -10px hsl(var(--accent-glow-hsl) / 0.1);
 }
 
 @utility glow-red {
@@ -85,8 +109,8 @@
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(40px); filter: blur(10px); }
-  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  from { opacity: 0; transform: translateY(32px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes fadeRight {
@@ -118,20 +142,3 @@
 .animate-fade-right { animation: fadeRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .animate-scale-reveal { animation: scaleReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .animate-slide-down { animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
-
-/* Reduced motion */
-/* @media (prefers-reduced-motion: reduce) {
-  .animate-twinkle,
-  .animate-orbit,
-  .animate-pulse-glow,
-  .animate-scroll-hint,
-  .animate-fade-up,
-  .animate-fade-right,
-  .animate-scale-reveal,
-  .animate-slide-down {
-    animation: none;
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-} */

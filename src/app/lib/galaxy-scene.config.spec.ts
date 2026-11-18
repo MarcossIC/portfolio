@@ -1,4 +1,15 @@
-import { PALETTES, type GradientStop } from './galaxy-scene.config';
+import { FIRST_FRAME_TIMEOUT_MS } from '@app/components/atoms/hero-galaxy/hero-galaxy.component';
+import {
+  CORE_GLOW,
+  DEVICE,
+  FRAMING,
+  GALAXY,
+  LOOP,
+  MOTION,
+  PALETTES,
+  QUALITY,
+  type GradientStop,
+} from './galaxy-scene.config';
 
 // The palettes are hand-tuned data; the gradient lookup in galaxy-scene.ts relies
 // on these invariants, so a tweak that breaks one fails here, not on screen.
@@ -27,4 +38,119 @@ describe('galaxy palettes', () => {
       });
     });
   }
+});
+
+// The governor counts a frame as late relative to the display's measured vsync,
+// so the budget is a multiple of it, not a number of milliseconds.
+describe('QUALITY budget', () => {
+  it('treats a frame as late only past one vsync plus half of the next', () => {
+    expect(QUALITY.lateVsyncs).toBe(1.5);
+  });
+
+  it('has a vsync window that can hold the estimate', () => {
+    expect(QUALITY.vsyncMinSamples).toBeLessThanOrEqual(QUALITY.vsyncWindow);
+    expect(QUALITY.vsyncPercentile).toBeGreaterThan(0);
+    expect(QUALITY.vsyncPercentile).toBeLessThan(0.5);
+  });
+
+  it('accepts every real refresh rate between 50 and 360Hz as a vsync', () => {
+    expect(QUALITY.vsyncMinMs).toBeLessThanOrEqual(1000 / 360);
+    expect(QUALITY.vsyncMaxMs).toBeGreaterThanOrEqual(1000 / 50);
+  });
+
+  it('has no fixed millisecond frame cap or budget left', () => {
+    expect('slowFrameMs' in QUALITY).toBe(false);
+    expect('minFrameMs' in LOOP).toBe(false);
+  });
+
+  it('only ever lowers the resolution with a step in (0, 1)', () => {
+    expect(QUALITY.step).toBeGreaterThan(0);
+    expect(QUALITY.step).toBeLessThan(1);
+  });
+
+  it('keeps the calm band below the over-budget band (hysteresis)', () => {
+    expect(QUALITY.calmShare).toBeLessThan(QUALITY.overShare);
+    expect(QUALITY.upWindows).toBeGreaterThan(QUALITY.downWindows);
+  });
+
+  it('keeps every floor at or below its device cap', () => {
+    expect(QUALITY.minPixelRatio.desktop).toBeLessThanOrEqual(DEVICE.maxPixelRatio.desktop);
+    expect(QUALITY.minPixelRatio.mobile).toBeLessThanOrEqual(DEVICE.maxPixelRatio.mobile);
+  });
+});
+
+// alphaTest discards the halo's transparent corners; it must stay under a quarter
+// of an 8-bit step, so a discarded pixel could never have shown.
+describe('CORE_GLOW.alphaTest', () => {
+  it('only discards fragments that contribute under 1/4 of an 8-bit step', () => {
+    expect(CORE_GLOW.alphaTest).toBeGreaterThan(0);
+    expect(CORE_GLOW.alphaTest * 255).toBeLessThanOrEqual(0.25);
+  });
+});
+
+// The hero falls back to the CSS orbits when no frame shows up in time. A compile
+// that never reports "ready" must start the loop (compile on first frame) well
+// before that watchdog gives up on it.
+describe('LOOP.compileTimeoutMs', () => {
+  it('leaves the first frame room before the hero-galaxy watchdog fires', () => {
+    expect(LOOP.compileTimeoutMs).toBeLessThanOrEqual(FIRST_FRAME_TIMEOUT_MS - 750);
+  });
+});
+
+describe('FRAMING.shortLandscape', () => {
+  const L = FRAMING.shortLandscape;
+
+  it('moves the core sideways but keeps it inside the frame', () => {
+    expect(L.shift).toBeGreaterThan(0);
+    expect(L.shift).toBeLessThan(0.5);
+  });
+
+  it('only ever dims', () => {
+    expect(L.brightness).toBeGreaterThan(0);
+    expect(L.brightness).toBeLessThanOrEqual(1);
+  });
+});
+
+// Scroll-linked depth: the galaxy recedes as the hero scrolls away. Gentle by
+// construction, so it can never outrun the page or flip the disc.
+describe('MOTION.scrollDepth', () => {
+  const S = MOTION.scrollDepth;
+
+  it('only ever pulls the camera back, and not by much', () => {
+    expect(S.dolly).toBeGreaterThanOrEqual(0);
+    expect(S.dolly).toBeLessThanOrEqual(0.5);
+  });
+
+  // lag 1 would pin the galaxy to the viewport; above it the galaxy would sink.
+  it('lags the page without ever standing still against it', () => {
+    expect(S.lag).toBeGreaterThanOrEqual(0);
+    expect(S.lag).toBeLessThan(1);
+  });
+
+  it('smooths at a positive rate with an invisible snap', () => {
+    expect(S.rate).toBeGreaterThan(0);
+    expect(S.snap).toBeGreaterThan(0);
+    expect(S.snap).toBeLessThan(0.01);
+  });
+
+  // Base tilt + the steepest framing + the full scroll tilt must stay short of face-on.
+  it('never tilts the disc past face-on', () => {
+    const steepest = GALAXY.tilt.x + Math.max(0, FRAMING.portrait.tilt) + S.tilt;
+    expect(Math.abs(steepest)).toBeLessThan(Math.PI / 2 - 0.3);
+  });
+});
+
+describe('CORE_GLOW.ignition', () => {
+  const I = CORE_GLOW.ignition;
+
+  it('is a brief flare, well inside the intro', () => {
+    expect(I.durationMs).toBeGreaterThan(200);
+    expect(I.durationMs).toBeLessThanOrEqual(1000);
+    expect(I.durationMs / 1000).toBeLessThan(1 / MOTION.introRate);
+  });
+
+  it('only ever brightens and grows the core', () => {
+    expect(I.scale).toBeGreaterThanOrEqual(0);
+    expect(I.opacity).toBeGreaterThanOrEqual(0);
+  });
 });

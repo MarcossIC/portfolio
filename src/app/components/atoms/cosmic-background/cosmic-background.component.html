@@ -1,32 +1,40 @@
 <div class="cosmic-bg">
-  <!-- Base nebula image with parallax -->
+  <!-- Nebula with parallax. Pad of 40px each side so the ±10px drift never shows an edge. -->
   <div #parallaxLayer class="parallax-layer">
-    <div class="parallax-img-container">
+    <!-- Live CSS stack: exact SSR/first paint and fallback when baking is impossible.
+         Removed from rendering (display:none) once both atmospheres are baked. -->
+    <div class="parallax-img-container live-only">
       <img
-      src="assets/cosmic-bg.jpg"
-      alt=""
-      class="nebula-img"
-      loading="eager"
-    />
-    <div class="parallax-img-overlay"></div>
+        #nebulaImg
+        src="assets/cosmic-bg.jpg"
+        alt=""
+        class="nebula-img"
+        width="1920"
+        height="1080"
+        loading="eager"
+      />
+      <div class="parallax-img-overlay"></div>
     </div>
+
+    <!-- Baked, opaque bitmaps of the whole static stack (one per atmosphere).
+         Ember sits on top and only its opacity changes on a theme switch. -->
+    <canvas #bakeNebula class="bake bake--nebula" aria-hidden="true"></canvas>
+    <canvas #bakeEmber class="bake bake--ember" aria-hidden="true"></canvas>
   </div>
 
-  <!-- Cool violet veil (Nebula only) -->
-  <div class="cool-veil"></div>
+  <!-- Cool violet veil (Nebula only) — live stack only -->
+  <div class="cool-veil live-only"></div>
 
-  <!-- Dark overlay for depth -->
-  <div class="overlay-depth"></div>
+  <!-- Dark overlay for depth — live stack only -->
+  <div class="overlay-depth live-only"></div>
 
-  <!-- Warm supernova veil (Ember only) -->
-  <!-- <div class="warm-veil"></div> -->
-
-  <!-- Star field -->
+  <!-- Star field: opacity-only twinkles, no filter on the container -->
   <div class="star-field">
     @for (star of stars; track $index) {
       <div
         class="star animate-twinkle"
         [class.star--bright]="star.isBright"
+        [class.star--extra]="star.extra"
         [style.left.%]="star.x"
         [style.top.%]="star.y"
         [style.width.px]="star.size"
@@ -35,6 +43,12 @@
         [style.--delay]="star.delay + 's'"
       ></div>
     }
+  </div>
+
+  <!-- Star flare: pre-rastered halos; the atmosphere toggle animates only its opacity -->
+  <div class="star-flare" data-star-flare aria-hidden="true">
+    <div class="star-flare-layer" [style.background-image]="flareCore"></div>
+    <div class="star-flare-layer star-flare-layer--extra" [style.background-image]="flareExtra"></div>
   </div>
 
   <!-- Orb accents -->

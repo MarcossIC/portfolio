@@ -25,12 +25,12 @@
 
 .orbit-ring--outer {
   inset: 0;
-  border: 1px solid rgba(216, 180, 254, 0.06);
+  border: 1px solid rgba(var(--accent-rgb), 0.06);
 }
 
 .orbit-ring--middle {
   inset: 60px;
-  border: 1px solid rgba(216, 180, 254, 0.04);
+  border: 1px solid rgba(var(--accent-rgb), 0.04);
 }
 
 .orbit-ring--inner {
@@ -58,7 +58,7 @@
   width: 0.5rem;
   height: 0.5rem;
   background: var(--cosmic-violet, #d8b4fe);
-  box-shadow: 0 0 10px rgba(216, 180, 254, 0.5);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
 }
 
 .orbit-dot-inner--red {
@@ -76,7 +76,15 @@
   width: 100%;
   max-width: 80rem;
   margin-inline: auto;
-  padding: 7rem 1.5rem 4rem;
+  /* Fill the hero so the copy centers in the space left by the header and the
+     scroll hint can pin to the bottom edge instead of floating mid-screen. */
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Side gutter comes from .site-container (--gutter); top clears the fixed header,
+     bottom reserves the scroll hint's band. */
+  padding: 7rem 0 6.5rem;
 }
 
 .hero-layout {
@@ -150,7 +158,6 @@
   font-size: clamp(3.5rem, 10vw, 6.5rem);
   line-height: 0.85;
   letter-spacing: -0.04em;
-  margin-left: -0.45rem;
 }
 
 /* Role */
@@ -204,7 +211,7 @@
   font-weight: 600;
   font-size: 0.875rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
   text-decoration: none;
   white-space: nowrap;
   min-height: 44px;
@@ -221,9 +228,11 @@
   color: white;
 }
 
-.hero-cta--primary:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 40px -5px hsla(350, 85%, 55%, 0.5);
+@media (hover: hover) and (pointer: fine) {
+  .hero-cta--primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px -5px hsla(350, 85%, 55%, 0.5);
+  }
 }
 
 .hero-cta--primary:active {
@@ -241,11 +250,13 @@
   }
 }
 
-.hero-cta--secondary:hover {
-  transform: scale(1.05);
-  color: rgba(255, 255, 255, 0.82);
-  border-color: color-mix(in oklab, var(--ml-violet-400) 60%, transparent);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 12px 32px -12px var(--btn-glow);
+@media (hover: hover) and (pointer: fine) {
+  .hero-cta--secondary:hover {
+    transform: scale(1.05);
+    color: rgba(255, 255, 255, 0.82);
+    border-color: color-mix(in oklab, var(--ml-violet-400) 60%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 12px 32px -12px var(--btn-glow);
+  }
 }
 
 .hero-cta--secondary:active {
@@ -258,12 +269,18 @@
   align-items: center;
 }
 
-/* Scroll hint */
+/* Scroll hint — pinned near the bottom of the hero, centered */
 .scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 4rem;
+  /* translate(-50%) lives on a wrapper-free element that also runs fadeUp, so center
+     with margins instead of a transform the keyframes would overwrite. */
+  width: 8rem;
+  margin-left: -4rem;
 }
 
 .scroll-hint-text {
@@ -275,7 +292,7 @@
 }
 
 .scroll-chevron {
-  color: rgba(216, 180, 254, 0.6);
+  color: rgba(var(--accent-rgb), 0.6);
 }
 
 .scroll-bounce {
@@ -300,6 +317,11 @@
     text-align: left;
   }
 
+  /* Optical left alignment of the heavy glyphs; only when left-aligned (centered on mobile). */
+  .hero-name {
+    margin-left: -0.45rem;
+  }
+
   .hero-cta-group {
     justify-content: flex-start;
   }
@@ -317,14 +339,53 @@
     width: 3rem;
   }
 
-  .scroll-hint {
-    margin-top: 5rem;
+  .hero-content {
+    padding-inline: 3rem;
   }
 }
 
-@media only screen and (min-width: 768px) {
+/* Short portrait phones (360x740 and similar): give the name more air under the
+   galaxy disc that sits just above it. */
+@media (orientation: portrait) and (max-height: 760px) {
+  .hero-name {
+    margin-top: 3rem;
+  }
+}
+
+/* Landscape phones (844x390…): the header plus the full copy do not fit, so tighten
+   the vertical rhythm until the CTAs sit above the fold. */
+@media (orientation: landscape) and (max-height: 500px) {
   .hero-content {
-    padding: 7rem 3rem 4rem;
+    padding-block: 6.25rem 1.5rem;
+  }
+
+  .hero-layout {
+    gap: 1.5rem;
+  }
+
+  .hero-name {
+    margin-top: 0;
+    font-size: clamp(2.5rem, 14vh, 4rem);
+  }
+
+  .hero-role {
+    margin-top: 0.75rem;
+  }
+
+  .role-text {
+    font-size: 1rem;
+  }
+
+  .hero-motto {
+    display: none;
+  }
+
+  .hero-cta-group {
+    margin-top: 1rem;
+  }
+
+  .scroll-hint {
+    display: none;
   }
 }
 

@@ -18,6 +18,7 @@ export class NavigateComponent {
   public path = input<string>('');
   public fragment = input<string>('');
   public classNames = input<string>('');
+  public current = input<boolean>(false);
 
   private readonly routerLink = viewChild.required(RouterLinkComponent);
 

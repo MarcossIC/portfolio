@@ -1,27 +1,82 @@
-import {
-  type ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
-
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { ToastService } from '@app/lib/toast/Toast.service';
 import { ToastComponent } from './toast.component';
 
 describe('ToastComponent', () => {
-  let component: ToastComponent;
   let fixture: ComponentFixture<ToastComponent>;
+  let service: ToastService;
+  const el = () => fixture.nativeElement as HTMLElement;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ToastComponent],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
+    await TestBed.configureTestingModule({ imports: [ToastComponent] }).compileComponents();
+    service = TestBed.inject(ToastService);
     fixture = TestBed.createComponent(ToastComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
+  afterEach(() => vi.useRealTimers());
+
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(fixture.componentInstance).toBeTruthy();
+  });
+
+  it('does not nest live regions: the list has no aria-live, each toast carries its own role', () => {
+    expect(el().querySelector('.toast-list')?.hasAttribute('aria-live')).toBe(false);
+  });
+
+  it('moves focus to the previously focused element (or main) when a focused toast is removed', () => {
+    vi.useFakeTimers();
+    const prev = document.createElement('button');
+    document.body.appendChild(prev);
+    prev.focus();
+    service.info('t', 'm');
+    fixture.detectChanges();
+    const close = el().querySelector<HTMLButtonElement>('.btn-close')!;
+    close.focus();
+    close.click();
+    fixture.detectChanges();
+    vi.advanceTimersByTime(300);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(prev);
+    prev.remove();
+  });
+
+  it('uses role=status for success and role=alert for errors', () => {
+    vi.useFakeTimers();
+    service.success('ok', 'fine');
+    service.error('bad', 'broken');
+    fixture.detectChanges();
+    const toasts = el().querySelectorAll('.toast');
+    expect(toasts[0].getAttribute('role')).toBe('status');
+    expect(toasts[1].getAttribute('role')).toBe('alert');
+  });
+
+  it('closes a toast from its button (leaving, then gone)', () => {
+    vi.useFakeTimers();
+    service.info('t', 'm');
+    fixture.detectChanges();
+    el().querySelector<HTMLButtonElement>('.btn-close')!.click();
+    fixture.detectChanges();
+    expect(el().querySelector('.toast.leaving')).not.toBeNull();
+    vi.advanceTimersByTime(300);
+    fixture.detectChanges();
+    expect(el().querySelector('.toast')).toBeNull();
+  });
+
+  it('pauses the auto-dismiss while hovered', () => {
+    vi.useFakeTimers();
+    service.success('t', 'm');
+    fixture.detectChanges();
+    el().querySelector('.toast')!.dispatchEvent(new Event('mouseenter'));
+    vi.advanceTimersByTime(30_000);
+    fixture.detectChanges();
+    expect(el().querySelector('.toast')).not.toBeNull();
+  });
+
+  it('labels the close button through i18n', () => {
+    vi.useFakeTimers();
+    service.info('t', 'm');
+    fixture.detectChanges();
+    expect(el().querySelector('.btn-close')?.getAttribute('aria-label')).toBeTruthy();
   });
 });

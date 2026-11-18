@@ -74,14 +74,149 @@ export const DEVICE = {
 // ---- Render loop ----
 
 export const LOOP = {
-  /** Most time one frame may advance, so a tab switch or a breakpoint doesn't make the animation jump. */
+  /**
+   * Most time one frame may advance, so a tab switch or a breakpoint doesn't make the animation jump.
+   * There is no frame cap: the galaxy draws on every vsync, like the custom cursor, so both
+   * move at the same cadence. The only throttle is the governor's half-rate fallback (`QUALITY`).
+   */
   maxFrameMs: 50,
   /**
-   * Minimum time between rendered frames. It sits just under the 90Hz frame time:
-   * 60Hz and 90Hz render every frame, 120Hz runs at 60fps and 144Hz at 72fps. A slow
-   * galaxy gains nothing from high refresh rates; the GPU would only do twice the work.
+   * Longest the loop waits for the shaders to compile in the background before it
+   * starts anyway (and compiles them on the first frame, as it did before).
+   * It only matters when the parallel-compile extension never reports "ready".
+   * Kept well under hero-galaxy's `FIRST_FRAME_TIMEOUT_MS` (a spec checks it), so
+   * a stuck compile still gets its first frame on screen before the fallback.
    */
-  minFrameMs: 1000 / 95,
+  compileTimeoutMs: 1500,
+  /**
+   * rAF callbacks the draw-less vsync probe may spend measuring the display before the
+   * first draw (it runs alongside the shader compile; ≥ `QUALITY.vsyncMinSamples` + 1 to
+   * be able to finish). At 60Hz this caps the extra wait at ~0.5s, at 165Hz ~0.18s.
+   */
+  probeMaxCallbacks: 30,
+} as const;
+
+// ---- Adaptive resolution ----
+
+/**
+ * The governor lowers the drawing-buffer pixel ratio when the galaxy can't keep up
+ * with the display and raises it back once frames are on time again. Fill-rate is the
+ * only real cost of this scene, and it scales with the square of the pixel ratio.
+ *
+ * "Keeping up" is relative to the display: the loop draws on every vsync, so on a
+ * 165Hz monitor the target is a frame every 6.06ms, on 60Hz every 16.7ms. The governor
+ * measures the real vsync interval from the rAF gaps (see the `vsync*` fields) and
+ * counts a frame as late when it arrives more than `lateVsyncs` vsyncs after the
+ * previous one. Rendered gaps are quantized to whole vsyncs (1 = on time, 2 = a
+ * dropped one), so 1.5 sits halfway between them for any refresh rate: 60, 90, 120,
+ * 144, 165, 240Hz all get the same verdict, with no millisecond constant to retune.
+ * It counts late frames per window instead of averaging milliseconds, and it can't
+ * tell "on budget" from "well under budget" — going back up is a probe that is
+ * undone if it fails. Stars keep their apparent size: `uSize` follows the pixel ratio.
+ *
+ * Ladder: pixel-ratio notches down to the floor, then one more step: half rate (draw
+ * every 2nd vsync, decided by vsync count). Half rate is the last resort for a GPU
+ * that can't keep up even at the minimum resolution; it is judged like any other
+ * step (given up if it doesn't help) and probed back up after a calm stretch.
+ */
+export const QUALITY = {
+  /** Lowest pixel ratio the governor may drop to. Soft glow points still read fine at 1x on desktop. */
+  minPixelRatio: { mobile: 0.75, desktop: 1 },
+  /** Each notch multiplies the pixel ratio by this: ≈28% fewer pixels per notch down. */
+  step: 0.85,
+  /**
+   * A rendered frame is late when it comes more than this many vsyncs after the
+   * previous one (a vsync being the measured refresh interval; at half rate the
+   * period is 2 vsyncs, so the allowance doubles). Between 1 (on time) and 2 (one dropped vsync).
+   */
+  lateVsyncs: 1.5,
+  /** Gaps longer than this are stalls (tab switch, breakpoint, a long task), not GPU load: dropped. */
+  stallMs: 250,
+  /** rAF gaps shorter than this are not a vsync (two callbacks in one frame after a stall; 360Hz is 2.8ms): ignored. */
+  vsyncMinMs: 2,
+  /**
+   * The vsync estimate never exceeds this (50Hz). A GPU that only manages one frame per 2
+   * vsyncs on a 60Hz screen produces 33ms gaps; without the ceiling they would read as a
+   * 30Hz display and never count as late. It also keeps a 30fps-throttled rAF (iOS Low
+   * Power Mode) judged as late, as before.
+   */
+  vsyncMaxMs: 20,
+  /** Recent rAF gaps the estimate looks at (ring buffer, allocated once). */
+  vsyncWindow: 64,
+  /** Gaps needed before there is an estimate at all; until then the governor judges nothing. */
+  vsyncMinSamples: 16,
+  /** The estimate is recomputed every this many gaps (a tiny in-place sort, never per frame). */
+  vsyncEvery: 8,
+  /**
+   * Which gap of the window is taken as the vsync: this low percentile. A late frame is a
+   * longer gap, so the low end is the display, and a minority of late frames (or one
+   * stall) can't inflate it; a few sub-vsync glitches can't shrink it either.
+   */
+  vsyncPercentile: 0.1,
+  /** Relative change below which a new percentile is noise and the estimate stays put. */
+  vsyncTolerance: 0.1,
+  /**
+   * Time the evaluations must ALL read a longer vsync before the estimate follows
+   * (window dragged to a slower monitor: the DPR hook doesn't fire when only the refresh
+   * rate differs). Longer than any governor reaction on any refresh rate, so sustained
+   * GPU load steps the resolution down before the estimate can drift up to the slowed
+   * cadence. Going shorter is immediate.
+   */
+  vsyncRiseMs: 5000,
+  /**
+   * Length of an evaluation window, in wall-clock time: the window holds
+   * `windowMs / (vsync x period)` rendered frames (30 at 60Hz, ~82 at 165Hz). Every
+   * timing below that counts windows (down/up/backoff/hold) is therefore the same
+   * number of seconds on every display. Counting frames made them 2.75x faster on 165Hz.
+   */
+  windowMs: 500,
+  /** Floor for the frames in a window (a slow cadence at half rate still needs a sample). */
+  minWindowFrames: 8,
+  /**
+   * Frames (not time) ignored after the loop starts or resumes: shader warm-up,
+   * tab-switch catch-up. Like `settleFrames` this is a handful of event-driven hitch
+   * frames, not an elapsed time.
+   */
+  warmupFrames: 45,
+  /** Frames ignored after a pixel-ratio change or a resize: the buffer reallocation hitch. */
+  settleFrames: 10,
+  /** A window is over budget when more than this share of its frames is late (a fifth of the frames missed a vsync or more). */
+  overShare: 0.2,
+  /** A window is calm when at most this share is late: one late frame in a window is a blip. */
+  calmShare: 0.04,
+  /** Over-budget windows in a row before stepping down. A GC pause only ever spoils one. */
+  downWindows: 2,
+  /** Calm windows in a row (4s) before probing one notch up. */
+  upWindows: 8,
+  /**
+   * Windows to wait before probing again a notch that failed, per notch: starts at
+   * `initial` (12s) and doubles with each failure of THAT notch up to `max` (2 min).
+   * A success only clears its own notch, so a lucky probe of one notch doesn't reset
+   * the wait of the notch that keeps failing.
+   */
+  probeBackoff: { initial: 24, max: 240 },
+  /**
+   * After a failed probe, for this many windows (60s) only probes that buy at least
+   * `minProbeGain` of pixel ratio are tried. Small steps (1.23 to 1.45) are barely
+   * visible, and failing them is: the resolution jump is the only thing the viewer sees.
+   * A step that doubles the cadence (half rate back to full) always counts as big.
+   */
+  recentFailWindows: 120,
+  /** Pixel-ratio gain a probe must buy while a failure is recent (0.25: 1.7 to 2 qualifies, 1.23 to 1.45 doesn't). */
+  minProbeGain: 0.25,
+  /**
+   * Least drop in the late-frame share a step down must buy. Under iOS Low Power
+   * Mode, Chrome's Energy Saver or a CPU-bound page the rAF cadence is ~30fps at
+   * any resolution, and dropping pixels would only blur the stars.
+   */
+  minGain: 0.1,
+  /** Useless steps down in a row before giving up: the resolution is restored and held. */
+  maxIneffectiveSteps: 2,
+  /**
+   * Windows without any step down after giving up (240 = 2 min); doubles each
+   * time, so a throttled device sees one short dip, not a resolution that pumps.
+   */
+  hold: { initial: 240, max: 1920 },
 } as const;
 
 // ---- Camera & framing ----
@@ -104,6 +239,63 @@ export const FRAMING = {
   maxZoomOut: 2.4,
   /** Height-only shrink (px) a touch device absorbs without resizing. Covers the mobile URL bar showing back up mid-scroll. */
   touchHeightSlackPx: 160,
+  /**
+   * Portrait framing. Backing the camera off to fit the whole spiral on a phone
+   * left a tiny speck sitting on the hero copy, so portrait goes the other way:
+   * a closer camera (the rim bleeds past the sides, cinematic crop), the image
+   * lifted so the core sits above the name, and a dimmer galaxy so copy over the
+   * arms keeps its contrast. It blends in smoothly (smoothstep) as the canvas
+   * aspect drops from `minAspect` to `aspect`; at `minAspect` and wider nothing changes.
+   */
+  portrait: {
+    /** Canvas aspect (width / height) at and below which the full portrait framing applies: phones and portrait tablets. */
+    aspect: 0.75,
+    /**
+     * Camera distance as a multiple of `CAMERA.offset`. 1 is the desktop distance:
+     * the narrow portrait view then crops the spiral to its core and inner arms.
+     * Going below ~0.9 brings the near rim so close its stars balloon into blobs.
+     */
+    zoom: 1,
+    /**
+     * Telephoto magnification (narrower FOV): a bigger galaxy with no close-up
+     * distortion. Star sizes scale with it, so it reads as a crop of the same image.
+     */
+    magnify: 1.4,
+    /** Image lift as a fraction of the canvas height (a lens shift: the perspective doesn't change). Puts the core above the name. */
+    lift: 0.21,
+    /** Brightness multiplier for the stars and the core glow. */
+    brightness: 0.8,
+    /**
+     * Extra disc tilt toward the viewer, radians, added to `GALAXY.tilt.x`. The
+     * desktop view grazes the disc at ~10°, which reads as a flat band on a narrow
+     * screen; tilting the near rim down opens the spiral arms up. 0 keeps the desktop angle.
+     */
+    tilt: 0.35,
+  },
+  /**
+   * Landscape phones. The hero copy is a centered column and the viewport is too
+   * short to lift the core above it, so the default framing parked the bright core
+   * right on the name and the role text (~1:1 contrast). Instead the image slides
+   * sideways (a horizontal lens shift, like the portrait `lift`) so the core sits
+   * in the empty band right of the copy, and the copy keeps dim arms behind it.
+   *
+   * Detected by viewport, not canvas aspect: the hero's height depends on how much
+   * copy fits, so the canvas aspect on these screens is anything from ~1 to ~2.4.
+   * Replaces the portrait blend there; desktop, tablets and portrait phones never
+   * get here.
+   */
+  shortLandscape: {
+    /** Same breakpoint as the hero CSS: `(orientation: landscape) and (max-height: 500px)`. */
+    maxHeightPx: 500,
+    /** Image shift to the right, as a fraction of the canvas width: 0.32 puts the core at ~82% of the width. */
+    shift: 0.32,
+    /** Telephoto magnification: slightly bigger, so it reads as a deliberate side element and not a speck. */
+    magnify: 1.15,
+    /** Image lift as a fraction of the canvas height. */
+    lift: 0,
+    /** Brightness multiplier: the inner arms still cross the copy. */
+    brightness: 0.8,
+  },
 } as const;
 
 // ---- Galaxy shape ----
@@ -172,8 +364,24 @@ export const CORE_GLOW = {
   ],
   /** Small bright glow: breathes in size (`pulse`) and flickers in opacity. */
   core: { scale: 2, opacity: 0.2, flicker: 0.04, flickerSpeed: 1.9, pulse: 0.05, pulseSpeed: 1.4 },
+  /**
+   * Ignition: when the first frame shows, the core flares (fast attack, slower
+   * release, peak at a third of `durationMs`) so the galaxy reads as switching on
+   * rather than just fading in. `scale` is the extra core size at the peak, as a
+   * fraction. `opacity` is extra core opacity at the peak, as a multiple of
+   * `core.opacity`, added on top of the intro fade (not scaled by it): the core
+   * lights up while the arms are still faint. 0 and 0 turn it off.
+   */
+  ignition: { durationMs: 600, scale: 0.5, opacity: 1.5 },
   /** Wide, faint glow around the core. */
   halo: { scale: 6.5, opacity: 0.06 },
+  /**
+   * Sprite fragments whose alpha (texture × opacity) is under this are discarded
+   * instead of blended. The halo quad covers ~half the screen and its corners are
+   * fully transparent; at 1/1024 a skipped pixel adds under 1/4 of an 8-bit step,
+   * so nothing visible is lost — only the blending work.
+   */
+  alphaTest: 1 / 1024,
 } as const;
 
 // ---- Motion ----
@@ -185,10 +393,10 @@ export const MOTION = {
   introStartScale: 0.78,
   /** Shader clock on the first frame. Starting mid-spin means the arms already show differential winding. */
   startTime: 6,
-  /** Shader clock for the still frame painted under reduced motion. */
-  stillTime: 9,
   /** Nebula ⇄ Ember blend rate: ~95% of the way in ~0.6s. */
   paletteRate: 5,
+  /** The blend snaps onto its target this close to it (invisible), so the glow tint stops being recomputed. */
+  paletteSnap: 0.001,
   /**
    * Mouse parallax: rig rotation across the full viewport width (yaw) and height (pitch).
    * The pointer at an edge gets half of it. `rate` sets how fast the rig catches up.
@@ -196,6 +404,30 @@ export const MOTION = {
   parallax: { yaw: 0.16, pitch: 0.1, rate: 3 },
   /** Scroll distance, in viewport heights, over which the galaxy fades out. */
   fadeDistance: 0.9,
+  /**
+   * Scroll-linked depth. As the hero scrolls away (progress 0 → 1 over
+   * `fadeDistance`) the galaxy recedes instead of only fading: the camera dollies
+   * back, the disc tips a little toward the viewer, and the image lags behind the
+   * page like a distant plane. It is smoothed per frame (dt-based, like the
+   * parallax), so it glides even when scroll events arrive in bursts, and it
+   * reverses the same way on the way back up. At the top of the page all three
+   * are exactly 0: the framing is untouched.
+   */
+  scrollDepth: {
+    /** Extra camera distance at full progress, as a fraction of the framed distance (eased). */
+    dolly: 0.3,
+    /** Extra disc tilt toward the viewer at full progress, radians (eased). */
+    tilt: 0.16,
+    /**
+     * Image lag as a fraction of the scrolled distance (linear, so it moves like a
+     * plane further away): 0.5 → the galaxy scrolls at half the page speed.
+     */
+    lag: 0.5,
+    /** How fast the smoothed progress catches up with the scroll position, per second. */
+    rate: 5,
+    /** The smoothed progress snaps onto the scroll position this close to it, so the camera stops being updated. */
+    snap: 0.0005,
+  },
   /** Opacity under which the loop stops, since nothing visible is left to draw. */
   stopOpacity: 0.01,
 } as const;

@@ -2,6 +2,7 @@ import { NgClass, ViewportScroller } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   input,
 } from '@angular/core';
@@ -13,10 +14,10 @@ import { NavigationService, type NavigationConfig } from '@app/services/Navigati
   selector: 'router-link',
   template: ` <a
     [ngClass]="classNames()"
-    [attr.aria-hidden]="true"
-    (click)="navigate()"
-    role="link"
-    class="relative group cursor-pointer outline-none focus:outline-none focus-within:outline-none"
+    [attr.href]="href()"
+    [attr.aria-current]="current() ? 'location' : null"
+    (click)="onClick($event)"
+    class="relative group cursor-pointer"
   >
     <ng-content></ng-content>
   </a>`,
@@ -28,6 +29,16 @@ export class RouterLinkComponent {
   public path = input<string>();
   public fragment = input<string>('');
   public classNames = input<string>('');
+  /** Marks the link as the current section (aria-current="location"). */
+  public current = input<boolean>(false);
+
+  /** Real href so the link is focusable, announced as a link and works with middle click. */
+  protected readonly href = computed(() => {
+    const fragment = this.fragment();
+    if (!fragment) return null;
+    const path = this.path();
+    return path && path !== '/' ? `${path}#${fragment}` : `#${fragment}`;
+  });
 
   /**
    * Configuración opcional para la navegación suave
@@ -45,6 +56,13 @@ export class RouterLinkComponent {
   private readonly router: Router = inject(Router);
   private readonly viewportScroller = inject(ViewportScroller);
   private readonly navigationService = inject(NavigationService);
+
+  /** Plain clicks are smooth-scrolled; modified clicks keep the native behaviour. */
+  protected onClick(event: MouseEvent): void {
+    if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    void this.navigate();
+  }
 
   public async navigate(): Promise<void> {
     const fragment = this.fragment();

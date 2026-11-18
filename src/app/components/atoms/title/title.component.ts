@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       <h2
         [id]="titleID()"
         [ngClass]="className()"
-        class="title-section bg-ml-text-white bg-clip-text text-transparent"
+        class="title-section"
         [title]="name()"
       >
         <ng-content></ng-content>

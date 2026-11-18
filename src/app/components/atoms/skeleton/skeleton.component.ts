@@ -40,16 +40,6 @@ export type SkeletonVariant = 'text' | 'title' | 'image' | 'card' | 'field';
       100% { transform: translateX(100%); }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .skeleton::after {
-        animation: pulse-opacity 2s ease-in-out infinite;
-      }
-      @keyframes pulse-opacity {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 0.8; }
-      }
-    }
-
     .skeleton-text {
       height: 14px;
       border-radius: 6px;

@@ -8,9 +8,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       <img
         src="../../../assets/utils/logoWhite.png"
         alt="Marcos Lopez logo"
-        width="90px"
+        width="90"
+        height="90"
         decoding="async"
-        loading="eager"
+        loading="lazy"
       />
     </span>
   `,
@@ -26,7 +27,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       transform: rotate3d(0, 1, 0, 18deg);
       transform-style: preserve-3d;
       padding-block-end: 2px;
-      aspect-ratio: 3/2.5;
     }
   }
   @media only screen and (min-width: 700px) {

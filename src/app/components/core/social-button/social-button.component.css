@@ -9,6 +9,13 @@
     position: relative;
   }
 }
+/* Keyboard focus ring (the brand colors stay; the ring contrasts with the dark page) */
+.social-button-v2 a:focus-visible {
+  outline: 2px solid var(--cosmic-violet, #d8b4fe);
+  outline-offset: 4px;
+  border-radius: 1.5rem;
+}
+
 @media only screen and (max-width: 480px) {
   .social-button-v2  a {
     .social-icon {

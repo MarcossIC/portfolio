@@ -8,7 +8,7 @@ import { ScrollProgressService } from './ScrollProgressService.service';
 export interface NavigationConfig {
   /**
    * Duración de la animación en milisegundos
-   * Default: 800ms
+   * Default: escala con la distancia (450-1000ms)
    */
   duration?: number;
 
@@ -26,7 +26,16 @@ export interface NavigationConfig {
    * Default: 'fallback'
    */
   fallbackBehavior?: 'fallback' | 'none';
+
+  /**
+   * Reflejar `#id` en la URL con history.replaceState (sin navegación del router)
+   * Default: true
+   */
+  updateHash?: boolean;
 }
+
+/** Secciones válidas como deep link (`/#contact`). */
+export const SECTION_IDS: readonly string[] = ['hero', 'career', 'about-me', 'projects', 'contact'];
 
 /**
  * Información de una sección para navegación
@@ -44,11 +53,61 @@ export class NavigationService {
   private readonly scrollService = inject(ScrollProgressService);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  private readonly defaultConfig: Required<NavigationConfig> = {
-    duration: 800,
+  private readonly defaultConfig: Omit<Required<NavigationConfig>, 'duration'> & Pick<NavigationConfig, 'duration'> = {
     offset: 100,
-    fallbackBehavior: 'fallback'
+    fallbackBehavior: 'fallback',
+    updateHash: true
   };
+
+  /**
+   * Deep link en la carga inicial: si el hash apunta a una sección conocida,
+   * salta ahí al instante (duration 0) y mueve el focus. No toca la URL.
+   * @returns true si había una sección a la que ir
+   */
+  async scrollToHash(hash: string = this.isBrowser ? window.location.hash : ''): Promise<boolean> {
+    if (!this.isBrowser) return false;
+    const id = decodeURIComponent(hash.replace(/^#/, ''));
+    if (!SECTION_IDS.includes(id) || !this.sectionExists(id)) return false;
+    const offset = this.defaultConfig.offset;
+    await this.navigateToSection(id, { duration: 0, updateHash: false, offset });
+    await this.settle(id, offset);
+    return true;
+  }
+
+  /**
+   * Tras el salto inicial el layout todavía se mueve: el skeleton de un @defer
+   * es reemplazado por la sección real (alturas distintas) y entran imágenes.
+   * Durante una ventana corta re-alineamos si el target derivó o fue reemplazado,
+   * y re-enfocamos al elemento nuevo. Se detiene apenas el usuario toma el control.
+   */
+  private settle(id: string, offset: number, windowMs = 2000): Promise<void> {
+    return new Promise((resolve) => {
+      const userEvents = ['wheel', 'touchstart', 'keydown', 'mousedown'] as const;
+      let rafId = 0;
+      let last = this.document.getElementById(id);
+      const start = performance.now();
+      const stop = () => {
+        cancelAnimationFrame(rafId);
+        for (const e of userEvents) window.removeEventListener(e, stop);
+        resolve();
+      };
+      for (const e of userEvents) window.addEventListener(e, stop, { passive: true, once: true });
+      const tick = (now: number) => {
+        const el = this.document.getElementById(id);
+        if (el) {
+          const swapped = el !== last;
+          if (swapped || Math.abs(el.getBoundingClientRect().top - offset) > 1.5) {
+            void this.scrollService.scrollToElement(el, offset, 0);
+          }
+          if (swapped) this.setFocusToSection(el);
+          last = el;
+        }
+        if (now - start >= windowMs) stop();
+        else rafId = requestAnimationFrame(tick);
+      };
+      rafId = requestAnimationFrame(tick);
+    });
+  }
 
   /**
    * Navega suavemente a una sección por su ID
@@ -89,8 +148,14 @@ export class NavigationService {
         await this.scrollService.scrollTo(targetPosition, finalConfig.duration);
       }
 
+      if (finalConfig.updateHash && this.isBrowser && window.location.hash !== `#${sectionId}`) {
+        // replaceState no dispara popstate/hashchange: el router ni se entera
+        // (y se conserva history.state, donde Angular guarda su navigationId).
+        window.history.replaceState(window.history.state, '', `#${sectionId}`);
+      }
+
       // Actualizar el focus para accesibilidad
-      this.setFocusToSection(sectionInfo.element);
+      this.setFocusToSection(this.document.getElementById(sectionId) ?? sectionInfo.element);
 
     } catch (error) {
       console.error('NavigationService: Error durante la navegación:', error);
@@ -141,22 +206,6 @@ export class NavigationService {
    */
   sectionExists(sectionId: string): boolean {
     return !!this.document.getElementById(sectionId);
-  }
-
-  /**
-   * Obtiene la posición actual del scroll como porcentaje
-   * @returns Observable con el progreso del scroll (0-1)
-   */
-  getScrollProgress() {
-    return this.scrollService.getScrollYProgress();
-  }
-
-  /**
-   * Obtiene la posición actual del scroll suavizada
-   * @returns Observable con el progreso suavizado del scroll (0-1)
-   */
-  getSmoothScrollProgress() {
-    return this.scrollService.getSmoothScrollProgress();
   }
 
   /**

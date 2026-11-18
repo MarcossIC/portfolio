@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Locator, type Page } from '@playwright/test';
 
 /** Wait for Angular to hydrate and the career section to appear */
 async function waitForCareerSection(page: Page) {
@@ -91,23 +91,28 @@ test.describe('Experience section — visibility and responsiveness', () => {
     await cards.nth(1).scrollIntoViewIfNeeded();
     await expect(cards.nth(1)).toHaveClass(/is-visible/, { timeout: 8000 });
 
-    // Hover the first card
-    const hoverTarget = cards.first().locator('.timeline-card');
-    await hoverTarget.hover();
+    const borderOf = (loc: Locator) =>
+      loc.evaluate((el) => getComputedStyle(el).borderColor);
 
-    // The hovered card should have .is-hovered
-    await expect(hoverTarget).toHaveClass(/is-hovered/);
-
-    // The sibling card should NOT have .is-hovered
     const siblingCard = cards.nth(1).locator('.timeline-card');
-    await expect(siblingCard).not.toHaveClass(/is-hovered/);
+    const hoverTarget = cards.first().locator('.timeline-card');
+    await page.mouse.move(0, 0);
+    const before = await borderOf(hoverTarget);
+    const siblingBefore = await borderOf(siblingCard);
+
+    // Hover is pure CSS (:hover, gated by @media (hover: hover)); wait out the transition.
+    await hoverTarget.hover();
+    await expect.poll(() => borderOf(hoverTarget)).not.toBe(before);
+
+    // The sibling card keeps its resting border
+    expect(await borderOf(siblingCard)).toBe(siblingBefore);
     await expect(siblingCard).toBeVisible();
   });
 
   test('node circles are visible and properly sized', async ({ page }) => {
     const { firstCard } = await scrollToCareerAndWait(page);
 
-    const circle = firstCard.locator('.timeline-node__circle');
+    const circle = firstCard.locator('.timeline-node__badge');
     await expect(circle).toBeVisible();
 
     const box = await circle.boundingBox();
