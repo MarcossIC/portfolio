@@ -14,7 +14,8 @@
 
 .anim-ready.revealed .anim {
   opacity: 1;
-  transform: none;
+  /* Identity, not `none`: avoids a layout invalidation when the reveal starts. */
+  transform: translate(0);
 }
 
 /* Background */

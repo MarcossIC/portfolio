@@ -19,7 +19,8 @@
 [data-scroll-animate="scale-up"] { transform: scale(0.9); }
 /* Was a blur filter; replaced by a subtle scale for the same "focus in" feel. */
 [data-scroll-animate="blur-to-sharp"] { transform: translateY(20px) scale(0.97); }
-[data-scroll-animate].scroll-visible { opacity: 1; transform: none; will-change: auto; }
+/* Identity, not `none`: going none -> non-none flips HasTransform and forces a layout per reveal. */
+[data-scroll-animate].scroll-visible { opacity: 1; transform: translate(0); will-change: auto; }
 
 @media (prefers-reduced-motion: reduce) {
   [data-scroll-animate] {
