@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, afterNextRender, inject } from '@angular/core';
+import { NavigationService } from '@app/services/NavigationService.service';
 import { HeroLayout } from './layouts/hero/hero.component';
 import { ProjectsLayout } from './layouts/projects/projects.component';
 import { ContactLayout } from '@app/pages/home/layouts/contact/contact.component';
@@ -23,6 +24,14 @@ import { ContactSkeletonComponent } from '@app/components/atoms/skeleton/contact
     ContactSkeletonComponent,
   ],
 })
-export class HomePage {}
+export class HomePage {
+  private readonly navigation = inject(NavigationService);
+
+  constructor() {
+    // Deep link (/#contact): browser only, after hydration. The sections behind
+    // @defer carry their ids on skeletons, so the target exists before it renders.
+    afterNextRender(() => void this.navigation.scrollToHash());
+  }
+}
 
 export default HomePage;
