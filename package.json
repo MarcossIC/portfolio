@@ -27,7 +27,6 @@
     ]
   },
   "dependencies": {
-    "@angular/animations": "21.2.3",
     "@angular/cdk": "^21.2.2",
     "@angular/common": "21.2.3",
     "@angular/compiler": "21.2.3",
@@ -38,17 +37,12 @@
     "@angular/platform-server": "21.2.3",
     "@angular/router": "21.2.3",
     "@angular/ssr": "21.2.2",
-    "aos": "2.3.4",
     "atropos": "2.0.2",
     "express": "^5.2.1",
     "gsap": "^3.15.0",
-    "ng-particles": "3.12.0",
     "rxjs": "^7.8.2",
     "three": "^0.185.1",
-    "tslib": "^2.8.1",
-    "tsparticles-engine": "2.12.0",
-    "tsparticles-slim": "2.12.0",
-    "vanilla-tilt": "1.8.1"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "21.2.2",
@@ -61,7 +55,6 @@
     "@storybook/addon-docs": "10.2.17",
     "@storybook/angular": "10.2.17",
     "@tailwindcss/postcss": "^4.2.1",
-    "@types/aos": "3.0.7",
     "@types/express": "^5.0.6",
     "@types/node": "^25.4.0",
     "@types/three": "^0.185.1",

@@ -1,6 +1,5 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { HomePage } from './home.component';
 
 describe('HomePageComponent', () => {
@@ -10,7 +9,6 @@ describe('HomePageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HomePage],
-      providers: [provideNoopAnimations()],
       schemas: [NO_ERRORS_SCHEMA],
     })
     .overrideComponent(HomePage, {

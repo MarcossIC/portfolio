@@ -37,7 +37,6 @@
               "src/styles/_vars.css",
               "src/styles/normalize.css",
               "src/styles/styles.css",
-              "node_modules/aos/dist/aos.css",
               "node_modules/atropos/atropos.min.css"
             ],
             "scripts": [],
@@ -105,7 +104,6 @@
               "src/styles/_vars.css",
               "src/styles/normalize.css",
               "src/styles/styles.css",
-              "node_modules/aos/dist/aos.css",
               "node_modules/atropos/atropos.min.css"
             ]
           }
