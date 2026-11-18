@@ -1,7 +1,7 @@
 <form
   class="form-wrapper"
   [class.shake]="shakeForm()"
-  (animationend)="onShakeEnd()"
+  (animationend)="$event.target === $event.currentTarget && onShakeEnd()"
   [formGroup]="contactForm"
   (submit)="onSubmit()"
   novalidate

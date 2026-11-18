@@ -115,4 +115,16 @@ describe('ContactFormComponent', () => {
     expect(input('name').value).toBe('');
     expect(el().querySelectorAll('.field-error-text').length).toBe(0);
   });
+
+  it('ignores bubbled animationend from children; only the form ending its own shake clears it', () => {
+    submit();
+    const form = el().querySelector('form')!;
+    expect(form.classList.contains('shake')).toBe(true);
+    el().querySelector('.field-group')!.dispatchEvent(new Event('animationend', { bubbles: true }));
+    fixture.detectChanges();
+    expect(form.classList.contains('shake')).toBe(true);
+    form.dispatchEvent(new Event('animationend'));
+    fixture.detectChanges();
+    expect(form.classList.contains('shake')).toBe(false);
+  });
 });

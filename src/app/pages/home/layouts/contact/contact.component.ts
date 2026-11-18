@@ -44,10 +44,16 @@ export class ContactLayout {
 
   protected handleFormSubmit(event: ContactState) {
     if (this.sending()) return;
-    this.sending.set(true);
 
     const texts = this.CONTACT_FORM().TOAST;
-    const sendingToastId = this.toast.info(texts.SENDING_TITLE, texts.SENDING_MESSAGE);
+    // A notification failure must never block the send nor leave `sending` stuck.
+    let sendingToastId: string | null = null;
+    try {
+      sendingToastId = this.toast.info(texts.SENDING_TITLE, texts.SENDING_MESSAGE);
+    } catch {
+      sendingToastId = null;
+    }
+    this.sending.set(true);
 
     const contactForm = new FormData();
     contactForm.append('name', event.name);
@@ -64,7 +70,7 @@ export class ContactLayout {
         // Runs on success, error and unsubscribe: the "sending" toast must never linger.
         finalize(() => {
           this.sending.set(false);
-          this.toast.remove(sendingToastId);
+          if (sendingToastId) this.toast.remove(sendingToastId);
         }),
       )
       .subscribe(() => {

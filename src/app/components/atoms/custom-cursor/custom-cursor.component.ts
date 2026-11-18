@@ -177,7 +177,7 @@ export class CustomCursorComponent {
   constructor() {
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platform)) return;
-      if (window.matchMedia('(pointer: coarse), (hover: none)').matches) return;
+      const coarseMq = window.matchMedia('(pointer: coarse), (hover: none)');
 
       const dotEl = this.dotRef().nativeElement;
       const ringEl = this.ringRef().nativeElement;
@@ -311,15 +311,23 @@ export class CustomCursorComponent {
         syncVisible();
       };
 
-      document.addEventListener('pointermove', onMove, { passive: true });
-      document.addEventListener('pointerover', onOver, { passive: true });
-      document.addEventListener('pointerdown', onDown, { passive: true });
-      document.addEventListener('pointerup', onUp, { passive: true });
-      document.addEventListener('pointercancel', onUp, { passive: true });
-      document.addEventListener('mouseout', onOut);
-      window.addEventListener('blur', onUp);
+      let active = false;
+      const activate = () => {
+        if (active) return;
+        active = true;
+        document.addEventListener('pointermove', onMove, { passive: true });
+        document.addEventListener('pointerover', onOver, { passive: true });
+        document.addEventListener('pointerdown', onDown, { passive: true });
+        document.addEventListener('pointerup', onUp, { passive: true });
+        document.addEventListener('pointercancel', onUp, { passive: true });
+        document.addEventListener('mouseout', onOut);
+        window.addEventListener('blur', onUp);
+      };
 
-      this.destroyRef.onDestroy(() => {
+      // Also used when a 2-in-1 flips to touch: restore the native cursor and go idle.
+      const deactivate = () => {
+        if (!active) return;
+        active = false;
         document.removeEventListener('pointermove', onMove);
         document.removeEventListener('pointerover', onOver);
         document.removeEventListener('pointerdown', onDown);
@@ -328,7 +336,27 @@ export class CustomCursorComponent {
         document.removeEventListener('mouseout', onOut);
         window.removeEventListener('blur', onUp);
         if (rafId) cancelAnimationFrame(rafId);
+        rafId = 0;
         styleEl?.remove();
+        styleEl = null;
+        started = false;
+        outside = false;
+        overText = false;
+        hover = false;
+        project = false;
+        pressed = false;
+        hostEl.classList.remove('cursor-hover', 'cursor-project', 'cursor-pressed');
+        this.isOnProject.set(false);
+        syncVisible();
+      };
+
+      const sync = () => (coarseMq.matches ? deactivate() : activate());
+      coarseMq.addEventListener('change', sync);
+      sync();
+
+      this.destroyRef.onDestroy(() => {
+        coarseMq.removeEventListener('change', sync);
+        deactivate();
       });
     });
   }

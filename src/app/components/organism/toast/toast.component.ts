@@ -9,6 +9,7 @@ import { TOAST_UI } from '@constants/appConst';
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '(document:focusin)': 'trackFocus($event)' },
 })
 export class ToastComponent {
   private readonly toastService = inject(ToastService);
@@ -18,7 +19,25 @@ export class ToastComponent {
     () => this.i18n.getConstant('appConst')?.TOAST_UI || TOAST_UI,
   );
 
+  /** Last focused element outside the toasts: where focus returns when a focused toast goes away. */
+  private lastOutside: Element | null = null;
+
+  protected trackFocus(e: FocusEvent): void {
+    const t = e.target;
+    if (t instanceof Element && !t.closest('.toast-list')) this.lastOutside = t;
+  }
+
   protected close(ID: string): void {
+    const active = typeof document !== 'undefined' ? document.activeElement : null;
+    if (active instanceof HTMLElement && active.closest(`[id="${ID}"]`)) {
+      const prev = this.lastOutside;
+      const fallback = document.querySelector<HTMLElement>('main');
+      if (prev instanceof HTMLElement && prev.isConnected) prev.focus({ preventScroll: true });
+      else if (fallback) {
+        if (!fallback.hasAttribute('tabindex')) fallback.setAttribute('tabindex', '-1');
+        fallback.focus({ preventScroll: true });
+      }
+    }
     this.toastService.remove(ID);
   }
 

@@ -6,7 +6,7 @@
 >
   <div class="header-container">
     <!-- Logo -->
-    <button class="logo-btn" (click)="scrollToTop()" aria-label="Scroll to top">
+    <button class="logo-btn" (click)="scrollToTop()" [attr.aria-label]="UI().SCROLL_TOP">
       M
     </button>
 
@@ -37,7 +37,7 @@
       class="mobile-toggle"
       [class.is-open]="mobileOpen()"
       (click)="toggleMobile()"
-      [attr.aria-label]="mobileOpen() ? 'Close menu' : 'Open menu'"
+      [attr.aria-label]="mobileOpen() ? UI().CLOSE_MENU : UI().OPEN_MENU"
       [attr.aria-expanded]="mobileOpen()"
       aria-controls="mobile-menu"
     >
@@ -56,7 +56,7 @@
     class="mobile-nav"
     [class.is-open]="mobileOpen()"
     [attr.inert]="mobileOpen() ? null : ''"
-    aria-label="Mobile"
+    [attr.aria-label]="UI().MOBILE_NAV"
   >
     @for (NAVIGATION of NAVIGATIONS(); track NAVIGATION.ID) {
       <navigate

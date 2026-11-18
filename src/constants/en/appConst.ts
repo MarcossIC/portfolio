@@ -251,6 +251,13 @@ export const ATMOSPHERE = {
   NAMES: { nebula: 'Nebula', ember: 'Ember' }
 };
 
+export const HEADER_UI = {
+  OPEN_MENU: 'Open menu',
+  CLOSE_MENU: 'Close menu',
+  MOBILE_NAV: 'Mobile navigation',
+  SCROLL_TOP: 'Scroll to top'
+};
+
 export const TOAST_UI = {
   REGION_LABEL: 'Notifications',
   CLOSE: 'Close notification'

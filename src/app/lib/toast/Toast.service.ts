@@ -10,6 +10,11 @@ const DEFAULT_SECONDS = 5;
 /** Info toasts usually track a pending task and are dismissed by the caller. */
 const INFO_SECONDS = 30;
 
+let idCounter = 0;
+/** crypto.randomUUID is undefined on insecure contexts (e.g. http://192.168.x.x on a phone). */
+const newId = (): string =>
+  globalThis.crypto?.randomUUID?.() ?? `toast-${Date.now().toString(36)}-${(idCounter++).toString(36)}`;
+
 interface CountdownTimer {
   handle: ReturnType<typeof setTimeout> | null;
   remainingMs: number;
@@ -88,7 +93,7 @@ export class ToastService extends SignalsStoreService<ToastProps> {
     if (!seconds || seconds <= 0) seconds = DEFAULT_SECONDS;
 
     const toast: ToastModel = {
-      ID: crypto.randomUUID(),
+      ID: newId(),
       title,
       message,
       visible: true,

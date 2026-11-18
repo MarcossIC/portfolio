@@ -69,4 +69,13 @@ describe('Service: Toast', () => {
     vi.advanceTimersByTime(200_000);
     expect(list()).toHaveLength(0);
   });
+
+  it('still creates toasts when crypto.randomUUID is unavailable (insecure context)', () => {
+    vi.stubGlobal('crypto', {});
+    const a = TestBed.inject(ToastService).info('a', 'b');
+    const b = TestBed.inject(ToastService).info('a', 'b');
+    vi.unstubAllGlobals();
+    expect(a).toBeTruthy();
+    expect(a).not.toBe(b);
+  });
 });

@@ -10,18 +10,25 @@ describe('CustomCursorComponent', () => {
   let fixture: ComponentFixture<CustomCursorComponent>;
   let host: HTMLElement;
   let target: HTMLElement | undefined;
+  let coarseState = false;
+  const coarseListeners = new Set<() => void>();
 
   async function setup({ coarse = false, reduced = false }: SetupOptions = {}): Promise<void> {
     // jsdom does not implement matchMedia
+    coarseState = coarse;
+    coarseListeners.clear();
     vi.stubGlobal(
       'matchMedia',
-      vi.fn((query: string) => ({
-        matches:
-          (query.includes('pointer: coarse') && coarse) ||
-          (query.includes('prefers-reduced-motion') && reduced),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-      }))
+      vi.fn((query: string) => {
+        const isCoarse = query.includes('pointer: coarse');
+        return {
+          get matches() {
+            return (isCoarse && coarseState) || (query.includes('prefers-reduced-motion') && reduced);
+          },
+          addEventListener: (_: string, cb: () => void) => isCoarse && coarseListeners.add(cb),
+          removeEventListener: (_: string, cb: () => void) => isCoarse && coarseListeners.delete(cb),
+        };
+      })
     );
     // Async rAF (macrotask): a sync one would re-enter Angular's zoneless scheduler (NG0100)
     vi.stubGlobal(
@@ -221,5 +228,29 @@ describe('CustomCursorComponent', () => {
 
     fixture.destroy();
     expect(document.getElementById('custom-cursor-hide')).toBeNull();
+  });
+
+  it('releases the native cursor when the primary pointer turns coarse, and re-engages when it returns', async () => {
+    await setup();
+    await moveOver(make('div'), 5, 5);
+    expect(document.getElementById('custom-cursor-hide')).toBeTruthy();
+
+    coarseState = true;
+    coarseListeners.forEach((cb) => cb());
+    expect(document.getElementById('custom-cursor-hide')).toBeNull();
+    expect(host.classList.contains('is-visible')).toBe(false);
+
+    coarseState = false;
+    coarseListeners.forEach((cb) => cb());
+    await moveOver(make('div'), 8, 8);
+    expect(document.getElementById('custom-cursor-hide')).toBeTruthy();
+    expect(host.classList.contains('is-visible')).toBe(true);
+  });
+
+  it('removes the media-query listener on destroy', async () => {
+    await setup();
+    expect(coarseListeners.size).toBe(1);
+    fixture.destroy();
+    expect(coarseListeners.size).toBe(0);
   });
 });

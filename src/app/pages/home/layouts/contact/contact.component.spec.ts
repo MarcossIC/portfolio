@@ -86,4 +86,16 @@ describe('ContactLayout', () => {
     el().querySelector('form')!.dispatchEvent(new Event('submit'));
     http.expectOne('https://formspree.io/f/xdorrewr');
   });
+
+  it('still sends and releases `sending` when toast creation throws', () => {
+    vi.spyOn(toast, 'info').mockImplementation(() => {
+      throw new Error('boom');
+    });
+    const sending = () => (fixture.componentInstance as unknown as { sending: () => boolean }).sending();
+    submitValid();
+    const req = http.expectOne('https://formspree.io/f/xdorrewr');
+    expect(sending()).toBe(true);
+    req.flush({});
+    expect(sending()).toBe(false);
+  });
 });

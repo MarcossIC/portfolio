@@ -20,8 +20,25 @@ describe('ToastComponent', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('renders a polite live region', () => {
-    expect(el().querySelector('.toast-list')?.getAttribute('aria-live')).toBe('polite');
+  it('does not nest live regions: the list has no aria-live, each toast carries its own role', () => {
+    expect(el().querySelector('.toast-list')?.hasAttribute('aria-live')).toBe(false);
+  });
+
+  it('moves focus to the previously focused element (or main) when a focused toast is removed', () => {
+    vi.useFakeTimers();
+    const prev = document.createElement('button');
+    document.body.appendChild(prev);
+    prev.focus();
+    service.info('t', 'm');
+    fixture.detectChanges();
+    const close = el().querySelector<HTMLButtonElement>('.btn-close')!;
+    close.focus();
+    close.click();
+    fixture.detectChanges();
+    vi.advanceTimersByTime(300);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(prev);
+    prev.remove();
   });
 
   it('uses role=status for success and role=alert for errors', () => {

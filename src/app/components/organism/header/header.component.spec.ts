@@ -119,4 +119,40 @@ describe('HeaderComponent', () => {
     fixture.destroy();
     expect(document.documentElement.style.overflow).toBe('');
   });
+
+  it('moves focus to the first menu link only after the panel is no longer inert', () => {
+    const seen: { el: Element; inert: boolean }[] = [];
+    const orig = HTMLElement.prototype.focus;
+    vi.spyOn(HTMLElement.prototype, 'focus').mockImplementation(function (this: HTMLElement, o?: FocusOptions) {
+      seen.push({ el: this, inert: this.closest('.mobile-nav')?.hasAttribute('inert') ?? false });
+      orig.call(this, o);
+    });
+    open();
+    const first = panel().querySelector('a, button')!;
+    const hit = seen.find((s) => s.el === first);
+    expect(hit).toBeTruthy();
+    expect(hit!.inert).toBe(false);
+  });
+
+  it('traps Tab inside toggle + panel while open', () => {
+    open();
+    const items = [toggle(), ...Array.from(panel().querySelectorAll<HTMLElement>('a[href], button, [tabindex="0"]'))];
+    const last = items[items.length - 1];
+    last.focus();
+    const ev = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+    document.dispatchEvent(ev);
+    expect(ev.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(items[0]);
+
+    const back = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true, cancelable: true });
+    document.dispatchEvent(back);
+    expect(back.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(last);
+  });
+
+  it('localizes toggle and mobile nav labels', () => {
+    expect(toggle().getAttribute('aria-label')).not.toBe('Close menu');
+    expect(panel().getAttribute('aria-label')).not.toBe('Mobile');
+    expect(toggle().getAttribute('aria-label')).toBeTruthy();
+  });
 });

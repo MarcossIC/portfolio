@@ -1,8 +1,6 @@
 <div
   [class]="'toast-list ' + toasts().position"
   role="region"
-  aria-live="polite"
-  aria-relevant="additions"
   [attr.aria-label]="UI().REGION_LABEL"
 >
   @for (toast of toasts().toasts; track toast.ID) {

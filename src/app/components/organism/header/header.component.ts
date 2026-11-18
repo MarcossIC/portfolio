@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, signal, afterNextRender, DestroyRef, PLATFORM_ID, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, signal, afterNextRender, afterRenderEffect, DestroyRef, PLATFORM_ID, viewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { HEADER } from '@constants/appConst';
+import { HEADER, HEADER_UI } from '@constants/appConst';
 import type { Header } from '@app/models/types';
 import { NavigateComponent } from '../../molecules/navigate/navigate.component';
 import { HeaderMenuOptionsComponent } from '@app/components/organism/header-menu-options/header-menu-options.component';
@@ -11,6 +11,7 @@ import { ActiveSectionService } from '@app/services/active-section.service';
 
 const SCROLL_THRESHOLD = 50;
 const DESKTOP_BREAKPOINT = 768;
+const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex="0"]';
 
 @Component({
   standalone: true,
@@ -31,6 +32,8 @@ export class HeaderComponent {
   protected readonly i18nService = inject(I18nService);
   protected readonly activeSection = inject(ActiveSectionService);
   protected readonly NAVIGATIONS = computed(() => this.i18nService.getConstant('appConst')?.HEADER || HEADER);
+
+  protected readonly UI = computed(() => this.i18nService.getConstant('appConst')?.HEADER_UI || HEADER_UI);
 
   protected readonly scrolled = signal(false);
   protected readonly mobileOpen = signal(false);
@@ -63,6 +66,13 @@ export class HeaderComponent {
       this.activeSection.track(['hero', ...this.NAVIGATIONS().map((n: Header) => n.FRAGMENT)]);
     });
 
+    // Runs after the header template applied `.is-open` / dropped `inert`; a plain effect()
+    // would run first and .focus() would hit an inert, visibility:hidden element.
+    afterRenderEffect(() => {
+      if (!this.mobileOpen()) return;
+      this.mobilePanel()?.nativeElement.querySelector<HTMLElement>(FOCUSABLE)?.focus({ preventScroll: true });
+    });
+
     // Mobile menu side effects: Escape / outside tap / resize close, scroll lock, focus handling.
     effect((onCleanup) => {
       if (!this.mobileOpen() || !isPlatformBrowser(this.platformId)) return;
@@ -75,6 +85,7 @@ export class HeaderComponent {
 
       const onKey = (e: KeyboardEvent) => {
         if (e.key === 'Escape') this.closeMobile('restore');
+        else if (e.key === 'Tab') this.trapTab(e);
       };
       const onPointerDown = (e: Event) => {
         const target = e.target as Node | null;
@@ -90,9 +101,6 @@ export class HeaderComponent {
       document.addEventListener('pointerdown', onPointerDown);
       window.addEventListener('resize', onResize, { passive: true });
 
-      // Move focus into the menu (first link).
-      this.mobilePanel()?.nativeElement.querySelector<HTMLElement>('a, button')?.focus({ preventScroll: true });
-
       onCleanup(() => {
         html.style.overflow = '';
         html.style.removeProperty('--scrollbar-comp');
@@ -101,6 +109,25 @@ export class HeaderComponent {
         window.removeEventListener('resize', onResize);
       });
     });
+  }
+
+  /** Keeps Tab / Shift+Tab cycling within toggle + panel while the menu is open. */
+  private trapTab(e: KeyboardEvent) {
+    const toggle = this.toggleBtn()?.nativeElement;
+    const panel = this.mobilePanel()?.nativeElement;
+    if (!toggle || !panel) return;
+    const items = [toggle, ...Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE))];
+    const first = items[0];
+    const last = items[items.length - 1];
+    const active = document.activeElement;
+    const inside = !!active && items.includes(active as HTMLElement);
+    if (e.shiftKey && (active === first || !inside)) {
+      e.preventDefault();
+      last.focus({ preventScroll: true });
+    } else if (!e.shiftKey && (active === last || !inside)) {
+      e.preventDefault();
+      first.focus({ preventScroll: true });
+    }
   }
 
   protected scrollToTop() {
