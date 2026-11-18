@@ -1,6 +1,7 @@
-/* Project card: the screenshot fills the card width (16:10, cropped from the top),
-   with the tech stack row underneath. Radii are concentric: outer 18px - 8px inset
-   = 10px on the image. */
+/* Project card: the 400x400 screenshot (two 400x200 screens stacked) is shown
+   whole and square, centered and never wider than its 400px source so it doesn't
+   upscale; the tech stack row sits underneath. Radii are concentric: outer 18px -
+   8px inset = 10px on the image. */
 .project-img {
   --card-radius: 18px;
   --card-inset: 8px;
@@ -60,6 +61,8 @@
 
 .project-atropos-content {
   width: 100%;
+  max-width: 400px;
+  margin-inline: auto;
   scale: 0.985;
   transition: scale 300ms ease;
 }
@@ -68,9 +71,8 @@
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 1;
   object-fit: cover;
-  object-position: top;
   border-radius: calc(var(--card-radius) - var(--card-inset));
   /* Dark placeholder while the image decodes (was a white flash). */
   background-color: rgb(255 255 255 / 0.04);

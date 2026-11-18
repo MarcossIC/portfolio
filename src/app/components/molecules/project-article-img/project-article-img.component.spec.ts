@@ -28,6 +28,14 @@ describe('ProjectArticleImgComponent', () => {
     expect(link.getAttribute('target')).toBe('_blank');
   });
 
+  it('declares the square 400x400 size of the project screenshots', () => {
+    render();
+    const img = fixture.nativeElement.querySelector('img') as HTMLImageElement;
+
+    expect(img.getAttribute('width')).toBe('400');
+    expect(img.getAttribute('height')).toBe('400');
+  });
+
   it('renders no link target for private projects without a repository', () => {
     const link = render();
 
