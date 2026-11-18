@@ -14,8 +14,14 @@ h2.title-section {
   text-align: center;
 }
 
+/* The h2 itself never clips its background to text: each projected word carries its
+   own gradient (bg-clip-text on the span). Nesting background-clip: text breaks in
+   Chromium once the accent gets its own layer (will-change / compositor animation):
+   its glyphs land in the h2's mask at the h2's origin and a ghost copy of the accent
+   word shows up at the left edge. */
+
 /* Scroll-driven reveal of the accent word (progressive enhancement).
-   The accent <span> is projected content, hence ::ng-deep. Compositor-friendly:
+   The accent <span class="title-accent"> is projected content, hence ::ng-deep. Compositor-friendly:
    only opacity + translate (no clip-path). It animates a different element than the
    wrapping [scrollAnimate] fade-up and keeps a 0.35 opacity floor, so the two don't
    compound into a double fade. Unsupported browsers: unchanged. */
@@ -25,7 +31,7 @@ h2.title-section {
      wrapping [scrollAnimate] reveal is enough there. will-change gives the span its
      own layer so the scroll timeline can run on the compositor. */
   @media (hover: hover) and (pointer: fine) {
-    :host ::ng-deep h2.title-section > span {
+    :host ::ng-deep h2.title-section > .title-accent {
       display: inline-block;
       will-change: transform, opacity;
       animation: title-accent-in linear both;
