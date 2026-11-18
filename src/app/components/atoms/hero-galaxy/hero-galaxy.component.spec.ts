@@ -195,6 +195,52 @@ describe('HeroGalaxyComponent (first-frame watchdog)', () => {
     expect(failed).toBe(1);
   });
 
+  // createScene builds geometry and, without KHR_parallel_shader_compile, links the
+  // shaders synchronously: seconds on a slow phone. That is boot work, not a
+  // missing frame — the budget starts once the build has returned.
+  it('does not count the synchronous scene build against the first-frame budget', async () => {
+    createGalaxyScene.mockImplementationOnce((_host, h) => {
+      hooks = h;
+      vi.advanceTimersByTime(FIRST_FRAME_TIMEOUT_MS + 1000); // the build hogs the thread
+      return cleanup;
+    });
+    await mount();
+    await vi.advanceTimersByTimeAsync(FIRST_FRAME_TIMEOUT_MS - 100);
+    expect(failed).toBe(0);
+    hooks!.onFirstFrame!();
+    await vi.advanceTimersByTimeAsync(10 * FIRST_FRAME_TIMEOUT_MS);
+    expect(failed).toBe(0);
+    expect(cleanup).not.toHaveBeenCalled();
+  });
+
+  it('still falls back when no frame follows a slow build', async () => {
+    createGalaxyScene.mockImplementationOnce((_host, h) => {
+      hooks = h;
+      vi.advanceTimersByTime(FIRST_FRAME_TIMEOUT_MS + 1000);
+      return cleanup;
+    });
+    await mount();
+    await vi.advanceTimersByTimeAsync(FIRST_FRAME_TIMEOUT_MS);
+    expect(failed).toBe(1);
+    expect(cleanup).toHaveBeenCalledTimes(1);
+  });
+
+  // The scene reports its initial activity from inside createScene: a hero that
+  // boots off-screen (reload mid-page) or in a hidden tab must start paused.
+  it('honors the activity the scene reported while it was being built', async () => {
+    createGalaxyScene.mockImplementationOnce((_host, h) => {
+      hooks = h;
+      h?.onActiveChange?.(false);
+      return cleanup;
+    });
+    await mount();
+    await vi.advanceTimersByTimeAsync(10 * FIRST_FRAME_TIMEOUT_MS);
+    expect(failed).toBe(0);
+    hooks!.onActiveChange!(true);
+    await vi.advanceTimersByTimeAsync(FIRST_FRAME_TIMEOUT_MS);
+    expect(failed).toBe(1);
+  });
+
   it('emits failed when the scene reports a failure (context lost, shader link error)', async () => {
     await mount();
     hooks!.onFirstFrame!();

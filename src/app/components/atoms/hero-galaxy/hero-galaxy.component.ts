@@ -16,7 +16,8 @@ export type GalaxySceneFactory = typeof createGalaxyScene;
 
 /**
  * Active time (tab visible, hero on screen) the scene gets to present its first
- * frame before the hero falls back to the CSS orbit rings. It covers a shader
+ * frame before the hero falls back to the CSS orbit rings, counted from the moment
+ * `createScene` returns (its synchronous build is not counted). It covers a shader
  * compile that never reports "ready": the scene stops waiting for it after
  * `LOOP.compileTimeoutMs` (a spec keeps that well under this) and compiles on the
  * first frame instead. The intro fades in from black, so a fallback swapped in
@@ -88,19 +89,36 @@ export class HeroGalaxyComponent {
         // Destroyed while the chunk was loading: building now would leak a live
         // WebGL context and a rAF loop nobody can release.
         if (this.destroyed) return;
-        // Armed with the scene, not before: a slow chunk download is not a failure.
-        const watchdog = (this.watchdog = createFrameWatchdog(FIRST_FRAME_TIMEOUT_MS, () =>
-          this.fail('no frame reached the screen in time')
-        ));
+        // What the scene reports while it is still being built (its initial activity),
+        // kept for the watchdog that is armed once the build returns.
+        let active = true;
+        let presented = false;
         const release = createScene(this.host.nativeElement, {
-          onFirstFrame: () => watchdog.frame(),
-          onActiveChange: (active) => watchdog.setActive(active),
+          onFirstFrame: () => {
+            presented = true;
+            this.watchdog?.frame();
+          },
+          onActiveChange: (next) => {
+            active = next;
+            this.watchdog?.setActive(next);
+          },
           onFailure: (reason) => this.fail(reason),
         });
         if (!release) return this.fail();
         // A failure reported while the scene was still being built had nothing to release yet.
-        if (this.hasFailed) release();
-        else this.release = release;
+        if (this.hasFailed) return release();
+        this.release = release;
+        // Armed after the build, not before: the synchronous build (geometry, and the
+        // shader link when KHR_parallel_shader_compile is missing) can take seconds on
+        // a slow phone, and that is boot work, not a frame that failed to show up.
+        // Nor is a slow chunk download, which is why it is not armed before the import.
+        if (!presented) {
+          this.watchdog = createFrameWatchdog(
+            FIRST_FRAME_TIMEOUT_MS,
+            () => this.fail('no frame reached the screen in time'),
+            active
+          );
+        }
       } catch (e) {
         this.fail('the galaxy scene failed to start', e);
       }
