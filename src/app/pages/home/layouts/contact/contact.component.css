@@ -45,7 +45,8 @@
   width: 100%;
   max-width: 80rem;
   margin-inline: auto;
-  padding-inline: 1.5rem;
+  /* Side gutter comes from .site-container (--gutter) below 1024px. */
+  padding-inline: 0;
 }
 
 /* Section header */
@@ -70,15 +71,42 @@
   margin-top: 1.5rem;
   font-family: Montserrat, sans-serif;
   font-weight: 900;
-  font-size: clamp(2.5rem, 7vw, 5rem);
+  /* Same scale as the other section titles on phones/tablets; desktop keeps the
+     larger editorial size. */
+  font-size: var(--fs-section-title, min(15dvw, 3.75rem));
   /* Phones wrap the title over 3-4 lines: below ~1 the descenders hit the next line. */
   line-height: 1;
   letter-spacing: -0.02em;
+  /* Flex column: the halves' negative margins below must not collapse. */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Each half is its own balanced block, so "tu" never ends up alone on a line;
+   the <br> between them is then redundant and would add an empty line. */
+.contact-title > span {
+  display: block;
   text-wrap: balance;
+  /* A block's background (the clipped gradient) only covers its line boxes; with
+     line-height <= 1 accents and descenders would be cut. Pad the paint area and
+     cancel the padding in layout. */
+  padding-block: 0.3em;
+  margin-block: -0.3em;
+}
+
+.contact-title > br {
+  display: none;
 }
 
 @media only screen and (min-width: 768px) {
   .contact-title {
+    line-height: 0.95;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .contact-title {
+    font-size: clamp(3.75rem, 5.5vw, 5rem);
     line-height: 0.9;
   }
 }
@@ -90,11 +118,12 @@
   gap: 2.5rem;
 }
 
-/* Info col */
+/* Info col — content stacks from the top; space-between left a ~230px hole
+   between the intro and the email card next to the tall form on desktop. */
 .contact-info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .contact-description {
@@ -176,7 +205,8 @@
   margin-bottom: 0.125rem;
 }
 
-/* Decorative */
+/* Decorative: the glyph is empty and the dot ran an infinite pulse with no offscreen
+   pause, so it stays hidden at every size. */
 .contact-deco {
   display: none;
 }
@@ -191,12 +221,18 @@ contact-form {
 }
 
 @media only screen and (min-width: 768px) {
+  .section-header {
+    margin-bottom: 4rem;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
   .contact-container {
     padding-inline: 3rem;
   }
 
-  .section-header {
-    margin-bottom: 5rem;
+  .contact-info {
+    padding-top: 1.5rem;
   }
 }
 
@@ -204,32 +240,5 @@ contact-form {
   .contact-grid {
     grid-template-columns: 2fr 3fr;
     gap: 5rem;
-  }
-
-  .contact-deco {
-    display: flex;
-    align-items: flex-end;
-    margin-top: 4rem;
-    position: relative;
-  }
-
-  .deco-symbol {
-    font-size: 7.5rem;
-    font-family: Montserrat, sans-serif;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.02);
-    line-height: 1;
-    user-select: none;
-  }
-
-  .deco-dot {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 9999px;
-    background: rgba(216, 180, 254, 0.4);
   }
 }

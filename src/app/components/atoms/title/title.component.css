@@ -1,5 +1,5 @@
 h2.title-section {
-  font-size: min(15dvw, 3.75rem);
+  font-size: var(--fs-section-title, min(15dvw, 3.75rem));
   font-weight: 700;
   line-height: min(20dvw, 4rem);
   padding-block-end: 0.5rem;

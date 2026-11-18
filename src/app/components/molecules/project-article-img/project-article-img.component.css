@@ -1,16 +1,19 @@
+/* Project card: the screenshot fills the card width (16:10, cropped from the top),
+   with the tech stack row underneath. Radii are concentric: outer 18px - 8px inset
+   = 10px on the image. */
 .project-img {
-  --container-img-w: 300px;
+  --card-radius: 18px;
+  --card-inset: 8px;
 
   position: relative;
   width: 100%;
   max-width: 533px;
   box-sizing: border-box;
-  padding: 1.5rem 1rem 3.75rem;
-  border-radius: 15px;
+  padding: var(--card-inset) var(--card-inset) 0.875rem;
+  border-radius: var(--card-radius);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  gap: 0.875rem;
 
   background: radial-gradient(
       50% 70.31% at 50% 0%,
@@ -20,6 +23,7 @@
     rgb(49 28 87 / 14%);
   perspective: 1000px;
   margin-block-end: 1rem;
+  transition: transform 300ms ease;
 }
 
 .project-img::before {
@@ -27,12 +31,10 @@
   box-sizing: border-box;
   position: absolute;
   z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 15px;
+  inset: 0;
+  border-radius: var(--card-radius);
   padding: 1px;
+  pointer-events: none;
   background: linear-gradient(
       105.43deg,
       rgba(168, 128, 255, 0) 25.1%,
@@ -45,24 +47,55 @@
   mask-composite: exclude;
 }
 
+.link-to-repo {
+  display: block;
+  width: 100%;
+  border-radius: calc(var(--card-radius) - var(--card-inset));
+}
+
+.link-to-repo:focus-visible {
+  outline: 2px solid var(--cosmic-violet, #d8b4fe);
+  outline-offset: 3px;
+}
+
+.project-atropos-content {
+  width: 100%;
+  scale: 0.985;
+  transition: scale 300ms ease;
+}
+
 .img-container {
   display: block;
-  width: min(var(--container-img-w), 100%);
-  max-width: 100%;
-  aspect-ratio: 1 / 1;
-  background-color: #fff;
-
-  margin-inline: auto;
-  border-radius: 0.5rem;
-
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
-  object-position: left;
+  object-position: top;
+  border-radius: calc(var(--card-radius) - var(--card-inset));
+  /* Dark placeholder while the image decodes (was a white flash). */
+  background-color: rgb(255 255 255 / 0.04);
+  /* Subtle inner hairline that follows the radius (no extra layer). */
+  outline: 1px solid rgb(255 255 255 / 0.1);
+  outline-offset: -1px;
   vertical-align: middle;
 }
 
-.project-img {
-  opacity: 0.85;
-  transition: opacity 300ms ease, transform 300ms ease;
+/* Tech stack: icons are projected and labelled by projects-layout. */
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem 1rem;
+  padding-inline: 0.5rem;
+  min-height: 24px;
+}
+
+.project-tags ::ng-deep svg {
+  width: 22px;
+  height: 22px;
+  /* Simple Icons marks (Next.js, OpenAI) ship without a fill and rendered black on
+     the dark card; paths with their own fill attribute are unaffected. */
+  fill: #fff;
 }
 
 /* Hover glow: fade a pseudo-element instead of transitioning box-shadow (paint-heavy). */
@@ -70,7 +103,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 15px;
+  border-radius: var(--card-radius);
   pointer-events: none;
   box-shadow:
     0 8px 32px rgba(139, 92, 246, 0.25),
@@ -79,19 +112,8 @@
   transition: opacity 400ms ease;
 }
 
-.project-atropos-content {
-  scale: 0.97;
-  transition: scale 300ms ease;
-}
-
-/* Touch feedback */
-.project-img:active {
-  opacity: 1;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .project-img:hover {
-    opacity: 1;
     transform: translateY(-4px);
   }
 
@@ -114,15 +136,10 @@
     linear-gradient(0deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
 }
 
-@media only screen and (min-width: 420px) {
-  .project-img {
-    --container-img-w: 380px;
-  }
-}
-
 @media only screen and (min-width: 560px) {
   .project-img {
-    --container-img-w: 400px;
-    padding-block: 2rem 4rem;
+    --card-inset: 10px;
+    --card-radius: 20px;
+    padding-bottom: 1rem;
   }
 }

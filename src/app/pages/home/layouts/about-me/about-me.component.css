@@ -25,7 +25,13 @@
   right: 80px;
   width: 320px;
   height: 320px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.22) 0%, rgba(59, 130, 246, 0.1) 45%, transparent 70%);
+  /* Follows the atmosphere accent (violet in Nebula, warm pink in Ember). */
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--ml-violet-400) 22%, transparent) 0%,
+    color-mix(in oklab, var(--ml-violet-400) 8%, transparent) 45%,
+    transparent 70%
+  );
   border-radius: 50%;
   pointer-events: none;
   animation: rotateScale 20s ease-in-out infinite;
@@ -45,19 +51,17 @@
 }
 
 .decorative-line.left {
-  background: linear-gradient(to right, transparent, rgba(168, 85, 247, 0.6), transparent);
+  background: linear-gradient(to right, transparent, color-mix(in oklab, var(--ml-violet-400) 60%, transparent), transparent);
 }
 
 .decorative-line.right {
-  background: linear-gradient(to left, transparent, rgba(168, 85, 247, 0.6), transparent);
+  background: linear-gradient(to left, transparent, color-mix(in oklab, var(--ml-violet-400) 60%, transparent), transparent);
 }
 
 /* Pause infinite animations while the section is off-screen */
 .offscreen .decorative-element,
 .offscreen .profile-glow,
-.offscreen .status-indicator,
-.offscreen .decorative-ring,
-.offscreen .decorative-blob {
+.offscreen .status-indicator {
   animation-play-state: paused;
 }
 
@@ -66,16 +70,35 @@
   position: relative;
 }
 
+/* Mobile-first: the portrait must not eat half of a 740px screen. */
 .profile-container {
   position: relative;
-  max-width: 384px;
+  width: 100%;
+  max-width: min(280px, 70vw);
   margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .profile-container {
+    max-width: 320px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .profile-container {
+    max-width: 384px;
+  }
 }
 
 .profile-glow {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.2), rgba(239, 68, 68, 0.3));
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--ml-violet-400) 30%, transparent),
+    color-mix(in oklab, var(--ml-violet-600) 18%, transparent),
+    rgba(239, 68, 68, 0.3)
+  );
   border-radius: 24px;
   /* Soft edge via gradient instead of a costly blur filter */
   inset: -24px;
@@ -91,11 +114,11 @@
 
 .profile-image-wrapper {
   position: relative;
-  background: hsl(270deg 95% 83% / 17%);
-  border: 1px solid hsla(270, 95%, 83%, 0.12);
+  background: color-mix(in oklab, var(--ml-violet-100) 17%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ml-violet-100) 14%, transparent);
   border-radius: 24px;
   padding: 8px;
-  box-shadow: 0 0 60px -12px hsla(270, 95%, 83%, 0.4);
+  box-shadow: 0 0 60px -12px color-mix(in oklab, var(--ml-violet-100) 40%, transparent);
   /* box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); */
 }
 
@@ -115,7 +138,7 @@
 .profile-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(15, 2, 39, 0.6), transparent 50%)
+  background: linear-gradient(to top, rgba(var(--atmos-void-rgb), 0.6), transparent 50%);
 }
 
 .status-indicator {
@@ -135,43 +158,20 @@
   50% { transform: scale(1.2); }
 }
 
-.decorative-ring {
-  position: absolute;
-  top: -16px;
-  right: -16px;
-  width: 32px;
-  height: 32px;
-  border: 2px solid rgba(168, 85, 247, 0.5);
-  border-radius: 50%;
-  animation: spin 8s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.decorative-blob {
-  position: absolute;
-  bottom: -16px;
-  left: -16px;
-  width: 24px;
-  height: 24px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(168, 85, 247, 0.6));
-  border-radius: 50%;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-/* Content Section */
+/* Content Section — capped at a readable measure, centered while single-column */
 .content-section {
   display: flex;
   flex-direction: column;
   gap: 32px;
+  width: 100%;
+  max-width: 65ch;
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .content-section {
+    margin-inline: 0;
+  }
 }
 
 .description-section {
@@ -240,10 +240,6 @@
     gap: 24px;
   }
 
-  .profile-container {
-    max-width: 300px;
-  }
-
   .main-description {
     font-size: .875rem;
   }
@@ -252,15 +248,12 @@
 @media (max-width: 480px) {
   .skill-item { gap: 8px; }
   .skill-item span { font-size: 13px; line-height: 1.3; }
-  .profile-container { max-width: min(300px, 100%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .decorative-element,
   .profile-glow,
-  .status-indicator,
-  .decorative-ring,
-  .decorative-blob {
+  .status-indicator {
     animation: none;
   }
   .anim { transition: none; }

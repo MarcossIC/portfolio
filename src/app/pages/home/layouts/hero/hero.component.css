@@ -76,7 +76,15 @@
   width: 100%;
   max-width: 80rem;
   margin-inline: auto;
-  padding: 7rem 1.5rem 4rem;
+  /* Fill the hero so the copy centers in the space left by the header and the
+     scroll hint can pin to the bottom edge instead of floating mid-screen. */
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Side gutter comes from .site-container (--gutter); top clears the fixed header,
+     bottom reserves the scroll hint's band. */
+  padding: 7rem 0 6.5rem;
 }
 
 .hero-layout {
@@ -261,12 +269,18 @@
   align-items: center;
 }
 
-/* Scroll hint */
+/* Scroll hint — pinned near the bottom of the hero, centered */
 .scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 4rem;
+  /* translate(-50%) lives on a wrapper-free element that also runs fadeUp, so center
+     with margins instead of a transform the keyframes would overwrite. */
+  width: 8rem;
+  margin-left: -4rem;
 }
 
 .scroll-hint-text {
@@ -325,14 +339,53 @@
     width: 3rem;
   }
 
-  .scroll-hint {
-    margin-top: 5rem;
+  .hero-content {
+    padding-inline: 3rem;
   }
 }
 
-@media only screen and (min-width: 768px) {
+/* Short portrait phones (360x740 and similar): give the name more air under the
+   galaxy disc that sits just above it. */
+@media (orientation: portrait) and (max-height: 760px) {
+  .hero-name {
+    margin-top: 3rem;
+  }
+}
+
+/* Landscape phones (844x390…): the header plus the full copy do not fit, so tighten
+   the vertical rhythm until the CTAs sit above the fold. */
+@media (orientation: landscape) and (max-height: 500px) {
   .hero-content {
-    padding: 7rem 3rem 4rem;
+    padding-block: 6.25rem 1.5rem;
+  }
+
+  .hero-layout {
+    gap: 1.5rem;
+  }
+
+  .hero-name {
+    margin-top: 0;
+    font-size: clamp(2.5rem, 14vh, 4rem);
+  }
+
+  .hero-role {
+    margin-top: 0.75rem;
+  }
+
+  .role-text {
+    font-size: 1rem;
+  }
+
+  .hero-motto {
+    display: none;
+  }
+
+  .hero-cta-group {
+    margin-top: 1rem;
+  }
+
+  .scroll-hint {
+    display: none;
   }
 }
 

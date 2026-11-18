@@ -35,10 +35,13 @@
     #fff 0%,
     rgba(255, 255, 255, 0.6) 100%
   );
+  /* Brand red text gradient. Both stops stay opaque and bright enough to keep
+     >= 3:1 (large text) on the violet nebula; the old end stop (L 0.43, alpha .76)
+     measured ~1.5:1. Used by .text-gradient-cosmic and Tailwind's bg-ml-text-red. */
   --ml-text-red: linear-gradient(
     180deg,
-    oklch(0.58 0.23 28.18) 10%,
-    oklch(0.43 0.17 28.14 / 0.76) 100%
+    oklch(0.66 0.22 28) 10%,
+    oklch(0.59 0.215 28) 100%
   );
 
   --ml-bg-img: url("../assets/bg2.webp");
@@ -90,7 +93,13 @@
   --shadow-glass: 0 8px 32px hsla(0, 0%, 0%, 0.3);
 
   /* Layout Variables */
-  --ml-container-margin-mobile: 10px;
+  /* Single side gutter for every section on phones/tablets: matches the header's
+     16px inset at 360px and grows to 32px. Sections add no padding-inline of their own
+     below 1024px; .site-container applies this. */
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --ml-container-margin-mobile: var(--gutter);
+  /* Section title scale shared by app-title and the contact heading. */
+  --fs-section-title: min(15dvw, 3.75rem);
   --ml-container-margin-desktop: 6dvw;
   --ml-container-max-width: calc(100% - calc(var(--ml-container-margin-desktop) * 2));
 
@@ -136,8 +145,8 @@
   --gradient-cta: linear-gradient(135deg, oklch(0.58 0.23 28.18), oklch(0.7 0.17 35));
   --ml-text-red: linear-gradient(
     180deg,
-    oklch(0.68 0.24 35) 10%,
-    oklch(0.56 0.21 30 / 0.82) 100%
+    oklch(0.7 0.22 35) 10%,
+    oklch(0.62 0.22 31) 100%
   );
   --btn-glow: oklch(0.62 0.22 30 / 0.7);
 

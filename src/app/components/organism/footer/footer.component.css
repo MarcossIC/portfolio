@@ -1,24 +1,87 @@
 :host { display: block; width: 100%; }
+
 .footer-inner {
   width: 100%;
+  max-width: 40rem;
+  margin-inline: auto;
   position: relative; /* sin esto, cosmic-background (.bottom-fade) pinta ENCIMA del texto */
   z-index: 1;
-  padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px)); /* aire extra: saca el copy del corazon del bottom-fade */
+  box-sizing: border-box;
+  /* Gutters match the page; bottom clears the home indicator and the bottom-fade. */
+  padding: 2.5rem var(--gutter, 1rem) calc(2.5rem + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 1rem;
+  gap: 0.75rem;
   background: transparent;
 }
-.footer-inner ::ng-deep .logo img { height: 56px; width: auto; opacity: 0.9; }
-.footer-location { margin: 0; color: var(--text-muted, hsl(270 10% 72%)); font-size: 0.8125rem; }
-/* 44px tap target around a 19px icon */
-.footer-email { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; opacity: 0.85; transition: opacity 150ms ease; }
+
+/* Hairline that closes the page (static gradient, no extra layer cost). */
+.footer-inner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--gutter, 1rem);
+  right: var(--gutter, 1rem);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--ml-violet-100) 22%, transparent),
+    transparent
+  );
+}
+
+/* The logo PNG is square: keep its real proportions (the shared icon forces 3/2.5). */
+.footer-inner ::ng-deep .logo img {
+  width: 56px;
+  height: 56px;
+  aspect-ratio: 1;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+.footer-inner ::ng-deep .logo {
+  margin-bottom: 0.25rem;
+}
+
+.footer-location {
+  margin: 0;
+  color: var(--text-muted, hsl(270 10% 72%));
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* 44px tap target around the email wordmark */
+.footer-email {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  max-width: 100%;
+  opacity: 0.85;
+  transition: opacity 150ms ease;
+}
 .footer-email:active { opacity: 1; }
 @media (hover: hover) and (pointer: fine) { .footer-email:hover { opacity: 1; } }
 .footer-email:focus-visible { outline: 2px solid var(--cosmic-violet, #d8b4fe); outline-offset: 2px; border-radius: 0.5rem; }
-.footer-email img { height: 19px; width: auto; }
-.footer-copy { margin: 0; display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-faint, hsl(270 8% 52%)); font-size: 0.75rem; }
-::ng-deep .coffee-icon { width: 14px; height: 14px; flex-shrink: 0; }
+.footer-email img { height: 19px; width: auto; max-width: 100%; }
+
+/* Block + inline icon: as a flex row the icon sat alone at the far left when the
+   line wrapped on phones. */
+.footer-copy {
+  margin: 0.75rem 0 0;
+  display: block;
+  max-width: 100%;
+  color: var(--text-faint, hsl(270 8% 52%));
+  font-size: 0.75rem;
+  line-height: 1.5;
+  text-wrap: balance;
+}
+.footer-copy small { font-size: inherit; }
+
+::ng-deep .coffee-icon { display: inline-block; width: 14px; height: 14px; margin-right: 0.375rem; vertical-align: -2px; }
 ::ng-deep .coffee-icon svg { width: 100%; height: 100%; }

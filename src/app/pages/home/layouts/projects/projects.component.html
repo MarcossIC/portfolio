@@ -18,7 +18,9 @@
         [PROJECT]="PROJECT"
         >@for(ICON of PROJECT.ICONS; track $index){ @if(getIconComponent(ICON);
         as iconComponent){
-        <ng-container *ngComponentOutlet="iconComponent"></ng-container>
+        <span class="tech-icon" role="img" [attr.aria-label]="getTechLabel(ICON)" [title]="getTechLabel(ICON)">
+          <ng-container *ngComponentOutlet="iconComponent"></ng-container>
+        </span>
         } }
       </project-article>
     </article>
