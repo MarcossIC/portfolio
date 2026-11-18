@@ -37,7 +37,7 @@
 .toast-list {
   width: 100%;
   max-width: 360px;
-  max-height: 100vh;
+  max-height: 100dvh;
 
   overflow: hidden auto;
   box-sizing: border-box;
@@ -170,15 +170,33 @@
   width: 20px;
   height: 20px;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible;
   justify-self: center;
   align-self: center;
   opacity: 0.9;
   transition: opacity 100ms ease;
 }
 
+/* Visual stays 20px; the pseudo-element extends the hit area to 44px. */
+.toast .toast-wrapper .btn-close::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+}
+
 .toast .toast-wrapper .btn-close:hover {
   opacity: 1;
+}
+
+/* Keep toasts clear of notches / home indicator on mobile. */
+@media screen and (max-width: 767px) {
+  .top-right, .top-left { top: calc(env(safe-area-inset-top, 0px) + 2%); }
+  .bottom-right, .bottom-left { bottom: calc(env(safe-area-inset-bottom, 0px) + 2%); }
+  .top-right, .bottom-right { right: calc(env(safe-area-inset-right, 0px) + 2%); }
+  .top-left, .bottom-left { left: calc(env(safe-area-inset-left, 0px) + 2%); }
 }
 
 @media screen and (max-width: 350px) {

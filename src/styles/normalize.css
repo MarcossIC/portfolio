@@ -160,7 +160,8 @@ html::-webkit-scrollbar-corner {
 html,
 :host {
   height: 100%;
-  overflow-x: hidden;
+  /* clip (not hidden) keeps sticky/fixed and iOS scrolling intact; only on html. */
+  overflow-x: clip;
 
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
@@ -192,7 +193,6 @@ body {
   min-height: 100dvh;
   max-width: 100dvw;
   scroll-behavior: smooth;
-  overflow-x: hidden;
   outline: none;
   overscroll-behavior-x: none;
   touch-action: manipulation;

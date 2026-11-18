@@ -37,7 +37,7 @@ export class PortfolioButtonComponent {
 
   public getClasses() {
     const btnStyle =
-      'flex justify-center items-center w-fit no-outline truncate opacity-90 disabled:opacity-60 disabled:cursor-default rounded-2xl select-none text-base [&:not(:disabled)]:hover:opacity-100 transition-all ease-in portfolio-button';
+      'flex justify-center items-center w-fit no-outline truncate opacity-90 disabled:opacity-60 disabled:cursor-default rounded-2xl select-none text-base [&:not(:disabled)]:hover:opacity-100 transition-[opacity,transform,box-shadow,background-color,border-color,color] ease-in portfolio-button';
 
     let sizeStyle = 'px-9 py-2';
     const size = this.size();
