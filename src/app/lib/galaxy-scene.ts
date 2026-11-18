@@ -30,6 +30,35 @@ export function zoomOutFor(aspect: number): number {
   return Math.min(FRAMING.maxZoomOut, Math.max(1, FRAMING.minAspect / aspect));
 }
 
+export interface Framing {
+  /** Camera distance as a multiple of `CAMERA.offset`. */
+  readonly zoom: number;
+  /** Telephoto magnification (camera.zoom); point sizes scale with it. */
+  readonly magnify: number;
+  /** Image lift, as a fraction of the canvas height. */
+  readonly lift: number;
+  /** Multiplier on the galaxy's opacity. */
+  readonly brightness: number;
+}
+
+/**
+ * Framing by canvas aspect: the original zoom-out on landscape, blending smoothly
+ * into `FRAMING.portrait` as the canvas turns portrait. Runs on resize only.
+ */
+export function framingFor(aspect: number): Framing {
+  const p = FRAMING.portrait;
+  const x = Math.min(1, Math.max(0, (FRAMING.minAspect - aspect) / (FRAMING.minAspect - p.aspect)));
+  const t = x * x * (3 - 2 * x); // smoothstep: no kink where the blend starts or ends
+  // a·(1−t) + b·t lands exactly on both ends: landscape stays bit-identical.
+  const mix = (a: number, b: number) => a * (1 - t) + b * t;
+  return {
+    zoom: mix(zoomOutFor(aspect), p.zoom),
+    magnify: mix(1, p.magnify),
+    lift: mix(0, p.lift),
+    brightness: mix(1, p.brightness),
+  };
+}
+
 /** Seconds since the last rendered frame, clamped to [0, LOOP.maxFrameMs]. */
 export function frameDelta(now: number, last: number): number {
   return Math.min(Math.max(now - last, 0), LOOP.maxFrameMs) / MS_PER_SECOND;
@@ -308,7 +337,10 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
     const gl = renderer;
     const governor = createQualityGovernor(pixelRatio(), forDevice(QUALITY.minPixelRatio));
     gl.setPixelRatio(governor.ratio);
-    const pointSize = () => gl.getPixelRatio() * forDevice(DEVICE.pointScale);
+    // Telephoto factor of the current framing (`fit()` sets it). The shader sizes
+    // points by distance only, so a narrower FOV must scale them explicitly.
+    let magnify = 1;
+    const pointSize = () => gl.getPixelRatio() * forDevice(DEVICE.pointScale) * magnify;
     // Height is set in px by `fit()`, not 100%: on touch devices the buffer may
     // stay taller than the host, which clips it instead of stretching it.
     gl.domElement.style.cssText = 'position:absolute;top:0;left:0;width:100%;display:block;';
@@ -528,6 +560,8 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
     let fade = 1;
     let inView = true;
     let hidden = document.hidden;
+    // Galaxy brightness from the framing (dimmer on portrait, behind the copy).
+    let brightness = 1;
 
     // `approach` lands exactly on the target, so once the palette blend settles
     // the two color lerps stop running every frame.
@@ -549,7 +583,19 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
       gl.setSize(buffer.w, buffer.h, false);
       gl.domElement.style.height = `${buffer.h}px`;
       camera.aspect = buffer.w / buffer.h;
-      camera.position.copy(baseOffset).multiplyScalar(zoomOutFor(camera.aspect)).add(target);
+      const framing = framingFor(camera.aspect);
+      brightness = framing.brightness;
+      magnify = framing.magnify;
+      camera.zoom = magnify;
+      uniforms.uSize.value = pointSize();
+      camera.position.copy(baseOffset).multiplyScalar(framing.zoom).add(target);
+      // Lens shift: render a window `lift` lower in the full frame, which moves the
+      // image up without touching the perspective. No offset at all on landscape.
+      if (framing.lift > 0) {
+        camera.setViewOffset(buffer.w, buffer.h, 0, framing.lift * buffer.h, buffer.w, buffer.h);
+      } else {
+        camera.clearViewOffset();
+      }
       camera.updateProjectionMatrix();
       // The reallocation hitch is not GPU load.
       governor.rewarm(QUALITY.settleFrames);
@@ -573,7 +619,8 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
 
       uniforms.uTime.value = clock + MOTION.startTime;
       uniforms.uWarm.value = warm;
-      uniforms.uOpacity.value = introEased * fade;
+      // The glow sprites below derive from this too, so `brightness` dims everything.
+      uniforms.uOpacity.value = introEased * fade * brightness;
 
       galaxy.scale.setScalar(THREE.MathUtils.lerp(MOTION.introStartScale, 1, introEased));
       galaxy.rotation.y += dt * GALAXY.driftSpeed;
@@ -621,10 +668,10 @@ export function createGalaxyScene(container: HTMLElement): (() => void) | null {
     const paintStaticFrame = () => {
       uniforms.uTime.value = MOTION.stillTime;
       uniforms.uWarm.value = warm;
-      uniforms.uOpacity.value = 1;
+      uniforms.uOpacity.value = brightness;
       galaxy.scale.setScalar(1);
-      core.material.opacity = CORE_GLOW.core.opacity;
-      halo.material.opacity = CORE_GLOW.halo.opacity;
+      core.material.opacity = CORE_GLOW.core.opacity * brightness;
+      halo.material.opacity = CORE_GLOW.halo.opacity * brightness;
       tintGlow();
       gl.render(scene, camera);
     };

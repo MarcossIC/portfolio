@@ -168,6 +168,33 @@ export const FRAMING = {
   maxZoomOut: 2.4,
   /** Height-only shrink (px) a touch device absorbs without resizing. Covers the mobile URL bar showing back up mid-scroll. */
   touchHeightSlackPx: 160,
+  /**
+   * Portrait framing. Backing the camera off to fit the whole spiral on a phone
+   * left a tiny speck sitting on the hero copy, so portrait goes the other way:
+   * a closer camera (the rim bleeds past the sides, cinematic crop), the image
+   * lifted so the core sits above the name, and a dimmer galaxy so copy over the
+   * arms keeps its contrast. It blends in smoothly (smoothstep) as the canvas
+   * aspect drops from `minAspect` to `aspect`; at `minAspect` and wider nothing changes.
+   */
+  portrait: {
+    /** Canvas aspect (width / height) at and below which the full portrait framing applies: phones and portrait tablets. */
+    aspect: 0.75,
+    /**
+     * Camera distance as a multiple of `CAMERA.offset`. 1 is the desktop distance:
+     * the narrow portrait view then crops the spiral to its core and inner arms.
+     * Going below ~0.9 brings the near rim so close its stars balloon into blobs.
+     */
+    zoom: 1,
+    /**
+     * Telephoto magnification (narrower FOV): a bigger galaxy with no close-up
+     * distortion. Star sizes scale with it, so it reads as a crop of the same image.
+     */
+    magnify: 1.4,
+    /** Image lift as a fraction of the canvas height (a lens shift: the perspective doesn't change). Puts the core above the name. */
+    lift: 0.21,
+    /** Brightness multiplier for the stars and the core glow. */
+    brightness: 0.8,
+  },
 } as const;
 
 // ---- Galaxy shape ----

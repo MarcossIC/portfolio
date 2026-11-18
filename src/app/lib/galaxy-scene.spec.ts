@@ -2,6 +2,7 @@ import {
   approach,
   createQualityGovernor,
   frameDelta,
+  framingFor,
   glslFloat,
   isFrameDue,
   needsResize,
@@ -32,6 +33,58 @@ describe('zoomOutFor (camera framing by aspect)', () => {
 
   it('caps the zoom-out so the galaxy never shrinks to a dot', () => {
     expect(zoomOutFor(0.2)).toBe(MAX_ZOOM_OUT);
+  });
+});
+
+// Portrait gets its own framing (closer camera, image lifted, dimmer) blended in
+// by aspect; landscape and desktop must keep exactly the framing they had.
+describe('framingFor', () => {
+  const P = FRAMING.portrait;
+
+  it('keeps the landscape framing untouched', () => {
+    for (const aspect of [FRAMING.minAspect, 1.41, 16 / 9, 2.4]) {
+      expect(framingFor(aspect)).toEqual({ zoom: zoomOutFor(aspect), magnify: 1, lift: 0, brightness: 1 });
+    }
+  });
+
+  // Landscape phones: the hero is taller than the viewport, so the canvas sits just under minAspect.
+  it('barely moves just under the landscape threshold', () => {
+    const f = framingFor(1.07);
+    expect(Math.abs(f.zoom - zoomOutFor(1.07))).toBeLessThan(0.01);
+    expect(f.lift).toBeLessThan(0.01);
+    expect(f.magnify).toBeLessThan(1.01);
+    expect(f.brightness).toBeGreaterThan(0.99);
+  });
+
+  it('applies the full portrait framing on phones', () => {
+    for (const aspect of [P.aspect, 768 / 1024, 0.44, 0.3]) {
+      expect(framingFor(aspect)).toEqual({
+        zoom: P.zoom,
+        magnify: P.magnify,
+        lift: P.lift,
+        brightness: P.brightness,
+      });
+    }
+  });
+
+  // Tablets sit in between: no hard breakpoint, no jump while resizing.
+  it('blends continuously and monotonically in between', () => {
+    let prev = framingFor(FRAMING.minAspect);
+    for (let aspect = FRAMING.minAspect; aspect >= P.aspect; aspect -= 0.005) {
+      const f = framingFor(aspect);
+      expect(f.lift).toBeGreaterThanOrEqual(prev.lift);
+      expect(Math.abs(f.zoom - prev.zoom)).toBeLessThan(0.03);
+      expect(Math.abs(f.lift - prev.lift)).toBeLessThan(0.01);
+      expect(f.magnify).toBeGreaterThanOrEqual(prev.magnify);
+      prev = f;
+    }
+    const squarish = framingFor(0.9);
+    expect(squarish.lift).toBeGreaterThan(0);
+    expect(squarish.lift).toBeLessThan(P.lift);
+  });
+
+  it('brings the camera closer than the old zoom-out on phones (bigger galaxy)', () => {
+    expect(framingFor(0.44).zoom).toBeLessThan(zoomOutFor(0.44));
   });
 });
 
