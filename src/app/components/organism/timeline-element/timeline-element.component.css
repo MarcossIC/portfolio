@@ -78,8 +78,7 @@
     opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
     transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s,
     box-shadow 0.35s ease,
-    border-color 0.35s ease,
-    color 0.4s ease;
+    border-color 0.35s ease;
 }
 
 :host(.is-armed:not(.is-visible)) .timeline-node__badge {
@@ -87,7 +86,7 @@
   transform: scale(0.5);
 }
 
-/* Ignition — the parent's rAF scroll handler toggles .is-lit when the rail fill
+/* Ignition - the parent's rAF scroll handler toggles .is-lit when the rail fill
    reaches this node. The glow ring is a pseudo-element animated by opacity/transform
    only; the icon color shift is a single tiny paint on a state change (never per frame). */
 .timeline-node__badge {
@@ -105,6 +104,8 @@
     inset 0 0 12px hsl(var(--accent-glow-hsl) / 0.35);
   opacity: 0;
   transform: scale(0.85);
+  /* Own layer: the blurred glow rasterizes once, ignite only composites it. */
+  will-change: transform, opacity;
   transition:
     opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
@@ -118,7 +119,13 @@
 
 .timeline-node__badge.is-lit {
   color: #fff;
-  animation: node-ignite-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1;
+}
+
+/* The pop scales the whole badge and its large shadows: fine pointers only. */
+@media (hover: hover) and (pointer: fine) {
+  .timeline-node__badge.is-lit {
+    animation: node-ignite-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1;
+  }
 }
 
 @keyframes node-ignite-pop {
