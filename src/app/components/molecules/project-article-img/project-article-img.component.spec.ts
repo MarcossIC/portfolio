@@ -5,14 +5,13 @@ import { ProjectArticleImgComponent } from './project-article-img.component';
 describe('ProjectArticleImgComponent', () => {
   let fixture: ComponentFixture<ProjectArticleImgComponent>;
 
-  const render = (repo?: string) => {
+  const render = () => {
     fixture = TestBed.createComponent(ProjectArticleImgComponent);
-    if (repo !== undefined) fixture.componentRef.setInput('REPO', repo);
     fixture.componentRef.setInput('SRC', 'assets/projects/test.png');
     fixture.componentRef.setInput('TITLE', 'Test project');
     fixture.componentRef.setInput('ID', 'test-project');
     fixture.detectChanges();
-    return fixture.nativeElement.querySelector('a') as HTMLAnchorElement;
+    return fixture.nativeElement as HTMLElement;
   };
 
   beforeEach(async () => {
@@ -21,25 +20,17 @@ describe('ProjectArticleImgComponent', () => {
     }).compileComponents();
   });
 
-  it('links to the repository when one is provided', () => {
-    const link = render('https://github.com/MarcossIC/Web-Games');
-
-    expect(link.getAttribute('href')).toBe('https://github.com/MarcossIC/Web-Games');
-    expect(link.getAttribute('target')).toBe('_blank');
-  });
-
   it('declares the square 400x400 size of the project screenshots', () => {
-    render();
-    const img = fixture.nativeElement.querySelector('img') as HTMLImageElement;
+    const img = render().querySelector('img') as HTMLImageElement;
 
     expect(img.getAttribute('width')).toBe('400');
     expect(img.getAttribute('height')).toBe('400');
   });
 
-  it('renders no link target for private projects without a repository', () => {
-    const link = render();
+  it('shows the screenshot without linking anywhere', () => {
+    const host = render();
 
-    expect(link.hasAttribute('href')).toBe(false);
-    expect(link.hasAttribute('target')).toBe(false);
+    expect(host.querySelector('a')).toBeNull();
+    expect(host.querySelector('[href], [tabindex], [title]')).toBeNull();
   });
 });

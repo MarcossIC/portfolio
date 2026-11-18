@@ -48,15 +48,10 @@
   mask-composite: exclude;
 }
 
-.link-to-repo {
+.project-shot {
   display: block;
   width: 100%;
   border-radius: calc(var(--card-radius) - var(--card-inset));
-}
-
-.link-to-repo:focus-visible {
-  outline: 2px solid var(--cosmic-violet, #d8b4fe);
-  outline-offset: 3px;
 }
 
 .project-atropos-content {

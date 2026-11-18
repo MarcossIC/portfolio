@@ -2,18 +2,14 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
-  computed,
   DestroyRef,
   ElementRef,
   inject,
   PLATFORM_ID,
-  signal,
   viewChild,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { I18nService } from '@app/services/i18n.service';
 
-const PROJECT_SELECTOR = '.project-img, project-article, .project-card-container';
 const INTERACTIVE_SELECTOR = 'a, button, [role="button"], [data-cursor-interactive]';
 /** Fields that keep the native cursor (I-beam). Button-like inputs stay on the custom cursor. */
 const TEXT_FIELD_SELECTOR =
@@ -44,11 +40,7 @@ const EPSILON = 0.1;
   template: `
     <div #dot class="cursor-dot" aria-hidden="true"><div class="cursor-dot-core"></div></div>
     <div #ring class="cursor-ring" aria-hidden="true">
-      <div class="cursor-ring-core">
-        @if (isOnProject()) {
-          <span class="cursor-label">{{ cursorLabel() }}</span>
-        }
-      </div>
+      <div class="cursor-ring-core"></div>
     </div>
   `,
   styles: `
@@ -94,9 +86,6 @@ const EPSILON = 0.1;
       border-radius: 50%;
       border: 1.5px solid rgba(255, 255, 255, 0.35);
       background: rgba(var(--accent-glow-rgb), 0);
-      display: flex;
-      align-items: center;
-      justify-content: center;
       transform: scale(var(--scale));
       transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease,
         background-color 0.25s ease, border-color 0.25s ease;
@@ -108,38 +97,12 @@ const EPSILON = 0.1;
       background: rgba(var(--accent-glow-rgb), 0.12);
     }
 
-    :host(.cursor-project) .cursor-ring-core {
-      --scale: 2.2;
-    }
-
-    :host(.cursor-project) .cursor-dot-core {
-      opacity: 0;
-    }
-
     :host(.cursor-pressed) .cursor-ring-core {
       transform: scale(calc(var(--scale) * 0.85));
     }
 
     :host(.cursor-pressed) .cursor-dot-core {
       transform: scale(0.7);
-    }
-
-    /* Over a project the ring becomes a dark pill so the label reads on light screenshots too */
-    :host(.cursor-project) .cursor-ring-core {
-      background: rgba(18, 6, 44, 0.92);
-      border-color: rgba(var(--accent-rgb), 0.45);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
-    }
-
-    .cursor-label {
-      /* Cancel the ring scale so the text keeps its size */
-      transform: scale(calc(1 / var(--scale)));
-      font-size: 0.65rem;
-      font-weight: 600;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
     }
 
     @media (pointer: coarse), (hover: none) {
@@ -152,17 +115,10 @@ const EPSILON = 0.1;
 export class CustomCursorComponent {
   private readonly platform = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly i18nService = inject(I18nService);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 
   private readonly dotRef = viewChild.required<ElementRef<HTMLElement>>('dot');
   private readonly ringRef = viewChild.required<ElementRef<HTMLElement>>('ring');
-
-  // Rare state changes only (label rendering); never position.
-  protected readonly isOnProject = signal(false);
-  protected readonly cursorLabel = computed(() =>
-    this.i18nService.currentLanguage() === 'es' ? 'Ver' : 'View'
-  );
 
   constructor() {
     afterNextRender(() => {
@@ -178,7 +134,6 @@ export class CustomCursorComponent {
       let overText = false;
       let visible = false;
       let hover = false;
-      let project = false;
       let pressed = false;
 
       let tx = 0;
@@ -261,17 +216,11 @@ export class CustomCursorComponent {
       const onOver = (e: Event) => {
         const el = e.target instanceof Element ? e.target : null;
         const nextText = !!el?.closest(TEXT_FIELD_SELECTOR);
-        const nextProject = !nextText && !!el?.closest(PROJECT_SELECTOR);
-        const nextHover = !nextText && !nextProject && !!el?.closest(INTERACTIVE_SELECTOR);
+        const nextHover = !nextText && !!el?.closest(INTERACTIVE_SELECTOR);
 
         if (nextText !== overText) {
           overText = nextText;
           syncVisible();
-        }
-        if (nextProject !== project) {
-          project = nextProject;
-          setClass('cursor-project', nextProject);
-          this.isOnProject.set(nextProject);
         }
         if (nextHover !== hover) {
           hover = nextHover;
@@ -328,10 +277,8 @@ export class CustomCursorComponent {
         outside = false;
         overText = false;
         hover = false;
-        project = false;
         pressed = false;
-        hostEl.classList.remove('cursor-hover', 'cursor-project', 'cursor-pressed');
-        this.isOnProject.set(false);
+        hostEl.classList.remove('cursor-hover', 'cursor-pressed');
         syncVisible();
       };
 

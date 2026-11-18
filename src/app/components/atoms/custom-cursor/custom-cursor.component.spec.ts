@@ -137,16 +137,16 @@ describe('CustomCursorComponent', () => {
     expect(host.classList.contains('cursor-hover')).toBe(false);
   });
 
-  it('should show the localized label over projects', async () => {
+  it('should keep the plain cursor over projects (no label, no hover state)', async () => {
     await setup();
     const el = make('div');
     el.className = 'project-card-container';
     await moveOver(el);
     fixture.detectChanges();
 
-    expect(host.classList.contains('cursor-project')).toBe(true);
+    expect(host.classList.contains('cursor-project')).toBe(false);
     expect(host.classList.contains('cursor-hover')).toBe(false);
-    expect(host.querySelector('.cursor-label')?.textContent?.trim()).toMatch(/^(Ver|View)$/);
+    expect(host.querySelector('.cursor-label')).toBeNull();
   });
 
   it('should only touch classes when the state changes', async () => {

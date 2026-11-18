@@ -1,12 +1,5 @@
 <div class="project-img relative">
-  <a
-    [attr.href]="REPO() || null"
-    [attr.target]="REPO() ? '_blank' : null"
-    [title]="TITLE()"
-    [class.cursor-pointer]="!!REPO()"
-    class="link-to-repo z-20 outline-none focus:outline-none"
-    #projectImg
-  >
+  <div class="project-shot z-20" #projectImg>
     <!-- Container for atropos -->
     <div class="atropos project-atropos-content" useAtropos>
       <div class="atropos-scale">
@@ -25,7 +18,7 @@
         </div>
       </div>
     </div>
-  </a>
+  </div>
 
   <!-- Tech stack row (in flow, under the screenshot) -->
   <div class="project-tags">
