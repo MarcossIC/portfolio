@@ -1,24 +1,26 @@
 import {
   approach,
   createQualityGovernor,
+  createVsyncEstimator,
   frameDelta,
   framingFor,
   glslFloat,
   ignition,
   isFrameDue,
+  loopMayStart,
   isShortLandscape,
   needsResize,
   scrollProgress,
   settleWithin,
   smoothstep,
   zoomOutFor,
+  vsyncProbeWanted,
   type QualityConfig,
   type QualityGovernor,
 } from './galaxy-scene';
-import { FRAMING, LOOP, MOTION } from './galaxy-scene.config';
+import { FRAMING, MOTION, QUALITY } from './galaxy-scene.config';
 
 const MAX_ZOOM_OUT = FRAMING.maxZoomOut;
-const MIN_FRAME_MS = LOOP.minFrameMs;
 
 // The scene itself needs a WebGL context (jsdom has none), so what is unit-tested
 // here are the pure decisions the render loop and the observers delegate to.
@@ -194,27 +196,18 @@ describe('frameDelta', () => {
   });
 });
 
-describe('isFrameDue (FPS cap)', () => {
-  const hz = (rate: number) => 1000 / rate;
-
-  it('renders every frame on 60Hz and 90Hz displays', () => {
-    expect(isFrameDue(hz(60), 0)).toBe(true);
-    expect(isFrameDue(hz(90), 0)).toBe(true);
+describe('isFrameDue (vsync parity)', () => {
+  // Full rate: no vsync is ever skipped, whatever the display refresh rate is.
+  it('draws every vsync at full rate', () => {
+    for (let i = 0; i < 20; i++) expect(isFrameDue(i, false)).toBe(true);
   });
 
-  it('skips every other frame on 120Hz and 144Hz displays', () => {
-    expect(isFrameDue(hz(120), 0)).toBe(false);
-    expect(isFrameDue(2 * hz(120), 0)).toBe(true);
-    expect(isFrameDue(hz(144), 0)).toBe(false);
-    expect(isFrameDue(2 * hz(144), 0)).toBe(true);
-  });
-
-  it('skips a frame stamped before the last render', () => {
-    expect(isFrameDue(995, 1000)).toBe(false);
-  });
-
-  it('exposes a threshold below the 90Hz frame time', () => {
-    expect(MIN_FRAME_MS).toBeLessThan(hz(90));
+  // The half-rate fallback is decided by counting vsyncs, not by a ms threshold:
+  // every 2nd one, on 60, 144 and 165Hz alike, so the cadence never drifts.
+  it('draws exactly every 2nd vsync at half rate', () => {
+    const drawn: boolean[] = [];
+    for (let i = 0; i < 8; i++) drawn.push(isFrameDue(i, true));
+    expect(drawn).toEqual([true, false, true, false, true, false, true, false]);
   });
 });
 
@@ -404,8 +397,16 @@ describe('settleWithin', () => {
 // live in QUALITY (galaxy-scene.config.ts).
 const Q: QualityConfig = {
   step: 0.85,
-  slowFrameMs: 21.5,
+  lateVsyncs: 1.5,
   stallMs: 250,
+  vsyncMinMs: 2,
+  vsyncMaxMs: 20,
+  vsyncWindow: 16,
+  vsyncMinSamples: 4,
+  vsyncEvery: 2,
+  vsyncPercentile: 0.1,
+  vsyncTolerance: 0.1,
+  vsyncRiseEvals: 4,
   windowFrames: 10,
   warmupFrames: 5,
   settleFrames: 2,
@@ -426,6 +427,7 @@ const SLOW = 2000 / 60; // a dropped vsync on a 60Hz screen
 function feed(gov: QualityGovernor, n: number, ms: number | ((ratio: number) => number)): number {
   let changes = 0;
   for (let i = 0; i < n; i++) {
+    gov.observeVsync(FAST); // the display is a 60Hz one unless a test says otherwise
     if (gov.sample(typeof ms === 'number' ? ms : ms(gov.ratio))) changes++;
   }
   return changes;
@@ -524,6 +526,7 @@ describe('createQualityGovernor', () => {
     const frames = 600;
     const ratios: number[] = [];
     for (let i = 0; i < frames; i++) {
+      gov.observeVsync(FAST);
       if (gov.sample(gpu(gov.ratio))) ratios.push(gov.ratio);
     }
     expect(ratios[0]).toBeCloseTo(1.7);
@@ -567,5 +570,348 @@ describe('createQualityGovernor', () => {
     expect(gov.ratio).toBe(1);
     gov.setCap(1.5);
     expect(gov.ratio).toBe(1.5);
+  });
+});
+
+// ---- Vsync estimate ----
+
+const vsyncOf = (hz: number) => 1000 / hz;
+
+/** A small deterministic jitter (+-0.15ms) so streams are not perfectly flat. */
+const jitter = (i: number) => ((i * 7) % 5) * 0.075 - 0.15;
+
+function observeStream(est: ReturnType<typeof createVsyncEstimator>, hz: number, n: number, start = 0): void {
+  for (let i = start; i < start + n; i++) est.observe(vsyncOf(hz) + jitter(i));
+}
+
+describe('createVsyncEstimator', () => {
+  it('has no estimate until it has seen enough gaps', () => {
+    const est = createVsyncEstimator(Q);
+    expect(est.ms).toBe(0);
+    expect(est.ready).toBe(false);
+    observeStream(est, 60, Q.vsyncMinSamples - 1);
+    expect(est.ready).toBe(false);
+    observeStream(est, 60, 2, 10);
+    expect(est.ready).toBe(true);
+  });
+
+  it.each([60, 120, 144, 165])('measures a %iHz display', (hz) => {
+    const est = createVsyncEstimator(Q);
+    observeStream(est, hz, 40);
+    expect(est.ms).toBeCloseTo(vsyncOf(hz), 0);
+  });
+
+  // A late frame is a 2-vsync gap: it must not make the vsync look longer.
+  it('is not inflated by late frames (a minority of 2-vsync gaps)', () => {
+    const est = createVsyncEstimator(Q);
+    for (let i = 0; i < 80; i++) est.observe(i % 4 === 3 ? 2 * vsyncOf(165) : vsyncOf(165));
+    expect(est.ms).toBeCloseTo(vsyncOf(165), 0);
+  });
+
+  it('ignores stalls, non-positive gaps and sub-millisecond catch-up gaps', () => {
+    const est = createVsyncEstimator(Q);
+    observeStream(est, 144, 40);
+    const before = est.ms;
+    for (let i = 0; i < 40; i++) {
+      est.observe(400); // tab switch
+      est.observe(-3); // restart stamp
+      est.observe(0.4); // two callbacks in the same frame
+      est.observe(NaN);
+    }
+    expect(est.ms).toBe(before);
+  });
+
+  it('never claims a vsync longer than vsyncMaxMs (a GPU stuck at 2 vsyncs on 60Hz)', () => {
+    const est = createVsyncEstimator(Q);
+    for (let i = 0; i < 100; i++) est.observe(2 * vsyncOf(60));
+    expect(est.ms).toBeLessThanOrEqual(Q.vsyncMaxMs);
+  });
+
+  it('adapts down at once when the display is faster (60Hz monitor -> 165Hz one)', () => {
+    const est = createVsyncEstimator(Q);
+    observeStream(est, 60, 40);
+    observeStream(est, 165, 2 * Q.vsyncWindow, 40);
+    expect(est.ms).toBeCloseTo(vsyncOf(165), 0);
+  });
+
+  // Rising needs persistence: a stretch of slow frames (GPU load) must not retune it.
+  it('does not move up for a short slow stretch, but does when the pattern persists', () => {
+    const est = createVsyncEstimator(Q);
+    observeStream(est, 165, 40);
+    observeStream(est, 60, Q.vsyncWindow, 40);
+    expect(est.ms).toBeCloseTo(vsyncOf(165), 0);
+    observeStream(est, 60, 20 * Q.vsyncWindow, 80); // 165Hz -> 60Hz monitor, no dpr change
+    expect(est.ms).toBeCloseTo(vsyncOf(60), 0);
+  });
+
+  it('reset() forgets everything', () => {
+    const est = createVsyncEstimator(Q);
+    observeStream(est, 144, 40);
+    est.reset();
+    expect(est.ms).toBe(0);
+    expect(est.ready).toBe(false);
+  });
+});
+
+// ---- Governor: lateness measured in vsyncs ----
+
+/** Feeds `n` rendered frames whose gap is `gapVsyncs` vsyncs of a `hz` display. */
+function feedOnDisplay(gov: QualityGovernor, hz: number, n: number, gapVsyncs: number): number {
+  let changes = 0;
+  for (let i = 0; i < n; i++) {
+    gov.observeVsync(vsyncOf(hz) + jitter(i));
+    if (gov.sample(gapVsyncs * vsyncOf(hz))) changes++;
+  }
+  return changes;
+}
+
+describe('createQualityGovernor (budget relative to the real vsync)', () => {
+  const settle = Q.warmupFrames + Q.downWindows * Q.windowFrames + 5;
+
+  it.each([60, 144, 165])('%iHz: frames arriving every vsync are on budget', (hz) => {
+    const gov = createQualityGovernor(2, 1, Q);
+    feedOnDisplay(gov, hz, 300, 1);
+    expect(gov.ratio).toBe(2);
+    expect(gov.halfRate).toBe(false);
+  });
+
+  it.each([60, 144, 165])('%iHz: a gap of 1.4 vsyncs is still on time', (hz) => {
+    const gov = createQualityGovernor(2, 1, Q);
+    feedOnDisplay(gov, hz, 300, 1.4);
+    expect(gov.ratio).toBe(2);
+  });
+
+  it.each([60, 144, 165])('%iHz: a gap of 2 vsyncs is late and lowers the resolution', (hz) => {
+    const gov = createQualityGovernor(2, 1, Q);
+    feedOnDisplay(gov, hz, settle, 2);
+    expect(gov.ratio).toBeLessThan(2);
+  });
+
+  // The old fixed 21.5ms let 48fps through on 144Hz; 3 vsyncs there is 20.8ms.
+  it('144Hz: 3-vsync gaps (20.8ms, under the old fixed budget) now count as late', () => {
+    const gov = createQualityGovernor(2, 1, Q);
+    feedOnDisplay(gov, 144, settle, 3);
+    expect(gov.ratio).toBeLessThan(2);
+  });
+
+  // The old fixed 21.5ms let 82fps through on 165Hz (12.1ms).
+  it('165Hz: 82fps (a frame every 2nd vsync) is late, the cursor runs at 165', () => {
+    const gov = createQualityGovernor(2, 1, Q);
+    feedOnDisplay(gov, 165, settle, 2);
+    expect(gov.ratio).toBeLessThan(2);
+  });
+
+  it('does not judge anything before the vsync is known', () => {
+    const gov = createQualityGovernor(2, 1, Q);
+    for (let i = 0; i < 400; i++) gov.sample(100);
+    expect(gov.ratio).toBe(2);
+    expect(gov.vsyncMs).toBe(0);
+  });
+
+  it('setCap() (monitor change) re-estimates the vsync from scratch', () => {
+    const gov = createQualityGovernor(2, 1, Q);
+    feedOnDisplay(gov, 165, 60, 1);
+    expect(gov.vsyncMs).toBeCloseTo(vsyncOf(165), 0);
+    gov.setCap(1);
+    expect(gov.vsyncMs).toBe(0);
+    feedOnDisplay(gov, 60, 60, 1);
+    expect(gov.vsyncMs).toBeCloseTo(vsyncOf(60), 0);
+  });
+
+  it('measures 60 and 165Hz independently: the same 14ms gap is late on 165Hz only', () => {
+    const slow165 = createQualityGovernor(2, 1, Q);
+    const ok60 = createQualityGovernor(2, 1, Q);
+    for (let i = 0; i < settle; i++) {
+      slow165.observeVsync(vsyncOf(165));
+      slow165.sample(14);
+      ok60.observeVsync(vsyncOf(60));
+      ok60.sample(14);
+    }
+    expect(slow165.ratio).toBeLessThan(2);
+    expect(ok60.ratio).toBe(2);
+  });
+});
+
+// ---- Governor: half-rate fallback ----
+
+/**
+ * Feeds `n` frames at 165Hz where each window of `windowFrames` has `share(ratio, half)` of
+ * its frames late (2 periods), the rest on time. The period is 1 vsync, or 2 at half rate.
+ */
+function feedShare(gov: QualityGovernor, n: number, share: (ratio: number, half: boolean) => number): void {
+  const v = vsyncOf(165);
+  for (let i = 0; i < n; i++) {
+    gov.observeVsync(v);
+    const period = gov.halfRate ? 2 : 1;
+    const late = i % Q.windowFrames < share(gov.ratio, gov.halfRate) * Q.windowFrames;
+    gov.sample(period * v * (late ? 2 : 1));
+  }
+}
+
+describe('createQualityGovernor (half-rate fallback)', () => {
+  // Share falls 0.5 per ratio unit: every step down helps, but at the floor (1) it is still 0.4.
+  const stillOver = (ratio: number, half: boolean) => (half ? 0 : Math.min(1, (ratio - 1) * 0.5 + 0.4));
+
+  it('stays at full rate while the resolution can still drop', () => {
+    const gov = createQualityGovernor(2, 1, Q);
+    let sawHalfAboveFloor = false;
+    for (let i = 0; i < 120; i++) {
+      feedShare(gov, 10, stillOver);
+      if (gov.halfRate && gov.ratio > 1.0001) sawHalfAboveFloor = true;
+    }
+    expect(sawHalfAboveFloor).toBe(false);
+  });
+
+  it('engages at the floor when windows are still over budget', () => {
+    const gov = createQualityGovernor(2, 1, Q);
+    feedShare(gov, 3000, stillOver);
+    expect(gov.ratio).toBeCloseTo(1);
+    expect(gov.halfRate).toBe(true);
+  });
+
+  it('never engages when the budget is met above the floor', () => {
+    const gov = createQualityGovernor(2, 1, Q);
+    feedShare(gov, 3000, (ratio) => (ratio > 1.5 ? 0.6 : 0));
+    expect(gov.halfRate).toBe(false);
+    expect(gov.ratio).toBeGreaterThan(1);
+  });
+
+  it('engages on a 1x screen (cap == floor) as soon as two windows are over budget', () => {
+    const gov = createQualityGovernor(1, 1, Q);
+    feedShare(gov, Q.warmupFrames + 4 * Q.windowFrames, (_r, half) => (half ? 0 : 0.5));
+    expect(gov.halfRate).toBe(true);
+    expect(gov.ratio).toBe(1);
+  });
+
+  it('gives up half rate when it does not help (rAF throttled, not GPU bound)', () => {
+    const gov = createQualityGovernor(1, 1, Q);
+    feedShare(gov, 600, () => 0.6);
+    let atHalf = 0;
+    for (let i = 0; i < 40; i++) {
+      feedShare(gov, Q.windowFrames, () => 0.6);
+      if (gov.halfRate) atHalf++;
+    }
+    // Held at full rate for most of the hold (it may only flap for a probe).
+    expect(atHalf).toBeLessThan(10);
+  });
+
+  it('judges lateness against the half-rate period (2 vsyncs on time is not late)', () => {
+    const gov = createQualityGovernor(1, 1, Q);
+    feedShare(gov, 400, (_r, half) => (half ? 0 : 0.5));
+    expect(gov.halfRate).toBe(true);
+    // From here every frame arrives exactly 2 vsyncs after the last: healthy at half rate.
+    feedShare(gov, 3 * Q.windowFrames, (_r, half) => (half ? 0 : 0.5));
+    expect(gov.halfRate).toBe(true);
+  });
+
+  it('probes full rate again after a calm stretch and falls back if that fails', () => {
+    const gov = createQualityGovernor(1, 1, Q);
+    const states: boolean[] = [];
+    const v = vsyncOf(165);
+    for (let i = 0; i < 4000; i++) {
+      gov.observeVsync(v);
+      const period = gov.halfRate ? 2 : 1;
+      // GPU cannot hold full rate: every full-rate frame is late, half-rate ones are on time.
+      gov.sample(period * v * (gov.halfRate ? 1 : 2));
+      if (i % Q.windowFrames === 0) states.push(gov.halfRate);
+    }
+    expect(states.filter(Boolean).length).toBeGreaterThan(states.length / 2);
+    expect(states.some((s) => !s)).toBe(true);
+  });
+
+  it('setCap() leaves half rate (new monitor, new budget)', () => {
+    const gov = createQualityGovernor(1, 1, Q);
+    feedShare(gov, 400, (_r, half) => (half ? 0 : 0.5));
+    expect(gov.halfRate).toBe(true);
+    gov.setCap(1);
+    expect(gov.halfRate).toBe(false);
+  });
+
+  it('observeVsync() and sample() return primitives only (allocation-free contract)', () => {
+    const gov = createQualityGovernor(2, 1, Q);
+    expect(gov.observeVsync(vsyncOf(165))).toBeUndefined();
+    expect(typeof gov.sample(vsyncOf(165))).toBe('boolean');
+  });
+});
+
+describe('QUALITY (production config) against a 165Hz display', () => {
+  it('1 vsync per frame is calm, 2 vsyncs per frame is late', () => {
+    const calm = createQualityGovernor(2, 1, QUALITY);
+    const busy = createQualityGovernor(2, 1, QUALITY);
+    const frames = QUALITY.warmupFrames + QUALITY.downWindows * QUALITY.windowFrames + 5;
+    for (let i = 0; i < frames; i++) {
+      calm.observeVsync(vsyncOf(165));
+      calm.sample(vsyncOf(165));
+      busy.observeVsync(vsyncOf(165));
+      busy.sample(2 * vsyncOf(165));
+    }
+    expect(calm.ratio).toBe(2);
+    expect(busy.ratio).toBeLessThan(2);
+  });
+});
+
+// ---- Vsync probe (before the first draw) ----
+
+describe('vsync lock-in (GPU too slow from the very first frame)', () => {
+  const v165 = vsyncOf(165);
+  const frames = QUALITY.warmupFrames + QUALITY.downWindows * QUALITY.windowFrames + 5;
+
+  // Chrome throttles rAF to the frame production rate: every loop gap is 2 vsyncs.
+  it('with only loop gaps the estimate locks onto 2 vsyncs and nothing is ever late (the bug)', () => {
+    const gov = createQualityGovernor(2, 1, QUALITY);
+    for (let i = 0; i < 400; i++) {
+      gov.observeVsync(2 * v165);
+      gov.sample(2 * v165);
+    }
+    expect(gov.vsyncMs).toBeCloseTo(2 * v165, 0);
+    expect(gov.ratio).toBe(2);
+  });
+
+  it('seeded by 1-vsync probe gaps it steps the resolution down', () => {
+    const gov = createQualityGovernor(2, 1, QUALITY);
+    for (let i = 0; i < QUALITY.vsyncMinSamples + 2; i++) gov.observeVsync(v165); // probe, no draw
+    expect(gov.vsyncMs).toBeCloseTo(v165, 0);
+    for (let i = 0; i < frames; i++) {
+      gov.observeVsync(2 * v165);
+      gov.sample(2 * v165);
+    }
+    expect(gov.ratio).toBeLessThan(2);
+  });
+
+  // The rise path still protects against a genuinely slower display: only after a long
+  // consistent run of longer gaps, never before the governor had its say.
+  it('a probe-seeded estimate still follows a genuinely slower display, after vsyncRiseEvals', () => {
+    const gov = createQualityGovernor(2, 1, QUALITY);
+    for (let i = 0; i < 40; i++) gov.observeVsync(v165);
+    for (let i = 0; i < 64 + QUALITY.vsyncRiseEvals * QUALITY.vsyncEvery + 16; i++) gov.observeVsync(vsyncOf(60));
+    expect(gov.vsyncMs).toBeCloseTo(vsyncOf(60), 0);
+  });
+});
+
+describe('loopMayStart (shader gate + vsync probe)', () => {
+  it('waits for the shader gate whatever the probe says', () => {
+    expect(loopMayStart(false, true, 100, 30)).toBe(false);
+  });
+
+  it('starts once the gate settled and the vsync is known', () => {
+    expect(loopMayStart(true, true, 5, 30)).toBe(true);
+  });
+
+  it('holds the loop back while the vsync is unknown and the probe still has callbacks left', () => {
+    expect(loopMayStart(true, false, 10, 30)).toBe(false);
+  });
+
+  it('gives up probing after the cap so the loop always starts', () => {
+    expect(loopMayStart(true, false, 30, 30)).toBe(true);
+  });
+});
+
+describe('vsyncProbeWanted', () => {
+  it('probes only while the scene is due, not drawing yet, and the vsync is unknown', () => {
+    expect(vsyncProbeWanted(true, false, false, 0, 30)).toBe(true);
+    expect(vsyncProbeWanted(false, false, false, 0, 30)).toBe(false); // hidden / off-screen: no rAF work
+    expect(vsyncProbeWanted(true, true, false, 0, 30)).toBe(false); // the loop feeds it
+    expect(vsyncProbeWanted(true, false, true, 0, 30)).toBe(false); // already known
+    expect(vsyncProbeWanted(true, false, false, 30, 30)).toBe(false); // cap reached
   });
 });

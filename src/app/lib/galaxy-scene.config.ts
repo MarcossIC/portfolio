@@ -74,14 +74,12 @@ export const DEVICE = {
 // ---- Render loop ----
 
 export const LOOP = {
-  /** Most time one frame may advance, so a tab switch or a breakpoint doesn't make the animation jump. */
-  maxFrameMs: 50,
   /**
-   * Minimum time between rendered frames. It sits just under the 90Hz frame time:
-   * 60Hz and 90Hz render every frame, 120Hz runs at 60fps and 144Hz at 72fps. A slow
-   * galaxy gains nothing from high refresh rates; the GPU would only do twice the work.
+   * Most time one frame may advance, so a tab switch or a breakpoint doesn't make the animation jump.
+   * There is no frame cap: the galaxy draws on every vsync, like the custom cursor, so both
+   * move at the same cadence. The only throttle is the governor's half-rate fallback (`QUALITY`).
    */
-  minFrameMs: 1000 / 95,
+  maxFrameMs: 50,
   /**
    * Longest the loop waits for the shaders to compile in the background before it
    * starts anyway (and compiles them on the first frame, as it did before).
@@ -90,20 +88,36 @@ export const LOOP = {
    * a stuck compile still gets its first frame on screen before the fallback.
    */
   compileTimeoutMs: 1500,
+  /**
+   * rAF callbacks the draw-less vsync probe may spend measuring the display before the
+   * first draw (it runs alongside the shader compile; ≥ `QUALITY.vsyncMinSamples` + 1 to
+   * be able to finish). At 60Hz this caps the extra wait at ~0.5s, at 165Hz ~0.18s.
+   */
+  probeMaxCallbacks: 30,
 } as const;
 
 // ---- Adaptive resolution ----
 
 /**
- * The governor lowers the drawing-buffer pixel ratio when the galaxy can't hold
- * ~60fps and raises it back once frames are on time again. Fill-rate is the only
- * real cost of this scene, and it scales with the square of the pixel ratio.
+ * The governor lowers the drawing-buffer pixel ratio when the galaxy can't keep up
+ * with the display and raises it back once frames are on time again. Fill-rate is the
+ * only real cost of this scene, and it scales with the square of the pixel ratio.
  *
- * It only sees the gaps between rendered rAF frames, and those are quantized to
- * the display's vsync: a frame is either on time or one vsync late. So it counts
- * late frames per window instead of averaging milliseconds, and it can't tell
- * "on budget" from "well under budget" — going back up is a probe that is undone
- * if it fails. Stars keep their apparent size: `uSize` follows the pixel ratio.
+ * "Keeping up" is relative to the display: the loop draws on every vsync, so on a
+ * 165Hz monitor the target is a frame every 6.06ms, on 60Hz every 16.7ms. The governor
+ * measures the real vsync interval from the rAF gaps (see the `vsync*` fields) and
+ * counts a frame as late when it arrives more than `lateVsyncs` vsyncs after the
+ * previous one. Rendered gaps are quantized to whole vsyncs (1 = on time, 2 = a
+ * dropped one), so 1.5 sits halfway between them for any refresh rate: 60, 90, 120,
+ * 144, 165, 240Hz all get the same verdict, with no millisecond constant to retune.
+ * It counts late frames per window instead of averaging milliseconds, and it can't
+ * tell "on budget" from "well under budget" — going back up is a probe that is
+ * undone if it fails. Stars keep their apparent size: `uSize` follows the pixel ratio.
+ *
+ * Ladder: pixel-ratio notches down to the floor, then one more step: half rate (draw
+ * every 2nd vsync, decided by vsync count). Half rate is the last resort for a GPU
+ * that can't keep up even at the minimum resolution; it is judged like any other
+ * step (given up if it doesn't help) and probed back up after a calm stretch.
  */
 export const QUALITY = {
   /** Lowest pixel ratio the governor may drop to. Soft glow points still read fine at 1x on desktop. */
@@ -111,21 +125,50 @@ export const QUALITY = {
   /** Each notch multiplies the pixel ratio by this: ≈28% fewer pixels per notch down. */
   step: 0.85,
   /**
-   * A rendered frame is late when it comes more than this after the previous one.
-   * Between the healthy gaps (16.7ms at 60/120Hz, 20ms on 100Hz where the cap
-   * renders every other vsync) and the late ones (33.3ms at 60Hz, 22.2ms at 90Hz,
-   * 25ms at 120Hz). At 144Hz a 20.8ms gap (48fps) counts as on time.
+   * A rendered frame is late when it comes more than this many vsyncs after the
+   * previous one (a vsync being the measured refresh interval; at half rate the
+   * period is 2 vsyncs, so the allowance doubles). Between 1 (on time) and 2 (one dropped vsync).
    */
-  slowFrameMs: 21.5,
+  lateVsyncs: 1.5,
   /** Gaps longer than this are stalls (tab switch, breakpoint, a long task), not GPU load: dropped. */
   stallMs: 250,
-  /** Rendered frames per evaluation window, ~0.5s at 60fps. */
+  /** rAF gaps shorter than this are not a vsync (two callbacks in one frame after a stall; 360Hz is 2.8ms): ignored. */
+  vsyncMinMs: 2,
+  /**
+   * The vsync estimate never exceeds this (50Hz). A GPU that only manages one frame per 2
+   * vsyncs on a 60Hz screen produces 33ms gaps; without the ceiling they would read as a
+   * 30Hz display and never count as late. It also keeps a 30fps-throttled rAF (iOS Low
+   * Power Mode) judged as late, as before.
+   */
+  vsyncMaxMs: 20,
+  /** Recent rAF gaps the estimate looks at (ring buffer, allocated once). */
+  vsyncWindow: 64,
+  /** Gaps needed before there is an estimate at all; until then the governor judges nothing. */
+  vsyncMinSamples: 16,
+  /** The estimate is recomputed every this many gaps (a tiny in-place sort, never per frame). */
+  vsyncEvery: 8,
+  /**
+   * Which gap of the window is taken as the vsync: this low percentile. A late frame is a
+   * longer gap, so the low end is the display, and a minority of late frames (or one
+   * stall) can't inflate it; a few sub-vsync glitches can't shrink it either.
+   */
+  vsyncPercentile: 0.1,
+  /** Relative change below which a new percentile is noise and the estimate stays put. */
+  vsyncTolerance: 0.1,
+  /**
+   * Evaluations in a row that must all read a longer vsync before the estimate follows
+   * (window dragged to a slower monitor: the DPR hook doesn't fire when only the refresh
+   * rate differs). 20 x `vsyncEvery` gaps is longer than any governor reaction, so
+   * sustained GPU load steps the resolution down first. Going shorter is immediate.
+   */
+  vsyncRiseEvals: 20,
+  /** Rendered frames per evaluation window, ~0.5s at 60fps (~0.18s at 165Hz). */
   windowFrames: 30,
   /** Frames ignored after the loop starts or resumes: shader warm-up, tab-switch catch-up. */
   warmupFrames: 45,
   /** Frames ignored after a pixel-ratio change or a resize: the buffer reallocation hitch. */
   settleFrames: 10,
-  /** A window is over budget when more than this share of its frames is late (~50fps or worse). */
+  /** A window is over budget when more than this share of its frames is late (a fifth of the frames missed a vsync or more). */
   overShare: 0.2,
   /** A window is calm when at most this share is late: one late frame in a window is a blip. */
   calmShare: 0.04,

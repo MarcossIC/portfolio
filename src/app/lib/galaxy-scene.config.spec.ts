@@ -40,20 +40,27 @@ describe('galaxy palettes', () => {
   }
 });
 
-// The governor only sees vsync-quantized rAF gaps, so `slowFrameMs` has to sit
-// between every healthy cadence and every dropped-frame cadence the loop produces.
+// The governor counts a frame as late relative to the display's measured vsync,
+// so the budget is a multiple of it, not a number of milliseconds.
 describe('QUALITY budget', () => {
-  const vsync = (hz: number) => 1000 / hz;
-
-  it('treats healthy cadences as on budget (60Hz, and the 100Hz every-other-frame pattern)', () => {
-    expect(QUALITY.slowFrameMs).toBeGreaterThan(vsync(60));
-    expect(QUALITY.slowFrameMs).toBeGreaterThan(2 * vsync(100));
+  it('treats a frame as late only past one vsync plus half of the next', () => {
+    expect(QUALITY.lateVsyncs).toBe(1.5);
   });
 
-  it('flags a dropped frame at 60Hz, 90Hz and 120Hz as slow', () => {
-    expect(QUALITY.slowFrameMs).toBeLessThan(2 * vsync(60));
-    expect(QUALITY.slowFrameMs).toBeLessThan(2 * vsync(90));
-    expect(QUALITY.slowFrameMs).toBeLessThan(3 * vsync(120));
+  it('has a vsync window that can hold the estimate', () => {
+    expect(QUALITY.vsyncMinSamples).toBeLessThanOrEqual(QUALITY.vsyncWindow);
+    expect(QUALITY.vsyncPercentile).toBeGreaterThan(0);
+    expect(QUALITY.vsyncPercentile).toBeLessThan(0.5);
+  });
+
+  it('accepts every real refresh rate between 50 and 360Hz as a vsync', () => {
+    expect(QUALITY.vsyncMinMs).toBeLessThanOrEqual(1000 / 360);
+    expect(QUALITY.vsyncMaxMs).toBeGreaterThanOrEqual(1000 / 50);
+  });
+
+  it('has no fixed millisecond frame cap or budget left', () => {
+    expect('slowFrameMs' in QUALITY).toBe(false);
+    expect('minFrameMs' in LOOP).toBe(false);
   });
 
   it('only ever lowers the resolution with a step in (0, 1)', () => {
