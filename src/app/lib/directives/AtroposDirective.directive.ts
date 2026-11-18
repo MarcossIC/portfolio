@@ -1,6 +1,23 @@
 import { isPlatformBrowser } from '@angular/common';
-import { DestroyRef, Directive, ElementRef, PLATFORM_ID, afterNextRender, inject } from '@angular/core';
-import Atropos, { type AtroposInstance } from 'atropos';
+import {
+  DestroyRef,
+  Directive,
+  ElementRef,
+  InjectionToken,
+  PLATFORM_ID,
+  afterNextRender,
+  inject,
+} from '@angular/core';
+import Atropos, { type AtroposInstance, type AtroposOptions } from 'atropos';
+
+/**
+ * Seam for the Atropos factory so tests can swap it via DI (the Angular
+ * unit-test system does not reliably support `vi.mock` across the full suite).
+ */
+export const ATROPOS_FACTORY = new InjectionToken<(options: AtroposOptions) => AtroposInstance>(
+  'ATROPOS_FACTORY',
+  { providedIn: 'root', factory: () => (options) => Atropos(options) },
+);
 
 /**
  * 3D tilt effect. Only runs on fine-pointer hover devices without reduced motion,
@@ -15,6 +32,7 @@ export class AtroposDirective {
   private readonly platform = inject(PLATFORM_ID);
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly createAtropos = inject(ATROPOS_FACTORY);
 
   private instance: AtroposInstance | null = null;
   private observer: IntersectionObserver | null = null;
@@ -45,7 +63,7 @@ export class AtroposDirective {
 
   private create(): void {
     if (this.instance) return;
-    this.instance = Atropos({
+    this.instance = this.createAtropos({
       el: this.el.nativeElement,
       alwaysActive: false,
       activeOffset: 30,

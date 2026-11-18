@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { AtroposDirective } from './AtroposDirective.directive';
+import { AtroposDirective, ATROPOS_FACTORY } from './AtroposDirective.directive';
 
 const destroy = vi.fn();
-vi.mock('atropos', () => ({
-  default: vi.fn(() => ({ destroy })),
-}));
-import Atropos from 'atropos';
+const Atropos = vi.fn(() => ({ destroy }));
 
 @Component({
   standalone: true,
@@ -24,6 +21,9 @@ describe('AtroposDirective', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    TestBed.configureTestingModule({
+      providers: [{ provide: ATROPOS_FACTORY, useValue: Atropos }],
+    });
     vi.stubGlobal(
       'IntersectionObserver',
       class {
