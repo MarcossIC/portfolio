@@ -1,3 +1,5 @@
+<!-- Scrim: dims the page behind the open panel; tap closes. Sibling of the header (fixed inside a backdrop-filter element would be clipped to it). Pointer-only, not focusable. -->
+<div class="mobile-scrim" [class.is-open]="mobileOpen()" aria-hidden="true" (click)="closeMobile()"></div>
 <header
   class="header glass animate-slide-down"
   [class.is-scrolled]="scrolled()"
@@ -15,9 +17,9 @@
           <navigate
             [path]="NAVIGATION.PATH"
             [fragment]="NAVIGATION.FRAGMENT"
-            class="nav-link cursor-pointer outline-none focus:outline-none focus-within:outline-none"
+            class="nav-link cursor-pointer"
             [class.is-active]="activeSection.active() === NAVIGATION.FRAGMENT"
-            role="link"
+            [current]="activeSection.active() === NAVIGATION.FRAGMENT"
           >{{ NAVIGATION.LABEL }}</navigate>
         }
       </div>
@@ -61,6 +63,8 @@
         [path]="NAVIGATION.PATH"
         [fragment]="NAVIGATION.FRAGMENT"
         class="mobile-link"
+        [class.is-active]="activeSection.active() === NAVIGATION.FRAGMENT"
+        [current]="activeSection.active() === NAVIGATION.FRAGMENT"
         (click)="closeMobile('none')"
       >{{ NAVIGATION.LABEL }}</navigate>
     }

@@ -30,6 +30,17 @@ a::after {
   height: 100%;
 }
 
+/* Standalone focus ring; inside <navigate> the host draws the ring instead */
+a:focus-visible {
+  outline: 2px solid var(--cosmic-violet, #d8b4fe);
+  outline-offset: 4px;
+  border-radius: 0.5rem;
+}
+
+:host-context(navigate) a:focus-visible {
+  outline: none;
+}
+
 /* a ::ng-deep span {
   width: 0px;
   opacity: 0.95;

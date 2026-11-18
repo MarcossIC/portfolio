@@ -111,8 +111,6 @@ const EPSILON = 0.1;
 
     :host(.cursor-project) .cursor-ring-core {
       --scale: 2.2;
-      border-color: rgba(139, 92, 246, 0.7);
-      background: rgba(139, 92, 246, 0.25);
     }
 
     :host(.cursor-project) .cursor-dot-core {
@@ -127,12 +125,19 @@ const EPSILON = 0.1;
       transform: scale(0.7);
     }
 
+    /* Over a project the ring becomes a dark pill so the label reads on light screenshots too */
+    :host(.cursor-project) .cursor-ring-core {
+      background: rgba(18, 6, 44, 0.92);
+      border-color: rgba(216, 180, 254, 0.45);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+    }
+
     .cursor-label {
       /* Cancel the ring scale so the text keeps its size */
       transform: scale(calc(1 / var(--scale)));
       font-size: 0.65rem;
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.95);
+      color: #fff;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       white-space: nowrap;

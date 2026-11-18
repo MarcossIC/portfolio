@@ -33,6 +33,13 @@
   opacity: 1;
 }
 
+/* Mobile: the header has less to hide behind, so the scrolled tint is nearly opaque */
+@media only screen and (max-width: 767px) {
+  .header::before {
+    background: hsla(263, 50%, 6%, 0.96);
+  }
+}
+
 .header-container {
   width: 100%;
   padding: 0.75rem 1.25rem;
@@ -66,7 +73,7 @@
 .mobile-toggle::after {
   content: '';
   position: absolute;
-  inset: -2px;
+  inset: -0.25rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -85,7 +92,8 @@
 
 .logo-btn:focus-visible,
 .mobile-toggle:focus-visible,
-.mobile-link:focus-within {
+.mobile-link:has(a:focus-visible),
+.nav-link:has(a:focus-visible) {
   outline: 2px solid var(--cosmic-violet, #d8b4fe);
   outline-offset: 2px;
 }
@@ -248,6 +256,12 @@
   transition: color 0.2s, background-color 0.2s;
 }
 
+.mobile-link.is-active {
+  color: white;
+  background: var(--nav-active-bg, rgba(255, 255, 255, 0.06));
+  box-shadow: inset 3px 0 0 var(--cosmic-violet, #d8b4fe);
+}
+
 .mobile-link:active {
   color: white;
   background: rgba(255, 255, 255, 0.08);
@@ -260,13 +274,49 @@
   }
 }
 
+/* Settings row: language chip + atmosphere toggle share one line */
 .mobile-options {
-  padding-top: 0.5rem;
+  padding: 0.75rem 0.25rem 0.25rem;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   margin-top: 0.25rem;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: stretch;
   gap: 0.5rem;
+}
+
+.mobile-options header-menu-options {
+  display: flex;
+}
+
+.mobile-options .mobile-atmos {
+  display: flex;
+  min-width: 0;
+}
+
+/* Scrim behind the open mobile panel: opacity-only fade, no blur */
+.mobile-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+  background: hsla(263, 60%, 3%, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.mobile-scrim.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-scrim {
+    transition-duration: 0.01ms;
+  }
 }
 
 /* Desktop breakpoint */
@@ -286,7 +336,8 @@
     display: none;
   }
 
-  .mobile-nav {
+  .mobile-nav,
+  .mobile-scrim {
     display: none;
   }
 }

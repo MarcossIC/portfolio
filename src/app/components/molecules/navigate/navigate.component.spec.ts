@@ -61,4 +61,41 @@ describe('NavigateComponent', () => {
 
     expect(navigateSpy).toHaveBeenCalledTimes(1);
   });
+
+  it('should render a real, keyboard-reachable anchor with href and no aria-hidden', () => {
+    fixture.componentRef.setInput('fragment', 'projects');
+    fixture.detectChanges();
+
+    const anchor = (fixture.nativeElement as HTMLElement).querySelector('a') as HTMLAnchorElement;
+
+    expect(anchor.getAttribute('href')).toBe('#projects');
+    expect(anchor.hasAttribute('aria-hidden')).toBe(false);
+  });
+
+  it('should prevent the native jump on plain click but not on modified clicks', () => {
+    vi.spyOn(navigationService, 'navigateToSection').mockResolvedValue(undefined);
+    fixture.componentRef.setInput('fragment', 'projects');
+    fixture.detectChanges();
+    const anchor = (fixture.nativeElement as HTMLElement).querySelector('a') as HTMLAnchorElement;
+
+    const plain = new MouseEvent('click', { bubbles: true, cancelable: true });
+    anchor.dispatchEvent(plain);
+    const modified = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
+    anchor.dispatchEvent(modified);
+
+    expect(plain.defaultPrevented).toBe(true);
+    expect(modified.defaultPrevented).toBe(false);
+  });
+
+  it('should expose aria-current="location" only when current', () => {
+    fixture.componentRef.setInput('fragment', 'projects');
+    fixture.componentRef.setInput('current', true);
+    fixture.detectChanges();
+    const anchor = (fixture.nativeElement as HTMLElement).querySelector('a') as HTMLAnchorElement;
+    expect(anchor.getAttribute('aria-current')).toBe('location');
+
+    fixture.componentRef.setInput('current', false);
+    fixture.detectChanges();
+    expect(anchor.hasAttribute('aria-current')).toBe(false);
+  });
 });

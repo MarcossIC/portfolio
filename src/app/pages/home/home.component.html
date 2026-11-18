@@ -12,10 +12,11 @@
 </div>
 
 <!-- Contact section - defer until idle, prefetch immediately -->
-<div id="contact" class="no-outline ring-0">
+<div class="no-outline ring-0">
   @defer (on idle; prefetch on immediate) {
     <contact-layout />
   } @placeholder {
-    <contact-skeleton />
+    <!-- Carries the id only until <contact-layout> (whose section owns #contact) replaces it -->
+    <contact-skeleton id="contact" />
   }
 </div>

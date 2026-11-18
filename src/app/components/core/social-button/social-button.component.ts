@@ -45,7 +45,7 @@ const LIST_DEFAULT_ICONS: Record<IconType, Icon> = {
       target="_blank"
       [rel]="isActiveRel()"
       [title]="title()"
-      class="group no-outline"
+      class="group"
     >
       <div class="social-icon w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br rounded-[1.5rem] flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-white/10 shadow-lg hover:shadow-2xl hover:shadow-purple-500/25 no-outline" [ngClass]="imgIcon().color" [innerHTML]="imgIcon().icon">
       </div>
