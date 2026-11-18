@@ -27,6 +27,24 @@ describe('ScrollProgressService scroll animation', () => {
 
   afterEach(() => vi.useRealTimers());
 
+  it('scrollToElement follows the replacement when the element is swapped out (defer placeholder)', async () => {
+    const skeleton = document.createElement('div');
+    skeleton.id = 'swap-target';
+    document.body.appendChild(skeleton);
+    const real = document.createElement('section');
+    real.id = 'swap-target';
+    vi.spyOn(real, 'getBoundingClientRect').mockImplementation(() => ({ top: 800 - y }) as DOMRect);
+    vi.spyOn(skeleton, 'getBoundingClientRect').mockImplementation(() => ({ top: -y }) as DOMRect);
+
+    const p = service.scrollToElement(skeleton, 0, 600);
+    await vi.advanceTimersByTimeAsync(100);
+    skeleton.replaceWith(real); // defer swaps the placeholder mid-animation
+    await vi.advanceTimersByTimeAsync(700);
+    await p;
+    expect(lastTop()).toBe(800);
+    real.remove();
+  });
+
   it('scrollTo eases to the target with instant per-frame writes', async () => {
     const p = service.scrollTo(1000, 600);
     await vi.advanceTimersByTimeAsync(700);

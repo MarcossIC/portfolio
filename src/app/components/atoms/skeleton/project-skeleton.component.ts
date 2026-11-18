@@ -21,6 +21,12 @@ import { SkeletonComponent } from './skeleton.component';
     </div>
   `,
   styles: `
+    /* Reserve the real section height (measured: 3560px @390, 2214px @1440) so
+       swapping in <projects-layout> does not shift the content below. */
+    :host {
+      display: block;
+      min-height: 3560px;
+    }
     .skeleton-container {
       display: flex;
       flex-direction: column;
@@ -41,6 +47,9 @@ import { SkeletonComponent } from './skeleton.component';
       margin-top: 1rem;
     }
     @media (min-width: 1200px) {
+      :host {
+        min-height: 2214px;
+      }
       .skeleton-container {
         display: grid;
         grid-template-columns: 1fr 1fr;

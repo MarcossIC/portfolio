@@ -21,8 +21,12 @@ export class ScrollProgressService implements OnDestroy {
    * Duration scales with distance (450-1000ms) unless given explicitly.
    */
   scrollToElement(element: HTMLElement, offset = 0, duration?: number): Promise<void> {
+    // A @defer placeholder carrying the id may be replaced by the real element
+    // mid-animation; follow whatever currently owns that id.
+    const live = () =>
+      element.isConnected || !element.id ? element : (document.getElementById(element.id) ?? element);
     return this.animateScroll(
-      () => Math.max(0, element.getBoundingClientRect().top + window.scrollY - offset),
+      () => Math.max(0, live().getBoundingClientRect().top + window.scrollY - offset),
       duration
     );
   }

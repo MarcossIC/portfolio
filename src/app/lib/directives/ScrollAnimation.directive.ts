@@ -15,6 +15,41 @@ export type ScrollAnimationType =
   | 'scale-up'
   | 'blur-to-sharp';
 
+const OBSERVER_OPTIONS: IntersectionObserverInit = {
+  threshold: 0.05,
+  rootMargin: '20px 0px -40px 0px',
+};
+
+// One observer for every instance: avoids N observer objects and, unlike the old
+// rAF + getBoundingClientRect, never forces a synchronous layout. The first IO
+// callback delivers the initial state (including "already scrolled past").
+let sharedObserver: IntersectionObserver | undefined;
+const targets = new WeakSet<Element>();
+
+function reveal(el: Element): void {
+  el.classList.add('scroll-visible');
+  sharedObserver?.unobserve(el);
+  targets.delete(el);
+}
+
+function getObserver(): IntersectionObserver {
+  return (sharedObserver ??= new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      // Past the viewport top (deep-link/refresh mid-page) never intersects
+      // again going forward, so reveal it too.
+      if (entry.isIntersecting || entry.boundingClientRect.bottom < 0) {
+        reveal(entry.target);
+      }
+    }
+  }, OBSERVER_OPTIONS));
+}
+
+/** Test hook: drop the module-level observer. */
+export function resetSharedScrollObserver(): void {
+  sharedObserver?.disconnect();
+  sharedObserver = undefined;
+}
+
 @Directive({
   standalone: true,
   selector: '[scrollAnimate]',
@@ -35,47 +70,16 @@ export class ScrollAnimationDirective {
   private readonly motionService = inject(ReducedMotionService);
 
   constructor() {
-    let observer: IntersectionObserver | undefined;
-    let rafId: number | undefined;
+    const element = this.el.nativeElement as HTMLElement;
 
-    // Register cleanup synchronously while the DestroyRef is still alive.
-    // Doing it inside the deferred rAF would risk NG0911 if the view is
-    // destroyed before the callback runs.
+    // Registered synchronously while the DestroyRef is alive (NG0911-safe).
     this.destroyRef.onDestroy(() => {
-      if (rafId !== undefined) cancelAnimationFrame(rafId);
-      observer?.disconnect();
+      if (targets.delete(element)) sharedObserver?.unobserve(element);
     });
 
     afterNextRender(() => {
-      const element = this.el.nativeElement as HTMLElement;
-
-      // Wait for layout to settle before setting up observer
-      rafId = requestAnimationFrame(() => {
-        const rect = element.getBoundingClientRect();
-
-        // Already scrolled past → show without animation
-        if (rect.bottom < 0) {
-          element.classList.add('scroll-visible');
-          return;
-        }
-
-        observer = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              if (entry.isIntersecting) {
-                element.classList.add('scroll-visible');
-                observer?.disconnect();
-              }
-            }
-          },
-          {
-            threshold: 0.05,
-            rootMargin: '20px 0px -40px 0px',
-          }
-        );
-
-        observer.observe(element);
-      });
+      targets.add(element);
+      getObserver().observe(element);
     });
   }
 }

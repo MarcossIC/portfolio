@@ -2,18 +2,19 @@
 <experiency-layout />
 <about-me-layout />
 
-<!-- Projects section - defer until idle, prefetch immediately -->
+<!-- Projects section - render near the viewport (600px ahead), prefetch on idle -->
 <div id="projects" class="no-outline ring-0">
-  @defer (on idle; prefetch on immediate) {
+  @defer (on viewport({rootMargin: '600px'}); prefetch on idle) {
     <projects-layout />
   } @placeholder {
     <project-skeleton />
   }
 </div>
 
-<!-- Contact section - defer until idle, prefetch immediately -->
+<!-- Contact section - render when near the viewport (400px ahead), prefetch on idle.
+     Keeps it out of the hero-intro idle slot. -->
 <div class="no-outline ring-0">
-  @defer (on idle; prefetch on immediate) {
+  @defer (on viewport({rootMargin: '400px'}); prefetch on idle) {
     <contact-layout />
   } @placeholder {
     <!-- Carries the id only until <contact-layout> (whose section owns #contact) replaces it -->

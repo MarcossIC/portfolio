@@ -89,7 +89,7 @@ export class NavigationService {
       }
 
       // Actualizar el focus para accesibilidad
-      this.setFocusToSection(sectionInfo.element);
+      this.setFocusToSection(this.document.getElementById(sectionId) ?? sectionInfo.element);
 
     } catch (error) {
       console.error('NavigationService: Error durante la navegación:', error);
