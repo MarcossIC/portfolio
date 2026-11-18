@@ -21,7 +21,7 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(216, 180, 254, 0.08);
+  background: rgba(var(--accent-rgb), 0.08);
   z-index: -1;
 }
 
@@ -39,11 +39,11 @@
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(216, 180, 254, 0.5),
+    rgba(var(--accent-rgb), 0.5),
     rgba(100, 140, 230, 0.4),
     transparent
   );
-  box-shadow: 0 0 12px rgba(216, 180, 254, 0.4);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.4);
   transform: translateX(-50%) scaleY(var(--timeline-scale, 0));
   will-change: transform;
   transform-origin: center top;

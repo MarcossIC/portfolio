@@ -106,8 +106,8 @@
   border-radius: var(--card-radius);
   pointer-events: none;
   box-shadow:
-    0 8px 32px rgba(139, 92, 246, 0.25),
-    0 0 60px rgba(139, 92, 246, 0.08);
+    0 8px 32px rgba(var(--accent-glow-rgb), 0.25),
+    0 0 60px rgba(var(--accent-glow-rgb), 0.08);
   opacity: 0;
   transition: opacity 400ms ease;
 }

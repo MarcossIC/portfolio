@@ -15,7 +15,7 @@
   font-weight: 500;
   color: rgba(255, 255, 255, 0.5);
   background: hsla(263, 50%, 14%, 0.35);
-  border: 1px solid hsla(270, 95%, 83%, 0.06);
+  border: 1px solid hsl(var(--accent-hsl) / 0.06);
   cursor: pointer;
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
   /* Visual stays compact on desktop; 44px tap target on touch (see media below) */
@@ -33,7 +33,7 @@
   .lang-toggle:hover {
     color: white;
     background: hsla(263, 50%, 18%, 0.5);
-    border-color: hsla(270, 95%, 83%, 0.15);
+    border-color: hsl(var(--accent-hsl) / 0.15);
   }
 }
 

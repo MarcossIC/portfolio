@@ -29,7 +29,7 @@
   width: min(900px, 140vw);
   height: min(900px, 140vw);
   /* Radial gradient instead of filter: blur — soft falloff, no offscreen blur pass */
-  background: radial-gradient(closest-side, rgba(216, 180, 254, 0.05), rgba(216, 180, 254, 0.02) 55%, transparent);
+  background: radial-gradient(closest-side, rgba(var(--accent-rgb), 0.05), rgba(var(--accent-rgb), 0.02) 55%, transparent);
 }
 
 .glow--red {
@@ -183,8 +183,8 @@
 
 @media (hover: hover) and (pointer: fine) {
   .email-link:hover .email-icon-wrap {
-    border-color: rgba(216, 180, 254, 0.2);
-    box-shadow: 0 0 20px -4px rgba(216, 180, 254, 0.3);
+    border-color: rgba(var(--accent-rgb), 0.2);
+    box-shadow: 0 0 20px -4px rgba(var(--accent-rgb), 0.3);
   }
 
   .email-link:hover svg {

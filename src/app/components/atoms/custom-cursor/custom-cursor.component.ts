@@ -83,7 +83,7 @@ const EPSILON = 0.1;
       margin: -3px 0 0 -3px;
       border-radius: 50%;
       background: #fff;
-      box-shadow: 0 0 6px rgba(167, 139, 250, 0.8);
+      box-shadow: 0 0 6px rgba(var(--accent-soft-rgb), 0.8);
       transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
@@ -94,7 +94,7 @@ const EPSILON = 0.1;
       margin: -16px 0 0 -16px;
       border-radius: 50%;
       border: 1.5px solid rgba(255, 255, 255, 0.35);
-      background: rgba(139, 92, 246, 0);
+      background: rgba(var(--accent-glow-rgb), 0);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -105,8 +105,8 @@ const EPSILON = 0.1;
 
     :host(.cursor-hover) .cursor-ring-core {
       --scale: 1.5;
-      border-color: rgba(167, 139, 250, 0.8);
-      background: rgba(139, 92, 246, 0.12);
+      border-color: rgba(var(--accent-soft-rgb), 0.8);
+      background: rgba(var(--accent-glow-rgb), 0.12);
     }
 
     :host(.cursor-project) .cursor-ring-core {
@@ -128,7 +128,7 @@ const EPSILON = 0.1;
     /* Over a project the ring becomes a dark pill so the label reads on light screenshots too */
     :host(.cursor-project) .cursor-ring-core {
       background: rgba(18, 6, 44, 0.92);
-      border-color: rgba(216, 180, 254, 0.45);
+      border-color: rgba(var(--accent-rgb), 0.45);
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
     }
 

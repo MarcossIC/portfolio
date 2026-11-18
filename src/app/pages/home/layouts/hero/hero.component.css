@@ -25,12 +25,12 @@
 
 .orbit-ring--outer {
   inset: 0;
-  border: 1px solid rgba(216, 180, 254, 0.06);
+  border: 1px solid rgba(var(--accent-rgb), 0.06);
 }
 
 .orbit-ring--middle {
   inset: 60px;
-  border: 1px solid rgba(216, 180, 254, 0.04);
+  border: 1px solid rgba(var(--accent-rgb), 0.04);
 }
 
 .orbit-ring--inner {
@@ -58,7 +58,7 @@
   width: 0.5rem;
   height: 0.5rem;
   background: var(--cosmic-violet, #d8b4fe);
-  box-shadow: 0 0 10px rgba(216, 180, 254, 0.5);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
 }
 
 .orbit-dot-inner--red {
@@ -292,7 +292,7 @@
 }
 
 .scroll-chevron {
-  color: rgba(216, 180, 254, 0.6);
+  color: rgba(var(--accent-rgb), 0.6);
 }
 
 .scroll-bounce {

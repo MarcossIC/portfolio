@@ -20,8 +20,8 @@
   --btn-glow: hsla(282, 90%, 68%, 0.6);
 
   --ml-glass-tint: hsla(263, 50%, 12%, 0.4);
-  --ml-glass-border: hsla(270, 95%, 83%, 0.08);
-  --ml-glass-border-strong: hsla(270, 95%, 83%, 0.12);
+  --ml-glass-border: hsl(var(--accent-hsl) / 0.08);
+  --ml-glass-border-strong: hsl(var(--accent-hsl) / 0.12);
 
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-cubic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -79,8 +79,8 @@
 
   /* Cosmic palette */
   --cosmic-red: oklch(0.58 0.23 28.18);
-  --cosmic-purple: #d8b4fe;
-  --cosmic-violet: #d8b4fe;
+  --cosmic-purple: rgb(var(--accent-rgb));
+  --cosmic-violet: rgb(var(--accent-rgb));
   --cosmic-blue: oklch(0.55 0.15 260);
 
   /* Cosmic gradients */
@@ -88,7 +88,7 @@
   --gradient-glass: linear-gradient(135deg, hsla(263, 50%, 20%, 0.4), hsla(263, 50%, 10%, 0.2));
 
   /* Cosmic shadows */
-  --shadow-cosmic: 0 0 60px -12px hsla(270, 95%, 83%, 0.4);
+  --shadow-cosmic: 0 0 60px -12px hsl(var(--accent-hsl) / 0.4);
   --shadow-red-glow: 0 0 40px -8px hsla(16, 100%, 50%, 0.5);
   --shadow-glass: 0 8px 32px hsla(0, 0%, 0%, 0.3);
 
@@ -115,9 +115,19 @@
   --atmos-veil: 0; /* warm full-page veil (0 in nebula) */
   --atmos-cool-veil: 0.32; /* unifying violet veil (nebula only) */
 
+  /* UI accent (atmosphere-aware). Nebula = the lilac values previously hardcoded
+     everywhere; Ember re-points them. Same value spelled per color syntax so
+     existing alphas keep working: rgba(var(--accent-rgb), a) / hsl(var(--accent-hsl) / a).
+     Deliberately NOT transitioned: the switch runs under a View Transition. */
+  --accent-rgb: 216, 180, 254; /* focus rings, rail, chips, cursor label border */
+  --accent-hsl: 270 95% 83%; /* glass borders, nav glow, cosmic shadow */
+  --accent-glow-rgb: 139, 92, 246; /* saturated glow / hover wash */
+  --accent-glow-hsl: 270 80% 55%; /* node + glow-purple shadows */
+  --accent-soft-rgb: 167, 139, 250; /* cursor dot glow + hover ring */
+
   /* Active nav link (atmosphere-aware) — Nebula: warm→violet translucent */
-  --nav-active-bg: linear-gradient(135deg, hsla(16, 90%, 55%, 0.22), hsla(270, 95%, 83%, 0.22));
-  --nav-active-glow: hsla(270, 95%, 83%, 0.5);
+  --nav-active-bg: linear-gradient(135deg, hsla(16, 90%, 55%, 0.22), hsl(var(--accent-hsl) / 0.22));
+  --nav-active-glow: hsl(var(--accent-hsl) / 0.5);
 }
 
 /* 🔥 Ember — warm "supernova" climate. Still dark; nothing breaks. */
@@ -140,6 +150,11 @@
   --atmos-cool-veil: 0;
 
   /* Red leads; violet accents shift to warm pink */
+  --accent-rgb: 251, 186, 176;
+  --accent-hsl: 8 90% 83%;
+  --accent-glow-rgb: 239, 78, 56;
+  --accent-glow-hsl: 10 85% 55%;
+  --accent-soft-rgb: 248, 140, 118;
   --ml-violet-100: oklch(0.86 0.06 25);
   --ml-violet-400: oklch(0.62 0.2 18);
   --gradient-cta: linear-gradient(135deg, oklch(0.58 0.23 28.18), oklch(0.7 0.17 35));

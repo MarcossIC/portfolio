@@ -17,7 +17,7 @@
   position: absolute;
   inset: -1px;
   border-radius: 1.5rem;
-  background: linear-gradient(to bottom right, rgba(216, 180, 254, 0.1), transparent, rgba(255, 80, 50, 0.1));
+  background: linear-gradient(to bottom right, rgba(var(--accent-rgb), 0.1), transparent, rgba(255, 80, 50, 0.1));
   pointer-events: none;
 }
 
@@ -44,7 +44,7 @@
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(216, 180, 254, 0.7);
+  color: rgba(var(--accent-rgb), 0.7);
   margin-bottom: 0.25rem;
   transition: color 0.3s;
 }
@@ -77,11 +77,11 @@
 
 /* Keyboard focus: the animated line plus a clear border */
 .field-input:focus-visible {
-  border-color: rgba(216, 180, 254, 0.7);
+  border-color: rgba(var(--accent-rgb), 0.7);
 }
 
 .field-focused .field-input {
-  border-color: rgba(216, 180, 254, 0.4);
+  border-color: rgba(var(--accent-rgb), 0.4);
 }
 
 .field-textarea {

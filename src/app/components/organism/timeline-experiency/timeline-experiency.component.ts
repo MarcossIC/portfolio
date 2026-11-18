@@ -11,6 +11,7 @@ import {
 import { TimelineElementComponent } from '../timeline-element/timeline-element.component';
 import { Directions, UserExperience, type UserStudies } from '@app/models/types';
 import { ReducedMotionService } from '@app/services/ReducedMotion.service';
+import { litFlags, nodeThresholds } from './timeline-ignite';
 
 @Component({
   standalone: true,
@@ -53,10 +54,33 @@ export class TimelineExperiencyComponent {
       const bar = this.progress()?.nativeElement;
       if (!bar) return;
 
+      const badges = (): HTMLElement[] =>
+        Array.from(this.timelineContainer()?.nativeElement.querySelectorAll('.timeline-node__badge') ?? []);
+
       if (this.motionService.prefersReducedMotion()) {
         bar.style.setProperty('--timeline-scale', '1');
+        // Final state, no motion: every node is lit.
+        badges().forEach((b) => b.classList.add('is-lit'));
         return;
       }
+
+      // Node "ignition": thresholds (fraction of the rail height) are measured once
+      // and again only when the container resizes; offsetTop ignores the reveal transforms.
+      let nodes: HTMLElement[] = [];
+      let thresholds: number[] = [];
+      let lit: boolean[] = [];
+      let dirty = true;
+      const measure = (container: HTMLElement) => {
+        dirty = false;
+        nodes = badges();
+        const centers = nodes.map((badge) => {
+          const node = badge.closest('.timeline-node') as HTMLElement | null;
+          const item = node?.closest('.timeline-item') as HTMLElement | null;
+          return (item?.offsetTop ?? 0) + (node?.offsetTop ?? 0) + (node?.offsetHeight ?? 0) / 2;
+        });
+        thresholds = nodeThresholds(centers, container.offsetHeight || container.getBoundingClientRect().height);
+        lit = nodes.map((n) => n.classList.contains('is-lit'));
+      };
 
       // Visual-only value: written straight to the element in a rAF (no signal,
       // no change detection per scroll frame). CSS applies it via scaleY().
@@ -72,20 +96,40 @@ export class TimelineExperiencyComponent {
           rect.top > window.innerHeight || rect.height <= 0
             ? 0
             : Math.min(Math.max((window.innerHeight - rect.top) / rect.height, 0), 1);
-        if (Math.abs(fill - last) < 0.001) return;
+        if (Math.abs(fill - last) < 0.001 && !dirty) return;
         last = fill;
         bar.style.setProperty('--timeline-scale', String(fill));
+
+        if (dirty) measure(container);
+        const next = litFlags(fill, thresholds);
+        next.forEach((on, i) => {
+          if (on !== lit[i]) {
+            lit[i] = on;
+            nodes[i].classList.toggle('is-lit', on);
+          }
+        });
       };
 
       const onScroll = () => {
         if (!rafId) rafId = requestAnimationFrame(updateFill);
       };
 
+      const resizeObserver =
+        typeof ResizeObserver === 'undefined'
+          ? undefined
+          : new ResizeObserver(() => {
+              dirty = true;
+              onScroll();
+            });
+      const watched = this.timelineContainer()?.nativeElement;
+      if (watched) resizeObserver?.observe(watched);
+
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll, { passive: true });
       this.destroyRef.onDestroy(() => {
         window.removeEventListener('scroll', onScroll);
         window.removeEventListener('resize', onScroll);
+        resizeObserver?.disconnect();
         if (rafId) cancelAnimationFrame(rafId);
       });
       onScroll(); // Initial check
