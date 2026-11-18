@@ -71,8 +71,16 @@
   font-family: Montserrat, sans-serif;
   font-weight: 900;
   font-size: clamp(2.5rem, 7vw, 5rem);
-  line-height: 0.85;
+  /* Phones wrap the title over 3-4 lines: below ~1 the descenders hit the next line. */
+  line-height: 1;
   letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+@media only screen and (min-width: 768px) {
+  .contact-title {
+    line-height: 0.9;
+  }
 }
 
 /* Grid */
